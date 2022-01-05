@@ -6,17 +6,15 @@ use App\Http\Controllers\Admin\{
     ProgramStudiController,
     KurikulumController,
     MataKuliahController,
-<<<<<<< HEAD
     BobotNilaiController,
+    DosenController,
+    MahasiswaController,
     KelasKuliahController
 };
 
 use App\Http\Controllers\Akademika\{
     KRS\PesertaKelasKuliahController,
-=======
-    DosenController,
-    MahasiswaController,
->>>>>>> 670baec2c39f22bc60e98620e4fb29e31ea48be4
+
 };
 
 /*
