@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\m_kelas_kuliah;
 use App\Models\m_program_studi;
 use App\Models\m_mata_kuliah;
-use App\Http\Requests\MataKuliahRequest;
+use App\Models\m_semester;
+use App\Http\Requests\KelasKuliahRequest;
 use Session, DB;
 
-class MataKuliahController extends Controller
+class KelasKuliahController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,16 +21,15 @@ class MataKuliahController extends Controller
     public function index()
     {
         $prodi = m_program_studi::pluck('nama_program_studi', 'id');
-        $jenis_matkul = $this->jenis_matkul;
-        $kelompok_matkul = $this->kelompok_matkul;
-        return view('admin.mata_kuliah.index', compact('prodi', 'jenis_matkul', 'kelompok_matkul'));
+        $semester = m_semester::pluck('nama_semester', 'id');
+        $mata_kuliah = m_mata_kuliah::pluck('nama_mata_kuliah', 'id');
+
+        return view('admin.kelas_kuliah.index', compact('prodi', 'semester', 'mata_kuliah'));
     }
 
     public function data_index(Request $request)
     {
-        $jenis_matkul = $this->jenis_matkul;
-        $kelompok_matkul = $this->kelompok_matkul;
-        $query = m_mata_kuliah::all();
+        $query = m_kelas_kuliah::all();
 
         return datatables()->of($query)
             ->addIndexColumn()
@@ -42,10 +43,15 @@ class MataKuliahController extends Controller
                     'class' => 'btn btn-outline-primary btn-sm btn_edit',
                     "icon" => "fas fa-edit",
                     'attribute' => [
-                        'data-nama' => $data->nama_mata_kuliah,
+                        'data-nama' => $data->nama_kelas_kuliah,
                         'data-prodi' => $data->id_prodi,
+                        'data-semester' => $data->id_semester,
+                        'data-matkul' => $data->id_matkul,
+                        'data-bahasan' => $data->bahasan,
+                        'data-tanggal_mulai' => $data->tanggal_mulai_efektif,
+                        'data-tanggal_akhir' => $data->tanggal_akhir_efektif,
                     ],
-                    "route" => route('admin.mata_kuliah.update',['mata_kuliah' => $data->id]),
+                    "route" => route('admin.kelas_kuliah.update',['kelas_kuliah' => $data->id]),
                 ]);
     
                 $button .= view("components.button.default", [
@@ -56,7 +62,7 @@ class MataKuliahController extends Controller
                     'attribute' => [
                         'data-text' => 'Anda yakin ingin menghapus data ini ?',
                     ],
-                    "route" => route('admin.mata_kuliah.destroy',['mata_kuliah' => $data->id]),
+                    "route" => route('admin.kelas_kuliah.destroy',['kelas_kuliah' => $data->id]),
                 ]);
     
                 $button .= '</div>';
@@ -66,11 +72,11 @@ class MataKuliahController extends Controller
             ->addColumn('prodi', function ($data) {
                 return $data->prodi->nama_program_studi;
             })
-            ->addColumn('jenis', function ($data) use ($jenis_matkul) {
-                return $jenis_matkul[$data->id_jenis_mata_kuliah];
+            ->addColumn('matkul', function ($data) {
+                return $data->mata_kuliah->nama_mata_kuliah;
             })
-            ->addColumn('kelompok', function ($data) use ($kelompok_matkul) {
-                return $kelompok_matkul[$data->id_kelompok_mata_kuliah];
+            ->addColumn('semester', function ($data) {
+                return $data->semester->nama_semester;
             })
             ->rawColumns(['action'])
             ->setRowAttr([
@@ -95,18 +101,18 @@ class MataKuliahController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(MataKuliahRequest $request)
+    public function store(KelasKuliahRequest $request)
     {
 
         DB::beginTransaction();
 
         try{
             
-            $data = m_mata_kuliah::create($request->all());
+            $data = m_kelas_kuliah::create($request->all());
             DB::commit();
 
             Session::flash('success_msg', 'Berhasil Ditambah');
-            return redirect()->route('admin.mata_kuliah.index');
+            return redirect()->route('admin.kelas_kuliah.index');
 
         }catch(\Exception $e){
 
@@ -146,17 +152,17 @@ class MataKuliahController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(MataKuliahRequest $request,m_mata_kuliah $mata_kuliah)
+    public function update(KelasKuliahRequest $request,m_kelas_kuliah $kelas_kuliah)
     {
         DB::beginTransaction();
 
         try{
             
-            $mata_kuliah->update($request->validated());
+            $kelas_kuliah->update($request->validated());
             DB::commit();
 
             Session::flash('success_msg', 'Berhasil Dibah');
-            return redirect()->route('admin.mata_kuliah.index');
+            return redirect()->route('admin.kelas_kuliah.index');
 
         }catch(\Exception $e){
 
@@ -173,13 +179,13 @@ class MataKuliahController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(m_mata_kuliah $mata_kuliah)
+    public function destroy(m_kelas_kuliah $kelas_kuliah)
     {
-        if(is_null($mata_kuliah)){
+        if(is_null($kelas_kuliah)){
             abort(404);
         }
 
-        $mata_kuliah->delete();
+        $kelas_kuliah->delete();
 
         Session::flash('success_msg', 'Berhasil Dihapus');
         return back();

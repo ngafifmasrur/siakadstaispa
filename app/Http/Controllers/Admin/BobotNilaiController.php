@@ -5,11 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\m_program_studi;
-use App\Models\m_mata_kuliah;
-use App\Http\Requests\MataKuliahRequest;
+use App\Models\m_skala_nilai_prodi;
 use Session, DB;
 
-class MataKuliahController extends Controller
+class BobotNilaiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,16 +18,12 @@ class MataKuliahController extends Controller
     public function index()
     {
         $prodi = m_program_studi::pluck('nama_program_studi', 'id');
-        $jenis_matkul = $this->jenis_matkul;
-        $kelompok_matkul = $this->kelompok_matkul;
-        return view('admin.mata_kuliah.index', compact('prodi', 'jenis_matkul', 'kelompok_matkul'));
+        return view('admin.bobot_nilai.index', compact('prodi'));
     }
 
     public function data_index(Request $request)
     {
-        $jenis_matkul = $this->jenis_matkul;
-        $kelompok_matkul = $this->kelompok_matkul;
-        $query = m_mata_kuliah::all();
+        $query = m_skala_nilai_prodi::all();
 
         return datatables()->of($query)
             ->addIndexColumn()
@@ -42,10 +37,15 @@ class MataKuliahController extends Controller
                     'class' => 'btn btn-outline-primary btn-sm btn_edit',
                     "icon" => "fas fa-edit",
                     'attribute' => [
-                        'data-nama' => $data->nama_mata_kuliah,
+                        'data-nilai_huruf' => $data->nilai_huruf,
                         'data-prodi' => $data->id_prodi,
+                        'data-nilai_indeks' => $data->nilai_indeks,
+                        'data-bobot_minimum' => $data->bobot_minimum,
+                        'data-bobot_maksimum' => $data->bobot_maksimum,
+                        'data-tanggsal_mulai' => $data->tanggal_mulai_efektif,
+                        'data-tanggsal_selesai' => $data->tanggal_selesai_efektif,
                     ],
-                    "route" => route('admin.mata_kuliah.update',['mata_kuliah' => $data->id]),
+                    "route" => route('admin.bobot_nilai.update',['bobot_nilai' => $data->id]),
                 ]);
     
                 $button .= view("components.button.default", [
@@ -56,7 +56,7 @@ class MataKuliahController extends Controller
                     'attribute' => [
                         'data-text' => 'Anda yakin ingin menghapus data ini ?',
                     ],
-                    "route" => route('admin.mata_kuliah.destroy',['mata_kuliah' => $data->id]),
+                    "route" => route('admin.bobot_nilai.destroy',['bobot_nilai' => $data->id]),
                 ]);
     
                 $button .= '</div>';
@@ -65,12 +65,6 @@ class MataKuliahController extends Controller
             })
             ->addColumn('prodi', function ($data) {
                 return $data->prodi->nama_program_studi;
-            })
-            ->addColumn('jenis', function ($data) use ($jenis_matkul) {
-                return $jenis_matkul[$data->id_jenis_mata_kuliah];
-            })
-            ->addColumn('kelompok', function ($data) use ($kelompok_matkul) {
-                return $kelompok_matkul[$data->id_kelompok_mata_kuliah];
             })
             ->rawColumns(['action'])
             ->setRowAttr([
@@ -86,7 +80,7 @@ class MataKuliahController extends Controller
      */
     public function create()
     {
-        abort(404);
+        //
     }
 
     /**
@@ -95,18 +89,27 @@ class MataKuliahController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(MataKuliahRequest $request)
+    public function store(Request $request)
     {
+        $request->validate([
+            'id_prodi' => 'required',
+            'nilai_huruf' => 'required|string',
+            'nilai_indeks' => 'nullable|numeric',
+            'bobot_minimum' => 'required|numeric',
+            'bobot_maksimum' => 'required|numeric',
+            'tanggal_mulai_efektif' => 'required|date',
+            'tanggal_selesai_efektif' => 'required|date',
+        ]);
 
         DB::beginTransaction();
 
         try{
             
-            $data = m_mata_kuliah::create($request->all());
+            $data = m_skala_nilai_prodi::create($request->all());
             DB::commit();
 
             Session::flash('success_msg', 'Berhasil Ditambah');
-            return redirect()->route('admin.mata_kuliah.index');
+            return redirect()->route('admin.bobot_nilai.index');
 
         }catch(\Exception $e){
 
@@ -125,7 +128,7 @@ class MataKuliahController extends Controller
      */
     public function show($id)
     {
-        abort(404);
+        //
     }
 
     /**
@@ -136,7 +139,7 @@ class MataKuliahController extends Controller
      */
     public function edit($id)
     {
-        abort(404);
+        //
     }
 
     /**
@@ -146,17 +149,27 @@ class MataKuliahController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(MataKuliahRequest $request,m_mata_kuliah $mata_kuliah)
+    public function update(Request $request,m_skala_nilai_prodi $bobot_nilai)
     {
+        $request->validate([
+            'id_prodi' => 'required',
+            'nilai_huruf' => 'required|string',
+            'nilai_indeks' => 'nullable|numeric',
+            'bobot_minimum' => 'required|numeric',
+            'bobot_maksimum' => 'required|numeric',
+            'tanggal_mulai_efektif' => 'required|date',
+            'tanggal_selesai_efektif' => 'required|date',
+        ]);
+
         DB::beginTransaction();
 
         try{
             
-            $mata_kuliah->update($request->validated());
+            $bobot_nilai->update($request->all());
             DB::commit();
 
             Session::flash('success_msg', 'Berhasil Dibah');
-            return redirect()->route('admin.mata_kuliah.index');
+            return redirect()->route('admin.bobot_nilai.index');
 
         }catch(\Exception $e){
 
@@ -173,13 +186,13 @@ class MataKuliahController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(m_mata_kuliah $mata_kuliah)
+    public function destroy(m_skala_nilai_prodi $bobot_nilai)
     {
-        if(is_null($mata_kuliah)){
+        if(is_null($bobot_nilai)){
             abort(404);
         }
 
-        $mata_kuliah->delete();
+        $bobot_nilai->delete();
 
         Session::flash('success_msg', 'Berhasil Dihapus');
         return back();
