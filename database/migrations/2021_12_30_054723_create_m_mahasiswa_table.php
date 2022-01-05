@@ -22,7 +22,7 @@ class CreateMMahasiswaTable extends Migration
             $table->integer('id_agama');
             $table->integer('id_prodi');
             $table->string('nim');
-            $table->integer('id_status_mahasiswa');
+            $table->string('id_status_mahasiswa');
             $table->integer('id_periode');
             $table->integer('user_id');
             $table->timestamps();

@@ -45,4 +45,11 @@ class Controller extends BaseController
         'H' => 'MKK',
     ];
 
+    public $status_mahasiswa = [
+        'A' => 'Aktif',
+        'C' => 'Cuti',
+        'G' => 'Sedang Double Degree',
+        'N' => 'Non Aktif',
+    ];
+
 }

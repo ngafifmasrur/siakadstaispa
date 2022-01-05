@@ -21,7 +21,8 @@
 <div class="container mt-n10">
     <div class="row">
         <div class="col-lg-12">
-            <form action="" method="post">
+            <form action="{{ route('admin.perguruan_tinggi.update')}}" method="post">
+                @csrf
                 <div class="card">
                     <div class="card-header border-bottom align-items-center">
                         <ul class="nav nav-tabs card-header-tabs" id="cardTab" role="tablist">
@@ -48,69 +49,69 @@
                                 <h5 class="card-title">Identitas</h5>
                                 <div class="form-group">
                                     <label for="kode_perguruan_tinggi">Kode Perguruan Tinggi</label>
-                                    <input class="form-control" name="kode_perguruan_tinggi" id="kode_perguruan_tinggi" type="text">
+                                    <input class="form-control" name="kode_perguruan_tinggi" id="kode_perguruan_tinggi" value="{{ isset($data) ? $data->kode_perguruan_tinggi : ''}}" type="text">
                                 </div>
                                 <div class="form-group">
                                     <label for="nama_perguruan_tinggi">Nama Perguruan Tinggi</label>
-                                    <input class="form-control" name="nama_perguruan_tinggi" id="nama_perguruan_tinggi" type="text">
+                                    <input class="form-control" name="nama_perguruan_tinggi" id="nama_perguruan_tinggi" value="{{ isset($data) ? $data->nama_perguruan_tinggi : ''}}" type="text">
                                 </div>
                             </div>
                             <div class="tab-pane fade show" id="alamat" role="tabpanel" aria-labelledby="alamat-tab">
                                 <h5 class="card-title">Alamat</h5>
                                 <div class="form-group">
                                     <label for="jalan">Jalan</label>
-                                    <textarea class="form-control" name="jalan" id="jalan" cols="30" rows="5"></textarea>
+                                    <textarea class="form-control" name="jalan" id="jalan" cols="30" rows="5">{{ isset($data) ? $data->jalan : ''}}</textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="rt_rw">RT/RW</label>
-                                    <input class="form-control" name="rt_rw" id="rt_rw" type="text">
+                                    <input class="form-control" name="rt_rw" id="rt_rw" value="{{ isset($data) ? $data->rt_rw : ''}}" type="text">
                                 </div>
                                 <div class="form-group">
                                     <label for="kelurahan">Kelurahan</label>
-                                    <input class="form-control" name="kelurahan" id="kelurahan" type="text">
+                                    <input class="form-control" name="kelurahan" id="kelurahan" type="text" value="{{ isset($data) ? $data->kelurahan : ''}}">
                                 </div>
                                 <div class="form-group">
                                     <label for="faximile">Kode Pos</label>
-                                    <input class="form-control" name="kode_pos" id="kode_pos" type="text">
+                                    <input class="form-control" name="kode_pos" id="kode_pos" value=" {{ isset($data) ? $data->kode_pos : ''}}" type="text">
                                 </div>
                                 <div class="form-group">
                                     <label for="lintang_bujur">Lintang Bujur</label>
-                                    <input class="form-control" name="lintang_bujur" id="lintang_bujur" type="text">
+                                    <input class="form-control" name="lintang_bujur" id="lintang_bujur" value="{{ isset($data) ? $data->kelurahan : ''}}" type="text">
                                 </div>
                                 <div class="form-group">
                                     <label for="telepon">Telepon</label>
-                                    <input class="form-control" name="telepon" id="telepon" type="text">
+                                    <input class="form-control" name="telepon" id="telepon" value="{{ isset($data) ? $data->telepon : ''}}" type="text">
                                 </div>
                                 <div class="form-group">
                                     <label for="faximile">Faximile</label>
-                                    <input class="form-control" name="faximile" id="faximile" type="text">
+                                    <input class="form-control" name="faximile" id="faximile" value="{{ isset($data) ? $data->faximile : ''}}" type="text">
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <input class="form-control" name="email" id="email" type="email">
+                                    <input class="form-control" name="email" id="email" value="{{ isset($data) ? $data->email : ''}}" type="email">
                                 </div>
                                 <div class="form-group">
                                     <label for="website">Website</label>
-                                    <input class="form-control" name="website" id="website" type="text">
+                                    <input class="form-control" name="website" id="website" value="{{ isset($data) ? $data->website : ''}}" type="text">
                                 </div>
                             </div>
                             <div class="tab-pane fade show" id="pengesahan" role="tabpanel" aria-labelledby="pengesahan-tab">
                                 <h5 class="card-title">Pengesahan</h5>
                                 <div class="form-group">
                                     <label for="sk_pendirian">SK Pendirian</label>
-                                    <input class="form-control" name="lintang_bujur" id="lintang_bujur" type="text">
+                                    <input class="form-control" name="lintang_bujur" id="lintang_bujur" value="{{ isset($data) ? $data->lintang_bujur : ''}}" type="text">
                                 </div>
                                 <div class="form-group">
                                     <label for="tanggal_sk_pendirian">Tanggal SK Pendirian</label>
-                                    <input class="form-control" name="tanggal_sk_pendirian" id="tanggal_sk_pendirian" type="date">
+                                    <input class="form-control" name="tanggal_sk_pendirian" id="tanggal_sk_pendirian" value="{{ isset($data) ? $data->tanggal_sk_pendirian : ''}}" type="date">
                                 </div>
                                 <div class="form-group">
                                     <label for="kelurahan">SK Izin Operasional</label>
-                                    <input class="form-control" name="sk_izin_operasional" id="sk_izin_operasional" type="text">
+                                    <input class="form-control" name="sk_izin_operasional" id="sk_izin_operasional" value="{{ isset($data) ? $data->sk_izin_operasional : ''}}" type="text">
                                 </div>
                                 <div class="form-group">
                                     <label for="faximile">Tanggal Izin Operasional</label>
-                                    <input class="form-control" name="tanggal_izin_operasional" id="tanggal_izin_operasional" type="date">
+                                    <input class="form-control" name="tanggal_izin_operasional" id="tanggal_izin_operasional" value="{{ isset($data) ? $data->tanggal_izin_operasional : ''}}" type="date">
                                 </div>
                             </div>
                         </div>

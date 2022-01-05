@@ -40,6 +40,8 @@ require __DIR__.'/auth.php';
 
 Route::group(['middleware' => ['Role:admin'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('/perguruan_tinggi', [PerguruanTinggiController::class, 'index'])->name('perguruan_tinggi.index');
+    Route::post('/perguruan_tinggi/update', [PerguruanTinggiController::class, 'update'])->name('perguruan_tinggi.update');
+
     Route::resource('/program_studi', ProgramStudiController::class)->except(['show']);;
     Route::get('/program_studi/data_index', [ProgramStudiController::class, 'data_index'])->name('program_studi.data_index');
 
