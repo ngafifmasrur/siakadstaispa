@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\m_program_studi;
 use App\Models\m_skala_nilai_prodi;
+use App\Http\Requests\BobotNilaiRequest;
 use Session, DB;
 
 class BobotNilaiController extends Controller
@@ -89,17 +90,8 @@ class BobotNilaiController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BobotNilaiRequest $request)
     {
-        $request->validate([
-            'id_prodi' => 'required',
-            'nilai_huruf' => 'required|string',
-            'nilai_indeks' => 'nullable|numeric',
-            'bobot_minimum' => 'required|numeric',
-            'bobot_maksimum' => 'required|numeric',
-            'tanggal_mulai_efektif' => 'required|date',
-            'tanggal_selesai_efektif' => 'required|date',
-        ]);
 
         DB::beginTransaction();
 
@@ -149,18 +141,8 @@ class BobotNilaiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,m_skala_nilai_prodi $bobot_nilai)
+    public function update(BobotNilaiRequest $request,m_skala_nilai_prodi $bobot_nilai)
     {
-        $request->validate([
-            'id_prodi' => 'required',
-            'nilai_huruf' => 'required|string',
-            'nilai_indeks' => 'nullable|numeric',
-            'bobot_minimum' => 'required|numeric',
-            'bobot_maksimum' => 'required|numeric',
-            'tanggal_mulai_efektif' => 'required|date',
-            'tanggal_selesai_efektif' => 'required|date',
-        ]);
-
         DB::beginTransaction();
 
         try{
