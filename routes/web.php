@@ -5,7 +5,9 @@ use App\Http\Controllers\Admin\{
     PerguruanTinggiController,
     ProgramStudiController,
     KurikulumController,
-    MataKuliahController
+    MataKuliahController,
+    DosenController,
+    MahasiswaController,
 };
 
 /*
@@ -38,4 +40,9 @@ Route::group(['middleware' => ['Role:admin'], 'prefix' => 'admin', 'as' => 'admi
     Route::get('/kurikulum/data_index', [KurikulumController::class, 'data_index'])->name('kurikulum.data_index');
     Route::resource('/mata_kuliah', MataKuliahController::class)->except(['show']);;
     Route::get('/mata_kuliah/data_index', [MataKuliahController::class, 'data_index'])->name('mata_kuliah.data_index');
+
+    Route::resource('/dosen', DosenController::class)->except(['show']);;
+    Route::get('/dosen/data_index', [DosenController::class, 'data_index'])->name('dosen.data_index');
+    Route::resource('/mahasiswa', MahasiswaController::class)->except(['show']);;
+    Route::get('/mahasiswa/data_index', [MahasiswaController::class, 'data_index'])->name('mahasiswa.data_index');
 });
