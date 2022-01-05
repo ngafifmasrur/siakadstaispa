@@ -26,10 +26,13 @@
                     Akademik
                     <div class="sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                 </a>
-                <div class="collapse {{ set_active(['admin/kurikulum*', 'admin/mata_kuliah*']) }}" id="akademik" data-parent="#akademik">
+                <div class="collapse {{ set_active(['admin/kurikulum*', 'admin/mata_kuliah*', 'admin/bobot_nilai*', 'admin/kelas_kuliah*']) }}" id="akademik" data-parent="#akademik">
                     <nav class="sidenav-menu-nested nav accordion" id="accordionSidenavPages">
                         <a class="nav-link" href="{{ route('admin.kurikulum.index') }}">Kurikulum</a>
                         <a class="nav-link" href="{{ route('admin.mata_kuliah.index') }}">Mata Kuliah</a>
+                        <a class="nav-link" href="{{ route('admin.bobot_nilai.index') }}">Bobot Nilai</a>
+                        <a class="nav-link" href="{{ route('admin.kelas_kuliah.index') }}">Kelas Kuliah</a>
+
                     </nav>
                 </div>
             </div>
