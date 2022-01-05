@@ -6,12 +6,17 @@ use App\Http\Controllers\Admin\{
     ProgramStudiController,
     KurikulumController,
     MataKuliahController,
+<<<<<<< HEAD
     BobotNilaiController,
     KelasKuliahController
 };
 
 use App\Http\Controllers\Akademika\{
     KRS\PesertaKelasKuliahController,
+=======
+    DosenController,
+    MahasiswaController,
+>>>>>>> 670baec2c39f22bc60e98620e4fb29e31ea48be4
 };
 
 /*
@@ -55,4 +60,10 @@ Route::group(['middleware' => ['Role:admin'], 'prefix' => 'admin', 'as' => 'admi
     Route::resource('/peserta_kelas_kuliah', PesertaKelasKuliahController::class)->except(['show']);
     Route::get('/peserta_kelas_kuliah/{kelas_kuliah}/anggota', [PesertaKelasKuliahController::class, 'anggota'])->name('peserta_kelas_kuliah.anggota');
     Route::get('/peserta_kelas_kuliah/data_index', [PesertaKelasKuliahController::class, 'data_index'])->name('peserta_kelas_kuliah.data_index');
+
+
+    Route::resource('/dosen', DosenController::class)->except(['show']);;
+    Route::get('/dosen/data_index', [DosenController::class, 'data_index'])->name('dosen.data_index');
+    Route::resource('/mahasiswa', MahasiswaController::class)->except(['show']);;
+    Route::get('/mahasiswa/data_index', [MahasiswaController::class, 'data_index'])->name('mahasiswa.data_index');
 });
