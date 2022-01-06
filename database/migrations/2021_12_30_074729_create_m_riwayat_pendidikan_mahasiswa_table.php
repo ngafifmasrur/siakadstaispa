@@ -16,15 +16,16 @@ class CreateMRiwayatPendidikanMahasiswaTable extends Migration
         Schema::create('t_riwayat_pendidikan_mahasiswa', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_mahasiswa');
+            $table->string('nim');
             $table->bigInteger('id_jenis_daftar');
-            $table->bigInteger('id_jalur_daftar');
+            $table->bigInteger('id_jalur_daftar')->nullable();
             $table->bigInteger('id_periode_masuk');
             $table->bigInteger('id_perguruan_tinggi');
             $table->bigInteger('id_prodi');
-            $table->bigInteger('id_perguruan_tinggi_asal');
-            $table->bigInteger('id_prodi_asal');
-            $table->bigInteger('id_pembiayaan');
-            $table->bigInteger('sks_diakui');
+            $table->bigInteger('id_perguruan_tinggi_asal')->nullable();
+            $table->bigInteger('id_prodi_asal')->nullable();
+            $table->bigInteger('id_pembiayaan')->nullable();
+            $table->double('sks_diakui')->nullable();
             $table->timestamps();
         });
     }
