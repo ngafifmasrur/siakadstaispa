@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\m_dosen;
 use App\Models\ref_agama;
+use App\Models\ref_wilayah;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\DosenRequest;
 use Session, DB;
 
 class DosenController extends Controller
@@ -32,19 +36,19 @@ class DosenController extends Controller
                 $button = '<div class="btn-group" role="group" aria-label="Basic example">';
 
                 $button .= view("components.button.default", [
-                    'type' => 'button',
+                    'type' => 'link',
                     'tooltip' => 'Ubah',
-                    'class' => 'btn btn-outline-primary btn-sm btn_edit',
+                    'class' => 'btn btn-outline-primary btn-sm',
                     "icon" => "fas fa-edit",
-                    'attribute' => [
-                        'data-nama_dosen' => $data->nama_dosen,
-                        'data-id_prodi' => $data->id_prodi,
-                        'data-id_semester' => $data->id_semester,
-                        'data-jumlah_sks_lulus' => $data->jumlah_sks_lulus,
-                        'data-jumlah_sks_wajib' => $data->jumlah_sks_wajib,
-                        'data-jumlah_sks_pilihan' => $data->jumlah_sks_pilihan,
-                    ],
-                    "route" => route('admin.dosen.update', ['dosen' => $data->id]),
+                    // 'attribute' => [
+                    //     'data-nama_dosen' => $data->nama_dosen,
+                    //     'data-id_prodi' => $data->id_prodi,
+                    //     'data-id_semester' => $data->id_semester,
+                    //     'data-jumlah_sks_lulus' => $data->jumlah_sks_lulus,
+                    //     'data-jumlah_sks_wajib' => $data->jumlah_sks_wajib,
+                    //     'data-jumlah_sks_pilihan' => $data->jumlah_sks_pilihan,
+                    // ],
+                    "route" => route('admin.dosen.edit', ['dosen' => $data->id]),
                 ]);
 
                 $button .= view("components.button.default", [
@@ -62,11 +66,8 @@ class DosenController extends Controller
 
                 return $button;
             })
-            ->addColumn('prodi', function ($data) {
-                return $data->prodi->nama_program_studi;
-            })
-            ->addColumn('semester', function ($data) {
-                return $data->semester->nama_semester;
+            ->addColumn('status', function ($data) {
+                return $data->id_status_aktif ? 'Aktif' : 'Tidak Aktif';
             })
             ->rawColumns(['action'])
             ->setRowAttr([
@@ -82,7 +83,10 @@ class DosenController extends Controller
      */
     public function create()
     {
-        abort(404);
+        $agama = ref_agama::pluck('nama_agama', 'id');
+        $wilayah = ref_wilayah::pluck('nama_wilayah', 'id');
+
+        return view('admin.dosen.create', compact('agama', 'wilayah'));
     }
 
     /**
@@ -91,12 +95,22 @@ class DosenController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DosenRequest $request)
     {
         DB::beginTransaction();
 
         try {
+            $role_dosen  = Role::where('name', 'dosen')->first();
 
+            $user = new User();
+            $user->email = $request->nidn;
+            $user->name = $request->nama_dosen;
+            $user->password = bcrypt('000000');
+            $user->role_id = $role_dosen->id;
+            $user->save();
+            $user->roles()->attach($role_dosen);
+
+            $request->merge(['user_id' => $user->id]);
             $data = m_dosen::create($request->all());
             DB::commit();
 
@@ -128,9 +142,12 @@ class DosenController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(m_dosen $dosen)
     {
-        abort(404);
+        $agama = ref_agama::pluck('nama_agama', 'id');
+        $wilayah = ref_wilayah::pluck('nama_wilayah', 'id');
+
+        return view('admin.dosen.edit', compact('agama', 'wilayah', 'dosen'));
     }
 
     /**
@@ -140,13 +157,13 @@ class DosenController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, m_dosen $dosen)
+    public function update(DosenRequest $request, m_dosen $dosen)
     {
         DB::beginTransaction();
 
         try {
 
-            $dosen->update($request->all());
+            $dosen->update($request->validated());
             DB::commit();
 
             Session::flash('success_msg', 'Berhasil Dibah');

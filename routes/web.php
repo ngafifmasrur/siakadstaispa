@@ -6,15 +6,19 @@ use App\Http\Controllers\Admin\{
     ProgramStudiController,
     KurikulumController,
     MataKuliahController,
+    MataKuliahAktifController,
     BobotNilaiController,
     DosenController,
     MahasiswaController,
-    KelasKuliahController
+    KelasKuliahController,
+    RiwayatPendidikanMHSController,
+    RuangKelasController,
+    JadwalController,
+    SemesterController
 };
 
 use App\Http\Controllers\Akademika\{
-    KRS\PesertaKelasKuliahController,
-
+    PesertaKelasKuliahController,
 };
 
 /*
@@ -51,19 +55,38 @@ Route::group(['middleware' => ['Role:admin'], 'prefix' => 'admin', 'as' => 'admi
     Route::resource('/mata_kuliah', MataKuliahController::class)->except(['show']);;
     Route::get('/mata_kuliah/data_index', [MataKuliahController::class, 'data_index'])->name('mata_kuliah.data_index');
     
+    Route::resource('/mata_kuliah_aktif', MataKuliahAktifController::class)->except(['show']);;
+    Route::get('/mata_kuliah_aktif/data_index', [MataKuliahAktifController::class, 'data_index'])->name('mata_kuliah_aktif.data_index');
+
     Route::resource('/bobot_nilai', BobotNilaiController::class)->except(['show']);
     Route::get('/bobot_nilai/data_index', [BobotNilaiController::class, 'data_index'])->name('bobot_nilai.data_index');
 
     Route::resource('/kelas_kuliah', KelasKuliahController::class)->except(['show']);
     Route::get('/kelas_kuliah/data_index', [KelasKuliahController::class, 'data_index'])->name('kelas_kuliah.data_index');
+    
+    Route::resource('/ruang_kelas', RuangKelasController::class)->except(['show']);
+    Route::get('/ruang_kelas/data_index', [RuangKelasController::class, 'data_index'])->name('ruang_kelas.data_index');
+    
+    Route::resource('/jadwal', JadwalController::class)->except(['show']);
+    Route::get('/jadwal/data_index', [JadwalController::class, 'data_index'])->name('jadwal.data_index');
 
-    Route::resource('/peserta_kelas_kuliah', PesertaKelasKuliahController::class)->except(['show']);
+    Route::resource('/semester', SemesterController::class)->except(['show']);
+    Route::get('/semester/data_index', [SemesterController::class, 'data_index'])->name('semester.data_index');
+    
+    Route::resource('/peserta_kelas_kuliah', PesertaKelasKuliahController::class)->except(['show', 'store']);
+    Route::post('/peserta_kelas_kuliah/{kelas_kuliah}/store', [PesertaKelasKuliahController::class, 'store'])->name('peserta_kelas_kuliah.store');
     Route::get('/peserta_kelas_kuliah/{kelas_kuliah}/anggota', [PesertaKelasKuliahController::class, 'anggota'])->name('peserta_kelas_kuliah.anggota');
     Route::get('/peserta_kelas_kuliah/data_index', [PesertaKelasKuliahController::class, 'data_index'])->name('peserta_kelas_kuliah.data_index');
+    Route::get('/peserta_kelas_kuliah/{id_kelas}/anggota_data_index', [PesertaKelasKuliahController::class, 'anggota_data_index'])->name('peserta_kelas_kuliah.anggota_data_index');
 
 
-    Route::resource('/dosen', DosenController::class)->except(['show']);;
+    Route::resource('/dosen', DosenController::class)->except(['show']);
     Route::get('/dosen/data_index', [DosenController::class, 'data_index'])->name('dosen.data_index');
-    Route::resource('/mahasiswa', MahasiswaController::class)->except(['show']);;
+
     Route::get('/mahasiswa/data_index', [MahasiswaController::class, 'data_index'])->name('mahasiswa.data_index');
+    Route::resource('/mahasiswa', MahasiswaController::class);
+
+    Route::resource('mahasiswa/{id_mahasiswa}/riwayat_pendidikan', RiwayatPendidikanMHSController::class)->except(['show']);
+    Route::get('mahasiswa/{id_mahasiswa}/riwayat_pendidikan/data_index', [RiwayatPendidikanMHSController::class, 'data_index'])->name('riwayat_pendidikan.data_index');
+
 });

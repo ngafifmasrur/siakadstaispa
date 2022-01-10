@@ -31,6 +31,7 @@ class CreateMMataKuliahTable extends Migration
             $table->boolean('ada_bahan_ajar');
             $table->boolean('ada_acara_praktek');
             $table->boolean('ada_diktat');
+            $table->boolean('paket');
             $table->date('tanggal_mulai_efektif');
             $table->date('tanggal_selesai_efektif');
             $table->timestamps();

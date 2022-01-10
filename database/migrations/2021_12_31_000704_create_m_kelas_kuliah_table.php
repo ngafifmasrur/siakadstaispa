@@ -16,12 +16,12 @@ class CreateMKelasKuliahTable extends Migration
         Schema::create('m_kelas_kuliah', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_prodi');
-            $table->bigInteger('id_semester');
-            $table->bigInteger('id_matkul');
+            // $table->bigInteger('id_semester');
+            // $table->bigInteger('id_matkul');
             $table->string('nama_kelas_kuliah');
             $table->string('bahasan')->nullable();
-            $table->date('tanggal_mulai_efektif')->nullable();
-            $table->date('tanggal_akhir_efektif')->nullable();
+            // $table->date('tanggal_mulai_efektif')->nullable();
+            // $table->date('tanggal_akhir_efektif')->nullable();
             $table->timestamps();
         });
     }

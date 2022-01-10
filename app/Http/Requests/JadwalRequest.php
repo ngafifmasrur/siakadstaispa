@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class KelasKuliahRequest extends FormRequest
+class JadwalRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,12 +25,13 @@ class KelasKuliahRequest extends FormRequest
     {
         return [
             'id_prodi' => 'required|integer',
-            // 'id_semester' => 'required|integer',
-            // 'id_matkul' => 'required|integer',
-            'nama_kelas_kuliah' => 'required|string',
-            'bahasan' => 'nullable|string',
-            // 'tanggal_mulai_efektif' => 'nullable|date',
-            // 'tanggal_akhir_efektif' => 'nullable|date',
+            'id_kelas' => 'required|integer',
+            'id_matkul_aktif' => 'required|integer',
+            'id_ruang' => 'required|integer',
+            'id_dosen' => 'required|integer',
+            'hari' => 'required',
+            'jam_mulai' => 'required|date_format:H:i',
+            'jam_akhir' => 'required|date_format:H:i|after:jam_mulai',
         ];
     }
 }

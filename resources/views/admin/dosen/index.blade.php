@@ -25,8 +25,8 @@
                 <div class="card">
                     <div class="card-header">
                         Data Dosen
-                        <a class="float-right btn btn-sm btn-outline-blue add-form"
-                            data-url="{{ route('admin.dosen.store') }}" href="#"><i data-feather="plus"
+                        <a class="float-right btn btn-sm btn-outline-blue"
+                            href="{{ route('admin.dosen.create') }}"><i data-feather="plus"
                                 class="mr-2"></i>Tambah</a>
                     </div>
 
@@ -35,7 +35,10 @@
                             ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],
                             ['title' => 'NIDN', 'data' => 'nidn', 'name' => 'nidn', 'classname' => 'text-left'],
                             ['title' => 'Nama', 'data' => 'nama_dosen', 'name' => 'nama_dosen', 'classname' => 'text-left'],
-                            ['title' => 'Kontak', 'data' => 'kontak', 'name' => 'kontak', 'classname' => 'text-left'],
+                            ['title' => 'NIP', 'data' => 'nip', 'name' => 'nip', 'classname' => 'text-left'],
+                            ['title' => 'Jenis Kelamin', 'data' => 'jenis_kelamin', 'name' => 'jenis_kelamin', 'classname' => 'text-left'],
+                            ['title' => 'Status Aktif', 'data' => 'status', 'name' => 'status', 'classname' => 'text-center'],
+                            ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
                         ]" />
                     </div>
                 </div>

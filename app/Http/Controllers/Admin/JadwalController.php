@@ -4,14 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\m_jadwal;
 use App\Models\m_kelas_kuliah;
+use App\Models\m_dosen;
 use App\Models\m_program_studi;
-use App\Models\m_mata_kuliah;
-use App\Models\m_semester;
-use App\Http\Requests\KelasKuliahRequest;
+use App\Models\m_mata_kuliah_aktif;
+use App\Models\m_ruang_kelas;
+use App\Http\Requests\JadwalRequest;
 use Session, DB;
 
-class KelasKuliahController extends Controller
+class JadwalController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,16 +22,25 @@ class KelasKuliahController extends Controller
      */
     public function index()
     {
+        $ruangan = m_ruang_kelas::pluck('nama_ruangan', 'id');
+        $dosen = m_dosen::pluck('nama_dosen', 'id');
         $prodi = m_program_studi::pluck('nama_program_studi', 'id');
-        // $semester = m_semester::pluck('nama_semester', 'id');
-        // $mata_kuliah = m_mata_kuliah::pluck('nama_mata_kuliah', 'id');
-
-        return view('admin.kelas_kuliah.index', compact('prodi'));
+        $kelas = m_kelas_kuliah::pluck('nama_kelas_kuliah', 'id');
+        $matkul = m_mata_kuliah_aktif::get()
+        ->map(function($data) {
+            return [
+                'id'    => $data->id,
+                'matkul_semester'  => $data->matkul_semester
+            ];
+        })
+        ->pluck('matkul_semester', 'id')
+        ->all();
+        return view('admin.jadwal.index', compact('ruangan', 'dosen', 'prodi', 'matkul', 'kelas'));
     }
 
     public function data_index(Request $request)
     {
-        $query = m_kelas_kuliah::all();
+        $query = m_jadwal::all();
 
         return datatables()->of($query)
             ->addIndexColumn()
@@ -43,15 +54,16 @@ class KelasKuliahController extends Controller
                     'class' => 'btn btn-outline-primary btn-sm btn_edit',
                     "icon" => "fas fa-edit",
                     'attribute' => [
-                        'data-nama' => $data->nama_kelas_kuliah,
-                        'data-prodi' => $data->id_prodi,
-                        // 'data-semester' => $data->id_semester,
-                        // 'data-matkul' => $data->id_matkul,
-                        'data-bahasan' => $data->bahasan,
-                        // 'data-tanggal_mulai' => $data->tanggal_mulai_efektif,
-                        // 'data-tanggal_akhir' => $data->tanggal_akhir_efektif,
+                        'data-id_prodi' => $data->id_prodi,
+                        'data-id_dosen' => $data->id_dosen,
+                        'data-id_kelas' => $data->id_kelas,
+                        'data-id_ruang' => $data->id_matkul_aktif,
+                        'data-hari' => $data->hari,
+                        'data-jam_mulai' => $data->jam_mulai,
+                        'data-jam_akhir' => $data->jam_akhir,
+
                     ],
-                    "route" => route('admin.kelas_kuliah.update',['kelas_kuliah' => $data->id]),
+                    "route" => route('admin.jadwal.update', $data->id),
                 ]);
     
                 $button .= view("components.button.default", [
@@ -62,22 +74,25 @@ class KelasKuliahController extends Controller
                     'attribute' => [
                         'data-text' => 'Anda yakin ingin menghapus data ini ?',
                     ],
-                    "route" => route('admin.kelas_kuliah.destroy',['kelas_kuliah' => $data->id]),
+                    "route" => route('admin.jadwal.destroy', $data->id),
                 ]);
     
                 $button .= '</div>';
     
                 return $button;
             })
+            ->addColumn('ruangan', function ($data) {
+                return $data->ruangan->nama_ruangan;
+            })
+            ->addColumn('dosen', function ($data) {
+                return $data->dosen->nama_dosen;
+            })
             ->addColumn('prodi', function ($data) {
                 return $data->prodi->nama_program_studi;
             })
-            // ->addColumn('matkul', function ($data) {
-            //     return $data->mata_kuliah->nama_mata_kuliah;
-            // })
-            // ->addColumn('semester', function ($data) {
-            //     return $data->semester->nama_semester;
-            // })
+            ->addColumn('kelas', function ($data) {
+                return $data->kelas->nama_kelas_kuliah;
+            })
             ->rawColumns(['action'])
             ->setRowAttr([
                 'style' => 'text-align: center',
@@ -101,25 +116,24 @@ class KelasKuliahController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(KelasKuliahRequest $request)
+    public function store(JadwalRequest $request)
     {
-
         DB::beginTransaction();
 
         try{
             
-            $data = m_kelas_kuliah::create($request->all());
+            $data = m_jadwal::create($request->validated());
             DB::commit();
 
             Session::flash('success_msg', 'Berhasil Ditambah');
-            return redirect()->route('admin.kelas_kuliah.index');
+            return redirect()->route('admin.jadwal.index');
 
         }catch(\Exception $e){
 
             DB::rollback();
 
             Session::flash('error_msg', 'Terjadi kesalahan pada server');
-            return redirect()->back()->withInput();
+            return dd($e);
         }
     }
 
@@ -152,17 +166,17 @@ class KelasKuliahController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(KelasKuliahRequest $request,m_kelas_kuliah $kelas_kuliah)
+    public function update(JadwalRequest $request, m_jadwal $jadwal)
     {
         DB::beginTransaction();
 
         try{
             
-            $kelas_kuliah->update($request->validated());
+            $jadwal->update($request->validated());
             DB::commit();
 
             Session::flash('success_msg', 'Berhasil Dibah');
-            return redirect()->route('admin.kelas_kuliah.index');
+            return redirect()->route('admin.jadwal.index');
 
         }catch(\Exception $e){
 
@@ -179,13 +193,13 @@ class KelasKuliahController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(m_kelas_kuliah $kelas_kuliah)
+    public function destroy(m_jadwal $jadwal)
     {
-        if(is_null($kelas_kuliah)){
+        if(is_null($jadwal)){
             abort(404);
         }
 
-        $kelas_kuliah->delete();
+        $jadwal->delete();
 
         Session::flash('success_msg', 'Berhasil Dihapus');
         return back();

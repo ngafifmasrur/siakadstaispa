@@ -6,34 +6,39 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\m_kelas_kuliah;
 use App\Models\m_program_studi;
-use App\Models\m_mata_kuliah;
+use App\Models\m_mahasiswa;
 use App\Models\m_semester;
-use App\Http\Requests\KelasKuliahRequest;
+use App\Models\ref_jenis_pendaftaran;
+use App\Models\m_perguruan_tinggi;
+use App\Models\t_riwayat_pendidikan_mahasiswa;
+use App\Http\Requests\RiwayatPendidikanMHSRequest;
 use Session, DB;
 
-class KelasKuliahController extends Controller
+class RiwayatPendidikanMHSController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id_mahasiswa)
     {
         $prodi = m_program_studi::pluck('nama_program_studi', 'id');
-        // $semester = m_semester::pluck('nama_semester', 'id');
-        // $mata_kuliah = m_mata_kuliah::pluck('nama_mata_kuliah', 'id');
-
-        return view('admin.kelas_kuliah.index', compact('prodi'));
+        $periode = m_semester::pluck('nama_semester', 'id');
+        $mahasiswa = m_mahasiswa::findOrFail($id_mahasiswa);
+        $jalur_daftar = $this->jalur_daftar;
+        $jenis_daftar = ref_jenis_pendaftaran::pluck('nama_jenis_daftar', 'id');
+        return view('admin.mahasiswa.detail.riwayat_pendidikan', compact('prodi', 'periode', 'mahasiswa', 'jalur_daftar', 'jenis_daftar'));
     }
 
-    public function data_index(Request $request)
+    public function data_index(Request $request, $id_mahasiswa)
     {
-        $query = m_kelas_kuliah::all();
+        $query = t_riwayat_pendidikan_mahasiswa::where('id_mahasiswa', $id_mahasiswa)->get();
+        $mahasiswa = m_mahasiswa::findOrFail($id_mahasiswa);
 
         return datatables()->of($query)
             ->addIndexColumn()
-            ->addColumn('action',function ($data) {
+            ->addColumn('action',function ($data) use ($mahasiswa) {
            
                 $button = '<div class="btn-group" role="group" aria-label="Basic example">';
     
@@ -43,15 +48,16 @@ class KelasKuliahController extends Controller
                     'class' => 'btn btn-outline-primary btn-sm btn_edit',
                     "icon" => "fas fa-edit",
                     'attribute' => [
-                        'data-nama' => $data->nama_kelas_kuliah,
-                        'data-prodi' => $data->id_prodi,
-                        // 'data-semester' => $data->id_semester,
-                        // 'data-matkul' => $data->id_matkul,
-                        'data-bahasan' => $data->bahasan,
-                        // 'data-tanggal_mulai' => $data->tanggal_mulai_efektif,
-                        // 'data-tanggal_akhir' => $data->tanggal_akhir_efektif,
+                        'data-id_mahasiswa' => $data->id_mahasiswa,
+                        'data-id_jenis_daftar' => $data->id_jenis_daftar,
+                        'data-id_jalur_daftar' => $data->id_jalur_daftar,
+                        'data-id_periode_masuk' => $data->id_periode_masuk,
+                        'data-id_perguruan_tinggi' => $data->id_perguruan_tinggi,
+                        'data-id_pembiayaan' => $data->id_pembiayaan,
+                        'data-sks_diakui' => $data->sks_diakui,
+                        'data-nim' => $data->nim,
                     ],
-                    "route" => route('admin.kelas_kuliah.update',['kelas_kuliah' => $data->id]),
+                    "route" => route('admin.riwayat_pendidikan.update',['riwayat_pendidikan' => $data->id, 'id_mahasiswa' => $mahasiswa->id]),
                 ]);
     
                 $button .= view("components.button.default", [
@@ -62,7 +68,7 @@ class KelasKuliahController extends Controller
                     'attribute' => [
                         'data-text' => 'Anda yakin ingin menghapus data ini ?',
                     ],
-                    "route" => route('admin.kelas_kuliah.destroy',['kelas_kuliah' => $data->id]),
+                    "route" => route('admin.riwayat_pendidikan.destroy',['id_mahasiswa' => $mahasiswa->id, 'riwayat_pendidikan' => $data->id ]),
                 ]);
     
                 $button .= '</div>';
@@ -72,12 +78,15 @@ class KelasKuliahController extends Controller
             ->addColumn('prodi', function ($data) {
                 return $data->prodi->nama_program_studi;
             })
-            // ->addColumn('matkul', function ($data) {
-            //     return $data->mata_kuliah->nama_mata_kuliah;
-            // })
-            // ->addColumn('semester', function ($data) {
-            //     return $data->semester->nama_semester;
-            // })
+            ->addColumn('nama_mahasiswa', function ($data) {
+                return $data->mahasiswa->nama_mahasiswa;
+            })
+            ->addColumn('periode', function ($data) {
+                return $data->periode->nama_semester;
+            })
+            ->addColumn('jenis_daftar', function ($data) {
+                return $data->jenis_daftar->nama_jenis_daftar;
+            })
             ->rawColumns(['action'])
             ->setRowAttr([
                 'style' => 'text-align: center',
@@ -101,25 +110,33 @@ class KelasKuliahController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(KelasKuliahRequest $request)
+    public function store(RiwayatPendidikanMHSRequest $request, $id_mahasiswa)
     {
 
+        $perguruan_tinggi = m_perguruan_tinggi::find(1)->kode_perguruan_tinggi ?? 0;
+        $mahasiswa = m_mahasiswa::find($id_mahasiswa);
         DB::beginTransaction();
 
         try{
             
-            $data = m_kelas_kuliah::create($request->all());
+            $request->merge([
+                'id_perguruan_tinggi' => $perguruan_tinggi,
+                'id_mahasiswa' => $mahasiswa->id,
+                'nim' => $mahasiswa->nim
+            ]);
+
+            $data = t_riwayat_pendidikan_mahasiswa::create($request->all());
             DB::commit();
 
             Session::flash('success_msg', 'Berhasil Ditambah');
-            return redirect()->route('admin.kelas_kuliah.index');
+            return redirect()->route('admin.riwayat_pendidikan.index', $id_mahasiswa);
 
         }catch(\Exception $e){
 
             DB::rollback();
 
             Session::flash('error_msg', 'Terjadi kesalahan pada server');
-            return redirect()->back()->withInput();
+            return dd($e);
         }
     }
 
@@ -152,17 +169,17 @@ class KelasKuliahController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(KelasKuliahRequest $request,m_kelas_kuliah $kelas_kuliah)
+    public function update(RiwayatPendidikanMHSRequest $request, $id_mahasiswa,t_riwayat_pendidikan_mahasiswa $riwayat_pendidikan)
     {
         DB::beginTransaction();
 
         try{
             
-            $kelas_kuliah->update($request->validated());
+            $iwayat_pendidikan->update($request->validated());
             DB::commit();
 
-            Session::flash('success_msg', 'Berhasil Dibah');
-            return redirect()->route('admin.kelas_kuliah.index');
+            Session::flash('success_msg', 'Berhasil Diubah');
+            return redirect()->route('admin.riwayat_pendidikan.index', $id_mahasiswa);
 
         }catch(\Exception $e){
 
@@ -179,13 +196,13 @@ class KelasKuliahController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(m_kelas_kuliah $kelas_kuliah)
+    public function destroy($id_mahasiswa, t_riwayat_pendidikan_mahasiswa $riwayat_pendidikan)
     {
-        if(is_null($kelas_kuliah)){
+        if(is_null($riwayat_pendidikan)){
             abort(404);
         }
 
-        $kelas_kuliah->delete();
+        $riwayat_pendidikan->delete();
 
         Session::flash('success_msg', 'Berhasil Dihapus');
         return back();

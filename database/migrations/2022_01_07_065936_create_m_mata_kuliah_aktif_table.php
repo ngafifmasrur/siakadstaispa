@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMSemesterTable extends Migration
+class CreateMMataKuliahAktifTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateMSemesterTable extends Migration
      */
     public function up()
     {
-        Schema::create('m_semester', function (Blueprint $table) {
+        Schema::create('m_mata_kuliah_aktif', function (Blueprint $table) {
             $table->id();
-            $table->string('tahun_ajaran');
-            $table->string('nama_semester');
-            $table->boolean('a_periode_aktif');
-            $table->date('tanggal_mulai');
-            $table->date('tanggal_selesai');
+            $table->integer('id_matkul');
+            $table->integer('id_semester');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateMSemesterTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('m_semester');
+        Schema::dropIfExists('m_mata_kuliah_aktif');
     }
 }

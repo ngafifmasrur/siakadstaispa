@@ -8,7 +8,14 @@ use App\Models\m_mahasiswa;
 use App\Models\m_program_studi;
 use App\Models\ref_agama;
 use App\Models\m_semester;
-use App\Models\m_perguruan_tinggi;
+use App\Models\ref_jenis_tinggal;
+use App\Models\ref_jenjang_pendidikan;
+use App\Models\ref_kebutuhan_khusus;
+use App\Models\ref_pekerjaan;
+use App\Models\ref_penghasilan;
+use App\Models\ref_alat_transportasi;
+use App\Models\ref_wilayah;
+
 use App\Models\User;
 use App\Models\Role;
 use App\Http\Requests\MahasiswaRequest;
@@ -42,22 +49,30 @@ class MahasiswaController extends Controller
            
                 $button = '<div class="btn-group" role="group" aria-label="Basic example">';
     
+                // $button .= view("components.button.default", [
+                //     'type' => 'link',
+                //     'tooltip' => 'Detail',
+                //     'class' => 'btn btn-outline-success btn-sm',
+                //     "icon" => "fas fa-eye",
+                //     "route" => route('admin.mahasiswa.show',['mahasiswa' => $data->id]),
+                // ]);
+
                 $button .= view("components.button.default", [
-                    'type' => 'button',
+                    'type' => 'link',
                     'tooltip' => 'Ubah',
-                    'class' => 'btn btn-outline-primary btn-sm btn_edit',
+                    'class' => 'btn btn-outline-primary btn-sm',
                     "icon" => "fas fa-edit",
-                    'attribute' => [
-                        'data-nama' => $data->nama_mahasiswa,
-                        'data-prodi' => $data->id_prodi,
-                        'data-periode' => $data->id_periode,
-                        'data-tanggal_lahir' => $data->tanggal_lahir,
-                        'data-id_agama' => $data->id_agama,
-                        'data-nim' => $data->nim,
-                        'data-id_status_mahasiswa' => $data->id_status_mahasiswa,
-                        'data-id_perguruan_tinggi' => $data->id_perguruan_tinggi,
-                    ],
-                    "route" => route('admin.mahasiswa.update',['mahasiswa' => $data->id]),
+                    // 'attribute' => [
+                    //     'data-nama' => $data->nama_mahasiswa,
+                    //     'data-prodi' => $data->id_prodi,
+                    //     'data-periode' => $data->id_periode,
+                    //     'data-tanggal_lahir' => $data->tanggal_lahir,
+                    //     'data-id_agama' => $data->id_agama,
+                    //     'data-nim' => $data->nim,
+                    //     'data-id_status_mahasiswa' => $data->id_status_mahasiswa,
+                    //     'data-id_perguruan_tinggi' => $data->id_perguruan_tinggi,
+                    // ],
+                    "route" => route('admin.mahasiswa.edit',['mahasiswa' => $data->id]),
                 ]);
     
                 $button .= view("components.button.default", [
@@ -75,17 +90,8 @@ class MahasiswaController extends Controller
     
                 return $button;
             })
-            ->addColumn('prodi', function ($data) {
-                return $data->prodi->nama_program_studi;
-            })
             ->addColumn('agama', function ($data) {
                 return $data->agama->nama_agama;
-            })
-            ->addColumn('periode', function ($data) {
-                return $data->periode->nama_semester;
-            })
-            ->addColumn('status_mahasiswa', function ($data) use ($status_mahasiswa) {
-                return $status_mahasiswa[$data->id_status_mahasiswa];
             })
             ->rawColumns(['action'])
             ->setRowAttr([
@@ -101,7 +107,35 @@ class MahasiswaController extends Controller
      */
     public function create()
     {
-        abort(404);
+        $agama = ref_agama::pluck('nama_agama', 'id');
+        $jenis_tinggal = ref_jenis_tinggal::pluck('nama_jenis_tinggal', 'id');
+        $jenjang_pendidikan = ref_jenjang_pendidikan::pluck('nama_jenjang_didik', 'id');
+        $kebutuhan_khusus = ref_kebutuhan_khusus::pluck('nama_kebutuhan_khusus', 'id');
+        $pekerjaan = ref_pekerjaan::pluck('nama_pekerjaan', 'id');
+        $penghasilan = ref_penghasilan::pluck('nama_penghasilan', 'id');
+        $alat_transportasi = ref_alat_transportasi::pluck('nama_jalat_transportasi', 'id');
+        $wilayah = ref_wilayah::pluck('nama_wilayah', 'id');
+
+        return view('admin.mahasiswa.create', compact('agama', 'jenis_tinggal', 'jenjang_pendidikan', 'kebutuhan_khusus', 'pekerjaan', 'penghasilan', 'alat_transportasi', 'wilayah'));
+    }
+
+        /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(m_mahasiswa $mahasiswa)
+    {
+        $agama = ref_agama::pluck('nama_agama', 'id');
+        $jenis_tinggal = ref_jenis_tinggal::pluck('nama_jenis_tinggal', 'id');
+        $jenjang_pendidikan = ref_jenjang_pendidikan::pluck('nama_jenjang_didik', 'id');
+        $kebutuhan_khusus = ref_kebutuhan_khusus::pluck('nama_kebutuhan_khusus', 'id');
+        $pekerjaan = ref_pekerjaan::pluck('nama_pekerjaan', 'id');
+        $penghasilan = ref_penghasilan::pluck('nama_penghasilan', 'id');
+        $alat_transportasi = ref_alat_transportasi::pluck('nama_jalat_transportasi', 'id');
+        $wilayah = ref_wilayah::pluck('nama_wilayah', 'id');
+
+        return view('admin.mahasiswa.edit', compact('agama', 'jenis_tinggal', 'jenjang_pendidikan', 'kebutuhan_khusus', 'pekerjaan', 'penghasilan', 'alat_transportasi', 'wilayah', 'mahasiswa'));
     }
 
     /**
@@ -112,7 +146,7 @@ class MahasiswaController extends Controller
      */
     public function store(MahasiswaRequest $request)
     {
-        $perguruan_tinggi = m_perguruan_tinggi::find(1) ?? 0;
+        // $perguruan_tinggi = m_perguruan_tinggi::find(1) ?? 0;
         DB::beginTransaction();
 
         try{
@@ -121,14 +155,13 @@ class MahasiswaController extends Controller
             $user = new User();
             $user->email = $request->nim;
             $user->name = $request->nama_mahasiswa;
-            $user->password = bcrypt($request->password);
-            $user->role_id = 2;
+            $user->password = bcrypt('000000');
+            $user->role_id = $role_mahasiswa->id;
             $user->save();
             $user->roles()->attach($role_mahasiswa);
 
-
-            $request->merge(['id_perguruan_tinggi' => $perguruan_tinggi]);
-            $data = m_mahasiswa::create($request->except('password'));
+            $request->merge(['user_id' => $user->id]);
+            $data = m_mahasiswa::create($request->validated());
             DB::commit();
 
             Session::flash('success_msg', 'Berhasil Ditambah');
@@ -141,28 +174,6 @@ class MahasiswaController extends Controller
             Session::flash('error_msg', 'Terjadi kesalahan pada server');
             return dd($e);
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        abort(404);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        abort(404);
     }
 
     /**
@@ -179,7 +190,7 @@ class MahasiswaController extends Controller
         try{
             $role_mahasiswa  = Role::where('name', 'mahasiswa')->first();
 
-            $user = User::where('nim', $mahasiswa)->first();
+            $user = User::where('nim', $mahasiswa->nim)->first();
             $user->email = $request->nim;
             $user->name = $request->nama_mahasiswa;
             if($request->password){
@@ -187,7 +198,7 @@ class MahasiswaController extends Controller
             }
             $user->update();
 
-            $mahasiswa->update($request->except('password'));
+            $mahasiswa->update($request->validated());
             DB::commit();
 
             Session::flash('success_msg', 'Berhasil Dibah');
@@ -219,4 +230,21 @@ class MahasiswaController extends Controller
         Session::flash('success_msg', 'Berhasil Dihapus');
         return back();
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show(m_mahasiswa $mahasiswa)
+    {
+        $prodi = m_program_studi::pluck('nama_program_studi', 'id');
+        $periode = m_semester::pluck('nama_semester', 'id');
+        $agama = ref_agama::pluck('nama_agama', 'id');
+        $status_mahasiswa = $this->status_mahasiswa;
+
+        return view('admin.mahasiswa.show', compact('mahasiswa', 'prodi', 'periode', 'agama', 'status_mahasiswa'));
+    }
+
 }

@@ -52,4 +52,10 @@ class Controller extends BaseController
         'N' => 'Non Aktif',
     ];
 
+    public $jalur_daftar = [
+        '1' => 'SBMPTN',
+        '2' => 'SNMPTN',
+        '3' => 'PMDK',
+    ];
+
 }
