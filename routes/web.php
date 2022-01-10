@@ -17,6 +17,11 @@ use App\Http\Controllers\Admin\{
     SemesterController
 };
 
+use App\Http\Controllers\Mahasiswa\{
+    BiodataController,
+    KRSController
+};
+
 use App\Http\Controllers\Akademika\{
     PesertaKelasKuliahController,
 };
@@ -88,5 +93,13 @@ Route::group(['middleware' => ['Role:admin'], 'prefix' => 'admin', 'as' => 'admi
 
     Route::resource('mahasiswa/{id_mahasiswa}/riwayat_pendidikan', RiwayatPendidikanMHSController::class)->except(['show']);
     Route::get('mahasiswa/{id_mahasiswa}/riwayat_pendidikan/data_index', [RiwayatPendidikanMHSController::class, 'data_index'])->name('riwayat_pendidikan.data_index');
+});
 
+
+Route::group(['middleware' => ['Role:mahasiswa'], 'prefix' => 'mahasiswa', 'as' => 'mahasiswa.'], function () {
+    Route::get('/biodata', [BiodataController::class, 'index'])->name('biodata.index');
+    Route::put('/biodata/update', [BiodataController::class, 'update'])->name('biodata.update');
+
+    Route::resource('/krs', KRSController::class)->except(['show']);;
+    Route::get('/krs/data_index', [KRSController::class, 'data_index'])->name('krs.data_index');
 });

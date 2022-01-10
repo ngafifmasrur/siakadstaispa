@@ -36,7 +36,7 @@
                                             <!-- Form Group (email address)-->
                                             <div class="form-group">
                                                 <label class="small mb-1" for="inputEmailAddress">Email</label>
-                                                <input name="email" class="form-control" id="inputEmailAddress" type="email" placeholder="Enter email address" />
+                                                <input name="email" class="form-control" id="inputEmailAddress" type="text" placeholder="Enter email address" />
                                             </div>
                                             <!-- Form Group (password)-->
                                             <div class="form-group">

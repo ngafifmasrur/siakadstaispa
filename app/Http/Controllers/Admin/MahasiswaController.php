@@ -161,7 +161,7 @@ class MahasiswaController extends Controller
             $user->roles()->attach($role_mahasiswa);
 
             $request->merge(['user_id' => $user->id]);
-            $data = m_mahasiswa::create($request->validated());
+            $data = m_mahasiswa::create($request->all());
             DB::commit();
 
             Session::flash('success_msg', 'Berhasil Ditambah');
@@ -172,7 +172,7 @@ class MahasiswaController extends Controller
             DB::rollback();
 
             Session::flash('error_msg', 'Terjadi kesalahan pada server');
-            return dd($e);
+            return redirect()->back()->withInput();
         }
     }
 

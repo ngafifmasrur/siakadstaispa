@@ -120,7 +120,7 @@
             </ul>
         </nav>
         <div id="layoutSidenav">
-            @include('layouts.partials.admin')
+            @include('layouts.partials.'.Auth::user()->role->name)
 
             <div id="layoutSidenav_content">
                 <main>

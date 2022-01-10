@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Auth;
 
 class MahasiswaRequest extends FormRequest
 {
@@ -27,7 +28,7 @@ class MahasiswaRequest extends FormRequest
             'id_agama' => 'required|integer',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
             'tanggal_lahir' => 'required|date',
-            'nim' => 'required|strinunique:users,email',
+            'nim' => 'required|string|unique:users,email,'.Auth::user()->id,
             'nik' => 'required|string',
             'nama_mahasiswa' => 'required|string',
             'tempat_lahir' => 'required|string',
