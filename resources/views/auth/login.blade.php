@@ -1,88 +1,139 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
+<!doctype html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta content="Sistem Akademik STAI Sunan Pandanaran" name="description">
+		<meta content="STAI Sunan Pandanaran" name="author">
+		<meta name="keywords" content="siakad, sistem akademik, staispa, STAI Sunan Pandanaran"/>
+		
+		<!-- Favicon -->
+		<link rel="icon" href="{{ asset('sparic/images/brand/favicon.ico') }}" type="image/x-icon"/>
+		<link rel="shortcut icon" type="image/x-icon" href="{{ asset('sparic/images/brand/favicon.ico') }}" />
+
+		<!-- Title -->
         <title>Login - SIAKAD STAISPA</title>
-        <link href="{{ asset('front/css/styles.css') }}" rel="stylesheet" />
-        <link rel="icon" type="image/x-icon" href="{{ asset('front/assets/img/favicon.png') }}" />
-        <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous"></script>
-    </head>
-    <body class="bg-primary">
-        <div id="layoutAuthentication">
-            <div id="layoutAuthentication_content">
-                <main>
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-5">
-                                <!-- Basic login form-->
-                                <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                        
 
-                                    <div class="card-header justify-content-center"><h3 class="font-weight-light my-4">Login</h3></div>
-                                    <div class="card-body">
-                                        <!-- Session Status -->
-                                        <x-auth-session-status class="mb-4" :status="session('status')" />
+		<!--Bootstrap.min css-->
+		<link rel="stylesheet" href="{{ asset('sparic/plugins/bootstrap/css/bootstrap.min.css') }}">
 
-                                        <!-- Validation Errors -->
-                                        <x-auth-validation-errors class="mb-4" :errors="$errors" />
-                                        <!-- Login form-->
-                                        <form method="POST" action="{{ route('login') }}">
-                                            @csrf
-                                            <!-- Form Group (email address)-->
-                                            <div class="form-group">
-                                                <label class="small mb-1" for="inputEmailAddress">Email</label>
-                                                <input name="email" class="form-control" id="inputEmailAddress" type="text" placeholder="Enter email address" />
-                                            </div>
-                                            <!-- Form Group (password)-->
-                                            <div class="form-group">
-                                                <label class="small mb-1" for="inputPassword">Password</label>
-                                                <input name="password" class="form-control" id="inputPassword" type="password" placeholder="Enter password" />
-                                            </div>
-                                            <!-- Form Group (remember password checkbox)-->
-                                            <div class="form-group">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input name="remember" class="custom-control-input" id="rememberPasswordCheck" type="checkbox" />
-                                                    <label class="custom-control-label" for="rememberPasswordCheck">Remember password</label>
-                                                </div>
-                                            </div>
-                                            <!-- Form Group (login box)-->
-                                            <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                                                {{-- <a class="small" href="auth-password-basic.html">Forgot Password?</a> --}}
-                                                <button class="btn btn-primary" type="submit">{{ __('Log in') }}</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    {{-- <div class="card-footer text-center">
-                                        <div class="small"><a href="auth-register-basic.html">Need an account? Sign up!</a></div>
-                                    </div> --}}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </main>
-            </div>
-            <div id="layoutAuthentication_footer">
-                <footer class="footer mt-auto footer-dark">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-6 small">Copyright &copy; SIAKAD STAISPA 2022</div>
-                            <div class="col-md-6 text-md-right small">
-                                <a href="#!">Privacy Policy</a>
-                                &middot;
-                                <a href="#!">Terms &amp; Conditions</a>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
-            </div>
-        </div>
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="{{ asset('front/js/scripts.js') }}"></script>
-    </body>
+		<!-- Dashboard css -->
+		<link href="{{ asset('sparic/css/style.css') }}" rel="stylesheet" />
+		<link href="{{ asset('sparic/css/skin-mode.css') }}" rel="stylesheet" />
+		<link href="{{ asset('sparic/css/dark-style.css') }}" rel="stylesheet" />
+
+		<!-- Perfect scroll bar css-->
+		<link href="{{ asset('sparic/plugins/pscrollbar/perfect-scrollbar.css') }}" rel="stylesheet" />
+
+		<!--Daterangepicker css-->
+		<link href="{{ asset('sparic/plugins/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet" />
+
+		<!-- Sidebar Accordions css -->
+		<link href="{{ asset('sparic/css/easy-responsive-tabs.css') }}" rel="stylesheet">
+
+		<!-- Rightsidebar css -->
+		<link href="{{ asset('sparic/plugins/sidebar/sidebar.css') }}" rel="stylesheet">
+
+		<!---Icons css-->
+		<link href="{{ asset('sparic/css/icons.css') }}" rel="stylesheet" />
+
+		<!--Fonts-->
+		<link id="font" rel="stylesheet" type="text/css" media="all" href="{{ asset('sparic/colors/fonts/font1.css') }}"/>
+
+		<!-- Color-skins css -->
+		<link id="theme" rel="stylesheet" type="text/css" media="all" href="{{ asset('sparic/colors/color-skins/color.css') }}" />
+		<link rel="stylesheet" href="{{ asset('sparic/css/demo-styles.css') }}"/>
+
+	</head>
+	<body class="bg-account">
+	    <!-- page -->
+		<div class="page h-100">
+
+			<!-- page-content -->
+			<div class="page-content">
+				<div class="container text-center text-dark">
+					<div class="row">
+						<div class="col-lg-4 d-block mx-auto">
+							<div class="row">
+								<div class="col-xl-12 col-md-12 col-md-12">
+									<div class="card">
+										<div class="card-body">
+											<x-auth-session-status class="mb-4" :status="session('status')" />
+
+											<!-- Validation Errors -->
+											<x-auth-validation-errors class="mb-4" :errors="$errors" />
+
+											<div class="text-center mb-6">
+												<img src="{{ asset('sparic/images/brand/logo.png') }}" class="" alt="">
+											</div>
+											<h3>Login</h3>
+											<p class="text-muted">Sign In to your account</p>
+											<form method="POST" action="{{ route('login') }}">
+												@csrf
+												<div class="input-group mb-3">
+													<span class="input-group-addon bg-white"><i class="fa fa-user"></i></span>
+													<input type="text" class="form-control" placeholder="Email / NIM / NIDN" name="email">
+												</div>
+												<div class="input-group mb-4">
+													<span class="input-group-addon bg-white"><i class="fa fa-unlock-alt"></i></span>
+													<input type="password" class="form-control" placeholder="Password" name="password">
+												</div>
+												<div class="row">
+													<div class="col-12">
+														<button type="submit" class="btn btn-primary btn-block">Login</button>
+													</div>
+													<!-- <div class="col-12">
+														<a href="forgot-password.html" class="btn btn-link box-shadow-0 px-0">Forgot password?</a>
+													</div> -->
+												</div>
+											</form>
+											<!-- <div class="mt-6 btn-list">
+												<button type="button" class="btn btn-icon btn-facebook"><i class="fa fa-facebook"></i></button>
+												<button type="button" class="btn btn-icon btn-google"><i class="fa fa-google"></i></button>
+												<button type="button" class="btn btn-icon btn-twitter"><i class="fa fa-twitter"></i></button>
+												<button type="button" class="btn btn-icon btn-dribbble"><i class="fa fa-dribbble"></i></button>
+											</div> -->
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!-- page-content end -->
+		</div>
+		<!-- page End-->
+
+		<!-- Jquery js-->
+		<script src="{{ asset('sparic/js/vendors/jquery-3.2.1.min.js') }}"></script>
+
+		<!--Bootstrap.min js-->
+		<script src="{{ asset('sparic/plugins/bootstrap/popper.min.js') }}"></script>
+		<script src="{{ asset('sparic/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+
+		<!--Jquery Sparkline js-->
+		<script src="{{ asset('sparic/js/vendors/jquery.sparkline.min.js') }}"></script>
+
+		<!-- Chart Circle js-->
+		<script src="{{ asset('sparic/js/vendors/circle-progress.min.js') }}"></script>
+
+		<!-- Sidebar Accordions js -->
+		<script src="{{ asset('sparic/plugins/sidemenu-responsive-tabs/js/easyResponsiveTabs.js') }}"></script>
+
+		<!--Moment js-->
+		<script src="{{ asset('sparic/plugins/moment/moment.min.js') }}"></script>
+
+		<!-- Daterangepicker js-->
+		<script src="{{ asset('sparic/plugins/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+
+		<!-- Perfect scroll bar js-->
+		<script src="{{ asset('sparic/plugins/pscrollbar/perfect-scrollbar.js') }}"></script>
+
+		<!-- Custom js-->
+		<script src="{{ asset('sparic/js/custom.js') }}"></script>
+
+	</body>
 </html>
