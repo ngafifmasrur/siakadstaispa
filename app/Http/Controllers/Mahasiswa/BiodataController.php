@@ -47,7 +47,7 @@ class BiodataController extends Controller
         try{
             $role_mahasiswa  = Role::where('name', 'mahasiswa')->first();
 
-            $user = User::where('nim', $mahasiswa->nim)->first();
+            $user = User::where('email', $mahasiswa->nim)->first();
             $user->email = $request->nim;
             $user->name = $request->nama_mahasiswa;
             if($request->password){
@@ -59,7 +59,7 @@ class BiodataController extends Controller
             DB::commit();
 
             Session::flash('success_msg', 'Berhasil Dibah');
-            return redirect()->route('admin.mahasiswa.index');
+            return redirect()->back();
 
         }catch(\Exception $e){
 

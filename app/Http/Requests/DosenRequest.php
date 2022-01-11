@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Auth;
 
 class DosenRequest extends FormRequest
 {
@@ -23,14 +24,13 @@ class DosenRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'nama_dosen' => 'required|string',
             'tempat_lahir' => 'required|string',
             'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
             'id_agama' => 'required|integer',
             'id_status_aktif' => 'required|integer',
-            'nidn' => 'required|string',
             'nama_ibu' => 'required|string',
             'nik' => 'required|string',
             'nip' => 'nullable|string',
@@ -61,5 +61,14 @@ class DosenRequest extends FormRequest
             'mampu_handle_braille' => 'required',
             'mampu_handle_bahasa_isyarat' => 'required',
         ];
+
+        if(Auth::user()->role->name == 'admin'){
+            $rules['nidn'] = 'required|string|unique:users,email,'.$this->dosen->user->id;
+        } elseif(Auth::user()->role->name == 'dosen') {
+            $rules['nidn'] = 'required|string|unique:users,email,'.Auth::user()->id;
+        }
+
+        return $rules;
+
     }
 }

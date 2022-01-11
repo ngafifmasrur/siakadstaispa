@@ -190,7 +190,7 @@ class MahasiswaController extends Controller
         try{
             $role_mahasiswa  = Role::where('name', 'mahasiswa')->first();
 
-            $user = User::where('nim', $mahasiswa->nim)->first();
+            $user = User::where('email', $mahasiswa->nim)->first();
             $user->email = $request->nim;
             $user->name = $request->nama_mahasiswa;
             if($request->password){

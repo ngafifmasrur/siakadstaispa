@@ -31,4 +31,9 @@ class m_mahasiswa extends Model
     {
         return $this->belongsTo('App\Models\ref_agama', 'id_agama');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }

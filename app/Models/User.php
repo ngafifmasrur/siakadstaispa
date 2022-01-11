@@ -89,13 +89,24 @@ class User extends Authenticatable
         return $this->hasMany(RoleUser::class, 'user_id', 'id');
     }
 
-    public function mahasiswa()
-    {
-        return $this->belongsTo(m_mahasiswa::class, 'id', 'user_id');
-    }
+    // public function mahasiswa()
+    // {
+    //     return $this->belongsTo(m_mahasiswa::class, 'id', 'user_id');
+    // }
+
+    // public function dosen()
+    // {
+    //     return $this->belongsTo(m_dosen::class, 'id', 'user_id');
+    // }
 
     public function dosen()
     {
-        return $this->belongsTo(m_dosen::class, 'id', 'user_id');
+        return $this->hasOne(m_dosen::class, 'user_id', 'id');
     }
+
+    public function mahasiswa()
+    {
+        return $this->hasOne(m_mahasiswa::class, 'user_id', 'id');
+    }
+
 }

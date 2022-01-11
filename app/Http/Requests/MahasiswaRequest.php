@@ -24,7 +24,7 @@ class MahasiswaRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'id_agama' => 'required|integer',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
             'tanggal_lahir' => 'required|date',
@@ -71,5 +71,13 @@ class MahasiswaRequest extends FormRequest
             'id_jenis_tinggal' => 'nullable|integer',
             'id_alat_transportasi' => 'nullable|integer',
         ];
+
+        if(Auth::user()->role->name == 'admin'){
+            $rules['nim'] = 'required|string|unique:users,email,'.$this->mahasiswa->user->id;
+        } elseif(Auth::user()->role->name == 'mahasiswa') {
+            $rules['nim'] = 'required|string|unique:users,email,'.Auth::user()->id;
+        }
+
+        return $rules;
     }
 }

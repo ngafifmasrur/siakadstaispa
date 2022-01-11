@@ -163,6 +163,16 @@ class DosenController extends Controller
 
         try {
 
+            $role_dosen  = Role::where('name', 'dosen')->first();
+
+            $user = User::where('email', $dosen->nidn)->first();
+            $user->email = $request->nidn;
+            $user->name = $request->nama_dosen;
+            if($request->password){
+                $user->password = bcrypt($request->password);
+            }
+            $user->update();
+
             $dosen->update($request->validated());
             DB::commit();
 
