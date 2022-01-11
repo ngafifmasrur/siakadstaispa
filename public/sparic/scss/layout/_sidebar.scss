@@ -1,0 +1,72 @@
+/*-----Sidebar-----*/
+
+#sidebar .dropdown-menu {
+	box-shadow: 0 1px 2px 0 $black-05;
+	min-width: 12rem;
+}
+#sidebar .list-unstyled li {
+	border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+.sidebar .tabs-menu ul li {
+	.active {
+		border-radius: 2px;
+	}
+	a {
+		margin: 3px 0px 3px 6px;
+	}
+	&:first-child a {
+		margin-left: 0;
+	}
+}
+.app-sidebar .tabs-menu {
+	margin: 0 auto;
+	display: table;
+	ul li:first-child a {
+		margin-left: 0;
+	}
+}
+@media (max-width: 480px) {
+	.sidebar .tabs-menu ul li a {
+		margin: 3px 0px 3px 5px;
+		width: auto;
+	}
+}
+.sidebar .tab-menu-heading {
+	padding: 10px !important;
+	text-align: center;
+	.tabs-menu {
+		display: inline-block;
+	}
+}
+#sidebar ul li {
+	&.active>a:hover {
+		background: #6d4dbb;
+		color: $white;
+	}
+	a {
+		color: #8f98c1;
+		font-weight: 300;
+	}
+	position: relative;
+	ul li:last-child {
+		border-bottom: 0;
+	}
+}
+.sidebar {
+	.tab-content>.tab-pane {
+		padding: 0px 0;
+	}
+	background-color: $white;
+	border-right: 1px solid #eee;
+	box-shadow: 0px 8px 14.72px 1.28px rgba(199, 199, 199, 0.2);
+	.tabs-menu ul li .active {
+		background: $primary;
+		color: $white;
+	}
+}
+@media (max-width: 400px) {
+	.app-sidebar__toggle {
+		padding: 10px 12px !important;
+	}
+}
+/*-----Sidebar-----*/

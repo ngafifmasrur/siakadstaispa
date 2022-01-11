@@ -1,0 +1,98 @@
+/*-----Calender-----*/
+
+@media (max-width: 320px) {
+	.fc-toolbar .fc-right {
+		float: right;
+		width: 100%;
+		text-align: center;
+		margin: 10px 0;
+	}
+	.worldh {
+		height: 190px !important;
+	}
+}
+.fc-toolbar:before, .login-content:after {
+	content: "";
+}
+#footer, .fc-toolbar .ui-button, .fileinput .thumbnail {
+	text-align: center;
+}
+.four-zero {
+	text-align: center;
+	footer>a {
+		text-align: center;
+	}
+}
+.cal1 {
+	.clndr {
+		.clndr-table {
+			.header-days .header-day {
+				border-left: 1px solid $black-1;
+			}
+			tr {
+				.empty, .adjacent-month, .my-empty, .my-adjacent-month {
+					border-left: 1px solid rgba(107, 122, 144, 0.3);
+					border-top: 1px solid rgba(107, 122, 144, 0.3);
+					background: #f9f9f9;
+				}
+				.day {
+					&.event, &.my-event, &.today.event, &.my-today.event {
+						background: #f9f9f9;
+					}
+					&.event:hover, &.my-event:hover {
+						background: #f9f9f9 !important;
+					}
+					border-left: 1px solid rgba(107, 122, 144, 0.3);
+					border-top: 1px solid rgba(107, 122, 144, 0.3);
+					&:last-child {
+						border-right: 1px solid rgba(107, 122, 144, 0.3);
+					}
+					&:hover {
+						background: #f9f9f9;
+					}
+				}
+			}
+		}
+		.clndr-controls .clndr-control-button {
+			.clndr-next-button:hover, .clndr-previous-button:hover {
+				background: #7c5cac;
+			}
+		}
+	}
+	font-size: 14px;
+}
+.fc-unthemed {
+	.fc-content, .fc-divider, .fc-list-heading td, .fc-list-view, .fc-popover, .fc-row, tbody, td, th, thead {
+		border-color: rgba(0, 0, 0, 0.07);
+	}
+}
+.fc-event {
+	border: 1px solid $blue;
+	background-color: $blue;
+	color: #f1f1f1 ! important;
+}
+.fc-event-dot {
+	background-color: $blue;
+	color: #f1f1f1 ! important;
+}
+.fc-unthemed {
+	.fc-divider, .fc-list-heading td, .fc-popover .fc-header {
+		background: #f9f9f9;
+	}
+}
+.fc-toolbar {
+	.fc-state-active, .ui-state-active {
+		background: $blue;
+	}
+}
+.fc-today-button fc-button fc-state-default fc-corner-left fc-corner-right fc-state-disabled:focus {
+	border: none !important;
+	box-shadow: none !important;
+}
+.fc-unthemed .fc-list-item:hover td {
+	background-color: #f9f9f9;
+}
+.fc-widget-content .fc-bgevent {
+	background-color: #f9f9f9 !important;
+}
+/*-----Calender-----*/

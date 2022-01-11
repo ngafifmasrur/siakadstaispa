@@ -7,52 +7,26 @@
     Semester
 </x-header>
 <!-- Main page content-->
-<div class="container mt-n10">
-    <div class="row">
-        <div class="col-lg-12">
-            <form action="" method="post">
-                <div class="card">
-                    <div class="card-header">
-                        Data Semester
-                        <a class="float-right btn btn-sm btn-outline-blue add-form" data-url="{{ route('admin.semester.store') }}" href="#"><i data-feather="plus" class="mr-2"></i>Tambah</a>
-                    </div>
-                    
-                    <div class="card-body">
-                        @if ($errors->any())
-                        <div class="alert alert-danger alert-icon" role="alert">
-                            <button class="close" type="button" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                            <div class="alert-icon-content">
-                                <h6 class="alert-heading">Error, Periksa Ulang data..</h6>
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
-                        @endif
+<x-card-table>
+    <x-slot name="title">Data Semester</x-slot>
+    <x-slot name="button">
+        <a class="btn btn-app btn-sm btn-primary add-form" data-url="{{ route('admin.semester.store') }}" href="#"><i class="fa fa-plus mr-2"></i>Tambah</a>
+    </x-slot>
 
-                        <x-datatable 
-                        :route="route('admin.semester.data_index')" 
-                        :table="[
-                            ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],  
-                            ['title' => 'Tahun Ajaran', 'data' => 'tahun_ajaran', 'name' => 'tahun_ajaran'],                          
-                            ['title' => 'Nama Semester', 'data' => 'nama_semester', 'name' => 'nama_semester', 'classname' => 'text-left'],
-                            ['title' => 'Status', 'data' => 'aktif', 'name' => 'aktif'],
-                            ['title' => 'Tanggal Mulai', 'data' => 'tanggal_mulai', 'name' => 'tanggal_mulai'],
-                            ['title' => 'Tanggal Selesai', 'data' => 'tanggal_selesai', 'name' => 'tanggal_selesai'],
-                            ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
-                        ]"
-                        />
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+    <x-datatable 
+    :route="route('admin.semester.data_index')" 
+    :table="[
+        ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],  
+        ['title' => 'Tahun Ajaran', 'data' => 'tahun_ajaran', 'name' => 'tahun_ajaran'],                          
+        ['title' => 'Nama Semester', 'data' => 'nama_semester', 'name' => 'nama_semester', 'classname' => 'text-left'],
+        ['title' => 'Status', 'data' => 'aktif', 'name' => 'aktif'],
+        ['title' => 'Tanggal Mulai', 'data' => 'tanggal_mulai', 'name' => 'tanggal_mulai'],
+        ['title' => 'Tanggal Selesai', 'data' => 'tanggal_selesai', 'name' => 'tanggal_selesai'],
+        ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
+    ]"
+    />
 
-</div>
+</x-card-table>
 
 <x-modal.delete/>
 
@@ -66,7 +40,7 @@
         $years = [];
         for ($year=2000; $year <= date('Y'); $year++) $years[$year] = $year;
     @endphp
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-6">
             <label for="tahun_ajaran">Tahun Ajaran</label>
             {!! Form::select('tahun_ajaran', $years, NULL, ['class' => 'form-control '.($errors->has('tahun_ajaran') ? 'is-invalid' : ''), 'id' => 'tahun_ajaran']) !!}
@@ -86,7 +60,7 @@
             @enderror
         </div>
     </div>
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-6">
             <label for="tanggal_mulai">Tanggal Mulai</label>
             {!! Form::date('tanggal_mulai', null, ['class' => 'form-control '.($errors->has('tanggal_mulai') ? 'is-invalid' : ''), 'id' => 'tanggal_mulai']) !!}
@@ -106,7 +80,7 @@
             @enderror
         </div>
     </div>   
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-6">
             <label for="a_periode_aktif">Periode Aktif</label>
             {!! Form::select('a_periode_aktif', [1 => 'Ya', 0 => 'Tidak'], null, ['class' => 'form-control '.($errors->has('a_periode_aktif') ? 'is-invalid' : ''), 'id' => 'a_periode_aktif']) !!}
@@ -128,7 +102,7 @@
     <x-slot name="modalPosition">modal-dialog-centered</x-slot>
     @csrf
     @method('put')
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-6">
             <label for="tahun_ajaran">Tahun Ajaran</label>
             {!! Form::select('tahun_ajaran', $years, NULL, ['class' => 'form-control '.($errors->has('tahun_ajaran') ? 'is-invalid' : ''), 'id' => 'tahun_ajaran']) !!}
@@ -148,7 +122,7 @@
             @enderror
         </div>
     </div>
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-6">
             <label for="tanggal_mulai">Tanggal Mulai</label>
             {!! Form::date('tanggal_mulai', null, ['class' => 'form-control '.($errors->has('tanggal_mulai') ? 'is-invalid' : ''), 'id' => 'tanggal_mulai']) !!}
@@ -168,7 +142,7 @@
             @enderror
         </div>
     </div>
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-6">
             <label for="a_periode_aktif">Periode Aktif</label>
             {!! Form::select('a_periode_aktif', [1 => 'Ya', 0 => 'Tidak'], null, ['class' => 'form-control '.($errors->has('a_periode_aktif') ? 'is-invalid' : ''), 'id' => 'a_periode_aktif']) !!}
@@ -214,5 +188,6 @@
             $('[name=tanggal_selesai]').val(tanggal_selesai);
 
         });
+        
     </script>
 @endpush

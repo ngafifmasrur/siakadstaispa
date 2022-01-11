@@ -33,7 +33,7 @@ class ProgramStudiController extends Controller
                     'type' => 'button',
                     'tooltip' => 'Ubah',
                     'class' => 'btn btn-outline-primary btn-sm btn_edit',
-                    "icon" => "fas fa-edit",
+                    "icon" => "fa fa-edit",
                     'attribute' => [
                         'data-kode' => $data->kode_program_studi,
                         'data-nama' => $data->nama_program_studi,
@@ -47,7 +47,7 @@ class ProgramStudiController extends Controller
                     'type' => 'button',
                     'tooltip' => 'Hapus',
                     'class' => 'btn btn-outline-danger btn-sm btn_delete',
-                    "icon" => "fas fa-trash",
+                    "icon" => "fa fa-trash",
                     'attribute' => [
                         'data-text' => 'Anda yakin ingin menghapus data ini ?',
                     ],

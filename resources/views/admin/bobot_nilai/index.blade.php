@@ -2,54 +2,31 @@
 @section('title', 'Bobot Nilai')
 
 @section('content')
-<header class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10">
-    <div class="container">
-        <div class="page-header-content pt-4">
-            <div class="row align-items-center justify-content-between">
-                <div class="col-auto mt-4">
-                    <h1 class="page-header-title">
-                        <div class="page-header-icon"><i data-feather="grid"></i></div>
-                        Bobot Nilai
-                    </h1>
-                    {{-- <div class="page-header-subtitle">Example dashboard overview and content summary</div> --}}
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-<!-- Main page content-->
-<div class="container mt-n10">
-    <div class="row">
-        <div class="col-lg-12">
-            <form action="" method="post">
-                <div class="card">
-                    <div class="card-header">
-                        Data Bobot Nilai
-                        <a class="float-right btn btn-sm btn-outline-blue add-form" data-url="{{ route('admin.bobot_nilai.store') }}" href="#"><i data-feather="plus" class="mr-2"></i>Tambah</a>
-                    </div>
-                    
-                    <div class="card-body">
-                        <x-datatable 
-                        :route="route('admin.bobot_nilai.data_index')" 
-                        :table="[
-                            ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],                            
-                            ['title' => 'Program Studi', 'data' => 'prodi', 'name' => 'prodi', 'classname' => 'text-left'],
-                            ['title' => 'Nilai Huruf', 'data' => 'nilai_huruf', 'name' => 'nilai_huruf'],
-                            ['title' => 'Nilai Indeks', 'data' => 'nilai_indeks', 'name' => 'nilai_indeks'],
-                            ['title' => 'Bobot Minimum', 'data' => 'bobot_minimum', 'name' => 'bobot_minimum'],
-                            ['title' => 'Bobot Maksimum', 'data' => 'bobot_maksimum', 'name' => 'bobot_maksimum'],
-                            ['title' => 'Tanggal Mulai Efektif', 'data' => 'tanggal_mulai_efektif', 'name' => 'tanggal_mulai_efektif'],
-                            ['title' => 'Tanggal Selsai Efektif', 'data' => 'tanggal_selesai_efektif', 'name' => 'tanggal_selesai_efektif'],
-                            ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
-                        ]"
-                        />
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+<x-header>
+    Bobot Nilai
+</x-header>
 
-</div>
+<x-card-table>
+    <x-slot name="title">Data Bobot Nilai</x-slot>
+    <x-slot name="button">
+        <a class="btn btn-app btn-sm btn-primary add-form" data-url="{{ route('admin.bobot_nilai.store') }}" href="#"><i class="fa fa-plus mr-2"></i>Tambah</a>
+    </x-slot>
+    
+    <x-datatable 
+    :route="route('admin.bobot_nilai.data_index')" 
+    :table="[
+        ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],                            
+        ['title' => 'Program Studi', 'data' => 'prodi', 'name' => 'prodi', 'classname' => 'text-left'],
+        ['title' => 'Nilai Huruf', 'data' => 'nilai_huruf', 'name' => 'nilai_huruf'],
+        ['title' => 'Nilai Indeks', 'data' => 'nilai_indeks', 'name' => 'nilai_indeks'],
+        ['title' => 'Bobot Minimum', 'data' => 'bobot_minimum', 'name' => 'bobot_minimum'],
+        ['title' => 'Bobot Maksimum', 'data' => 'bobot_maksimum', 'name' => 'bobot_maksimum'],
+        ['title' => 'Tanggal Mulai Efektif', 'data' => 'tanggal_mulai_efektif', 'name' => 'tanggal_mulai_efektif'],
+        ['title' => 'Tanggal Selsai Efektif', 'data' => 'tanggal_selesai_efektif', 'name' => 'tanggal_selesai_efektif'],
+        ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
+    ]"
+    />
+</x-card-table>
 
 <x-modal.delete/>
 

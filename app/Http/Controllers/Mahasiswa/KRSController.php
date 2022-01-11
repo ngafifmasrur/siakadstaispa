@@ -17,7 +17,9 @@ class KRSController extends Controller
      */
     public function index()
     {
-        $jadwal = m_jadwal::all();
+        $krs_mahasiswa = t_krs::where('nim', Auth::user()->mahasiswa->nim)
+        ->select('id_jadwal')->get()->toArray();
+        $jadwal = m_jadwal::whereNotIn('id', $krs_mahasiswa)->get();
         return view('mahasiswa.krs.index', compact('jadwal'));
     }
 
@@ -35,7 +37,7 @@ class KRSController extends Controller
                     'type' => 'button',
                     'tooltip' => 'Hapus',
                     'class' => 'btn btn-outline-danger btn-sm btn_delete',
-                    "icon" => "fas fa-trash",
+                    "icon" => "fa fa-trash",
                     'attribute' => [
                         'data-text' => 'Anda yakin ingin menghapus data ini ?',
                     ],
@@ -79,12 +81,19 @@ class KRSController extends Controller
                         'class' => 'btn btn-primary btn-sm',
                         "label" => "Belum Disetujui",
                     ]);
-                } else {
+                } elseif ($data->status == 'Disetujui') {
                     $button = view("components.button.default", [
                         'type' => 'button',
                         'tooltip' => 'Status',
                         'class' => 'btn btn-success btn-sm',
-                        "label" => "Disetujui Dosen",
+                        "label" => "Disetujui",
+                    ]);
+                } else {
+                    $button = view("components.button.default", [
+                        'type' => 'button',
+                        'tooltip' => 'Status',
+                        'class' => 'btn btn-danger btn-sm',
+                        "label" => "Ditolak",
                     ]);
                 }
                 return $button;

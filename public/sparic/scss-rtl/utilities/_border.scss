@@ -1,0 +1,108 @@
+/*------Border Radius -------*/
+
+.br-100 {
+	border-radius: 100% !important;
+}
+.br-7 {
+	border-radius: 4px;
+}
+.br-tl-7 {
+	border-top-left-radius: 4px !important;
+}
+.br-bl-7 {
+	border-bottom-left-radius: 4px !important;
+}
+.br-tr-7 {
+	border-top-right-radius: 4px !important;
+}
+.br-br-7 {
+	border-bottom-right-radius: 4px !important;
+}
+.rounded-top {
+	border-top-left-radius: 3px !important;
+	border-top-right-radius: 3px !important;
+}
+.rounded-right {
+	border-top-right-radius: 3px !important;
+	border-bottom-right-radius: 3px !important;
+}
+.rounded-bottom {
+	border-bottom-right-radius: 3px !important;
+	border-bottom-left-radius: 3px !important;
+}
+.rounded-left {
+	border-top-left-radius: 3px !important;
+	border-bottom-left-radius: 3px !important;
+}
+.rounded-circle {
+	border-radius: 50% !important;
+}
+.rounded-0 {
+	border-radius: 0 !important;
+}
+.noborder {
+	border-radius: 0;
+}
+.brround {
+	border-radius: 50%;
+}
+.bradius {
+	border-radius: 25%;
+}
+/*------Border Radius -------*/
+
+/*------Borders -------*/
+
+.border {
+    border: 1px solid rgba(107,122,144,0.3) !important;
+}
+
+.border-top {
+	border-top: 1px solid rgba(107, 122, 144, 0.3) !important;
+}
+.border-right {
+	border-right: 1px solid rgba(107, 122, 144, 0.3) !important;
+}
+.border-bottom {
+	border-bottom: 1px solid rgba(107, 122, 144, 0.3) !important;
+}
+.border-left {
+	border-left: 1px solid rgba(107, 122, 144, 0.3) !important;
+}
+.border-0 {
+	border: 0 !important;
+}
+.border-top-0 {
+	border-top: 0 !important;
+}
+.border-right-0 {
+	border-right: 0 !important;
+}
+.border-bottom-0 {
+	border-bottom: 0 !important;
+}
+.border-left-0 {
+	border-left: 0 !important;
+}
+.border-success {
+	border-color: $green !important;
+}
+.border-info {
+	border-color: $azure !important;
+}
+.border-warning {
+	border-color: $yellow !important;
+}
+.border-danger {
+	border-color: $danger !important;
+}
+.border-light {
+	border-color: #f8f9fa !important;
+}
+.border-dark {
+	border-color: $dark !important;
+}
+.border-white {
+	border-color: $white !important;
+}
+/*------Borders -------*/

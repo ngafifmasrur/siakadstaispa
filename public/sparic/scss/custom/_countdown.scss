@@ -1,0 +1,80 @@
+/*-----Countdown-----*/
+
+.countdown {
+	margin: 5px;
+	border-radius: 7px;
+	padding: 17px;
+	span:first-child {
+		font-size: 30px;
+		font-weight: 500;
+	}
+}
+.construction .countdown span {
+	display: block;
+}
+#count-down {
+	margin: 20px auto;
+	text-align: center;
+	display: inline-block;
+	.clock-presenter {
+		height: 80px;
+		padding: 0px;
+		text-align: center;
+		.digit {
+			margin-top: 10px;
+			font-size: 1.5rem;
+			line-height: 40px;
+			height: 40px;
+			display: inline-block;
+			overflow: hidden;
+			text-align: center;
+			position: relative;
+			cursor: default;
+			border-radius: 3px;
+		}
+		width: 60px;
+		height: 60px;
+		border-radius: 7px;
+		float: left;
+		margin: 0 20px;
+		.note {
+			position: relative;
+			margin-bottom: 0px;
+			cursor: default;
+			font-size: 16px;
+			opacity: 0.7;
+		}
+	}
+}
+@media (max-width: 992px) {
+	#count-down .clock-presenter .digit {
+		font-size: 30px;
+	}
+	.construction {
+		padding: 70px 0 !important;
+	}
+}
+@media (max-width: 568px) {
+	#count-down .clock-presenter {
+		float: none !important;
+		margin-bottom: 45px;
+	}
+}
+@media (max-width: 767px) {
+	#count-down {
+		.clock-presenter {
+			float: left;
+			margin-bottom: 45px;
+			.digit {
+				font-size: 36px;
+			}
+		}
+		.hours_dash {
+			border-right: none;
+		}
+	}
+	.construction h1 {
+		font-size: 42px !important;
+	}
+}
+/*-----Countdown-----*/

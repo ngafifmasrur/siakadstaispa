@@ -6,64 +6,38 @@
 <x-header>
     KRS
 </x-header>
-<!-- Main page content-->
-<div class="container mt-n10">
-    <div class="row">
-        <div class="col-lg-12">
-            <form action="" method="post">
-                <div class="card">
-                    <div class="card-header">
-                        KRS
-                        <a class="float-right btn btn-sm btn-outline-blue add-form" data-url="{{ route('mahasiswa.krs.store') }}" href="#"><i data-feather="plus" class="mr-2"></i>Ambil Jadwal Kuliah</a>
-                    </div>
-                    
-                    <div class="card-body">
-                        @if ($errors->any())
-                        <div class="alert alert-danger alert-icon" role="alert">
-                            <button class="close" type="button" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                            <div class="alert-icon-content">
-                                <h6 class="alert-heading">Error, Periksa Ulang data..</h6>
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
-                        @endif
 
-                        <x-datatable 
-                        :route="route('mahasiswa.krs.data_index')" 
-                        :table="[
-                            ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],                            
-                            ['title' => 'Program Studi', 'data' => 'prodi', 'name' => 'prodi', 'classname' => 'text-left'],
-                            ['title' => 'Nama Dosen', 'data' => 'dosen', 'name' => 'dosen', 'classname' => 'text-left'],
-                            ['title' => 'Mata Kuliah', 'data' => 'matkul', 'name' => 'matkul','classname' => 'text-left'],
-                            ['title' => 'Kelas', 'data' => 'kelas', 'name' => 'kelas','classname' => 'text-left'],
-                            ['title' => 'Ruangan', 'data' => 'ruangan', 'name' => 'ruangan','classname' => 'text-left'],
-                            ['title' => 'Hari', 'data' => 'hari', 'name' => 'hari'],
-                            ['title' => 'Jam Mulai', 'data' => 'jam_mulai', 'name' => 'jam_mulai'],
-                            ['title' => 'Jam Selesai', 'data' => 'jam_selesai', 'name' => 'jam_selesai'],
-                            ['title' => 'Status', 'data' => 'status', 'name' => 'status'],
-                            ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
-                        ]"
-                        />
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+<x-card-table>
+    <x-slot name="title">KRS</x-slot>
+    <x-slot name="button">
+        <a class="btn btn-app btn-sm btn-primary add-form" data-url="{{ route('mahasiswa.krs.store') }}" href="#"><i class="fa fa-plus mr-2"></i>Tambah</a>
+    </x-slot>
 
-</div>
+    <x-datatable 
+    :route="route('mahasiswa.krs.data_index')" 
+    :table="[
+        ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],                            
+        ['title' => 'Program Studi', 'data' => 'prodi', 'name' => 'prodi', 'classname' => 'text-left'],
+        ['title' => 'Nama Dosen', 'data' => 'dosen', 'name' => 'dosen', 'classname' => 'text-left'],
+        ['title' => 'Mata Kuliah', 'data' => 'matkul', 'name' => 'matkul','classname' => 'text-left'],
+        ['title' => 'Kelas', 'data' => 'kelas', 'name' => 'kelas','classname' => 'text-left'],
+        ['title' => 'Ruangan', 'data' => 'ruangan', 'name' => 'ruangan','classname' => 'text-left'],
+        ['title' => 'Hari', 'data' => 'hari', 'name' => 'hari'],
+        ['title' => 'Jam Mulai', 'data' => 'jam_mulai', 'name' => 'jam_mulai'],
+        ['title' => 'Jam Selesai', 'data' => 'jam_selesai', 'name' => 'jam_selesai'],
+        ['title' => 'Status', 'data' => 'status', 'name' => 'status'],
+        ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
+    ]"
+    />
+
+</x-card-table>
 
 <x-modal.delete/>
 
 <x-modal class="modal-form" id="modal-form">
     <x-slot name="title">Daftar Jadwal Kuliah</x-slot>
     <x-slot name="modalPosition">modal-dialog-centered</x-slot>
-    <x-slot name="modalDialogClass">modal-xl</x-slot>
+    <x-slot name="modalDialogClass">modal-lg</x-slot>
     @csrf 
     @method('post')
     <div class="datatable">

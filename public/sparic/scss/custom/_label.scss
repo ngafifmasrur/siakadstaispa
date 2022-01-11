@@ -1,0 +1,59 @@
+/*----Labels-----*/
+
+label {
+	display: inline-block;
+	margin-bottom: 0.5rem;
+}
+.label-default {
+	background: $gray;
+}
+.label-success {
+	background: $green;
+}
+.label-danger {
+	background: $danger;
+}
+.label-warning {
+	background: $yellow;
+}
+.label-info {
+	background: $azure;
+}
+ul.label-inbox {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	li {
+		display: inline-block;
+		width: 100%;
+		a {
+			display: inline-block;
+			padding: 10px 15px;
+			width: 100%;
+			color: #5c6287;
+			text-transform: capitalize;
+			-webkit-transition: 0.3s ease;
+			-moz-transition: 0.3s ease;
+			transition: 0.3s ease;
+			text-decoration: none;
+			i {
+				font-size: 16px;
+				padding-right: 10px;
+				padding-left: 3px;
+				color: #5c6287;
+			}
+			&:hover {
+				background: #f9f9f9;
+			}
+		}
+		&.active a, a:focus {
+			background: #f9f9f9;
+		}
+	}
+}
+.label {
+	display: inline-block;
+	margin-bottom: .5rem;
+}
+/*----Labels-----*/

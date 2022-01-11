@@ -2,51 +2,27 @@
 @section('title', 'Dosen')
 
 @section('content')
-<header class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10">
-    <div class="container">
-        <div class="page-header-content pt-4">
-            <div class="row align-items-center justify-content-between">
-                <div class="col-auto mt-4">
-                    <h1 class="page-header-title">
-                        <div class="page-header-icon"><i data-feather="grid"></i></div>
-                        Dosen
-                    </h1>
-                    {{-- <div class="page-header-subtitle">Example dashboard overview and content summary</div> --}}
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-<!-- Main page content-->
-<div class="container mt-n10">
-    <div class="row">
-        <div class="col-lg-12">
-            <form action="" method="post">
-                <div class="card">
-                    <div class="card-header">
-                        Data Dosen
-                        <a class="float-right btn btn-sm btn-outline-blue"
-                            href="{{ route('admin.dosen.create') }}"><i data-feather="plus"
-                                class="mr-2"></i>Tambah</a>
-                    </div>
 
-                    <div class="card-body">
-                        <x-datatable :route="route('admin.dosen.data_index')" :table="[
-                            ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],
-                            ['title' => 'NIDN', 'data' => 'nidn', 'name' => 'nidn', 'classname' => 'text-left'],
-                            ['title' => 'Nama', 'data' => 'nama_dosen', 'name' => 'nama_dosen', 'classname' => 'text-left'],
-                            ['title' => 'NIP', 'data' => 'nip', 'name' => 'nip', 'classname' => 'text-left'],
-                            ['title' => 'Jenis Kelamin', 'data' => 'jenis_kelamin', 'name' => 'jenis_kelamin', 'classname' => 'text-left'],
-                            ['title' => 'Status Aktif', 'data' => 'status', 'name' => 'status', 'classname' => 'text-center'],
-                            ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
-                        ]" />
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+<x-header>
+    Dosen
+</x-header>
 
-</div>
+<x-card-table>
+    <x-slot name="title">Data Dosen</x-slot>
+    <x-slot name="button">
+        <a class="btn btn-app btn-sm btn-primary" href="{{ route('admin.dosen.create') }}"><i class="fa fa-plus mr-2"></i>Tambah</a>
+    </x-slot>
+    
+    <x-datatable :route="route('admin.dosen.data_index')" :table="[
+        ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],
+        ['title' => 'NIDN', 'data' => 'nidn', 'name' => 'nidn', 'classname' => 'text-left'],
+        ['title' => 'Nama', 'data' => 'nama_dosen', 'name' => 'nama_dosen', 'classname' => 'text-left'],
+        ['title' => 'NIP', 'data' => 'nip', 'name' => 'nip', 'classname' => 'text-left'],
+        ['title' => 'Jenis Kelamin', 'data' => 'jenis_kelamin', 'name' => 'jenis_kelamin', 'classname' => 'text-left'],
+        ['title' => 'Status Aktif', 'data' => 'status', 'name' => 'status', 'classname' => 'text-center'],
+        ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
+    ]" />
+</x-card-table>
 
 <x-modal.delete />
 

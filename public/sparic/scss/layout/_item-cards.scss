@@ -1,0 +1,62 @@
+/*-----Item-Card -----*/
+
+.item-card {
+	.cardbody {
+		position: relative;
+		padding: 30px 15px;
+		border-radius: 0 0 .2rem .2rem;
+	}
+	.cardtitle {
+		span {
+			display: block;
+			font-size: .75rem;
+		}
+		a {
+			color: #707070;
+			font-weight: 500;
+			text-decoration: none;
+		}
+	}
+	.cardprice {
+		position: absolute;
+		top: 30px;
+		right: 15px;
+		span {
+			&.type--strikethrough {
+				opacity: .7;
+				text-decoration: line-through;
+			}
+			display: block;
+			color: #707070;
+		}
+	}
+}
+.item7-card-text span {
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
+}
+.item7-card-desc a:first-child {
+	margin-right: 1rem;
+}
+.item-card {
+	.product-info {
+		padding: 0;
+		margin: 0;
+		opacity: 0;
+		left: 28%;
+		text-align: center;
+		position: absolute;
+		bottom: -30px;
+		z-index: 1;
+		transition: all .5s ease 0s;
+	}
+	&:hover .product-info {
+		opacity: 1;
+		bottom: 30%;
+	}
+}
+.item .card {
+	box-shadow: 0 0 5px 0 rgba(115, 77, 191, 0.2);
+}
+/*-----Item-Card -----*/

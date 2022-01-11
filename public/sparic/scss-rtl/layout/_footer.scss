@@ -1,0 +1,136 @@
+/*-----Footer -----*/
+
+.aside-footer {
+	padding: 1rem 1.5rem;
+	border-top: 1px solid rgba(107, 122, 144, 0.3);
+}
+.footer {
+	border-top: 1px solid rgba(107, 122, 144, 0.3);
+	font-size: 0.875rem;
+	padding: 1.25rem 0;
+	.social {
+		ul li {
+			float: right;
+			padding: 7px;
+			a {
+				color: #cbd2dc;
+			}
+		}
+		margin: 0 auto;
+	}
+}
+@media (max-width: 480px) {
+	.footer {
+		margin: 0 -15px -15px -15px;
+	}
+}
+@media print {
+	.footer {
+		display: none;
+	}
+}
+.top-footer {
+	width: 100%;
+	line-height: 1.25rem;
+	opacity: 1;
+	transform: translate(0px, 0px);
+	font-size: 14px;
+	flex: 0 0 auto;
+	h6 {
+		font-size: 14px;
+		margin-bottom: 1rem;
+		font-weight: 600;
+	}
+	p {
+		color: #cbd2dc;
+	}
+	a {
+		color: #cbd2dc;
+		line-height: 2;
+	}
+	p:hover {
+		color: #7673e6;
+	}
+	a address {
+		color: #cbd2dc;
+		margin-bottom: 0;
+		line-height: 2;
+		&:hover {
+			color: #7673e6;
+		}
+	}
+	img {
+		width: 80px;
+		border: 1px solid #e6eaea;
+		padding: 2px;
+		height: 80px;
+		&:hover {
+			color: #cbd2dc;
+			opacity: .6;
+		}
+	}
+	a:hover {
+		color: #7673e6;
+	}
+	.list-unstyled li {
+		border-bottom: 0 !important;
+	}
+}
+.footer-payments {
+	padding-right: 0;
+	list-style: none;
+	margin: 0;
+	line-height: 1.25rem;
+	li {
+		&:not(:last-child) {
+			margin-left: 1.5rem;
+		}
+		display: inline-block;
+	}
+	a {
+		color: #cbd2dc;
+		text-decoration: none;
+		font-size: 2rem;
+		&:hover {
+			color: #7673e6;
+			opacity: .9;
+		}
+	}
+}
+.main-footer {
+	padding: 20px 30px 20px 280px;
+	font-size: 14px;
+	font-weight: 400;
+	background-color: $white;
+	border-top: 1px solid #e6eaea;
+}
+.footer-social-list {
+	li {
+		&:not(:last-child) {
+			margin-left: 1.5rem;
+		}
+		display: inline-block;
+	}
+	a {
+		color: #cbd2dc;
+		text-decoration: none;
+		font-size: 1rem;
+		&:hover {
+			color: #7673e6;
+		}
+	}
+	padding-right: 0;
+	list-style: none;
+	margin: 0;
+	line-height: 1.25rem;
+}
+@media (max-width: 992px) {
+	.footer-social-list {
+		text-align: center;
+		margin-top: 1rem;
+	}
+	.footer1 {
+		text-align: center;
+	}
+}
+/*-----Footer -----*/

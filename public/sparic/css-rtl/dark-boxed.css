@@ -1,0 +1,69 @@
+/*Color variables*/
+/*Gradient variables*/
+/*white variables*/
+/*black variables*/
+/*shadow variables*/
+@media (min-width: 1025px) {
+  .page {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: #001027;
+    position: relative;
+    display: -ms-flexbox;
+    display: -webkit-box;
+    display: flex;
+    -ms-flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+            flex-direction: column;
+    -ms-flex-pack: center;
+    -webkit-box-pack: center;
+            justify-content: center;
+    min-height: 100vh;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 0px 0px, rgba(0, 0, 0, 0.3) 0px 5px 25px 0px;
+            box-shadow: rgba(0, 0, 0, 0.3) 0px 5px 0px 0px, rgba(0, 0, 0, 0.3) 0px 5px 25px 0px;
+  }
+  body {
+    background-image: url(../images/patterns/bgpattern1.png) !important;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: repeat;
+  }
+  .horizontalMenu > .horizontalMenu-list > li > a {
+    padding: 1.2rem 1.8rem 1.2rem;
+  }
+  .horizontalMenu > .horizontalMenu-list > li > a .fa {
+    margin-left: 0px !important;
+  }
+  .app-header.header {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .news-ticker {
+    max-width: 1400px;
+  }
+  .vh {
+    height: 100vh;
+  }
+  .horizontal-main {
+    max-width: 1400px;
+  }
+  .app-sidebar {
+    right: auto !important;
+  }
+  .second-sidemenu {
+    right: auto !important;
+    margin-right: 55px;
+  }
+  .horizontal-nav .mega-dropdown-menu {
+    -webkit-transform: translate3d(0px, 51px, 0px) !important;
+            transform: translate3d(0px, 51px, 0px) !important;
+  }
+}
+
+@media (min-width: 1025px) {
+  .app-sidebar {
+    right: auto !important;
+  }
+}
+/*# sourceMappingURL=dark-boxed.css.map */

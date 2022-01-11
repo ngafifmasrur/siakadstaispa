@@ -2,71 +2,34 @@
 @section('title', 'Mata Kuliah')
 
 @section('content')
-<header class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10">
-    <div class="container">
-        <div class="page-header-content pt-4">
-            <div class="row align-items-center justify-content-between">
-                <div class="col-auto mt-4">
-                    <h1 class="page-header-title">
-                        <div class="page-header-icon"><i data-feather="grid"></i></div>
-                        Mata Kuliah
-                    </h1>
-                    {{-- <div class="page-header-subtitle">Example dashboard overview and content summary</div> --}}
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-<!-- Main page content-->
-<div class="container mt-n10">
-    <div class="row">
-        <div class="col-lg-12">
-            <form action="" method="post">
-                <div class="card">
-                    <div class="card-header">
-                        Data Mata Kuliah
-                        <a class="float-right btn btn-sm btn-outline-blue add-form" data-url="{{ route('admin.mata_kuliah.store') }}" href="#"><i data-feather="plus" class="mr-2"></i>Tambah</a>
-                    </div>
-                    
-                    <div class="card-body">
-                        @if ($errors->any())
-                        <div class="alert alert-danger alert-icon" role="alert">
-                            <button class="close" type="button" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                            <div class="alert-icon-content">
-                                <h6 class="alert-heading">Error, Periksa Ulang data..</h6>
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
-                        @endif
-                        <x-datatable 
-                        :route="route('admin.mata_kuliah.data_index')" 
-                        :table="[
-                            ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],
-                            ['title' => 'Kode', 'data' => 'kode_mata_kuliah', 'name' => 'kode_mata_kuliah', 'width' => '10'],
-                            ['title' => 'Nama Mata Kuliah', 'data' => 'nama_mata_kuliah', 'name' => 'nama_mata_kuliah', 'classname' => 'text-left'],
-                            ['title' => 'Program Studi', 'data' => 'prodi', 'name' => 'prodi', 'classname' => 'text-left'],
-                            ['title' => 'Jenis', 'data' => 'jenis', 'name' => 'jenis'],
-                            ['title' => 'Kelompok', 'data' => 'kelompok', 'name' => 'kelompok'],
-                            ['title' => 'SKS Matkul', 'data' => 'sks_mata_kuliah', 'name' => 'sks_mata_kuliah'],
-                            ['title' => 'SKS Tatap Muka', 'data' => 'sks_tatap_muka', 'name' => 'sks_tatap_muka'],
-                            ['title' => 'SKS Praktek', 'data' => 'sks_praktek', 'name' => 'sks_praktek'],
-                            ['title' => 'SKS Praktek Lapangan', 'data' => 'sks_praktek_lapangan', 'name' => 'sks_praktek_lapangan'],
-                            ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
-                        ]"
-                        />
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
 
-</div>
+<x-header>
+    Mata Kuliah
+</x-header>
+
+<x-card-table>
+    <x-slot name="title">Data Mata Kuliah</x-slot>
+    <x-slot name="button">
+        <a class="btn btn-app btn-sm btn-primary add-form" data-url="{{ route('admin.mata_kuliah.store') }}" href="#"><i class="fa fa-plus mr-2"></i>Tambah</a>
+    </x-slot>
+    
+    <x-datatable 
+    :route="route('admin.mata_kuliah.data_index')" 
+    :table="[
+        ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],
+        ['title' => 'Kode', 'data' => 'kode_mata_kuliah', 'name' => 'kode_mata_kuliah', 'width' => '10'],
+        ['title' => 'Nama Mata Kuliah', 'data' => 'nama_mata_kuliah', 'name' => 'nama_mata_kuliah', 'classname' => 'text-left'],
+        ['title' => 'Program Studi', 'data' => 'prodi', 'name' => 'prodi', 'classname' => 'text-left'],
+        ['title' => 'Jenis', 'data' => 'jenis', 'name' => 'jenis'],
+        ['title' => 'Kelompok', 'data' => 'kelompok', 'name' => 'kelompok'],
+        ['title' => 'SKS Matkul', 'data' => 'sks_mata_kuliah', 'name' => 'sks_mata_kuliah'],
+        ['title' => 'SKS Tatap Muka', 'data' => 'sks_tatap_muka', 'name' => 'sks_tatap_muka'],
+        ['title' => 'SKS Praktek', 'data' => 'sks_praktek', 'name' => 'sks_praktek'],
+        ['title' => 'SKS Praktek Lapangan', 'data' => 'sks_praktek_lapangan', 'name' => 'sks_praktek_lapangan'],
+        ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
+    ]"
+    />
+</x-card-table>
 
 <x-modal.delete/>
 
@@ -76,7 +39,7 @@
     
     @csrf 
     @method('post')
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-12">
             <label for="id_prodi">Program Studi</label>
             {!! Form::select('id_prodi', $prodi, null, ['class' => 'form-control '.($errors->has('id_prodi') ? 'is-invalid' : ''), 'id' => 'id_prodi']) !!}
@@ -87,7 +50,7 @@
             @enderror
         </div>
     </div>
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-6">
             <label for="kode_mata_kuliah">Kode Mata Kuliah</label>
             {!! Form::text('kode_mata_kuliah', null, ['class' => 'form-control '.($errors->has('kode_mata_kuliah') ? 'is-invalid' : ''), 'id' => 'kode_mata_kuliah']) !!}
@@ -107,7 +70,7 @@
             @enderror
         </div>
     </div>
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-6">
             <label for="id_jenis_mata_kuliah">Jenis</label>
             {!! Form::select('id_jenis_mata_kuliah', $jenis_matkul, null, ['class' => 'form-control '.($errors->has('id_jenis_mata_kuliah') ? 'is-invalid' : ''), 'id' => 'id_jenis_mata_kuliah']) !!}
@@ -127,7 +90,7 @@
         @enderror
         </div>
     </div>
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-6">
             <label for="sks_mata_kuliah">SKS</label>
             {!! Form::number('sks_mata_kuliah', null, ['class' => 'form-control '.($errors->has('sks_mata_kuliah') ? 'is-invalid' : ''), 'id' => 'sks_mata_kuliah']) !!}
@@ -147,7 +110,7 @@
             @enderror
         </div>
     </div>
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-6">
             <label for="sks_mata_kuliah">SKS Praktek</label>
             {!! Form::number('sks_praktek', null, ['class' => 'form-control '.($errors->has('sks_praktek') ? 'is-invalid' : ''), 'id' => 'sks_praktek']) !!}
@@ -167,7 +130,7 @@
             @enderror
         </div>
     </div>
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-6">
             <label for="sks_simulasi">SKS Simulasi</label>
             {!! Form::number('sks_simulasi', null, ['class' => 'form-control '.($errors->has('sks_simulasi') ? 'is-invalid' : ''), 'id' => 'sks_simulasi']) !!}
@@ -188,7 +151,7 @@
         </div>
     </div>
 
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-6">
             <label for="tanggal_mulai_efektif">Tanggal Mulai Efektif</label>
             {!! Form::date('tanggal_mulai_efektif', null, ['class' => 'form-control '.($errors->has('tanggal_mulai_efektif') ? 'is-invalid' : ''), 'id' => 'tanggal_mulai_efektif']) !!}
@@ -215,7 +178,7 @@
             '0' => 'Tidak'
         ];
     @endphp
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-6">
             <label for="ada_sap">Ada SAP</label>
             {!! Form::select('ada_sap', $ya_tidak, null, ['class' => 'form-control '.($errors->has('nama_depan') ? 'is-invalid' : ''), 'id' => 'ada_sap']) !!}
@@ -225,7 +188,7 @@
             {!! Form::select('ada_silabus', $ya_tidak, null, ['class' => 'form-control '.($errors->has('nama_depan') ? 'is-invalid' : ''), 'id' => 'ada_silabus']) !!}
         </div>
     </div>
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-6">
             <label for="ada_bahan_ajar">Ada Bahan Ajar</label>
             {!! Form::select('ada_bahan_ajar', $ya_tidak, null, ['class' => 'form-control '.($errors->has('nama_depan') ? 'is-invalid' : ''), 'id' => 'ada_bahan_ajar']) !!}
@@ -235,7 +198,7 @@
             {!! Form::select('ada_acara_praktek', $ya_tidak, null, ['class' => 'form-control '.($errors->has('nama_depan') ? 'is-invalid' : ''), 'id' => 'ada_acara_praktek']) !!}
         </div>
     </div>
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-6">
             <label for="ada_diktat">Ada Diktat</label>
             {!! Form::select('ada_diktat', $ya_tidak, null, ['class' => 'form-control '.($errors->has('nama_depan') ? 'is-invalid' : ''), 'id' => 'ada_diktat']) !!}
@@ -256,7 +219,7 @@
     <x-slot name="modalPosition">modal-dialog-centered</x-slot>
     @csrf
     @method('put')
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-12">
             <label for="id_prodi">Program Studi</label>
             {!! Form::select('id_prodi', $prodi, null, ['class' => 'form-control '.($errors->has('id_prodi') ? 'is-invalid' : ''), 'id' => 'id_prodi']) !!}
@@ -267,7 +230,7 @@
             @enderror
         </div>
     </div>
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-6">
             <label for="kode_mata_kuliah">Kode Mata Kuliah</label>
             {!! Form::text('kode_mata_kuliah', null, ['class' => 'form-control '.($errors->has('kode_mata_kuliah') ? 'is-invalid' : ''), 'id' => 'kode_mata_kuliah']) !!}
@@ -287,7 +250,7 @@
             @enderror
         </div>
     </div>
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-6">
             <label for="id_jenis_mata_kuliah">Jenis</label>
             {!! Form::select('id_jenis_mata_kuliah', $jenis_matkul, null, ['class' => 'form-control '.($errors->has('id_jenis_mata_kuliah') ? 'is-invalid' : ''), 'id' => 'id_jenis_mata_kuliah']) !!}
@@ -307,7 +270,7 @@
         @enderror
         </div>
     </div>
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-6">
             <label for="sks_mata_kuliah">SKS</label>
             {!! Form::number('sks_mata_kuliah', null, ['class' => 'form-control '.($errors->has('sks_mata_kuliah') ? 'is-invalid' : ''), 'id' => 'sks_mata_kuliah']) !!}
@@ -327,7 +290,7 @@
             @enderror
         </div>
     </div>
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-6">
             <label for="sks_mata_kuliah">SKS Praktek</label>
             {!! Form::number('sks_praktek', null, ['class' => 'form-control '.($errors->has('sks_praktek') ? 'is-invalid' : ''), 'id' => 'sks_praktek']) !!}
@@ -347,7 +310,7 @@
             @enderror
         </div>
     </div>
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-6">
             <label for="sks_simulasi">SKS Simulasi</label>
             {!! Form::number('sks_simulasi', null, ['class' => 'form-control '.($errors->has('sks_simulasi') ? 'is-invalid' : ''), 'id' => 'sks_simulasi']) !!}
@@ -368,7 +331,7 @@
         </div>
     </div>
 
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-6">
             <label for="tanggal_mulai_efektif">Tanggal Mulai Efektif</label>
             {!! Form::date('tanggal_mulai_efektif', null, ['class' => 'form-control '.($errors->has('tanggal_mulai_efektif') ? 'is-invalid' : ''), 'id' => 'tanggal_mulai_efektif']) !!}
@@ -395,7 +358,7 @@
             '0' => 'Tidak'
         ];
     @endphp
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-6">
             <label for="ada_sap">Ada SAP</label>
             {!! Form::select('ada_sap', $ya_tidak, null, ['class' => 'form-control '.($errors->has('nama_depan') ? 'is-invalid' : ''), 'id' => 'ada_sap']) !!}
@@ -405,7 +368,7 @@
             {!! Form::select('ada_silabus', $ya_tidak, null, ['class' => 'form-control '.($errors->has('nama_depan') ? 'is-invalid' : ''), 'id' => 'ada_silabus']) !!}
         </div>
     </div>
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-6">
             <label for="ada_bahan_ajar">Ada Bahan Ajar</label>
             {!! Form::select('ada_bahan_ajar', $ya_tidak, null, ['class' => 'form-control '.($errors->has('nama_depan') ? 'is-invalid' : ''), 'id' => 'ada_bahan_ajar']) !!}
@@ -415,7 +378,7 @@
             {!! Form::select('ada_acara_praktek', $ya_tidak, null, ['class' => 'form-control '.($errors->has('nama_depan') ? 'is-invalid' : ''), 'id' => 'ada_acara_praktek']) !!}
         </div>
     </div>
-    <div class="form-group row">
+    <div class="row">
         <div class="form-group col-lg-6">
             <label for="ada_diktat">Ada Diktat</label>
             {!! Form::select('ada_diktat', $ya_tidak, null, ['class' => 'form-control '.($errors->has('nama_depan') ? 'is-invalid' : ''), 'id' => 'ada_diktat']) !!}

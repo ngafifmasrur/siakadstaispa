@@ -1,163 +1,249 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>
+<!doctype html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta content="Sistem Akademik STAI Sunan Pandanaran" name="description">
+		<meta content="STAI Sunan Pandanaran" name="author">
+		<meta name="keywords" content="siakad, sistem akademik, staispa, STAI Sunan Pandanaran"/>
+
+		<!-- Favicon -->
+		<link rel="icon" href="{{ asset('sparic/images/brand/favicon.ico') }}" type="image/x-icon"/>
+		<link rel="shortcut icon" type="image/x-icon" href="{{ asset('sparic/images/brand/favicon.ico') }}" />
+
+		<!-- Title -->
+		<title>
             @yield('title')
             @if (trim($__env->yieldContent('title')))
                 &mdash;
             @endif
             SIAKAD STAISPA
         </title>
-        <link href="{{ asset('front/css/styles.css') }}" rel="stylesheet" />
-        <link href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
-        <link href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" rel="stylesheet" crossorigin="anonymous" />
-        <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
-        <script data-search-pseudo-elements defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css" integrity="sha512-ARJR74swou2y0Q2V9k0GbzQ/5vJ2RBSoCWokg4zkfM29Fb3vZEQyv0iWBMW/yvKgyHSR/7D64pFMmU8nYmbRkg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+		<!--Bootstrap.min css-->
+		<link rel="stylesheet" href="{{ asset('sparic/plugins/bootstrap/css/bootstrap.min.css') }}">
+
+		<!-- Dashboard css -->
+		<link href="{{ asset('sparic/css/style.css') }}" rel="stylesheet" />
+		<link href="{{ asset('sparic/css/skin-mode.css') }}" rel="stylesheet" />
+		<link href="{{ asset('sparic/css/dark-style.css') }}" rel="stylesheet" />
+
+		<!-- Perfect scroll bar css-->
+		<link href="{{ asset('sparic/plugins/pscrollbar/perfect-scrollbar.css') }}" rel="stylesheet" />
+
+		<!--Daterangepicker css-->
+		<link href="{{ asset('sparic/plugins/bootstrap-daterangepicker/daterangepicker.css') }}" rel="stylesheet" />
+
+		<!-- Sidebar Accordions css -->
+		<link href="{{ asset('sparic/css/easy-responsive-tabs.css') }}" rel="stylesheet">
+
+		<!-- Rightsidebar css -->
+		<link href="{{ asset('sparic/plugins/sidebar/sidebar.css') }}" rel="stylesheet">
+
+		<!--News ticker css -->
+		<link href="{{ asset('sparic/plugins/newsticker/breaking-news-ticker.css') }}" rel="stylesheet" />
+
+		<!---Icons css-->
+		<link href="{{ asset('sparic/css/icons.css') }}" rel="stylesheet" />
+
+		<!--Fonts-->
+		<link id="font" rel="stylesheet" type="text/css" media="all" href="{{ asset('sparic/colors/fonts/font1.css') }}"/>
+
+		<!-- Color-skins css -->
+		<link id="theme" rel="stylesheet" type="text/css" media="all" href="{{ asset('sparic/colors/color-skins/color.css') }}" />
+		<link rel="stylesheet" href="{{ asset('sparic/css/demo-styles.css') }}"/>
         @stack('css')
-    </head>
-    <body class="nav-fixed">
-        <nav class="topnav navbar navbar-expand shadow justify-content-between justify-content-sm-start navbar-light bg-white" id="sidenavAccordion">
-            <!-- Navbar Brand-->
-            <!-- * * Tip * * You can use text or an image for your navbar brand.-->
-            <!-- * * * * * * When using an image, we recommend the SVG format.-->
-            <!-- * * * * * * Dimensions: Maximum height: 32px, maximum width: 240px-->
-            <a class="navbar-brand" href="#">SIAKAD STAISPA</a>
-            <!-- Sidenav Toggle Button-->
-            <button class="btn btn-icon btn-transparent-dark order-1 order-lg-0 mr-lg-2" id="sidebarToggle"><i data-feather="menu"></i></button>
+	</head>
 
-            <!-- Navbar Items-->
-            <ul class="navbar-nav align-items-center ml-auto">
-                <!-- Documentation Dropdown-->
-                <li class="nav-item dropdown no-caret d-none d-sm-block mr-3">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownDocs" href="javascript:void(0);" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <div class="font-weight-500">Panduan</div>
-                        <i class="fas fa-chevron-right dropdown-arrow"></i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right py-0 mr-sm-n15 mr-lg-0 o-hidden animated--fade-in-up" aria-labelledby="navbarDropdownDocs">
-                        <a class="dropdown-item py-3" href="#" target="_blank">
-                            <div class="icon-stack bg-primary-soft text-primary mr-4"><i data-feather="book"></i></div>
-                            <div>
-                                <div class="small text-gray-500">Panduan</div>
-                                Intruksi Penggunaan
-                            </div>
-                        </a>
-                    </div>
-                </li>
+	<body>
 
-                {{-- <!-- Alerts Dropdown-->
-                <li class="nav-item dropdown no-caret d-none d-sm-block mr-3 dropdown-notifications">
-                    <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownAlerts" href="javascript:void(0);" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i data-feather="bell"></i></a>
-                    <div class="dropdown-menu dropdown-menu-right border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownAlerts">
-                        <h6 class="dropdown-header dropdown-notifications-header">
-                            <i class="mr-2" data-feather="bell"></i>
-                            Alerts Center
-                        </h6>
-                        <!-- Example Alert 1-->
-                        <a class="dropdown-item dropdown-notifications-item" href="#!">
-                            <div class="dropdown-notifications-item-icon bg-warning"><i data-feather="activity"></i></div>
-                            <div class="dropdown-notifications-item-content">
-                                <div class="dropdown-notifications-item-content-details">December 29, 2020</div>
-                                <div class="dropdown-notifications-item-content-text">This is an alert message. It's nothing serious, but it requires your attention.</div>
-                            </div>
-                        </a>
-                        <!-- Example Alert 2-->
-                        <a class="dropdown-item dropdown-notifications-item" href="#!">
-                            <div class="dropdown-notifications-item-icon bg-info"><i data-feather="bar-chart"></i></div>
-                            <div class="dropdown-notifications-item-content">
-                                <div class="dropdown-notifications-item-content-details">December 22, 2020</div>
-                                <div class="dropdown-notifications-item-content-text">A new monthly report is ready. Click here to view!</div>
-                            </div>
-                        </a>
-                        <!-- Example Alert 3-->
-                        <a class="dropdown-item dropdown-notifications-item" href="#!">
-                            <div class="dropdown-notifications-item-icon bg-danger"><i class="fas fa-exclamation-triangle"></i></div>
-                            <div class="dropdown-notifications-item-content">
-                                <div class="dropdown-notifications-item-content-details">December 8, 2020</div>
-                                <div class="dropdown-notifications-item-content-text">Critical system failure, systems shutting down.</div>
-                            </div>
-                        </a>
-                        <!-- Example Alert 4-->
-                        <a class="dropdown-item dropdown-notifications-item" href="#!">
-                            <div class="dropdown-notifications-item-icon bg-success"><i data-feather="user-plus"></i></div>
-                            <div class="dropdown-notifications-item-content">
-                                <div class="dropdown-notifications-item-content-details">December 2, 2020</div>
-                                <div class="dropdown-notifications-item-content-text">New user request. Woody has requested access to the organization.</div>
-                            </div>
-                        </a>
-                        <a class="dropdown-item dropdown-notifications-footer" href="#!">View All Alerts</a>
-                    </div>
-                </li> --}}
+		<!--Global-Loader-->
+		<div id="global-loader">
+			<img src="{{ asset('sparic/images/brand/icon.png') }}" alt="loader">
+		</div>
 
-                <!-- User Dropdown-->
-                <li class="nav-item dropdown no-caret mr-3 mr-lg-0 dropdown-user">
-                    <a class="btn btn-icon btn-transparent-dark dropdown-toggle" id="navbarDropdownUserImage" href="javascript:void(0);" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img class="img-fluid" src="{{ asset('front/assets/img/illustrations/profiles/profile-1.png') }}" /></a>
-                    <div class="dropdown-menu dropdown-menu-right border-0 shadow animated--fade-in-up" aria-labelledby="navbarDropdownUserImage">
-                        <h6 class="dropdown-header d-flex align-items-center">
-                            <img class="dropdown-user-img" src="{{ asset('front/assets/img/illustrations/profiles/profile-1.png') }}" />
-                            <div class="dropdown-user-details">
-                                <div class="dropdown-user-details-name">{{ Auth::user()->name}}</div>
-                                <div class="dropdown-user-details-email">{{ Auth::user()->email}}</div>
-                            </div>
-                        </h6>
-                        <div class="dropdown-divider"></div>
-                        {{-- <a class="dropdown-item" href="#!">
-                            <div class="dropdown-item-icon"><i data-feather="settings"></i></div>
-                            Account
-                        </a> --}}
-                        <a class="dropdown-item" href="#!" onclick="document.getElementById('form_logout').submit();">
-                            <div class="dropdown-item-icon"><i data-feather="log-out"></i></div>
-                            Logout
-                        </a>
-                    </div>
-                </li>
-            </ul>
-        </nav>
-        <div id="layoutSidenav">
-            @include('layouts.partials.'.Auth::user()->role->name)
+		<div class="page">
+			<div class="page-main">
+				<!--app-header-->
+				<div class="app-header header d-flex">
+					<div class="container">
+						<div class="d-flex">
+						    <a class="header-brand" href="index.html">
+								<img src="{{ asset('sparic/images/brand/logo.png') }}" class="header-brand-img main-logo" alt="Sparic logo">
+								<img src="{{ asset('sparic/images/brand/icon.png') }}" class="header-brand-img icon-logo" alt="Sparic logo">
+							</a><!-- logo-->
+							<a id="horizontal-navtoggle" class="animated-arrow hor-toggle"><span></span></a>
+							<a href="#" data-toggle="search" class="nav-link nav-link  navsearch"><i class="fa fa-search"></i></a><!-- search icon -->
 
-            <div id="layoutSidenav_content">
-                <main>
-                    @yield('content')
-                </main>
+                            <!--Top Navbar-->
+                            @include('layouts.partials.top_navbar')
+                            <!--END Top Navbar-->
 
-                <footer class="footer mt-auto footer-light">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-6 small">Copyright &copy; SIAKAD STAISPA 2022</div>
-                            <div class="col-md-6 text-md-right small">
-                                <a href="#!">Privacy Policy</a>
-                                &middot;
-                                <a href="#!">Terms &amp; Conditions</a>
-                            </div>
-                        </div>
-                    </div>
-                </footer>
-            </div>
-        </div>
+							<div class="d-flex order-lg-2 ml-auto header-rightmenu">
 
-        <form action="{{route('logout')}}" method="POST" id="form_logout">
-            @csrf
-        </form>
-        
-        <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="{{ asset('front/js/scripts.js') }}"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="{{ asset('front/assets/demo/chart-area-demo.js') }}"></script>
-        <script src="{{ asset('front/assets/demo/chart-bar-demo.js') }}"></script>
-        <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
-        <script src="{{ asset('front/assets/demo/datatables-demo.js') }}"></script>
-        <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js" crossorigin="anonymous"></script>
-        <script src="{{ asset('front/assets/demo/date-range-picker-demo.js') }}"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js" integrity="sha512-yDlE7vpGDP7o2eftkCiPZ+yuUyEcaBwoJoIhdXv71KZWugFqEphIS3PU60lEkFaz8RxaVsMpSvQxMBaKVwA5xg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>        @stack('js')
-    </body>
+								<div class="dropdown">
+									<a  class="nav-link icon full-screen-link" id="fullscreen-button">
+										<i class="fe fe-maximize-2"></i>
+									</a>
+								</div><!-- full-screen -->
+								<div class="dropdown header-user">
+									<a class="nav-link leading-none siderbar-link"  data-toggle="sidebar-right" data-target=".sidebar-right">
+										<span class="mr-3 d-none d-lg-block ">
+											<span class="text-gray-white"><span class="ml-2">{{ Auth::user()->name }}</span></span>
+										</span>
+										<span class="avatar avatar-md brround"><img src="{{ asset('sparic/images/users/avatars/19.png') }}" alt="Profile-img" class="avatar avatar-md brround"></span>
+									</a>
+									<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+										<div class="header-user text-center mt-4 pb-4">
+											<span class="avatar avatar-xxl brround"><img src="{{ asset('sparic/images/users/avatars/19.png') }}" alt="Profile-img" class="avatar avatar-xxl brround"></span>
+											<a href="#" class="dropdown-item text-center font-weight-semibold user h3 mb-0">Alison</a>
+											<small>Web Designer</small>
+										</div>
+										<a class="dropdown-item" href="#">
+											<i class="dropdown-icon mdi mdi-account-outline "></i> Spruko technologies
+										</a>
+										<a class="dropdown-item" href="#">
+											<i class="dropdown-icon  mdi mdi-account-plus"></i> Add another Account
+										</a>
+										<div class="card-body border-top">
+											<div class="row">
+												<div class="col-6 text-center">
+													<a class="" href=""><i class="dropdown-icon mdi  mdi-message-outline fs-30 m-0 leading-tight"></i></a>
+													<div>Inbox</div>
+												</div>
+												<div class="col-6 text-center">
+													<a class="" href=""><i class="dropdown-icon mdi mdi-logout-variant fs-30 m-0 leading-tight"></i></a>
+													<div>Sign out</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div><!-- profile -->
+								<div class="header-form">
+									<form class="form-inline">
+										<div class="search-element mr-3">
+											<input class="form-control" type="search" placeholder="Search" aria-label="Search">
+											<span class="Search-icon"><i class="fa fa-search"></i></span>
+										</div>
+									</form><!-- search-bar -->
+								</div>
+								<div class="dropdown">
+									<a  class="nav-link icon siderbar-link" data-toggle="sidebar-right" data-target=".sidebar-right">
+										<i class="fe fe-more-horizontal"></i>
+									</a>
+								</div><!-- Right-siebar-->
+							</div>
+						</div>
+					</div>
+				</div>
+                <!--/app-header-->
+                
+				<!--News Ticker-->
+                @include('layouts.partials.news_ticker')
+                <!--/News Ticker-->
+                
+				<!-- Horizontal-menu -->
+				<div class="horizontal-main hor-menu clearfix">
+					<div class="horizontal-mainwrapper container clearfix">
+                        @include('layouts.partials.'.Auth::user()->role->name)
+						<!--Nav end -->
+					</div>
+				</div>
+				<!-- Horizontal-menu end -->
+
+                <!-- app-content-->
+				<div class="container content-area">
+					<div class="side-app">
+
+					    <!-- content -->
+						
+                        @yield('content')
+
+
+					</div><!--End side app-->
+
+                    <!-- Right-sidebar-->
+                    @include('layouts.partials.sidebar_right')
+					<!-- End Rightsidebar-->
+
+				</div>
+				<!-- End app-content-->
+			</div>
+
+			<!--footer-->
+			<footer class="footer">
+				<div class="container">
+					<div class="row align-items-center flex-row-reverse">
+						<div class="col-lg-12 col-sm-12   text-center">
+							Copyright © 2022 <a href="#">Siakad Staispa</a> All rights reserved.
+						</div>
+					</div>
+				</div>
+			</footer>
+			<!-- End Footer-->
+
+		</div>
+		<!-- End Page -->
+
+		<!-- Back to top -->
+		<a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+
+		<!-- Jquery js-->
+		<script src="{{ asset('sparic/js/vendors/jquery-3.2.1.min.js') }}"></script>
+
+		<!--Bootstrap.min js-->
+		<script src="{{ asset('sparic/plugins/bootstrap/popper.min.js') }}"></script>
+		<script src="{{ asset('sparic/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+
+		<!--Jquery Sparkline js-->
+		<script src="{{ asset('sparic/js/vendors/jquery.sparkline.min.js') }}"></script>
+
+		<!-- Chart Circle js-->
+		<script src="{{ asset('sparic/js/vendors/circle-progress.min.js') }}"></script>
+
+		<!--Moment js-->
+		<script src="{{ asset('sparic/plugins/moment/moment.min.js') }}"></script>
+
+		<!-- Daterangepicker js-->
+		<script src="{{ asset('sparic/plugins/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+
+		<!-- Horizontal-menu js -->
+		<script src="{{ asset('sparic/plugins/horizontal-menu/horizontalmenu.js') }}"></script>
+
+		<!--News Ticker js-->
+		<script src="{{ asset('sparic/plugins/newsticker/breaking-news-ticker.min.js') }}"></script>
+		<script src="{{ asset('sparic/plugins/newsticker/newsticker.js') }}"></script>
+
+		<!-- Sidebar Accordions js -->
+		<script src="{{ asset('sparic/plugins/sidemenu-responsive-tabs/js/easyResponsiveTabs.js') }}"></script>
+
+		<!-- Perfect scroll bar js-->
+		<script src="{{ asset('sparic/plugins/pscrollbar/perfect-scrollbar.js') }}"></script>
+
+		<!-- Rightsidebar js -->
+		<script src="{{ asset('sparic/plugins/sidebar/sidebar.js') }}"></script>
+
+		<!--Time Counter js-->
+		<script src="{{ asset('sparic/plugins/counters/jquery.missofis-countdown.js') }}"></script>
+		<script src="{{ asset('sparic/plugins/counters/counter.js') }}"></script>
+
+		<!-- ApexChart -->
+		<script src="{{ asset('sparic/js/apexcharts.js') }}"></script>
+
+		<!-- Charts js-->
+		<script src="{{ asset('sparic/plugins/chart/chart.bundle.js') }}"></script>
+		<script src="{{ asset('sparic/plugins/chart/utils.js') }}"></script>
+
+		<!--Peitychart js-->
+		<script src="{{ asset('sparic/plugins/peitychart/jquery.peity.min.js') }}"></script>
+		<script src="{{ asset('sparic/plugins/peitychart/peitychart.init.js') }}"></script>
+
+		<!-- Custom-charts js-->
+		<script src="{{ asset('sparic/js/index1.js') }}"></script>
+
+		<!-- Custom js-->
+		<script src="{{ asset('sparic/js/custom.js') }}"></script>
+        @stack('js')
+	</body>
 </html>

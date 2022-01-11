@@ -1,0 +1,82 @@
+/*----Ribbon---*/
+
+.ribbone {
+	width: 100%;
+	position: relative;
+	background-size: cover;
+	text-transform: uppercase;
+	color: $white;
+	z-index: 1000;
+}
+@media (max-width: 500px) {
+	.ribbone {
+		width: 100%;
+	}
+}
+.ribbon1 {
+	position: absolute;
+	top: -6.1px;
+	left: 10px;
+	&:after {
+		position: absolute;
+		content: "";
+		width: 0;
+		height: 0;
+		border-left: 20px solid transparent;
+		border-right: 24px solid transparent;
+		border-top: 13px solid #F8463F;
+	}
+	span {
+		position: relative;
+		display: block;
+		text-align: center;
+		background: #F8463F;
+		font-size: 14px;
+		line-height: 1;
+		padding: 12px 8px 10px;
+		border-top-right-radius: 8px;
+		&:before, &:after {
+			position: absolute;
+			content: "";
+		}
+		&:before {
+			height: 6px;
+			width: 6px;
+			left: -6px;
+			top: 0;
+			background: #F8463F;
+		}
+		&:after {
+			height: 6px;
+			width: 8px;
+			left: -8px;
+			top: 0;
+			border-radius: 8px 8px 0 0;
+			background: #C02031;
+		}
+	}
+}
+.arrow-ribbon {
+	padding: 6px 8px;
+	position: absolute;
+	top: 10px;
+	left: 0px;
+	z-index: 999;
+	font-size: 17px;
+	line-height: 17px;
+	background: $black;
+	color: $white;
+	&:before {
+		position: absolute;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		content: "";
+		right: -15px;
+		border-top: 15px solid transparent;
+		border-left: 15px solid $black;
+		border-bottom: 15px solid transparent;
+		width: 0;
+	}
+}
+/*----Ribbon---*/

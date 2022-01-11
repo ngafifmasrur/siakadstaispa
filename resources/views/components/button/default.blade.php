@@ -9,7 +9,7 @@
     @endif
 
     @if(isset($attribute) && is_array($attribute))
-
+        @if(isset($disabled)) {{$disabled}} @endif
         @foreach($attribute as $key=> $row)
             {{$key}}="{{$row}}"
         @endforeach

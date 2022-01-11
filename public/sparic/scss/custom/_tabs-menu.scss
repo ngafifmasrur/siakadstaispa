@@ -1,0 +1,85 @@
+/*-----Tabs Styles-----*/
+
+.tabs-menu ul li a {
+	padding: 5px 12px;
+	margin: 3px 0px 3px 14px;
+	display: block;
+	border: 1px solid rgba(107, 122, 144, 0.3);
+	line-height: 17px;
+	border-radius: 2px;
+	color: $default-color;
+}
+.tabs-menu1 ul li a {
+	padding: 10px 10px 11px 20px;
+}
+.tabs-menu-body {
+	padding: 15px;
+	border: 1px solid rgba(107, 122, 144, 0.3);
+	p:last-child {
+		margin-bottom: 0;
+	}
+}
+.tab-menu-heading {
+	padding: 20px;
+	border: 1px solid rgba(107, 122, 144, 0.3);
+	border-bottom: 0;
+}
+.tab_wrapper {
+	.content_wrapper .tab_content.active p:last-child {
+		margin-bottom: 0;
+	}
+	>ul {
+		li {
+			border: 1px solid rgba(107, 122, 144, 0.3);
+			border-top: 1px solid rgba(107, 122, 144, 0.3);
+		}
+		border-bottom: 1px solid rgba(107, 122, 144, 0.3);
+	}
+	&.right_side {
+		.content_wrapper {
+			border: 1px solid rgba(107, 122, 144, 0.3);
+		}
+		>ul {
+			li {
+				&.active {
+					border-color: rgba(107, 122, 144, 0.3);
+				}
+				&:after {
+					background: rgba(107, 122, 144, 0.3);
+				}
+			}
+			border-bottom: 1px solid rgba(107, 122, 144, 0.3);
+		}
+	}
+}
+.tab-pane {
+	.profile-content .media-body {
+		margin-top: 6px;
+		margin-left: 20px;
+	}
+	.media {
+		margin-top: 0;
+	}
+	.profile-content .media-body .text-inverse {
+		margin-top: 2px;
+	}
+}
+.tab-bordered .tab-pane {
+	padding: 15px !important;
+	border: 1px solid rgba(107, 122, 144, 0.3);
+	margin-top: -1px;
+}
+.tab-content> {
+	.tab-pane {
+		display: none;
+		padding: 10px 0;
+		line-height: 24px;
+	}
+	.active {
+		display: block;
+	}
+}
+.first_tab.tab_wrapper .content_wrapper {
+	margin-top: -6px;
+ }
+/*-----Tabs Styles-----*/

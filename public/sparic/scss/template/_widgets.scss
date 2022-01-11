@@ -1,0 +1,74 @@
+/*----Widgets---*/
+
+.widgets-cards .wrp {
+	&.icon-circle {
+		width: 73px;
+		height: 73px;
+		border-radius: 50%;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-align-items: center;
+		align-items: center;
+		-webkit-justify-content: center;
+		justify-content: center;
+		padding: 0;
+		margin-right: 15px;
+		i {
+			font-size: 1.6rem;
+			color: $white;
+		}
+	}
+	p {
+		margin-bottom: 0;
+		line-height: 1;
+		margin-bottom: 10px;
+		&:first-child {
+			font-weight: 400;
+			font-size: 36px;
+		}
+	}
+}
+.widget-info {
+	i {
+		width: 100px;
+		height: 100px;
+		padding: 27px 0;
+		text-align: center;
+		border: 2px solid $white;
+		border-radius: 50%;
+	}
+	a {
+		border-bottom: 1px solid $white;
+	}
+}
+.widgets {
+	font-size: 35px;
+	padding: 20px;
+}
+.widgetstext {
+	top: 0;
+	bottom: 0;
+	padding: 20px 40px;
+}
+.widget-line {
+	h4 {
+		font-size: 24px;
+		font-weight: 600;
+	}
+	p {
+		font-size: 1.5rem;
+		font-weight: 600px;
+	}
+}
+.widget-line-list li {
+	display: inline-block;
+	font-size: 16px;
+	line-height: 27px;
+	padding: 5px 20px 0 15px;
+	list-style-type: none;
+}
+.widget>footer .post-comments {
+	margin-left: -20px;
+	margin-right: -20px;
+}
+/*----Widgets---*/

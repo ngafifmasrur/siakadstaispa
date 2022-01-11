@@ -1,0 +1,165 @@
+/*------ Breadcrumb ------*/
+
+.breadcrumb {
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: 0;
+	list-style: none;
+	border-radius: 3px;
+	background: none;
+}
+.breadcrumb-item {
+	a {
+		color: #524c96;
+	}
+	+.breadcrumb-item::before {
+		display: inline-block;
+		padding-right: 0.5rem;
+		padding-left: 0.5rem;
+		color: $default-color;
+		content: "/";
+	}
+}
+.page-header .breadcrumb {
+	padding: 0;
+}
+.breadcrumb-item {
+	+.breadcrumb-item:hover::before {
+		text-decoration: underline;
+	}
+	&.active {
+		color: $default-color;
+	}
+}
+.breadcrumb1 {
+	display: flex;
+	flex-wrap: wrap;
+	padding: .75rem 1rem;
+	margin-bottom: 1rem;
+	list-style: none;
+	background-color: #f9f9f9;
+}
+.breadcrumb-item1 {
+	a:hover {
+		color: #123787;
+		text-decoration: underline;
+	}
+	+.breadcrumb-item1 {
+		&::before {
+			display: inline-block;
+			padding-right: 0.5rem;
+			padding-left: 0.5rem;
+			content: "/";
+		}
+		&:hover::before {
+			text-decoration: underline;
+		}
+	}
+	&.active {
+		color: #6b6f80;
+	}
+}
+.breadcrumb-3 {
+	li {
+		display: contents;
+		text-align: center;
+	}
+	ol {
+		position: relative;
+		display: block;
+		width: 100%;
+		text-align: center;
+	}
+}
+.breadcrumb-4 li, .breadcrumb-5 li {
+	display: contents;
+	text-align: center;
+}
+.breadcrumb-4 ol, .breadcrumb-5 ol {
+	position: relative;
+	display: block;
+	width: 100%;
+	text-align: center;
+}
+.breadcrumb-1 li, .breadcrumb-2 li, .breadcrumb-6 li {
+	text-align: right;
+	display: contents;
+}
+.breadcrumb-1 ol, .breadcrumb-2 ol, .breadcrumb-6 ol {
+	position: relative;
+	display: block;
+	width: 100%;
+	text-align: right;
+}
+.breadcrumb-arrow {
+	height: 36px;
+	padding: 0;
+	line-height: 36px;
+	list-style: none;
+	background-color: #f9f9f9;
+	font-size: 14px !important;
+	li {
+		&:first-child a {
+			border-radius: 4px 0 0 4px;
+			-webkit-border-radius: 4px 0 0 4px;
+			-moz-border-radius: 4px 0 0 4px;
+			padding: 0 10px;
+			padding-left: 10px;
+		}
+		display: inline-block;
+		vertical-align: top;
+		a, span {
+			display: inline-block;
+			vertical-align: top;
+		}
+		&:not(:first-child) {
+			margin-left: -5px;
+		}
+		+li:before {
+			padding: 0;
+			content: "";
+		}
+		span {
+			padding: 0 10px;
+			color: #434a54;
+		}
+		a, &:not(:first-child) span {
+			height: 36px;
+			padding: 0 10px 0 20px;
+			line-height: 36px;
+		}
+		a {
+			position: relative;
+			color: $white;
+			text-decoration: none;
+			&:after {
+				position: absolute;
+				top: -1px;
+				width: 0;
+				height: 0;
+				content: '';
+				border-top: 18px solid transparent;
+				border-bottom: 18px solid transparent;
+			}
+			&:before {
+				position: absolute;
+				top: -1px;
+				width: 0;
+				height: 0;
+				content: '';
+				border-top: 18px solid transparent;
+				border-bottom: 18px solid transparent;
+				right: -10px;
+				z-index: 3;
+				border-left-style: solid;
+				border-left-width: 11px;
+			}
+			&:after {
+				right: -11px;
+				z-index: 2;
+				border-left: 11px solid #f9f9f9;
+			}
+		}
+	}
+}
+/*------ Breadcrumb ------*/

@@ -1,0 +1,341 @@
+/*------Typography-------*/
+
+textarea {
+	overflow: auto;
+	resize: vertical;
+}
+.text-wrap {
+	font-size: 14px;
+	line-height: 1.66;
+	> {
+		:first-child {
+			margin-top: 0;
+		}
+		:last-child {
+			margin-bottom: 0;
+		}
+		h1, h2, h3, h4, h5, h6 {
+			margin-top: 1em;
+		}
+	}
+}
+.text-inherit {
+	color: inherit !important;
+}
+.text-default {
+	color: #606977 !important;
+}
+.text-muted-dark {
+	color: #6e7687 !important;
+}
+.text-blue {
+	color: $blue !important;
+}
+.text-indigo {
+	color: $indigo !important;
+}
+.text-purple {
+	color: $purple !important;
+}
+.text-lightpink-red {
+	color: #ff7088 !important;
+}
+.text-lightgreen {
+	color: #26eda2 !important;
+}
+.text-pink {
+	color: #ec82ef !important;
+}
+.text-red {
+	color: $danger !important;
+}
+.text-orange {
+	color: $orange !important;
+}
+.text-yellow {
+	color: $yellow !important;
+}
+.text-green {
+	color: $green !important;
+}
+.text-teal {
+	color: $teal !important;
+}
+.text-cyan {
+	color: $cyan !important;
+}
+.text-gray {
+	color: #969696 !important;
+}
+.text-gray-dark {
+	color: $dark !important;
+}
+.text-azure {
+	color: $azure !important;
+}
+.text-lime {
+	color: $lime !important;
+}
+.fs-10 {
+	font-size: 10px;
+}
+.fs-14 {
+	font-size: 14px !important;
+}
+.fs-16 {
+	font-size: 16px;
+}
+.fs-17 {
+	font-size: 17px;
+}
+.fs-18 {
+	font-size: 18px !important;
+}
+.fs-20 {
+	font-size: 20px;
+}
+.fs-30 {
+	font-size: 30px !important;
+}
+.fs-40 {
+	font-size: 40px !important;
+}
+.fs-50 {
+	font-size: 50px !important;
+}
+.fs-1 {
+	font-size: 1rem;
+}
+.fs-2 {
+	font-size: 2rem;
+}
+.fs-3 {
+	font-size: 3rem;
+}
+.fs-4 {
+	font-size: 4rem;
+}
+.fs-5 {
+	font-size: 5rem;
+}
+.fs-6 {
+	font-size: 6rem;
+}
+.heading-inverse {
+	background-color: #333;
+	color: $white;
+	padding: 5px;
+}
+.heading-primary {
+	color: $white;
+	padding: 5px;
+}
+.heading-success {
+	background-color: $blue;
+	color: $white;
+	padding: 5px;
+}
+.heading-info {
+	background-color: $azure;
+	color: $white;
+	padding: 5px;
+}
+.heading-warning {
+	background-color: $yellow;
+	color: $white;
+	padding: 5px;
+}
+.heading-danger {
+	background-color: $danger;
+	color: $white;
+	padding: 5px;
+}
+textarea[cols] {
+	height: auto;
+}
+.fs {
+	font-size: 25px;
+}
+.text-right {
+	text-align: right;
+}
+.text-xxl {
+	font-size: 2rem !important;
+}
+.font-weight-600 {
+	font-weight: 600 !important;
+}
+.text-sm {
+	font-size: .875rem !important;
+}
+.text-white-transparent {
+	color: $white !important;
+	opacity: 0.5;
+}
+
+
+.text-monospace {
+	font-family: Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+.text-justify {
+	text-align: justify !important;
+}
+.text-nowrap {
+	white-space: nowrap !important;
+}
+.text-truncate {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.text-left {
+	text-align: left !important;
+}
+.text-right {
+	text-align: right !important;
+}
+.text-center {
+	text-align: center !important;
+}
+@media (min-width: 576px) {
+	.text-sm-left {
+		text-align: left !important;
+	}
+	.text-sm-right {
+		text-align: right !important;
+	}
+	.text-sm-center {
+		text-align: center !important;
+	}
+}
+@media (min-width: 768px) {
+	.text-md-left {
+		text-align: left !important;
+	}
+	.text-md-right {
+		text-align: right !important;
+	}
+	.text-md-center {
+		text-align: center !important;
+	}
+}
+@media (min-width: 992px) {
+	.text-lg-left {
+		text-align: left !important;
+	}
+	.text-lg-right {
+		text-align: right !important;
+	}
+	.text-lg-center {
+		text-align: center !important;
+	}
+}
+@media (min-width: 1280px) {
+	.text-xl-left {
+		text-align: left !important;
+	}
+	.text-xl-right {
+		text-align: right !important;
+	}
+	.text-xl-center {
+		text-align: center !important;
+	}
+}
+.text-lowercase {
+	text-transform: lowercase !important;
+}
+.text-uppercase {
+	text-transform: uppercase !important;
+}
+.text-capitalize {
+	text-transform: capitalize !important;
+}
+.font-weight-light {
+	font-weight: 300 !important;
+}
+.font-weight-normal {
+	font-weight: 400 !important;
+}
+.font-weight-semibold {
+	font-weight: 500 !important;
+}
+.font-weight-bold {
+	font-weight: 700 !important;
+}
+.font-italic {
+	font-style: italic !important;
+}
+.text-white {
+	color: $white !important;
+}
+.text-success {
+	color: $green !important;
+}
+a.text-success {
+	&:hover, &:focus {
+		color: #448700 !important;
+	}
+}
+.text-info {
+	color: $azure !important;
+}
+a.text-info {
+	&:hover, &:focus {
+		color: #25a1c0 !important;
+	}
+}
+.text-warning {
+	color: $warning !important;
+}
+a.text-warning {
+	&:hover, &:focus {
+		color: #c29d0b !important;
+	}
+}
+.text-danger {
+	color: #ff6666 !important;
+}
+a.text-danger {
+	&:hover, &:focus {
+		color: #df0812 !important;
+	}
+}
+.text-light {
+	color: #f8f9fa !important;
+}
+a.text-light {
+	&:hover, &:focus {
+		color: #dae0e5 !important;
+	}
+}
+.text-dark {
+	color: $default-color !important;
+}
+a.text-dark {
+	&:hover, &:focus {
+		color: #7b6fe0 !important;
+	}
+}
+.text-body {
+	color: #74767c !important;
+}
+.text-muted {
+	color: #9aa0ac !important;
+}
+.text-black-50 {
+	color: $black-5 !important;
+}
+.text-white-50 {
+	color: $white-5 !important;
+}
+.text-primary-light {
+	color: rgba(215, 200, 234, 0.7);
+}
+.text-hide {
+	font: 0/0 a;
+	color: transparent;
+	text-shadow: none;
+	background-color: transparent;
+	border: 0;
+}
+/*------Typography-------*/

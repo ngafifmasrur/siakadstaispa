@@ -1,0 +1,176 @@
+/*-----maps-----*/
+
+.map, .chart {
+	position: relative;
+	padding-top: 56.25%;
+}
+.map-square, .chart-square {
+	padding-top: 100%;
+}
+.map-content, .chart-content {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+.map-header {
+	margin-bottom: 1.5rem;
+	height: 15rem;
+	position: relative;
+	margin-bottom: -1.5rem;
+	&:before {
+		content: '';
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		height: 10rem;
+		background: linear-gradient(to bottom, rgba(245, 247, 251, 0) 5%, #f9f9f9 95%);
+		pointer-events: none;
+	}
+}
+.map-header-layer {
+	height: 100%;
+}
+.map-static {
+	height: 120px;
+	width: 100%;
+	max-width: 640px;
+	background-position: center center;
+	background-size: 640px 120px;
+}
+
+/*-----maps-----*/
+
+/*-----Chart-----*/
+.chart-circle {
+	display: block;
+	height: 7rem;
+	width: 7rem;
+	position: relative;
+	margin: 0 auto;
+	canvas {
+		margin: 0 auto;
+		display: block;
+		max-width: 100%;
+		max-height: 100%;
+	}
+}
+.chart-circle-xs {
+	height: 2.5rem;
+	width: 2.5rem;
+	font-size: .8rem;
+}
+.chart-circle-sm {
+	height: 4rem;
+	width: 4rem;
+	font-size: .8rem;
+}
+.chart-circle-lg {
+	height: 10rem;
+	width: 10rem;
+	font-size: .8rem;
+}
+.chart-circle-value {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	margin-left: auto;
+	margin-right: auto;
+	bottom: 0;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-pack: center;
+	justify-content: center;
+	-ms-flex-align: center;
+	align-items: center;
+	-ms-flex-direction: column;
+	flex-direction: column;
+	line-height: 1;
+	small {
+		display: block;
+		color: #cbd2dc;
+		font-size: 0.9375rem;
+	}
+}
+.chart-visitors {
+	min-height: 18rem;
+	overflow: hidden;
+}
+.chart-tasks {
+	height: 15rem;
+	overflow: hidden;
+}
+.chart-donut, .chart-pie {
+	height: 21rem;
+	overflow: hidden;
+}
+.chartsh {
+	height: 16rem;
+	overflow: hidden;
+}
+.chartwidget {
+	height: 17rem;
+	overflow: hidden;
+}
+.amcharts-chart-div a, .canvasjs-chart-container a {
+	display: none !important;
+}
+.amChartsLegend.amcharts-legend-div {
+	display: none;
+}
+.BarChartShadow {
+	-webkit-filter: drop-shadow(0px 1px 4px $black-3);
+	filter: drop-shadow(0px 1px 4px $black-3);
+}
+#Areachart-1 {
+	width: 105% !important;
+	height: 107px !important;
+	bottom: -15px;
+	position: relative;
+	left: -10px;
+}
+#AreaChart1, #AreaChart2, #AreaChart3 {
+	width: 105% !important;
+	height: 103px !important;
+	bottom: -15px;
+	position: relative;
+	left: -7px;
+}
+.chart-dropshadow {
+	-webkit-filter: drop-shadow((-6px) 9px 4px $black-1);
+	filter: drop-shadow((-6px) 9px 4px $black-1);
+}
+#chart3 .apexcharts-legend {
+	display: none;
+}
+@media (max-width: 480px) {
+	.apexcharts-xaxis-texts-g text {
+		font-size: 8px;
+	}
+}
+.wrapper p b {
+	font-weight: 400 !important;
+	line-height: 19px;
+	font-size: 13px;
+}
+.apexcharts-canvas {
+	position: relative;
+	user-select: none;
+	svg {
+		height: 100%;
+		width: 100%;
+	}
+}
+.highcharts-container {
+	width: 100% !important;
+	svg {
+		width: 100% !important;
+	}
+}
+.highcharts-root {
+	display: block;
+}
+/*-----Chart-----*/

@@ -2,51 +2,29 @@
 @section('title', 'Program Studi')
 
 @section('content')
-<header class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10">
-    <div class="container">
-        <div class="page-header-content pt-4">
-            <div class="row align-items-center justify-content-between">
-                <div class="col-auto mt-4">
-                    <h1 class="page-header-title">
-                        <div class="page-header-icon"><i data-feather="grid"></i></div>
-                        Program Studi
-                    </h1>
-                    {{-- <div class="page-header-subtitle">Example dashboard overview and content summary</div> --}}
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-<!-- Main page content-->
-<div class="container mt-n10">
-    <div class="row">
-        <div class="col-lg-12">
-            <form action="" method="post">
-                <div class="card">
-                    <div class="card-header">
-                        Data Program Studi
-                        <a class="float-right btn btn-sm btn-outline-blue add-form" data-url="{{ route('admin.program_studi.store') }}" href="#"><i data-feather="plus" class="mr-2"></i>Tambah</a>
-                    </div>
-                    
-                    <div class="card-body">
-                        <x-datatable 
-                        :route="route('admin.program_studi.data_index')" 
-                        :table="[
-                            ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],
-                            ['title' => 'Kode', 'data' => 'kode_program_studi', 'name' => 'kode_program_studi'],
-                            ['title' => 'Nama Program Studi', 'data' => 'nama_program_studi', 'name' => 'nama_program_studi', 'classname' => 'text-left'],
-                            ['title' => 'Status', 'data' => 'status', 'name' => 'status'],
-                            ['title' => 'Jenjang', 'data' => 'jenjang', 'name' => 'jenjang'],
-                            ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
-                        ]"
-                        />
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+<x-header>
+    Program Studi
+</x-header>
 
-</div>
+<x-card-table>
+    <x-slot name="title">Data Program Studi</x-slot>
+    <x-slot name="button">
+        <a class="btn btn-app btn-sm btn-primary add-form" data-url="{{ route('admin.program_studi.store') }}" href="#"><i class="fa fa-plus mr-2"></i>Tambah</a>
+    </x-slot>
+
+    <x-datatable 
+    :route="route('admin.program_studi.data_index')" 
+    :table="[
+        ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],
+        ['title' => 'Kode', 'data' => 'kode_program_studi', 'name' => 'kode_program_studi'],
+        ['title' => 'Nama Program Studi', 'data' => 'nama_program_studi', 'name' => 'nama_program_studi', 'classname' => 'text-left'],
+        ['title' => 'Status', 'data' => 'status', 'name' => 'status'],
+        ['title' => 'Jenjang', 'data' => 'jenjang', 'name' => 'jenjang'],
+        ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
+    ]"
+    />
+
+</x-card-table>
 
 <x-modal.delete/>
 

@@ -1,0 +1,114 @@
+@import "../scss-rtl/variables";
+
+.horizontalMenucontainer .app-content {
+	margin-top: 180px !important;
+}
+.app .horizontalMenucontainer .app-sidebar {
+	padding-top: 180px !important;
+}
+.best-ticker .horizontalMenu>.horizontalMenu-list>li>a {
+	padding: 0 20px;
+}
+.horizontalMenu>.horizontalMenu-list>li>a i {
+	vertical-align: top !important;
+}
+.horizontalMenucontainer .news-ticker {
+	z-index: 9 !important;
+	margin-top: 120px;
+	border-bottom: 1px solid rgba(107, 122, 144, 0.3) !important;
+}
+.app .horizontalMenucontainer .horizontal-main {
+	margin-top: 62px;
+}
+.page-header {
+	margin-top: 0 !important;
+}
+.horizontal-left-icon {
+	padding: 1.1rem 1.6rem 1.1rem;
+	border-right: 1px solid rgba(107, 122, 144, 0.3);
+	float: left;
+	z-index: 99 !important;
+}
+.horizontal-right-icon {
+	padding: 1.1rem 1.6rem 1.1rem;
+	border-left: 1px solid rgba(107, 122, 144, 0.3);
+	float: right;
+	z-index: 99 !important;
+	display: none;
+}
+.body-horizontal-left-icon .horizontalMenu {
+	.horizontalMenu-list {
+		float: left;
+	}
+	.horizontal-right-icon {
+		display: block;
+	}
+	.horizontal-left-icon {
+		display: none;
+	}
+}
+.body-horizontal-right-icon .horizontalMenu {
+	.horizontalMenu-list {
+		float: right;
+	}
+	.horizontal-right-icon {
+		display: none;
+	}
+	.horizontal-left-icon {
+		display: block;
+	}
+}
+@media (max-width: 992px) {
+	.horizontalMenucontainer {
+		.news-ticker {
+			margin-top: 62px;
+		}
+		.app-content {
+			margin-top: 122px !important;
+		}
+	}
+	.app .horizontalMenucontainer .app-sidebar {
+		padding-top: 122px !important;
+	}
+	.horizontalMenu>.horizontalMenu-list {
+		margin-top: 62px !important;
+	}
+}
+@media only screen and (max-width: 767px) {
+	.app .hor-toggle.animated-arrow {
+		right: 14%;
+		margin: 14px 6px 0 0px !important;
+	}
+}
+@media (min-width: 768px) and (max-width: 992px) {
+	.app .hor-toggle.animated-arrow {
+		right: 1%;
+		margin: 14px 6px 0 0px !important;
+	}
+	.active .horizontalMenucontainer .app-content {
+		margin-right: 0;
+	}
+}
+@media (max-width: 568px) {
+	.app-header .navsearch {
+		display: none;
+	}
+	.header-brand {
+		min-width: auto;
+		margin-left: 0;
+		margin: 0 auto;
+		text-align: center;
+	}
+	.app-sidebar__toggle {
+		line-height: 2.4 !important;
+	}
+	.app .horizontalMenucontainer .app-header .header-brand {
+		margin-right: 30px !important;
+	}
+}
+.dark-mode .app-header .header-brand .header-brand-img.main-logo {
+    display: none;
+}
+.dark-mode .app-header .header-brand .header-brand-img.darklogo {
+    display: block;
+}

@@ -1,0 +1,439 @@
+/*Color variables*/
+/*Gradient variables*/
+/*white variables*/
+/*black variables*/
+/*shadow variables*/
+/* Color Swicher CSS */
+.switcher {
+    width: 30px !important;
+    height: 40px !important;
+    display: inline-block;
+    margin: 4px 8px;
+    border-radius: 5px;
+    border: 0px solid #000;
+}
+
+.swichermainleft {
+    width: 100%;
+    float: left;
+}
+
+.wscolorcode {
+    display: inline-block;
+    margin: 4px 8px;
+    width: 25px;
+    height: 25px;
+    border-radius: 7px;
+}
+
+.full-width .container {
+    max-width: inherit !important;
+    width: 95% !important;
+    transition: all 0.5s ease;
+}
+
+.switch_section span {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.unbox {
+    margin: 0;
+}
+
+.switch_section {
+    width: 100%;
+    height: auto;
+    list-style: none;
+    font-size: 1.1em;
+    margin: 0 auto;
+    padding: 19px;
+}
+
+.switch_section li {
+    width: 100%;
+    height: 30px;
+}
+
+/* //////////////////  switch-1  //////////////// */
+.onoffswitch {
+    position: relative;
+    width: 30px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.onoffswitch-checkbox {
+    display: none;
+}
+
+.onoffswitch-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    height: 15px;
+    padding: 0;
+    line-height: 16px;
+    border: 1px solid #CCCCCC;
+    border-radius: 15px;
+    background-color: #fff;
+    transition: background-color 0.3s ease-in;
+}
+
+.onoffswitch-label:before {
+    content: "";
+    height: 16px;
+    display: block;
+    width: 17px;
+    margin: 0px;
+    background: #fff;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 13px;
+    border: 1px solid #CCCCCC;
+    border-radius: 15px;
+    transition: all 0.3s ease-in 0s;
+}
+
+.onoffswitch-checkbox:checked+.onoffswitch-label {
+    background-color: #467fcf;
+    border-color: #467fcf;
+}
+
+.onoffswitch-checkbox:checked+.onoffswitch-label:before {
+    border-color: #467fcf;
+    right: 0px;
+}
+
+/* //////////////////  switch-2  //////////////// */
+.onoffswitch2 {
+    position: relative;
+    width: 30px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.onoffswitch2-checkbox {
+    display: none;
+}
+
+.onoffswitch2-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    height: 15px;
+    padding: 0;
+    line-height: 16px;
+    border: 1px solid #CCCCCC;
+    border-radius: 15px;
+    background-color: #fff;
+    transition: background-color 0.3s ease-in;
+}
+
+.onoffswitch2-label:before {
+    content: "";
+    height: 16px;
+    display: block;
+    width: 17px;
+    margin: 0px;
+    background: #fff;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 13px;
+    border: 1px solid #CCCCCC;
+    border-radius: 15px;
+    transition: all 0.3s ease-in 0s;
+}
+
+.onoffswitch2-checkbox:checked+.onoffswitch2-label {
+    background-color: #467fcf;
+}
+
+.onoffswitch2-checkbox:checked+.onoffswitch-label2 {
+    border-color: #467fcf;
+}
+
+.onoffswitch2-checkbox:checked+.onoffswitch2-label:before {
+    border-color: #467fcf;
+    right: 0px;
+}
+
+/* //////////////////  switch-3  //////////////// */
+.onoffswitch3 {
+    position: relative;
+    width: 30px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+.onoffswitch3-checkbox {
+    display: none;
+}
+
+.onoffswitch3-label {
+    display: block;
+    overflow: hidden;
+    cursor: pointer;
+    height: 15px;
+    padding: 0;
+    line-height: 16px;
+    border: 1px solid #CCCCCC;
+    border-radius: 15px;
+    background-color: #fff;
+    transition: background-color 0.3s ease-in;
+}
+
+.onoffswitch3-label:before {
+    content: "";
+    height: 16px;
+    display: block;
+    width: 17px;
+    margin: 0px;
+    background: #fff;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 13px;
+    border: 1px solid #CCCCCC;
+    border-radius: 15px;
+    transition: all 0.3s ease-in 0s;
+}
+
+.onoffswitch3-checkbox:checked+.onoffswitch3-label {
+    background-color: #467fcf;
+}
+
+.onoffswitch3-checkbox:checked+.onoffswitch-label3 {
+    border-color: #467fcf;
+}
+
+.onoffswitch3-checkbox:checked+.onoffswitch3-label:before {
+    border-color: #467fcf;
+    right: 0px;
+}
+
+/*--Left Menu--*/
+.left-menu-dark .resp-vtabs .resp-tabs-container {
+    background: #2f3b59;
+    color: #fff;
+    border-left: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.left-menu-dark .slide-item {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.left-menu-dark .resp-vtabs .resp-tabs-container .text-default {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.left-menu-dark .resp-vtabs .resp-tabs-container .progress {
+    background: #212b44;
+}
+
+/*--Left Menu--*/
+/*--Left Menu Light--*/
+.left-menu-light .resp-vtabs .resp-tabs-container {
+    background: #fff;
+    color: #2e384d;
+    border-left: 1px solid rgba(107, 122, 144, 0.3) !important;
+}
+
+.left-menu-light .slide-item {
+    color: #2e384d;
+}
+
+.left-menu-light .resp-vtabs .resp-tabs-container .text-default {
+    color: #606977 !important;
+}
+
+.left-menu-light .resp-vtabs .resp-tabs-container .progress {
+    background: #f9f9f9 !important;
+}
+
+.left-menu-light .first-sidemenu {
+    background: #fff;
+}
+
+.left-menu-light .resp-vtabs ul.resp-tabs-list {
+    background: #fff;
+}
+
+.left-menu-light .resp-vtabs .resp-tabs-list li {
+    color: #2e384d;
+}
+
+.left-menu-light .resp-vtabs li.active {
+    color: #fff !important;
+}
+
+.left-menu-light.sidenav-toggled .first-sidemenu {
+    border-right: 1px solid rgba(107, 122, 144, 0.3);
+}
+
+/*--Left Menu light--*/
+/*--Card-color-light--*/
+.cardcolor-light .card {
+    background-color: #f5f7fb;
+}
+
+.cardcolor-light .list-group-item,
+.cardcolor-light .page-header {
+    background: #f5f7fb;
+}
+
+.cardcolor-light.dark-mode .card {
+    background-color: #0a1a31;
+}
+
+.cardcolor-light.dark-mode .list-group-item,
+.cardcolor-light.dark-mode .page-header {
+    background: #0a1a31;
+}
+
+/*--Card-color-light--*/
+/*--body-background-light--*/
+body.body-background {
+    background: #f5f7fb;
+}
+
+body.body-background.dark-mode {
+    background: #001027;
+}
+
+/*--body-background-light--*/
+/*--body-card-shadow--*/
+.body-card-shadow .card {
+    box-shadow: 0 2px 17px 2px rgba(194, 186, 210, 0.2);
+}
+
+.dark-mode.body-card-shadow .card {
+    box-shadow: 0 2px 17px 2px #152131;
+}
+
+/*--body-card-shadow--*/
+/*--horizontal-menudark--*/
+.horizontal-menudark .horizontal-main {
+    background: #2f3b59;
+}
+
+.horizontal-menudark .horizontalMenu>.horizontalMenu-list>li>a {
+    color: #fff;
+    background: #2f3b59;
+}
+
+.horizontal-menudark .hor-menu .horizontalMenu>.horizontalMenu-list>li>a:hover {
+    color: #fff;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.horizontal-menudark .hor-menu .horizontalMenu>.horizontalMenu-list>li>a.active {
+    color: #fff !important;
+    background: #467fcf !important;
+}
+
+.horizontal-menudark .horizontalMenu>.horizontalMenu-list {
+    background: #2f3b59;
+}
+
+.horizontal-menudark .horizontalMenu>.horizontalMenu-list>li>.horizontalMenu-click>i {
+    color: #fff !important;
+}
+
+.horizontal-menudark.dark-mode .horizontal-main {
+    background: #001027;
+}
+
+.horizontal-menudark.dark-mode .horizontalMenu>.horizontalMenu-list>li>a {
+    color: #fff;
+    background: #001027;
+}
+
+.horizontal-menudark.dark-mode .hor-menu .horizontalMenu>.horizontalMenu-list>li>a:hover {
+    color: #fff;
+    background: #001027;
+}
+
+.horizontal-menudark.dark-mode .hor-menu .horizontalMenu>.horizontalMenu-list>li>a.active {
+    color: #fff !important;
+    background: #467fcf !important;
+}
+
+.horizontal-menudark.dark-mode .horizontalMenu>.horizontalMenu-list {
+    background: #001027;
+}
+
+.horizontal-menudark.dark-mode .horizontalMenu>.horizontalMenu-list>li>.horizontalMenu-click>i {
+    color: #fff !important;
+}
+
+@media only screen and (max-width: 991px) {
+    .horizontal-menudark .horizontalMenu>.horizontalMenu-list>li {
+        background: #2f3b59;
+    }
+}
+
+@media only screen and (max-width: 991px) {
+    .horizontal-menudark.dark-mode .horizontalMenu>.horizontalMenu-list>li {
+        background: #001027;
+    }
+}
+
+/*--horizontal-menudark--*/
+/*--Container-fullwidth--*/
+@media (min-width: 1280px) {
+    .container-fullwidth .container {
+        max-width: -webkit-fill-available;
+        padding: 0 30px;
+    }
+
+    .container-fullwidth.boxed .container.news-ticker {
+        max-width: 1400px;
+    }
+}
+
+/*--Container-fullwidth--*/
+.arrow1 {
+    animation: slide1 1s ease-in-out infinite;
+    margin-right: 9px;
+}
+
+@keyframes slide1 {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(10px, 0);
+    }
+}
+
+.fonts {
+    width: 96%;
+    height: 100%;
+    padding: 6px 15px;
+    font-size: 14px;
+    border: 1px solid rgba(107, 122, 144, 0.3);
+    border-radius: 4px;
+    color: #2e384d;
+}
+
+.fonts.active {
+    border: 1px solid #467fcf;
+    color: #fff;
+    background: #467fcf;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #467fcf;
+    border-color: #467fcf;
+}
+/*# sourceMappingURL=demo-styles.css.map */

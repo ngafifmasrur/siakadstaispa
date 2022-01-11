@@ -39,7 +39,7 @@ class DosenController extends Controller
                     'type' => 'link',
                     'tooltip' => 'Ubah',
                     'class' => 'btn btn-outline-primary btn-sm',
-                    "icon" => "fas fa-edit",
+                    "icon" => "fa fa-edit",
                     // 'attribute' => [
                     //     'data-nama_dosen' => $data->nama_dosen,
                     //     'data-id_prodi' => $data->id_prodi,
@@ -55,7 +55,7 @@ class DosenController extends Controller
                     'type' => 'button',
                     'tooltip' => 'Hapus',
                     'class' => 'btn btn-outline-danger btn-sm btn_delete',
-                    "icon" => "fas fa-trash",
+                    "icon" => "fa fa-trash",
                     'attribute' => [
                         'data-text' => 'Anda yakin ingin menghapus data ini ?',
                     ],

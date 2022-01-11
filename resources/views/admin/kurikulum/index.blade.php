@@ -2,53 +2,31 @@
 @section('title', 'Kurikulum')
 
 @section('content')
-<header class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10">
-    <div class="container">
-        <div class="page-header-content pt-4">
-            <div class="row align-items-center justify-content-between">
-                <div class="col-auto mt-4">
-                    <h1 class="page-header-title">
-                        <div class="page-header-icon"><i data-feather="grid"></i></div>
-                        Kurikulum
-                    </h1>
-                    {{-- <div class="page-header-subtitle">Example dashboard overview and content summary</div> --}}
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-<!-- Main page content-->
-<div class="container mt-n10">
-    <div class="row">
-        <div class="col-lg-12">
-            <form action="" method="post">
-                <div class="card">
-                    <div class="card-header">
-                        Data Kurikulum
-                        <a class="float-right btn btn-sm btn-outline-blue add-form" data-url="{{ route('admin.kurikulum.store') }}" href="#"><i data-feather="plus" class="mr-2"></i>Tambah</a>
-                    </div>
-                    
-                    <div class="card-body">
-                        <x-datatable 
-                        :route="route('admin.kurikulum.data_index')" 
-                        :table="[
-                            ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],
-                            ['title' => 'Nama Kurikulum', 'data' => 'nama_kurikulum', 'name' => 'nama_kurikulum', 'classname' => 'text-left'],
-                            ['title' => 'Program Studi', 'data' => 'prodi', 'name' => 'prodi', 'classname' => 'text-left'],
-                            ['title' => 'Semester', 'data' => 'semester', 'name' => 'semester', 'classname' => 'text-left'],
-                            ['title' => 'Jumlah SKS Lulus', 'data' => 'jumlah_sks_lulus', 'name' => 'jumlah_sks_lulus'],
-                            ['title' => 'Jumlah SKS Wajib', 'data' => 'jumlah_sks_wajib', 'name' => 'jumlah_sks_wajib'],
-                            ['title' => 'Jumlah SKS Pilihan', 'data' => 'jumlah_sks_pilihan', 'name' => 'jumlah_sks_pilihan'],
-                            ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
-                        ]"
-                        />
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+<x-header>
+    Kurikulum
+</x-header>
 
-</div>
+<x-card-table>
+    <x-slot name="title">Data Kurikulum</x-slot>
+    <x-slot name="button">
+        <a class="btn btn-app btn-sm btn-primary add-form" data-url="{{ route('admin.kurikulum.store') }}" href="#"><i class="fa fa-plus mr-2"></i>Tambah</a>
+    </x-slot>
+
+    <x-datatable 
+    :route="route('admin.kurikulum.data_index')" 
+    :table="[
+        ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],
+        ['title' => 'Nama Kurikulum', 'data' => 'nama_kurikulum', 'name' => 'nama_kurikulum', 'classname' => 'text-left'],
+        ['title' => 'Program Studi', 'data' => 'prodi', 'name' => 'prodi', 'classname' => 'text-left'],
+        ['title' => 'Semester', 'data' => 'semester', 'name' => 'semester', 'classname' => 'text-left'],
+        ['title' => 'Jumlah SKS Lulus', 'data' => 'jumlah_sks_lulus', 'name' => 'jumlah_sks_lulus'],
+        ['title' => 'Jumlah SKS Wajib', 'data' => 'jumlah_sks_wajib', 'name' => 'jumlah_sks_wajib'],
+        ['title' => 'Jumlah SKS Pilihan', 'data' => 'jumlah_sks_pilihan', 'name' => 'jumlah_sks_pilihan'],
+        ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
+    ]"
+    />
+
+</x-card-table>
 
 <x-modal.delete/>
 

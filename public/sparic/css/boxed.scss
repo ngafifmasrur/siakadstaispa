@@ -1,0 +1,58 @@
+@import "../scss/variables";
+
+@media (min-width: 1025px) {
+	.page {
+		max-width: 1400px;
+		margin: 0 auto;
+		background: $white;
+		position: relative;
+		display: -ms-flexbox;
+		display: flex;
+		-ms-flex-direction: column;
+		flex-direction: column;
+		-ms-flex-pack: center;
+		justify-content: center;
+		min-height: 100vh;
+		box-shadow: $black-3 0px 5px 0px 0px, $black-3 0px 5px 25px 0px;
+	}
+	body {
+		background-image: url(../images/patterns/bgpattern.png) !important;
+		background-attachment: fixed;
+		background-position: center;
+		background-repeat: repeat;
+	}
+	.horizontalMenu>.horizontalMenu-list>li>a {
+		padding: 1.2rem 1.8rem 1.2rem;
+		.fa {
+			margin-right: 0px !important;
+		}
+	}
+	.app-header.header {
+		max-width: 1400px;
+		margin: 0 auto;
+	}
+	.news-ticker {
+		max-width: 1400px;
+	}
+	.vh {
+		height: 100vh;
+	}
+	.horizontal-main {
+		max-width: 1400px;
+	}
+	.app-sidebar {
+		left: auto !important;
+	}
+	.second-sidemenu {
+		left: auto !important;
+		margin-left: 55px;
+	}
+	.horizontal-nav .mega-dropdown-menu {
+		transform: translate3d(0px, 51px, 0px) !important;
+	}
+}
+@media (min-width: 1025px){
+	.app-sidebar {
+		left: auto !important;
+	}
+}

@@ -22,6 +22,11 @@ use App\Http\Controllers\Mahasiswa\{
     KRSController
 };
 
+use App\Http\Controllers\Dosen\{
+    BiodataController as BiodataDosenController,
+    KRSController as VerifikasiKRSController
+};
+
 use App\Http\Controllers\Akademika\{
     PesertaKelasKuliahController,
 };
@@ -102,4 +107,14 @@ Route::group(['middleware' => ['Role:mahasiswa'], 'prefix' => 'mahasiswa', 'as' 
 
     Route::resource('/krs', KRSController::class)->except(['show']);;
     Route::get('/krs/data_index', [KRSController::class, 'data_index'])->name('krs.data_index');
+});
+
+Route::group(['middleware' => ['Role:dosen'], 'prefix' => 'dosen', 'as' => 'dosen.'], function () {
+    Route::get('/biodata', [BiodataDosenController::class, 'index'])->name('biodata.index');
+    Route::put('/biodata/update', [BiodataDosenController::class, 'update'])->name('biodata.update');
+
+    Route::resource('/krs', VerifikasiKRSController::class)->except(['show']);;
+    Route::get('/krs/data_index', [VerifikasiKRSController::class, 'data_index'])->name('krs.data_index');
+    Route::post('/krs/{krs}/setujui', [VerifikasiKRSController::class, 'update_status'])->name('krs.update_status');
+
 });

@@ -19,6 +19,6 @@ class t_krs extends Model
 
     public function mahasiswa()
     {
-        return $this->belongsTo('App\Models\m_mahasiswa', 'nim', 'nim');
+        return $this->belongsTo(m_mahasiswa::class, 'nim', 'nim');
     }
 }

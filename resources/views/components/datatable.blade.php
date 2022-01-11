@@ -2,8 +2,10 @@
 <link href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
 @endpush
 
-<div class="datatable table-responsive" style="overflow-x: auto !important;">
-    <table class="table table-bordered table-hover" id="{{ isset($id) ? $id : 'dataTables' }}" width="100%" cellspacing="0">
+
+
+<div class="table-responsive">
+    <table id="{{ isset($id) ? $id : 'dataTables' }}" class="table table-striped table-bordered text-nowrap w-100">
         <thead>
             <tr>
                 @foreach($table as $row)
@@ -14,7 +16,6 @@
         <tbody>
 
         </tbody>
-        
     </table>
 </div>
 

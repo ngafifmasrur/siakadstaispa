@@ -53,7 +53,7 @@ class MahasiswaController extends Controller
                 //     'type' => 'link',
                 //     'tooltip' => 'Detail',
                 //     'class' => 'btn btn-outline-success btn-sm',
-                //     "icon" => "fas fa-eye",
+                //     "icon" => "fa fa-eye",
                 //     "route" => route('admin.mahasiswa.show',['mahasiswa' => $data->id]),
                 // ]);
 
@@ -61,7 +61,7 @@ class MahasiswaController extends Controller
                     'type' => 'link',
                     'tooltip' => 'Ubah',
                     'class' => 'btn btn-outline-primary btn-sm',
-                    "icon" => "fas fa-edit",
+                    "icon" => "fa fa-edit",
                     // 'attribute' => [
                     //     'data-nama' => $data->nama_mahasiswa,
                     //     'data-prodi' => $data->id_prodi,
@@ -79,7 +79,7 @@ class MahasiswaController extends Controller
                     'type' => 'button',
                     'tooltip' => 'Hapus',
                     'class' => 'btn btn-outline-danger btn-sm btn_delete',
-                    "icon" => "fas fa-trash",
+                    "icon" => "fa fa-trash",
                     'attribute' => [
                         'data-text' => 'Anda yakin ingin menghapus data ini ?',
                     ],
