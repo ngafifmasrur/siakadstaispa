@@ -11,4 +11,6 @@ class ref_alat_transportasi extends Model
 
     protected $table = 'ref_alat_transportasi';
     protected $guarded = [];
+    protected $primaryKey = 'id_alat_transportasi';
+
 }

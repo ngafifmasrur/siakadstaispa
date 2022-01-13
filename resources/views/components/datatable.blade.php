@@ -28,6 +28,11 @@
             responsive: true,
             processing: true,
             serverSide: true,
+            @if(isset($searching)) 
+              searching: false,
+              ordering: false,
+              bInfo: false,
+            @endif
             ajax: "{{ $route }}",
             ajax: {
                 url: "{{ $route }}{!! isset($query) ? $query : '' !!}",
@@ -70,19 +75,12 @@
                     },
                 @endforeach
             ],
-            pageLength: 25,
             responsive: false,
             @if(isset($buttons)) 
             dom: 'Bfrtip',
             buttons: [
                 'copy', 'csv', 'excel', 'pdf', 'print'
             ],
-            @endif
-            @if(isset($searching)) 
-              @if($searching==false) 
-              searching: false,
-              paging:   false,
-              @endif
             @endif
 
             @if(isset($drawCallback))

@@ -10,7 +10,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\DosenRequest;
-use Session, DB;
+use Session, DB, Str;
 
 class DosenController extends Controller
 {
@@ -21,7 +21,7 @@ class DosenController extends Controller
      */
     public function index()
     {
-        $agama = ref_agama::pluck('nama_agama', 'id');
+        $agama = ref_agama::pluck('nama_agama', 'id_agama');
         return view('admin.dosen.index', compact('agama'));
     }
 
@@ -48,7 +48,7 @@ class DosenController extends Controller
                     //     'data-jumlah_sks_wajib' => $data->jumlah_sks_wajib,
                     //     'data-jumlah_sks_pilihan' => $data->jumlah_sks_pilihan,
                     // ],
-                    "route" => route('admin.dosen.edit', ['dosen' => $data->id]),
+                    "route" => route('admin.dosen.edit', ['dosen' => $data->id_dosen]),
                 ]);
 
                 $button .= view("components.button.default", [
@@ -59,7 +59,7 @@ class DosenController extends Controller
                     'attribute' => [
                         'data-text' => 'Anda yakin ingin menghapus data ini ?',
                     ],
-                    "route" => route('admin.dosen.destroy', ['dosen' => $data->id]),
+                    "route" => route('admin.dosen.destroy', ['dosen' => $data->id_dosen]),
                 ]);
 
                 $button .= '</div>';
@@ -83,8 +83,8 @@ class DosenController extends Controller
      */
     public function create()
     {
-        $agama = ref_agama::pluck('nama_agama', 'id');
-        $wilayah = ref_wilayah::pluck('nama_wilayah', 'id');
+        $agama = ref_agama::pluck('nama_agama', 'id_agama');
+        $wilayah = ref_wilayah::pluck('nama_wilayah', 'id_wilayah');
 
         return view('admin.dosen.create', compact('agama', 'wilayah'));
     }
@@ -110,7 +110,10 @@ class DosenController extends Controller
             $user->save();
             $user->roles()->attach($role_dosen);
 
-            $request->merge(['user_id' => $user->id]);
+            $request->merge([
+                'user_id' => $user->id,
+                'id_dosen' => Str::uuid(),
+            ]);
             $data = m_dosen::create($request->all());
             DB::commit();
 
@@ -144,8 +147,8 @@ class DosenController extends Controller
      */
     public function edit(m_dosen $dosen)
     {
-        $agama = ref_agama::pluck('nama_agama', 'id');
-        $wilayah = ref_wilayah::pluck('nama_wilayah', 'id');
+        $agama = ref_agama::pluck('nama_agama', 'id_agama');
+        $wilayah = ref_wilayah::pluck('nama_wilayah', 'id_wilayah');
 
         return view('admin.dosen.edit', compact('agama', 'wilayah', 'dosen'));
     }

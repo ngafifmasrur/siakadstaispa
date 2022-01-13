@@ -14,7 +14,7 @@ class CreateRefPembiayaanTable extends Migration
     public function up()
     {
         Schema::create('ref_pembiayaan', function (Blueprint $table) {
-            $table->id();
+            $table->integer('id_pembiayaan')->primary();;
             $table->string('nama_pembiayaan');
             $table->timestamps();
         });

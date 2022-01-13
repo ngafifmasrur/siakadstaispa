@@ -14,7 +14,7 @@ class CreateRefJenisPendaftaranTable extends Migration
     public function up()
     {
         Schema::create('ref_jenis_pendaftaran', function (Blueprint $table) {
-            $table->id();
+            $table->integer('id_jenis_daftar')->primary();
             $table->string('nama_jenis_daftar');
             $table->boolean('untuk_daftar_sekolah');
             $table->timestamps();

@@ -11,4 +11,6 @@ class ref_pekerjaan extends Model
 
     protected $table = 'ref_pekerjaan';
     protected $guarded = [];
+    protected $primaryKey = 'id_pekerjaan';
+
 }

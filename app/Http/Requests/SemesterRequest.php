@@ -24,7 +24,8 @@ class SemesterRequest extends FormRequest
     public function rules()
     {
         return [
-            'tahun_ajaran' => 'required',
+            'id_tahun_ajaran' => 'required',
+            'semester' => 'required|numeric',
             'nama_semester' => 'required|string',
             'a_periode_aktif' => 'required',
             'tanggal_mulai' => 'required|date',

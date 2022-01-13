@@ -14,7 +14,7 @@ class CreateRefKebutuhanKhususTable extends Migration
     public function up()
     {
         Schema::create('ref_kebutuhan_khusus', function (Blueprint $table) {
-            $table->id();
+            $table->integer('id_kebutuhan_khusus')->primary();
             $table->string('nama_kebutuhan_khusus');
             $table->timestamps();
         });

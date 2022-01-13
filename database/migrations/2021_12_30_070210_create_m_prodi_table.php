@@ -14,11 +14,12 @@ class CreateMProdiTable extends Migration
     public function up()
     {
         Schema::create('m_prodi', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id_prodi')->primary();
             $table->string('kode_program_studi');
             $table->string('nama_program_studi');
             $table->string('status');
             $table->bigInteger('id_jenjang_pendidikan');
+            $table->string('nama_jenjang_pendidikan');
             $table->timestamps();
         });
     }

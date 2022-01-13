@@ -14,7 +14,7 @@ class CreateRefJenjangPendidikanTable extends Migration
     public function up()
     {
         Schema::create('ref_jenjang_pendidikan', function (Blueprint $table) {
-            $table->id();
+            $table->integer('id_jenjang_didik')->primary();
             $table->string('nama_jenjang_didik');
             $table->timestamps();
         });

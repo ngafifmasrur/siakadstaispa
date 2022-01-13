@@ -14,7 +14,7 @@ class CreateMDosenTable extends Migration
     public function up()
     {
         Schema::create('m_dosen', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id_dosen')->primary();
             $table->string('nama_dosen');
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');

@@ -14,8 +14,8 @@ class CreateRefAlatTransportasiTable extends Migration
     public function up()
     {
         Schema::create('ref_alat_transportasi', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama_jalat_transportasi');
+            $table->bigInteger('id_alat_transportasi')->primary();
+            $table->string('nama_alat_transportasi');
             $table->timestamps();
         });
     }

@@ -23,17 +23,17 @@ class JadwalController extends Controller
     public function index()
     {
         $ruangan = m_ruang_kelas::pluck('nama_ruangan', 'id');
-        $dosen = m_dosen::pluck('nama_dosen', 'id');
-        $prodi = m_program_studi::pluck('nama_program_studi', 'id');
+        $dosen = m_dosen::pluck('nama_dosen', 'id_dosen');
+        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi');
         $kelas = m_kelas_kuliah::pluck('nama_kelas_kuliah', 'id');
         $matkul = m_mata_kuliah_aktif::get()
         ->map(function($data) {
             return [
                 'id'    => $data->id,
-                'matkul_semester'  => $data->matkul_semester
+                'matkul'  => $data->matkul->nama_mata_kuliah
             ];
         })
-        ->pluck('matkul_semester', 'id')
+        ->pluck('matkul', 'id')
         ->all();
         return view('admin.jadwal.index', compact('ruangan', 'dosen', 'prodi', 'matkul', 'kelas'));
     }

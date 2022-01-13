@@ -49,6 +49,7 @@
 
 		<!--Fonts-->
 		<link id="font" rel="stylesheet" type="text/css" media="all" href="{{ asset('sparic/colors/fonts/font1.css') }}"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/css/bootstrap-select.min.css" integrity="sha512-ARJR74swou2y0Q2V9k0GbzQ/5vJ2RBSoCWokg4zkfM29Fb3vZEQyv0iWBMW/yvKgyHSR/7D64pFMmU8nYmbRkg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 		<!-- Color-skins css -->
 		<link id="theme" rel="stylesheet" type="text/css" media="all" href="{{ asset('sparic/colors/color-skins/color.css') }}" />
@@ -244,6 +245,8 @@
 
 		<!-- Custom js-->
 		<script src="{{ asset('sparic/js/custom.js') }}"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js" integrity="sha512-yDlE7vpGDP7o2eftkCiPZ+yuUyEcaBwoJoIhdXv71KZWugFqEphIS3PU60lEkFaz8RxaVsMpSvQxMBaKVwA5xg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>        @stack('js')
+
         @stack('js')
 	</body>
 </html>

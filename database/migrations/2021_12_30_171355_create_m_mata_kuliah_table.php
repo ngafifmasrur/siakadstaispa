@@ -14,8 +14,8 @@ class CreateMMataKuliahTable extends Migration
     public function up()
     {
         Schema::create('m_mata_kuliah', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('id_prodi');
+            $table->uuid('id_matkul')->primary();
+            $table->uuid('id_prodi');
             $table->string('kode_mata_kuliah');
             $table->string('nama_mata_kuliah');
             $table->string('id_jenis_mata_kuliah');

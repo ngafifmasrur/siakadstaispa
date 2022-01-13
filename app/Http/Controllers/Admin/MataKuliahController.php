@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\m_program_studi;
 use App\Models\m_mata_kuliah;
 use App\Http\Requests\MataKuliahRequest;
-use Session, DB;
+use Session, DB, Str;
 
 class MataKuliahController extends Controller
 {
@@ -18,7 +18,7 @@ class MataKuliahController extends Controller
      */
     public function index()
     {
-        $prodi = m_program_studi::pluck('nama_program_studi', 'id');
+        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi')->prepend('Pilih Program Studi', NULL);
         $jenis_matkul = $this->jenis_matkul;
         $kelompok_matkul = $this->kelompok_matkul;
         return view('admin.mata_kuliah.index', compact('prodi', 'jenis_matkul', 'kelompok_matkul'));
@@ -28,7 +28,10 @@ class MataKuliahController extends Controller
     {
         $jenis_matkul = $this->jenis_matkul;
         $kelompok_matkul = $this->kelompok_matkul;
-        $query = m_mata_kuliah::all();
+        $query = m_mata_kuliah::query()
+                ->when($request->prodi, function ($query) use ($request) {
+                    $query->where('id_prodi', $request->prodi);
+                });
 
         return datatables()->of($query)
             ->addIndexColumn()
@@ -62,7 +65,7 @@ class MataKuliahController extends Controller
                         'data-tanggal_mulai_efektif' => $data->tanggal_mulai_efektif,
                         'data-tanggal_selesai_efektif' => $data->tanggal_selesai_efektif,
                     ],
-                    "route" => route('admin.mata_kuliah.update',['mata_kuliah' => $data->id]),
+                    "route" => route('admin.mata_kuliah.update',['mata_kuliah' => $data->id_matkul]),
                 ]);
     
                 $button .= view("components.button.default", [
@@ -73,7 +76,7 @@ class MataKuliahController extends Controller
                     'attribute' => [
                         'data-text' => 'Anda yakin ingin menghapus data ini ?',
                     ],
-                    "route" => route('admin.mata_kuliah.destroy',['mata_kuliah' => $data->id]),
+                    "route" => route('admin.mata_kuliah.destroy',['mata_kuliah' => $data->id_matkul]),
                 ]);
     
                 $button .= '</div>';
@@ -118,7 +121,9 @@ class MataKuliahController extends Controller
         DB::beginTransaction();
 
         try{
-            
+            $request->merge([
+                'id_matkul' => Str::uuid(),
+            ]);
             $data = m_mata_kuliah::create($request->all());
             DB::commit();
 

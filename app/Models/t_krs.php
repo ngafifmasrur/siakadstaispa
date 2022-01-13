@@ -21,4 +21,5 @@ class t_krs extends Model
     {
         return $this->belongsTo(m_mahasiswa::class, 'nim', 'nim');
     }
+
 }

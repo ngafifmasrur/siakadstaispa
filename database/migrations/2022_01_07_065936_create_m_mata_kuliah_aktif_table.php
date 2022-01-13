@@ -15,8 +15,13 @@ class CreateMMataKuliahAktifTable extends Migration
     {
         Schema::create('m_mata_kuliah_aktif', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_matkul');
+            $table->uuid('id_prodi');
+            $table->uuid('id_matkul');
             $table->integer('id_semester');
+            $table->integer('semester');
+            $table->boolean('mk_wajib');
+            $table->boolean('mk_paket');
+            $table->string('nilai_minimum');
             $table->timestamps();
         });
     }

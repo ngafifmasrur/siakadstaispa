@@ -10,8 +10,11 @@ class m_mahasiswa extends Model
     use HasFactory;
 
     protected $table = 'm_mahasiswa';
+    protected $primaryKey = 'id_mahasiswa';
     protected $guarded = [];
-
+    public $incrementing = false;
+    protected $keyType = 'string';
+    
     public function prodi()
     {
         return $this->belongsTo('App\Models\m_program_studi', 'id_prodi');

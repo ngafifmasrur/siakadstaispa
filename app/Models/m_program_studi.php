@@ -12,4 +12,8 @@ class m_program_studi extends Model
     protected $table = 'm_prodi';
     protected $guarded = [];
 
+    protected $primaryKey = 'id_prodi';
+    public $incrementing = false;
+    protected $keyType = 'string';
+
 }

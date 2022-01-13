@@ -17,7 +17,8 @@
     :route="route('admin.semester.data_index')" 
     :table="[
         ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],  
-        ['title' => 'Tahun Ajaran', 'data' => 'tahun_ajaran', 'name' => 'tahun_ajaran'],                          
+        ['title' => 'Tahun Ajaran', 'data' => 'id_tahun_ajaran', 'name' => 'id_tahun_ajaran'],            
+        ['title' => 'Semester', 'data' => 'semester', 'name' => 'semester'],              
         ['title' => 'Nama Semester', 'data' => 'nama_semester', 'name' => 'nama_semester', 'classname' => 'text-left'],
         ['title' => 'Status', 'data' => 'aktif', 'name' => 'aktif'],
         ['title' => 'Tanggal Mulai', 'data' => 'tanggal_mulai', 'name' => 'tanggal_mulai'],
@@ -42,15 +43,26 @@
     @endphp
     <div class="row">
         <div class="form-group col-lg-6">
-            <label for="tahun_ajaran">Tahun Ajaran</label>
-            {!! Form::select('tahun_ajaran', $years, NULL, ['class' => 'form-control '.($errors->has('tahun_ajaran') ? 'is-invalid' : ''), 'id' => 'tahun_ajaran']) !!}
-            @error('tahun_ajaran')
+            <label for="id_tahun_ajaran">Tahun Ajaran</label>
+            {!! Form::select('id_tahun_ajaran', $tahun_ajaran, NULL, ['class' => 'form-control '.($errors->has('id_tahun_ajaran') ? 'is-invalid' : ''), 'id' => 'id_tahun_ajaran']) !!}
+            @error('id_tahun_ajaran')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
             @enderror
         </div>
         <div class="form-group col-lg-6">
+            <label for="semester">Semester</label>
+            {!! Form::number('semester', null, ['class' => 'form-control '.($errors->has('semester') ? 'is-invalid' : ''), 'id' => 'semester']) !!}
+            @error('semester')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-lg-12">
             <label for="nama_semester">Nama Semester</label>
             {!! Form::text('nama_semester', null, ['class' => 'form-control '.($errors->has('nama_semester') ? 'is-invalid' : ''), 'id' => 'nama_semester']) !!}
             @error('nama_semester')
@@ -104,15 +116,26 @@
     @method('put')
     <div class="row">
         <div class="form-group col-lg-6">
-            <label for="tahun_ajaran">Tahun Ajaran</label>
-            {!! Form::select('tahun_ajaran', $years, NULL, ['class' => 'form-control '.($errors->has('tahun_ajaran') ? 'is-invalid' : ''), 'id' => 'tahun_ajaran']) !!}
-            @error('tahun_ajaran')
+            <label for="id_tahun_ajaran">Tahun Ajaran</label>
+            {!! Form::select('id_tahun_ajaran', $tahun_ajaran, NULL, ['class' => 'form-control '.($errors->has('id_tahun_ajaran') ? 'is-invalid' : ''), 'id' => 'id_tahun_ajaran']) !!}
+            @error('id_tahun_ajaran')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
             @enderror
         </div>
         <div class="form-group col-lg-6">
+            <label for="semester">Semester</label>
+            {!! Form::number('semester', null, ['class' => 'form-control '.($errors->has('semester') ? 'is-invalid' : ''), 'id' => 'semester']) !!}
+            @error('semester')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-lg-12">
             <label for="nama_semester">Nama Semester</label>
             {!! Form::text('nama_semester', null, ['class' => 'form-control '.($errors->has('nama_semester') ? 'is-invalid' : ''), 'id' => 'nama_semester']) !!}
             @error('nama_semester')
@@ -141,7 +164,7 @@
                 </div>
             @enderror
         </div>
-    </div>
+    </div>   
     <div class="row">
         <div class="form-group col-lg-6">
             <label for="a_periode_aktif">Periode Aktif</label>
@@ -175,13 +198,15 @@
             $('.modal-form form')[0].reset();
             $('.modal-form form').attr('action',  $(this).data('route'));
             $('[name=_method]').val('put');
-            var tahun_ajaran = $(this).data('tahun_ajaran');
+            var id_tahun_ajaran = $(this).data('id_tahun_ajaran');
+            var semester = $(this).data('semester');
             var nama_semester = $(this).data('nama_semester');
             var a_periode_aktif = $(this).data('a_periode_aktif');
             var tanggal_mulai = $(this).data('tanggal_mulai');
             var tanggal_selesai = $(this).data('tanggal_selesai');
 
-            $('[name=tahun_ajaran]').val(tahun_ajaran);
+            $('[name=id_tahun_ajaran]').val(id_tahun_ajaran);
+            $('[name=semester]').val(semester);
             $('[name=nama_semester]').val(nama_semester);
             $('[name=a_periode_aktif]').val(a_periode_aktif);
             $('[name=tanggal_mulai]').val(tanggal_mulai);

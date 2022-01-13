@@ -10,7 +10,7 @@
 <x-card-table>
     <x-slot name="title">Edit Data Mahasiswa</x-slot>
 
-    <form action="{{ route('admin.mahasiswa.update', $mahasiswa->id) }}" method="POST">
+    <form action="{{ route('admin.mahasiswa.update', $mahasiswa->id_mahasiswa) }}" method="POST">
         @csrf @method('PUT')
         <div class="form-group row">
             <label for="nim" class="col-sm-2 col-form-label">NIM <span class="text-danger">*</span></label>

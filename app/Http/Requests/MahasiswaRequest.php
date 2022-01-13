@@ -28,7 +28,6 @@ class MahasiswaRequest extends FormRequest
             'id_agama' => 'required|integer',
             'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
             'tanggal_lahir' => 'required|date',
-            'nim' => 'required|string|unique:users,email,'.Auth::user()->id,
             'nik' => 'required|string',
             'nama_mahasiswa' => 'required|string',
             'tempat_lahir' => 'required|string',
@@ -72,11 +71,19 @@ class MahasiswaRequest extends FormRequest
             'id_alat_transportasi' => 'nullable|integer',
         ];
 
-        if(Auth::user()->role->name == 'admin'){
-            $rules['nim'] = 'required|string|unique:users,email,'.$this->mahasiswa->user->id;
-        } elseif(Auth::user()->role->name == 'mahasiswa') {
-            $rules['nim'] = 'required|string|unique:users,email,'.Auth::user()->id;
+        if (in_array($this->method(), ['PUT', 'PATCH'])) {
+            if(Auth::user()->role->name == 'admin'){
+                $rules['nim'] = 'required|string|unique:users,email,'.$this->mahasiswa->user->id;
+            } elseif(Auth::user()->role->name == 'mahasiswa') {
+                $rules['nim'] = 'required|string|unique:users,email,'.Auth::user()->id;
+            }
         }
+
+        if (in_array($this->method(), ['POST'])) {
+            $rules['nim'] = 'required|string|unique:users,email';
+        }
+
+
 
         return $rules;
     }

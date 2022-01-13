@@ -14,7 +14,7 @@ class CreateRefPekerjaanTable extends Migration
     public function up()
     {
         Schema::create('ref_pekerjaan', function (Blueprint $table) {
-            $table->id();
+            $table->bigInteger('id_pekerjaan')->primary();
             $table->string('nama_pekerjaan');
             $table->timestamps();
         });

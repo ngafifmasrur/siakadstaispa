@@ -10,5 +10,6 @@ class m_semester extends Model
     use HasFactory;
 
     protected $table = 'm_semester';
+    protected $primaryKey = 'id_semester';
     protected $guarded = [];
 }

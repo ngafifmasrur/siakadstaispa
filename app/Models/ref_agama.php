@@ -11,4 +11,5 @@ class ref_agama extends Model
 
     protected $table = 'ref_agama';
     protected $guarded = [];
+    protected $primaryKey = 'id_agama';
 }

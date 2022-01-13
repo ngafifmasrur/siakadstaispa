@@ -14,7 +14,7 @@ class CreateRefJenisTinggalTable extends Migration
     public function up()
     {
         Schema::create('ref_jenis_tinggal', function (Blueprint $table) {
-            $table->id();
+            $table->integer('id_jenis_tinggal')->primary();
             $table->string('nama_jenis_tinggal');
             $table->timestamps();
         });

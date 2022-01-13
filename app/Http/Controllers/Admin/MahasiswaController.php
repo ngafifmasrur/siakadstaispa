@@ -19,7 +19,7 @@ use App\Models\ref_wilayah;
 use App\Models\User;
 use App\Models\Role;
 use App\Http\Requests\MahasiswaRequest;
-use Session, DB;
+use Session, DB, Str;
 
 class MahasiswaController extends Controller
 {
@@ -30,9 +30,9 @@ class MahasiswaController extends Controller
      */
     public function index()
     {
-        $prodi = m_program_studi::pluck('nama_program_studi', 'id');
-        $periode = m_semester::pluck('nama_semester', 'id');
-        $agama = ref_agama::pluck('nama_agama', 'id');
+        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi');
+        $periode = m_semester::pluck('nama_semester', 'id_semester');
+        $agama = ref_agama::pluck('nama_agama', 'id_agama');
         $status_mahasiswa = $this->status_mahasiswa;
 
         return view('admin.mahasiswa.index', compact('prodi', 'periode', 'agama', 'status_mahasiswa'));
@@ -72,7 +72,7 @@ class MahasiswaController extends Controller
                     //     'data-id_status_mahasiswa' => $data->id_status_mahasiswa,
                     //     'data-id_perguruan_tinggi' => $data->id_perguruan_tinggi,
                     // ],
-                    "route" => route('admin.mahasiswa.edit',['mahasiswa' => $data->id]),
+                    "route" => route('admin.mahasiswa.edit',['mahasiswa' => $data->id_mahasiswa]),
                 ]);
     
                 $button .= view("components.button.default", [
@@ -83,7 +83,7 @@ class MahasiswaController extends Controller
                     'attribute' => [
                         'data-text' => 'Anda yakin ingin menghapus data ini ?',
                     ],
-                    "route" => route('admin.mahasiswa.destroy',['mahasiswa' => $data->id]),
+                    "route" => route('admin.mahasiswa.destroy',['mahasiswa' => $data->id_mahasiswa]),
                 ]);
     
                 $button .= '</div>';
@@ -107,14 +107,14 @@ class MahasiswaController extends Controller
      */
     public function create()
     {
-        $agama = ref_agama::pluck('nama_agama', 'id');
-        $jenis_tinggal = ref_jenis_tinggal::pluck('nama_jenis_tinggal', 'id');
-        $jenjang_pendidikan = ref_jenjang_pendidikan::pluck('nama_jenjang_didik', 'id');
-        $kebutuhan_khusus = ref_kebutuhan_khusus::pluck('nama_kebutuhan_khusus', 'id');
-        $pekerjaan = ref_pekerjaan::pluck('nama_pekerjaan', 'id');
-        $penghasilan = ref_penghasilan::pluck('nama_penghasilan', 'id');
-        $alat_transportasi = ref_alat_transportasi::pluck('nama_jalat_transportasi', 'id');
-        $wilayah = ref_wilayah::pluck('nama_wilayah', 'id');
+        $agama = ref_agama::pluck('nama_agama', 'id_agama')->prepend('Pilih', NULL);
+        $jenis_tinggal = ref_jenis_tinggal::pluck('nama_jenis_tinggal', 'id_jenis_tinggal')->prepend('Pilih', NULL);
+        $jenjang_pendidikan = ref_jenjang_pendidikan::pluck('nama_jenjang_didik', 'id_jenjang_didik')->prepend('Pilih', NULL);
+        $kebutuhan_khusus = ref_kebutuhan_khusus::pluck('nama_kebutuhan_khusus', 'id_kebutuhan_khusus')->prepend('Pilih', NULL);
+        $pekerjaan = ref_pekerjaan::pluck('nama_pekerjaan', 'id_pekerjaan')->prepend('Pilih', NULL);
+        $penghasilan = ref_penghasilan::pluck('nama_penghasilan', 'id_penghasilan')->prepend('Pilih', NULL);
+        $alat_transportasi = ref_alat_transportasi::pluck('nama_alat_transportasi', 'id_alat_transportasi')->prepend('Pilih', NULL);
+        $wilayah = ref_wilayah::pluck('nama_wilayah', 'id_wilayah')->prepend('Pilih', NULL);
 
         return view('admin.mahasiswa.create', compact('agama', 'jenis_tinggal', 'jenjang_pendidikan', 'kebutuhan_khusus', 'pekerjaan', 'penghasilan', 'alat_transportasi', 'wilayah'));
     }
@@ -126,14 +126,14 @@ class MahasiswaController extends Controller
      */
     public function edit(m_mahasiswa $mahasiswa)
     {
-        $agama = ref_agama::pluck('nama_agama', 'id');
-        $jenis_tinggal = ref_jenis_tinggal::pluck('nama_jenis_tinggal', 'id');
-        $jenjang_pendidikan = ref_jenjang_pendidikan::pluck('nama_jenjang_didik', 'id');
-        $kebutuhan_khusus = ref_kebutuhan_khusus::pluck('nama_kebutuhan_khusus', 'id');
-        $pekerjaan = ref_pekerjaan::pluck('nama_pekerjaan', 'id');
-        $penghasilan = ref_penghasilan::pluck('nama_penghasilan', 'id');
-        $alat_transportasi = ref_alat_transportasi::pluck('nama_jalat_transportasi', 'id');
-        $wilayah = ref_wilayah::pluck('nama_wilayah', 'id');
+        $agama = ref_agama::pluck('nama_agama', 'id_agama');
+        $jenis_tinggal = ref_jenis_tinggal::pluck('nama_jenis_tinggal', 'id_jenis_tinggal');
+        $jenjang_pendidikan = ref_jenjang_pendidikan::pluck('nama_jenjang_didik', 'id_jenjang_didik');
+        $kebutuhan_khusus = ref_kebutuhan_khusus::pluck('nama_kebutuhan_khusus', 'id_kebutuhan_khusus');
+        $pekerjaan = ref_pekerjaan::pluck('nama_pekerjaan', 'id_pekerjaan');
+        $penghasilan = ref_penghasilan::pluck('nama_penghasilan', 'id_penghasilan');
+        $alat_transportasi = ref_alat_transportasi::pluck('nama_alat_transportasi', 'id_alat_transportasi');
+        $wilayah = ref_wilayah::pluck('nama_wilayah', 'id_wilayah');
 
         return view('admin.mahasiswa.edit', compact('agama', 'jenis_tinggal', 'jenjang_pendidikan', 'kebutuhan_khusus', 'pekerjaan', 'penghasilan', 'alat_transportasi', 'wilayah', 'mahasiswa'));
     }
@@ -160,7 +160,10 @@ class MahasiswaController extends Controller
             $user->save();
             $user->roles()->attach($role_mahasiswa);
 
-            $request->merge(['user_id' => $user->id]);
+            $request->merge([
+                'user_id' => $user->id,
+                'id_mahasiswa' => Str::uuid(),
+            ]);
             $data = m_mahasiswa::create($request->all());
             DB::commit();
 

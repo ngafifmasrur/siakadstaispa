@@ -24,7 +24,7 @@ class KelasKuliahRequest extends FormRequest
     public function rules()
     {
         return [
-            'id_prodi' => 'required|integer',
+            'id_prodi' => 'required',
             // 'id_semester' => 'required|integer',
             // 'id_matkul' => 'required|integer',
             'nama_kelas_kuliah' => 'required|string',

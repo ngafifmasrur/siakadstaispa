@@ -14,7 +14,7 @@ class CreateRefPenghasilanTable extends Migration
     public function up()
     {
         Schema::create('ref_penghasilan', function (Blueprint $table) {
-            $table->id();
+            $table->bigInteger('id_penghasilan')->primary();
             $table->string('nama_penghasilan');
             $table->timestamps();
         });

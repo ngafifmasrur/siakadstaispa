@@ -10,8 +10,11 @@ class m_dosen extends Model
     use HasFactory;
 
     protected $table = 'm_dosen';
+    protected $primaryKey = 'id_dosen';
     protected $guarded = [];
-
+    public $incrementing = false;
+    protected $keyType = 'string';
+    
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');

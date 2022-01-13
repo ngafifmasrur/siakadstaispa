@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\m_program_studi;
-use Session, DB;
+use Session, DB, Str;
 
 class ProgramStudiController extends Controller
 {
@@ -40,7 +40,7 @@ class ProgramStudiController extends Controller
                         'data-jenjang' => $data->id_jenjang_pendidikan,
                         'data-status' => $data->status,
                     ],
-                    "route" => route('admin.program_studi.update',['program_studi' => $data->id]),
+                    "route" => route('admin.program_studi.update', $data->id_prodi),
                 ]);
     
                 $button .= view("components.button.default", [
@@ -51,7 +51,7 @@ class ProgramStudiController extends Controller
                     'attribute' => [
                         'data-text' => 'Anda yakin ingin menghapus data ini ?',
                     ],
-                    "route" => route('admin.program_studi.destroy',['program_studi' => $data->id]),
+                    "route" => route('admin.program_studi.destroy', $data->id_prodi),
                 ]);
     
                 $button .= '</div>';
@@ -81,7 +81,10 @@ class ProgramStudiController extends Controller
         DB::beginTransaction();
 
         try{
-            
+            $request->merge([
+                'id_prodi' => Str::uuid(),
+                'nama_jenjang_pendidikan' => $this->jenjang_pendidikan[$request->id_jenjang_pendidikan]
+            ]);
             $data = m_program_studi::create($request->all());
             DB::commit();
 
@@ -102,7 +105,9 @@ class ProgramStudiController extends Controller
         DB::beginTransaction();
 
         try{
-            
+            $request->merge([
+                'nama_jenjang_pendidikan' => $this->jenjang_pendidikan[$request->id_jenjang_pendidikan]
+            ]);
             $program_studi->update($request->all());
             DB::commit();
 

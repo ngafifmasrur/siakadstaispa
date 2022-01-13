@@ -14,7 +14,7 @@ class CreateRefAgamaTable extends Migration
     public function up()
     {
         Schema::create('ref_agama', function (Blueprint $table) {
-            $table->id();
+            $table->bigInteger('id_agama')->primary();
             $table->string('nama_agama');
             $table->timestamps();
         });

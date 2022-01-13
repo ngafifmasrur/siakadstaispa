@@ -7,24 +7,37 @@
     KRS
 </x-header>
 
+<x-card>
+    <div class="row">
+        <div class="form-group col-lg-3">
+            <label for="tahun_ajaran" class="font-weight-bold">Tahun Pelajaran</label>
+            {!! Form::select('tahun_ajaran', $list_tahun_ajaran, null, ['class' => 'form-control', 'id' => 'tahun_ajaran']) !!}
+        </div>
+    </div>
+</x-card>
+
 <x-card-table>
     <x-slot name="title">KRS</x-slot>
     <x-slot name="button">
         <a class="btn btn-app btn-sm btn-primary add-form" data-url="{{ route('mahasiswa.krs.store') }}" href="#"><i class="fa fa-plus mr-2"></i>Tambah</a>
+        <button class="btn btn-app btn-sm btn-success" onclick="document.getElementById('ajukan').submit();" {{ $semester_siswa->status_krs == 'Belum Mengajukan' ? '' : 'disabled'}}><i class="fa fa-check mr-2"></i>Ajukan</a>
+        <form id="ajukan" action="{{ route('mahasiswa.krs.ajukan', $tahun_ajaran) }}" method="post">
+            @csrf
+        </form>
     </x-slot>
 
-    <x-datatable 
-    :route="route('mahasiswa.krs.data_index')" 
+    <x-krs-table 
+    :route="route('mahasiswa.krs.data_index', $tahun_ajaran)" 
     :table="[
         ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],                            
-        ['title' => 'Program Studi', 'data' => 'prodi', 'name' => 'prodi', 'classname' => 'text-left'],
-        ['title' => 'Nama Dosen', 'data' => 'dosen', 'name' => 'dosen', 'classname' => 'text-left'],
-        ['title' => 'Mata Kuliah', 'data' => 'matkul', 'name' => 'matkul','classname' => 'text-left'],
-        ['title' => 'Kelas', 'data' => 'kelas', 'name' => 'kelas','classname' => 'text-left'],
+        {{-- ['title' => 'Program Studi', 'data' => 'prodi', 'name' => 'prodi', 'classname' => 'text-left'], --}}
+        ['title' => 'Kode', 'data' => 'kode_matkul', 'name' => 'kode_matkul'],
+        ['title' => 'Nama Mata Kuliah', 'data' => 'matkul', 'name' => 'matkul','classname' => 'text-left'],
+        ['title' => 'Nama Kelas', 'data' => 'kelas', 'name' => 'kelas','classname' => 'text-left'],
+        ['title' => 'SKS', 'data' => 'sks', 'name' => 'sks'],
+        ['title' => 'Dosen Pengajar', 'data' => 'dosen', 'name' => 'dosen', 'classname' => 'text-left'],
         ['title' => 'Ruangan', 'data' => 'ruangan', 'name' => 'ruangan','classname' => 'text-left'],
-        ['title' => 'Hari', 'data' => 'hari', 'name' => 'hari'],
-        ['title' => 'Jam Mulai', 'data' => 'jam_mulai', 'name' => 'jam_mulai'],
-        ['title' => 'Jam Selesai', 'data' => 'jam_selesai', 'name' => 'jam_selesai'],
+        ['title' => 'Jadwal', 'data' => 'jadwal', 'name' => 'jadwal'],
         ['title' => 'Status', 'data' => 'status', 'name' => 'status'],
         ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
     ]"

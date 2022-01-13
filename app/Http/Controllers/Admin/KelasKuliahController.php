@@ -20,7 +20,7 @@ class KelasKuliahController extends Controller
      */
     public function index()
     {
-        $prodi = m_program_studi::pluck('nama_program_studi', 'id');
+        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi');
         // $semester = m_semester::pluck('nama_semester', 'id');
         // $mata_kuliah = m_mata_kuliah::pluck('nama_mata_kuliah', 'id');
 

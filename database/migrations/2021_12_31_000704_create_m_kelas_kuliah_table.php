@@ -15,7 +15,7 @@ class CreateMKelasKuliahTable extends Migration
     {
         Schema::create('m_kelas_kuliah', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('id_prodi');
+            $table->uuid('id_prodi');
             // $table->bigInteger('id_semester');
             // $table->bigInteger('id_matkul');
             $table->string('nama_kelas_kuliah');

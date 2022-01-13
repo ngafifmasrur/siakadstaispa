@@ -14,8 +14,8 @@ class CreateRefJalurMasukTable extends Migration
     public function up()
     {
         Schema::create('ref_jalur_masuk', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama_jjalur_masuk');
+            $table->integer('id_jalur_masuk');
+            $table->string('nama_jalur_masuk');
             $table->timestamps();
         });
     }

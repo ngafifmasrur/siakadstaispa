@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class m_jadwal extends Model
 {
     use HasFactory;
+    public $tahun_ajaran;
+
     protected $table = 'm_jadwal';
     protected $guarded = [];
-    
+
     public function dosen()
 	  {
 		return $this->belongsTo('App\Models\m_dosen', 'id_dosen');
@@ -32,7 +34,7 @@ class m_jadwal extends Model
     }
 
     public function ruangan()
-	{
+	  {
 		return $this->belongsTo('App\Models\m_ruang_kelas', 'id_ruang');
     }
     

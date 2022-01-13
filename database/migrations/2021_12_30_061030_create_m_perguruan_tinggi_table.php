@@ -14,7 +14,7 @@ class CreateMPerguruanTinggiTable extends Migration
     public function up()
     {
         Schema::create('m_perguruan_tinggi', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id_perguruan_tinggi')->primary();
             $table->string('kode_perguruan_tinggi');
             $table->string('nama_perguruan_tinggi');
             $table->string('telepon')->nullable();

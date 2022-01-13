@@ -11,4 +11,6 @@ class ref_jenis_tinggal extends Model
 
     protected $table = 'ref_jenis_tinggal';
     protected $guarded = [];
+    protected $primaryKey = 'id_jenis_tinggal';
+
 }

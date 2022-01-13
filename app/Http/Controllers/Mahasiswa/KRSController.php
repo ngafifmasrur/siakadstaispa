@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Mahasiswa;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\t_krs;
+use App\Models\t_semester_mahasiswa;
+use App\Models\m_tahun_ajaran;
 use App\Models\m_jadwal;
 use Session, DB, Auth;
 
@@ -15,17 +17,33 @@ class KRSController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($tahun_ajaran)
     {
         $krs_mahasiswa = t_krs::where('nim', Auth::user()->mahasiswa->nim)
         ->select('id_jadwal')->get()->toArray();
         $jadwal = m_jadwal::whereNotIn('id', $krs_mahasiswa)->get();
-        return view('mahasiswa.krs.index', compact('jadwal'));
+        $list_tahun_ajaran = m_tahun_ajaran::pluck('id_tahun_ajaran', 'nama_tahun_ajaran');
+
+        $semester_siswa = t_semester_mahasiswa::where('id_mahasiswa', Auth::user()->mahasiswa->id_mahasiswa)
+                            ->where('id_tahun_ajaran', $tahun_ajaran)
+                            ->where('status', 'Aktif')
+                            ->first();
+
+        if(is_null($semester_siswa)){
+            Session::flash('error_msg', 'Mahasiswa tidak memiliki semester aktif');
+            return view('mahasiswa.krs.index2', compact('tahun_ajaran'));
+        }
+        return view('mahasiswa.krs.index', compact('jadwal', 'tahun_ajaran', 'list_tahun_ajaran', 'semester_siswa'));
     }
 
-    public function data_index(Request $request)
+    public function data_index(Request $request, $tahun_ajaran)
     {
-        $query = t_krs::where('nim', Auth::user()->mahasiswa->nim)->get();
+        $query = t_krs::join('m_jadwal', 'm_jadwal.id', 'id_jadwal')
+                        ->join('m_mata_kuliah_aktif', 'm_mata_kuliah_aktif.id', 'm_jadwal.id_matkul_aktif')
+                        ->join('m_semester', 'm_semester.id_semester', 'm_mata_kuliah_aktif.id_semester')
+                        ->where('nim', Auth::user()->mahasiswa->nim)
+                        ->where('id_tahun_ajaran',$tahun_ajaran)
+                        ->select('t_krs.*', 'm_semester.id_tahun_ajaran');
 
         return datatables()->of($query)
             ->addIndexColumn()
@@ -55,8 +73,14 @@ class KRSController extends Controller
             ->addColumn('prodi', function ($data) {
                 return $data->jadwal->prodi->nama_program_studi;
             })
+            ->addColumn('kode_matkul', function ($data) {
+                return $data->jadwal->matkul->matkul->kode_mata_kuliah;
+            })
             ->addColumn('matkul', function ($data) {
-                return $data->jadwal->matkul->matkul_semester;
+                return $data->jadwal->matkul->matkul->nama_mata_kuliah;
+            })
+            ->addColumn('sks', function ($data) {
+                return $data->jadwal->matkul->matkul->sks_mata_kuliah;
             })
             ->addColumn('kelas', function ($data) {
                 return $data->jadwal->kelas->nama_kelas_kuliah;
@@ -64,14 +88,8 @@ class KRSController extends Controller
             ->addColumn('ruangan', function ($data) {
                 return $data->jadwal->ruangan->nama_ruangan;
             })
-            ->addColumn('hari', function ($data) {
-                return $data->jadwal->hari;
-            })
-            ->addColumn('jam_mulai', function ($data) {
-                return $data->jadwal->jam_mulai;
-            })
-            ->addColumn('jam_selesai', function ($data) {
-                return $data->jadwal->jam_akhir;
+            ->addColumn('jadwal', function ($data) {
+                return $data->jadwal->hari.', '.$data->jadwal->jam_mulai.' - '.$data->jadwal->jam_akhir;
             })
             ->addColumn('status',function ($data) {
                 if($data->status == 'Menunggu') {
@@ -150,6 +168,61 @@ class KRSController extends Controller
 
         Session::flash('success_msg', 'Berhasil Dihapus');
         return back();
+    }
+
+    public function ajukan(Request $request, $tahun_ajaran)
+    {
+
+        $krs_mahasiswa = t_krs::join('m_jadwal', 'm_jadwal.id', 'id_jadwal')
+                        ->join('m_mata_kuliah_aktif', 'm_mata_kuliah_aktif.id', 'm_jadwal.id_matkul_aktif')
+                        ->join('m_semester', 'm_semester.id_semester', 'm_mata_kuliah_aktif.id_semester')
+                        ->join('m_mata_kuliah', 'm_mata_kuliah.id_matkul', 'm_mata_kuliah_aktif.id_matkul')
+                        ->where('nim', Auth::user()->mahasiswa->nim)
+                        ->where('id_tahun_ajaran',$tahun_ajaran)
+                        ->select('t_krs.*', 'm_semester.id_tahun_ajaran', 'm_mata_kuliah.sks_mata_kuliah')
+                        ->count();
+
+        if($krs_mahasiswa <= 0) {
+            Session::flash('error_msg', 'Terjadi kesalahan pada server');
+            return redirect()->back()->withInput();
+        }
+
+        $total_sks = t_krs::join('m_jadwal', 'm_jadwal.id', 'id_jadwal')
+        ->join('m_mata_kuliah_aktif', 'm_mata_kuliah_aktif.id', 'm_jadwal.id_matkul_aktif')
+        ->join('m_semester', 'm_semester.id_semester', 'm_mata_kuliah_aktif.id_semester')
+        ->join('m_mata_kuliah', 'm_mata_kuliah.id_matkul', 'm_mata_kuliah_aktif.id_matkul')
+        ->where('nim', Auth::user()->mahasiswa->nim)
+        ->where('id_tahun_ajaran',$tahun_ajaran)
+        ->select('t_krs.*', 'm_semester.id_tahun_ajaran', 'm_mata_kuliah.sks_mata_kuliah')
+        ->sum('m_mata_kuliah.sks_mata_kuliah');
+        
+
+        DB::beginTransaction();
+
+        try{
+            
+            $semester_siswa = t_semester_mahasiswa::where('id_mahasiswa', Auth::user()->mahasiswa->id_mahasiswa)
+                                ->where('id_tahun_ajaran', $tahun_ajaran)
+                                ->where('status', 'Aktif')
+                                ->first();
+
+            $semester_siswa->update([
+                'sks' => $total_sks,
+                'status_krs' => 'Mengajukan'
+            ]);
+
+            DB::commit();
+
+            Session::flash('success_msg', 'Berhasil Diajukan');
+            return redirect()->back();
+
+        }catch(\Exception $e){
+
+            DB::rollback();
+
+            Session::flash('error_msg', 'Terjadi kesalahan pada server');
+            return dd($e);
+        }
     }
 
 }

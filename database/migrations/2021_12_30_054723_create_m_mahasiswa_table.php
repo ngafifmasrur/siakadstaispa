@@ -14,7 +14,7 @@ class CreateMMahasiswaTable extends Migration
     public function up()
     {
         Schema::create('m_mahasiswa', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id_mahasiswa')->primary();
             $table->string('nama_mahasiswa');
             $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
             $table->date('tanggal_lahir');

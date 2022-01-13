@@ -7,6 +7,15 @@
     Mata Kuliah
 </x-header>
 
+<x-card>
+    <div class="row">
+        <div class="form-group col-lg-3">
+            <label for="prodi">Program Studi</label>
+            {!! Form::select('prodi', $prodi, null, ['class' => 'form-control', 'id' => 'prodi']) !!}
+        </div>
+    </div>
+</x-card>
+
 <x-card-table>
     <x-slot name="title">Data Mata Kuliah</x-slot>
     <x-slot name="button">
@@ -22,11 +31,15 @@
         ['title' => 'Program Studi', 'data' => 'prodi', 'name' => 'prodi', 'classname' => 'text-left'],
         ['title' => 'Jenis', 'data' => 'jenis', 'name' => 'jenis'],
         ['title' => 'Kelompok', 'data' => 'kelompok', 'name' => 'kelompok'],
-        ['title' => 'SKS Matkul', 'data' => 'sks_mata_kuliah', 'name' => 'sks_mata_kuliah'],
-        ['title' => 'SKS Tatap Muka', 'data' => 'sks_tatap_muka', 'name' => 'sks_tatap_muka'],
-        ['title' => 'SKS Praktek', 'data' => 'sks_praktek', 'name' => 'sks_praktek'],
-        ['title' => 'SKS Praktek Lapangan', 'data' => 'sks_praktek_lapangan', 'name' => 'sks_praktek_lapangan'],
+        ['title' => 'SKS MK', 'data' => 'sks_mata_kuliah', 'name' => 'sks_mata_kuliah'],
+        ['title' => 'SKS TM', 'data' => 'sks_tatap_muka', 'name' => 'sks_tatap_muka'],
+        ['title' => 'SKS P', 'data' => 'sks_praktek', 'name' => 'sks_praktek'],
+        ['title' => 'SKS PL', 'data' => 'sks_praktek_lapangan', 'name' => 'sks_praktek_lapangan'],
         ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
+    ]"
+    :filter="[
+        ['data' => '_token', 'value' => 'token'],
+        ['data' => 'prodi', 'value' => 'prodi'],
     ]"
     />
 </x-card-table>
@@ -398,6 +411,13 @@
 
 @push('js')
     <script>
+        var token = '{{ csrf_token() }}';
+        var prodi = $('#prodi').val();
+
+        // $(document).on('change','#prodi',function(){
+        //     $('#dataTables').DataTable().ajax.reload();
+        // });
+
         $('.add-form').on('click', function () {
             $('.modal-form').modal('show');
             $('.modal-form form')[0].reset();
@@ -441,12 +461,14 @@
             $('[name=sks_praktek_lapangan]').val(sks_praktek_lapangan);
             $('[name=sks_simulasi]').val(sks_simulasi);
             $('[name=metode_kuliah]').val(metode_kuliah);
-            $('[name=jumlah_sks_pilihan]').val(jumlah_sks_pilihan);            $('[name=id_semester]').val(id_semester);
+            $('[name=jumlah_sks_pilihan]').val(jumlah_sks_pilihan);            
+            $('[name=id_semester]').val(id_semester);
             $('[name=ada_sap]').val(ada_sap);
             $('[name=ada_silabus]').val(ada_silabus);
             $('[name=ada_bahan_ajar]').val(ada_bahan_ajar);
             $('[name=ada_acara_praktek]').val(ada_acara_praktek);
-            $('[name=ada_diktat]').val(ada_diktat);            $('[name=id_semester]').val(id_semester);
+            $('[name=ada_diktat]').val(ada_diktat);            
+            $('[name=id_semester]').val(id_semester);
             $('[name=paket]').val(paket);
             $('[name=tanggal_mulai_efektif]').val(tanggal_mulai_efektif);
             $('[name=tanggal_selesai_efektif]').val(tanggal_selesai_efektif);

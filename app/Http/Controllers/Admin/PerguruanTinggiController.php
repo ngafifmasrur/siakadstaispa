@@ -13,7 +13,7 @@ class PerguruanTinggiController extends Controller
     public function index()
     {
         $data = m_perguruan_tinggi::find(1);
-        $wilayah = ref_wilayah::pluck('nama_wilayah', 'id');
+        $wilayah = ref_wilayah::pluck('nama_wilayah', 'id_wilayah');
         return view('admin.perguruan_tinggi.index', compact('data', 'wilayah'));
     }
 

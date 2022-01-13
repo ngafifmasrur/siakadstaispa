@@ -11,4 +11,6 @@ class ref_kebutuhan_khusus extends Model
 
     protected $table = 'ref_kebutuhan_khusus';
     protected $guarded = [];
+    protected $primaryKey = 'id_kebutuhan_khusus';
+
 }

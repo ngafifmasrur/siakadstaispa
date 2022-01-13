@@ -10,7 +10,7 @@
 <x-card-table>
     <x-slot name="title">Ubah Data Dosen</x-slot>
     
-    <form action="{{ route('admin.dosen.update', $dosen->id) }}" method="POST">
+    <form action="{{ route('admin.dosen.update', $dosen->id_dosen) }}" method="POST">
         @csrf @method('PUT')
         <div class="form-group row">
             <label for="nidn" class="col-sm-2 col-form-label">NIDN <span class="text-danger">*</span></label>

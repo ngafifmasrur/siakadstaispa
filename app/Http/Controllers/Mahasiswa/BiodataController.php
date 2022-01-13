@@ -26,14 +26,14 @@ class BiodataController extends Controller
     public function index()
     {
         $mahasiswa = Auth::user()->mahasiswa;
-        $agama = ref_agama::pluck('nama_agama', 'id');
-        $jenis_tinggal = ref_jenis_tinggal::pluck('nama_jenis_tinggal', 'id');
-        $jenjang_pendidikan = ref_jenjang_pendidikan::pluck('nama_jenjang_didik', 'id');
-        $kebutuhan_khusus = ref_kebutuhan_khusus::pluck('nama_kebutuhan_khusus', 'id');
-        $pekerjaan = ref_pekerjaan::pluck('nama_pekerjaan', 'id');
-        $penghasilan = ref_penghasilan::pluck('nama_penghasilan', 'id');
-        $alat_transportasi = ref_alat_transportasi::pluck('nama_jalat_transportasi', 'id');
-        $wilayah = ref_wilayah::pluck('nama_wilayah', 'id');
+        $agama = ref_agama::pluck('nama_agama', 'id_agama');
+        $jenis_tinggal = ref_jenis_tinggal::pluck('nama_jenis_tinggal', 'id_jenis_tinggal');
+        $jenjang_pendidikan = ref_jenjang_pendidikan::pluck('nama_jenjang_didik', 'id_jenjang_didik');
+        $kebutuhan_khusus = ref_kebutuhan_khusus::pluck('nama_kebutuhan_khusus', 'id_kebutuhan_khusus');
+        $pekerjaan = ref_pekerjaan::pluck('nama_pekerjaan', 'id_pekerjaan');
+        $penghasilan = ref_penghasilan::pluck('nama_penghasilan', 'id_penghasilan');
+        $alat_transportasi = ref_alat_transportasi::pluck('nama_alat_transportasi', 'id_alat_transportasi');
+        $wilayah = ref_wilayah::pluck('nama_wilayah', 'id_wilayah');
 
         return view('mahasiswa.biodata.index', compact('agama', 'jenis_tinggal', 'jenjang_pendidikan', 'kebutuhan_khusus', 'pekerjaan', 'penghasilan', 'alat_transportasi', 'wilayah', 'mahasiswa'));
     }

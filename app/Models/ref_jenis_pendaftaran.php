@@ -11,4 +11,6 @@ class ref_jenis_pendaftaran extends Model
 
     protected $table = 'ref_jenis_pendaftaran';
     protected $guarded = [];
+    protected $primaryKey = 'id_jenis_daftar';
+
 }

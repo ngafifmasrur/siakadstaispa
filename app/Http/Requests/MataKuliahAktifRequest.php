@@ -26,6 +26,7 @@ class MataKuliahAktifRequest extends FormRequest
         return [
             'id_matkul' => 'required',
             'id_semester' => 'required',
+            'nilai_minimum' => 'required',
         ];
     }
 }

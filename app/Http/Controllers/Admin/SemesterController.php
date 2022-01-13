@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\m_semester;
+use App\Models\m_tahun_ajaran;
 use App\Http\Requests\SemesterRequest;
 use Session, DB;
 
@@ -17,7 +18,8 @@ class SemesterController extends Controller
      */
     public function index()
     {
-        return view('admin.semester.index');
+        $tahun_ajaran = m_tahun_ajaran::pluck('nama_tahun_ajaran', 'id_tahun_ajaran')->prepend('Pilih Tahun Ajaran', NULL);
+        return view('admin.semester.index', compact('tahun_ajaran'));
     }
 
     public function data_index(Request $request)
@@ -36,13 +38,14 @@ class SemesterController extends Controller
                     'class' => 'btn btn-outline-primary btn-sm btn_edit',
                     "icon" => "fa fa-edit",
                     'attribute' => [
-                        'data-tahun_ajaran' => $data->tahun_ajaran,
+                        'data-id_tahun_ajaran' => $data->id_tahun_ajaran,
                         'data-nama_semester' => $data->nama_semester,
+                        'data-semester' => $data->semester,
                         'data-a_periode_aktif' => $data->a_periode_aktif,
                         'data-tanggal_mulai' => $data->tanggal_mulai,
                         'data-tanggal_selesai' => $data->tanggal_selesai,
                     ],
-                    "route" => route('admin.semester.update', $data->id),
+                    "route" => route('admin.semester.update', $data->id_semester),
                 ]);
     
                 $button .= view("components.button.default", [
@@ -53,7 +56,7 @@ class SemesterController extends Controller
                     'attribute' => [
                         'data-text' => 'Anda yakin ingin menghapus data ini ?',
                     ],
-                    "route" => route('admin.semester.destroy', $data->id),
+                    "route" => route('admin.semester.destroy', $data->id_semester),
                 ]);
     
                 $button .= '</div>';
@@ -92,7 +95,10 @@ class SemesterController extends Controller
 
         try{
             
-            $data = m_semester::create($request->validated());
+            $request->merge([
+                'id_semester' => $request->id_tahun_ajaran.$request->semester,
+            ]);
+            $data = m_semester::create($request->all());
             DB::commit();
 
             Session::flash('success_msg', 'Berhasil Ditambah');
@@ -141,8 +147,10 @@ class SemesterController extends Controller
         DB::beginTransaction();
 
         try{
-            
-            $semester->update($request->validated());
+            $request->merge([
+                'id_semester' => $request->id_tahun_ajaran.$request->semester,
+            ]);
+            $semester->update($request->all());
             DB::commit();
 
             Session::flash('success_msg', 'Berhasil Dibah');

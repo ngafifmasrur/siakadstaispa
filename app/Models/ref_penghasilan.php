@@ -11,4 +11,5 @@ class ref_penghasilan extends Model
 
     protected $table = 'ref_penghasilan';
     protected $guarded = [];
+    protected $primaryKey = 'id_penghasilan';
 }

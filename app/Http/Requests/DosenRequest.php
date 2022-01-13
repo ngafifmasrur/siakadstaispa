@@ -62,10 +62,17 @@ class DosenRequest extends FormRequest
             'mampu_handle_bahasa_isyarat' => 'required',
         ];
 
-        if(Auth::user()->role->name == 'admin'){
-            $rules['nidn'] = 'required|string|unique:users,email,'.$this->dosen->user->id;
-        } elseif(Auth::user()->role->name == 'dosen') {
-            $rules['nidn'] = 'required|string|unique:users,email,'.Auth::user()->id;
+
+        if (in_array($this->method(), ['PUT', 'PATCH'])) {
+            if(Auth::user()->role->name == 'admin'){
+                $rules['nidn'] = 'required|string|unique:users,email,'.$this->dosen->user->id;
+            } elseif(Auth::user()->role->name == 'dosen') {
+                $rules['nidn'] = 'required|string|unique:users,email,'.Auth::user()->id;
+            }
+        }
+
+        if (in_array($this->method(), ['POST'])) {
+            $rules['nidn'] = 'required|string|unique:users,email';
         }
 
         return $rules;

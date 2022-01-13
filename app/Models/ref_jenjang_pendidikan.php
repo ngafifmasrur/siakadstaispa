@@ -11,4 +11,5 @@ class ref_jenjang_pendidikan extends Model
 
     protected $table = 'ref_jenjang_pendidikan';
     protected $guarded = [];
+    protected $primaryKey = 'id_jenjang_didik';
 }

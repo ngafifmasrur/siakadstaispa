@@ -14,7 +14,7 @@ class CreateRefWilayahTable extends Migration
     public function up()
     {
         Schema::create('ref_wilayah', function (Blueprint $table) {
-            $table->id();
+            $table->bigInteger('id_wilayah')->primary();
             $table->bigInteger('id_negara');
             $table->string('nama_wilayah');
             $table->timestamps();

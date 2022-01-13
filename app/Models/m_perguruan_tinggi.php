@@ -10,5 +10,6 @@ class m_perguruan_tinggi extends Model
     use HasFactory;
     protected $table = 'm_perguruan_tinggi';
     protected $guarded = [];
+    protected $primaryKey = 'id_perguruan_tinggi';
 
 }
