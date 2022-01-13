@@ -1,0 +1,45 @@
+@media (min-width: 200px) and (max-width: 768px) {
+  .mt-40 {
+    margin-top: 40px;
+  }
+  .contact-box {
+    padding: 8px !important;
+  }
+  .home-3-title {
+    font-size: 36px;
+  }
+  .video-button {
+    position: static;
+  }
+  .home-4-content {
+    max-width: 100%;
+  }
+  .home-4-img {
+    padding: 50px 0px 0px !important;
+  }
+  .back-slide {
+    img {
+      height: 100vh;
+    }
+  }
+}
+
+@media (max-width: 425px) {
+  .mt-10 {
+    margin-top: 10px;
+  }
+  .subcribe-form {
+    input {
+      width: 100%;
+    }
+  }
+  .home-6-title {
+    font-size: 34px;
+  }
+  .home-6-bg {
+    height: auto;
+  }
+  .home-4-bg {
+    height: auto;
+  }
+}

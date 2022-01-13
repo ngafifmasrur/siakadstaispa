@@ -1,0 +1,37 @@
+// FOOTER
+.footer-bg {
+  background-image: url("../images/footer-bg.png");
+  background-size: cover;
+  background-position: center center;
+  padding-top: 80px;
+  padding-bottom: 30px;
+  position: relative;
+}
+
+.footer-sub-menu {
+  li {
+    margin: 14px 0 !important;
+    a {
+      position: relative;
+      transition: all 0.5s;
+      &:after {
+        content: "";
+        background-color: $custom;
+        height: 1px;
+        width: 0%;
+        position: absolute;
+        left: 0;
+        bottom: -5px;
+        transition: all 0.5s;
+      }
+      &:hover {
+        color: $custom !important;
+        transition: all 0.5s;
+        &:after {
+          width: 100%;
+          transition: all 0.5s;
+        }
+      }
+    }
+  }
+}

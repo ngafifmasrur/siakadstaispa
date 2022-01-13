@@ -508,6 +508,12 @@ mark,
   height: auto;
 }
 
+.img-fluid-costume {
+  max-width: 100%;
+  width: auto;
+  height: auto;
+}
+
 .img-thumbnail {
   padding: 0.25rem;
   background-color: #f2f6fc;

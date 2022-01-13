@@ -1,0 +1,64 @@
+// SERVICES
+.title-border-simple:before {
+  content: "";
+  position: absolute;
+  width: 120px;
+  height: 2px;
+  background-color: $primary;
+  top: 15px;
+  right: 0;
+  left: 0;
+  border-radius: 50px;
+}
+
+.title-border-simple:after {
+  content: "";
+  position: absolute;
+  width: 30px;
+  height: 6px;
+  background-color: $custom;
+  top: 13px;
+  left: 0px;
+  right: 0;
+  border-radius: 50px;
+}
+
+.service-box {
+  border: 1px solid $light;
+  transition: all 0.5s;
+  .service-icon {
+    background-color: rgba($primary, 0.08);
+    height: 64px;
+    width: 64px;
+    line-height: 64px;
+    border-radius: 50px;
+    text-align: center;
+    transition: all 0.5s;
+    i {
+      font-size: 28px;
+      color: $primary;
+      transition: all 0.5s;
+    }
+  }
+  &:hover {
+    transform: scale(1.01);
+    border-color: $white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.5s;
+    .service-icon {
+      background-color: $primary;
+      box-shadow: 0 0 0 7px rgba($primary, 0.15);
+      transition: all 0.5s;
+      i {
+        color: $white;
+        transition: all 0.5s;
+      }
+    }
+    .service-title {
+      a {
+        color: $primary !important;
+        transition: all 0.5s;
+      }
+    }
+  }
+}
