@@ -1,0 +1,43 @@
+// BLOG
+.blog {
+  .blog-content {
+    position: relative;
+    left: 0;
+    right: 0;
+    margin: 0 18px;
+    box-shadow: 0 0 5px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    top: -25px;
+    transition: all 0.5s;
+    &:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 13px 0px rgba(0, 0, 0, 0.1);
+      transition: all 0.5s;
+    }
+    .read-more {
+      border-top: 1px dashed $muted;
+      border-bottom: 1px dashed $muted;
+      padding: 8px 0;
+      i {
+        opacity: 0;
+        transition: all 0.5s;
+      }
+      &:hover {
+        i {
+          opacity: 1;
+          margin-left: 5px;
+          transition: all 0.5s;
+        }
+      }
+    }
+  }
+  .blog-date {
+    background-color: $primary;
+    position: absolute;
+    padding: 2px 12px;
+    border-radius: 4px;
+    p {
+      letter-spacing: 0.8px;
+    }
+  }
+}

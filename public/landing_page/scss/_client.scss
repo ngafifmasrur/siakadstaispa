@@ -1,0 +1,68 @@
+
+// CLIENTS 
+.bg-clients {
+    background-image: url("../images/bg-clients.jpg");
+    background-size: cover;
+    position: relative;
+    background-attachment: fixed;
+}
+
+.testi-content {
+    position: relative;
+    .testi-box {
+        background-color: rgba(255, 255, 255, 0.25);
+        border-radius: 4px;
+        padding: 40px 34px 65px;
+        clip-path: polygon(0 0, 100% 0, 100% 88%, 91% 88%, 92% 100%, 87% 88%, 0 88%);
+        margin: 0px 10px;
+        .quote-img {
+            img {
+                position: absolute;
+                right: 40px;
+                top: 30px;
+            }
+        }
+    }
+    .client-img {
+        img {
+            max-width: 72px;
+            border: 6px solid rgba(255, 255, 255, 0.1);
+        }
+    }
+    .clients-name {
+        .after-border {
+            position: absolute;
+            border-bottom: 1px solid $custom;
+            height: 1px;
+            width: 40px;
+            margin-left: -50px;
+            top: 10px;
+        }
+    }
+}
+
+.text-white-70 {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.tns-outer{
+    .tns-nav{
+        text-align: center;
+        button{
+            width: 8px;
+            height: 4px;
+            margin: 5px 7px;
+            background: rgba($custom, 0.5);
+            border: none;
+            border-radius: 20px;
+            &:hover,
+            &:focus,
+            &:active{
+                outline: none;
+            }
+            &.tns-nav-active {
+                background-color: $custom !important;
+            }
+        }
+    } 
+ }
