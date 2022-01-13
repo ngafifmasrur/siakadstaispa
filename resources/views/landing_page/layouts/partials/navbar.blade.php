@@ -17,14 +17,14 @@
                     <li class="nav-item <?php if($nav=="berita"){ echo "active"; } ?>">
                         <a href="{{ route('landing_page.berita') }}" class="nav-link">Berita</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a href="#services" class="nav-link">Aktivasi</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
-                        <a href="{{ route('dashboard') }}"" class="nav-link">Login</a>
+                        <a href="{{ route('dashboard') }}" class="nav-link">Login</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#features" class="nav-link">Kontak</a>
+                    <li class="nav-item <?php if($nav=="kontak"){ echo "active"; } ?>">
+                        <a href="{{ route('landing_page.kontak') }}" class="nav-link">Kontak</a>
                     </li>
                 </ul>
 

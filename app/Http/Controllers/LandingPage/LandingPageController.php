@@ -23,6 +23,12 @@ class LandingPageController extends Controller {
         return view('landing_page.berita' , compact('nav'));
     }
 
+    public function kontak()
+    {
+        $nav = "kontak";
+        return view('landing_page.kontak' , compact('nav'));
+    }
+
 
 }
 

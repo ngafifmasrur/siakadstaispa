@@ -52,6 +52,7 @@ Route::get('/', function () {
 
 Route::get('/home', [LandingPageController::class, 'index'])->name('landing_page.index');
 Route::get('/berita', [LandingPageController::class, 'berita'])->name('landing_page.berita');
+Route::get('/kontak', [LandingPageController::class, 'kontak'])->name('landing_page.kontak');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

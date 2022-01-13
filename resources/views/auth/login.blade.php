@@ -65,9 +65,9 @@
                     <li class="nav-item">
                         <a href="{{ route('landing_page.berita') }}" class="nav-link">Berita</a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a href="#services" class="nav-link">Aktivasi</a>
-                    </li>
+                    </li> -->
                     <li class="nav-item active">
                         <a href="{{ route('dashboard') }}"" class="nav-link">Login</a>
                     </li>
@@ -107,11 +107,14 @@
 							<span class="input-group-addon bg-white"><i class="fa fa-unlock-alt"></i></span>
 							<input type="password" class="form-control" placeholder="Password" name="password">
 						</div>
-						<button type="submit" class="btn btn-primary btn-costume btn-block">Login</button>
+						<div class="col-lg-12">	
+							<button type="submit" style="color:white; border-radius: 10px;display: block;width: 100%;border: none;background-color: #D75746;padding: 14px 28px;font-size: 16px;cursor: pointer;text-align: center;">Masuk</button>
+						</div>
 					</form>
 					</div>
 				</div>
 			<div>
+			<p class="text-muted mb-3 f-14 pt-5">Silahkan login pada form yang telah disediakan pada form di atas.</p>
 		</div>
     </section>
 
