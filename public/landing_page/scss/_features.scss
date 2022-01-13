@@ -1,0 +1,50 @@
+// FEATURES
+.features-content {
+  .features-icon {
+    i {
+      font-size: 46px;
+    }
+  }
+  .right-arrow {
+    font-size: 26px;
+    position: relative;
+    top: 4px;
+    line-height: 0;
+  }
+}
+
+.features-img {
+  background-image: url("../images/features-bg-effect.png");
+  position: relative;
+  background-size: cover;
+  background-position: center center;
+  &:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 360px;
+    width: 360px;
+    background-color: $primary;
+    margin: 0 auto;
+    border-radius: 50%;
+    bottom: 50%;
+    transform: translateY(50%);
+    transition: all 0.5s;
+  }
+  &:hover {
+    &:after {
+      box-shadow: 0 0 0px 10px rgba(0, 91, 234, 0.1);
+      transition: all 0.5s;
+    }
+  }
+  img {
+    z-index: 1;
+    position: relative;
+    transition: all 0.5s;
+    &:hover {
+      transform: scale(1.05);
+      transition: all 0.5s;
+    }
+  }
+}

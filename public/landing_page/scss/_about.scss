@@ -1,0 +1,113 @@
+// ABOUT
+.bg-about {
+  &.bg-light-about {
+    background-image: url("../images/bg-light-about.png");
+  }
+  background-image: url("../images/bg-about.png");
+  background-color: $primary;
+  position: relative;
+  background-size: cover;
+  background-position: center center;
+}
+
+.title-border-color:before {
+  content: "";
+  position: absolute;
+  width: 120px;
+  height: 2px;
+  background-color: $white;
+  top: 15px;
+  right: 0;
+  left: 0;
+  border-radius: 50px;
+}
+
+.title-border-color:after {
+  content: "";
+  position: absolute;
+  width: 30px;
+  height: 6px;
+  background-color: $custom;
+  top: 13px;
+  left: 0px;
+  right: 0;
+  border-radius: 50px;
+}
+
+.about-desc {
+  h3 {
+    line-height: 1.5;
+  }
+}
+
+.about-img {
+  img {
+    border: 6px solid rgba(238, 238, 238, 0.2);
+    border-radius: 5px;
+  }
+}
+
+.about-img {
+  &.light-img {
+    img {
+      border: 6px solid rgba($primary, 0.2);
+    }
+  }
+  .img-title {
+    position: absolute;
+    top: 20px;
+    left: 10px;
+    max-width: 220px;
+    text-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.about-box {
+  &.about-light {
+    .about-icon {
+      border: 1px solid $dark;
+      i {
+        -webkit-text-stroke: 1px $dark;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+    &:hover {
+      .about-icon {
+        background-color: $primary;
+        box-shadow: 0 0 0 7px rgba($primary, 0.15);
+        border-color: $primary;
+      }
+      i {
+        -webkit-text-stroke: 1px $white;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+  }
+  transition: all 0.5s;
+  .about-icon {
+    border: 1px solid $white;
+    height: 62px;
+    width: 62px;
+    line-height: 62px;
+    margin: 0 auto;
+    border-radius: 50px;
+    transition: all 0.5s;
+    i {
+      -webkit-text-stroke: 1px $white;
+      -webkit-text-fill-color: transparent;
+      font-size: 34px;
+      transition: all 0.5s;
+    }
+  }
+  &:hover {
+    .about-icon {
+      background-color: $white;
+      box-shadow: 0 0 0 7px rgba(255, 255, 255, 0.15);
+      transition: all 0.5s;
+    }
+    i {
+      -webkit-text-stroke: 1px $primary;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+}
