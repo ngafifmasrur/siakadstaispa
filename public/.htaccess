@@ -4,6 +4,7 @@
     </IfModule>
 
     RewriteEngine On
+    RewriteBase /staispa
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
