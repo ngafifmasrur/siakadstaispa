@@ -202,7 +202,7 @@
 		<a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
 
 		<!-- Jquery js-->
-		<script src="{{ asset('sparic/js/vendors/jquery-3.2.1.min.js') }}"></script>
+		<script src="{{ asset('sparic/js/vendors/jquery-3.2.1.min.js') }}" data-pagespeed-no-defer></script>
 
 		<!--Bootstrap.min js-->
 		<script src="{{ asset('sparic/plugins/bootstrap/popper.min.js') }}"></script>

@@ -24,8 +24,8 @@
 {{-- <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script> --}}
 <!-- INTERNAL Data tables -->
-<script src="{{ asset('sparic/plugins/datatable/js/jquery.dataTables.js')}}"></script>
-<script src="{{ asset('sparic/plugins/datatable/js/dataTables.bootstrap4.js')}}"></script>
+<script src="{{ asset('sparic/plugins/datatable/js/jquery.dataTables.js')}}"   data-pagespeed-no-defer></script>
+<script src="{{ asset('sparic/plugins/datatable/js/dataTables.bootstrap4.js')}}"  data-pagespeed-no-defer></script>
         
 <script>
         let @if(isset($id)) {{$id}} @else table @endif = $(`{{ isset($id) ? '#'.$id : '#dataTables' }}`).DataTable({
