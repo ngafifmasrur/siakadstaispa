@@ -203,4 +203,62 @@ class SemesterMahasiswaController extends Controller
         Session::flash('success_msg', 'Berhasil Dihapus');
         return back();
     }
+
+    public function mahasiswa_data_index(Request $request)
+    {
+        $cek = t_semester_mahasiswa::query()
+                ->when($request->prodi, function ($query) use ($request) {
+                    $query->where('id_prodi', $request->prodi);
+                })->when($request->tahun_ajaran, function ($query) use ($request) {
+                    $query->where('id_tahun_ajaran', $request->tahun_ajaran);
+                })->when($request->semester, function ($query) use ($request) {
+                    $query->where('id_semester', $request->semester);
+                })->select('id_mahasiswa')->get()->toArray();
+
+        $query = m_mahasiswa::query()
+                ->whereNotIn('id_mahasiswa', $cek);
+
+        return datatables()->of($query)
+            ->addIndexColumn()
+            ->addColumn('checkbox',function ($data) {
+                $checkbox = '<input type="checkbox" name="mahasiswa[]" id="mahasiswa[]" value="'.$data->id_mahasiswa.'">';
+                return $checkbox;
+            })
+            ->rawColumns(['checkbox'])
+            ->setRowAttr([
+                'style' => 'text-align: center',
+            ])
+            ->toJson();
+    }
+
+    public function generate(Request $request)
+    {
+        DB::beginTransaction();
+
+        try{
+            $list_mahasiswa = $request->input('mahasiswa');
+            foreach($list_mahasiswa as $mahasiswa){
+                $semester = m_semester::where('id_semester', $request->semester)->first();
+                t_semester_mahasiswa::create([
+                    'id_mahasiswa' => $mahasiswa,
+                    'id_semester' => $request->semester,
+                    'id_prodi' => $request->prodi,
+                    'id_tahun_ajaran' => $request->tahun_ajaran,
+                    'semester' => $semester->semester,
+                    'status_krs' => 'Belum Mengajukan'
+                ]);
+            }
+            DB::commit();
+
+            Session::flash('success_msg', 'Berhasil Ditambah');
+            return redirect()->back();
+
+        }catch(\Exception $e){
+
+            DB::rollback();
+
+            Session::flash('error_msg', 'Terjadi kesalahan pada server');
+            return dd($e);
+        }
+    }
 }

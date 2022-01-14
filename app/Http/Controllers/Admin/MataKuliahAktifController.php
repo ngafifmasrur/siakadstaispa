@@ -44,7 +44,7 @@ class MataKuliahAktifController extends Controller
         $query = m_mata_kuliah_aktif::query()
                 ->where('semester', substr($request->semester, -1))
                 ->when($tahun_ajaran, function ($query) use ($tahun_ajaran) {
-                    $query->whereHas('semester', function($q) use ($tahun_ajaran) {
+                    $query->whereHas('detail_semester', function($q) use ($tahun_ajaran) {
                         $q->where('id_tahun_ajaran', $tahun_ajaran);
                     });
                 });

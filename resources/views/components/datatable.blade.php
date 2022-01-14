@@ -1,11 +1,11 @@
 @push('css')
-<link href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+{{-- <link href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" /> --}}
+<link href="{{ asset('sparic/plugins/datatable/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
+
 @endpush
 
-
-
-<div class="table-responsive">
-    <table id="{{ isset($id) ? $id : 'dataTables' }}" class="table table-striped table-bordered text-nowrap w-100">
+<div class="datatable table-responsive" style="overflow-x: auto !important;">
+    <table class="table table-bordered table-hover" id="{{ isset($id) ? $id : 'dataTables' }}" width="100%" cellspacing="0">
         <thead>
             <tr>
                 @foreach($table as $row)
@@ -16,23 +16,22 @@
         <tbody>
 
         </tbody>
+        
     </table>
 </div>
 
 @push('js')
-<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
-
+{{-- <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script> --}}
+<!-- INTERNAL Data tables -->
+<script src="{{ asset('sparic/plugins/datatable/js/jquery.dataTables.js')}}"></script>
+<script src="{{ asset('sparic/plugins/datatable/js/dataTables.bootstrap4.js')}}"></script>
+        
 <script>
         let @if(isset($id)) {{$id}} @else table @endif = $(`{{ isset($id) ? '#'.$id : '#dataTables' }}`).DataTable({
             responsive: true,
             processing: true,
             serverSide: true,
-            @if(isset($searching)) 
-              searching: false,
-              ordering: false,
-              bInfo: false,
-            @endif
             ajax: "{{ $route }}",
             ajax: {
                 url: "{{ $route }}{!! isset($query) ? $query : '' !!}",
@@ -75,12 +74,19 @@
                     },
                 @endforeach
             ],
+            pageLength: 25,
             responsive: false,
             @if(isset($buttons)) 
             dom: 'Bfrtip',
             buttons: [
                 'copy', 'csv', 'excel', 'pdf', 'print'
             ],
+            @endif
+            @if(isset($searching)) 
+              @if($searching==false) 
+              searching: false,
+              paging:   false,
+              @endif
             @endif
 
             @if(isset($drawCallback))

@@ -10,7 +10,7 @@
     <div class="row">
         <div class="form-group col-lg-3">
             <label for="prodi" class="font-weight-bold">Program Studi</label>
-            {!! Form::select('prodi', $prodi, null, ['class' => 'form-control', 'id' => 'prodi']) !!}
+            {!! Form::select('prodi', $prodi, null, ['class' => 'form-control', 'id' => 'prodi', 'data-targt' => '#id_matkul']) !!}
         </div>
         <div class="form-group col-lg-3">
             <label for="tahun_ajaran" class="font-weight-bold">Tahun Pelajaran</label>
@@ -25,7 +25,7 @@
         <div class="row">
             <div class="form-group col-lg-3">
                 <label for="id_matkul" class="font-weight-bold">Mata Kuliah</label>
-                {!! Form::select('id_matkul', $matkul, null, ['class' => 'form-control '.($errors->has('id_matkul') ? 'is-invalid' : ''), 'id' => 'id_matkul']) !!}
+                {!! Form::select('id_matkul', [], null, ['class' => 'form-control '.($errors->has('id_matkul') ? 'is-invalid' : ''), 'id' => 'id_matkul']) !!}
                 @error('id_matkul')
                 <div class="invalid-feedback">
                     {{ $message }}
@@ -34,7 +34,7 @@
             </div>
             <div class="form-group col-lg-2">
                 <label for="id_semester" class="font-weight-bold">Semester</label>
-                {!! Form::select('id_semester', $semester, null, ['class' => 'form-control '.($errors->has('id_semester') ? 'is-invalid' : ''), 'id' => 'id_semester']) !!}
+                {!! Form::select('id_semester', [], null, ['class' => 'form-control '.($errors->has('id_semester') ? 'is-invalid' : ''), 'id' => 'id_semester']) !!}
                 @error('id_semester')
                 <div class="invalid-feedback">
                     {{ $message }}
@@ -133,6 +133,8 @@
         var prodi = $('#prodi').val();
         var tahun_ajaran = $('#tahun_ajaran').val();
 
+
+
         $(document).on('click', '.btn_edit', function () {
             $('.modal-form').modal('show');
             // $('.modal-form form')[0].reset();
@@ -144,6 +146,75 @@
             // $('[name=id_semester]').val(id_semester);
             // $('[name=id_matkul]').val(id_matkul);
 
+        });
+
+
+
+        $(function () {
+            $.ajaxSetup({
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+            });
+
+            $('#prodi').on('change', function () {
+                $.ajax({
+                    url: '{{ route('mata_kuliah_list') }}',
+                    method: 'POST',
+                    data: {id_prodi: $(this).val()},
+                    success: function (response) {
+                        $('#id_matkul').empty();
+
+                        // $.each(response, function (id, name) {
+                        //     $('#id_matkul').append(new Option(name, id))
+                        // })
+                        $('#id_matkul').append($('<option>', {
+                            value: '',
+                            text:  "Pilih Mata Kuliah"
+                        }));
+                        $.each(response.data,function(index,row){
+                            $('#id_matkul').append($('<option>', {
+                                value: row.id_matkul,
+                                text:  row.nama_mata_kuliah
+                            }));
+                        });
+                        $("#id_matkul").selectpicker("refresh");
+
+                    }
+                })
+            });
+        });
+
+        
+        $(function () {
+            $.ajaxSetup({
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+            });
+
+            $('#tahun_ajaran').on('change', function () {
+                $.ajax({
+                    url: '{{ route('semester_list') }}',
+                    method: 'POST',
+                    data: {id_tahun_ajaran: $(this).val()},
+                    success: function (response) {
+                        $('#id_semester').empty();
+
+                        // $.each(response, function (id, name) {
+                        //     $('#id_matkul').append(new Option(name, id))
+                        // })
+                        $('#id_semester').append($('<option>', {
+                            value: '',
+                            text:  "Pilih Semester"
+                        }));
+                        $.each(response.data,function(index,row){
+                            $('#id_semester').append($('<option>', {
+                                value: row.id_semester,
+                                text:  row.nama_semester
+                            }));
+                        });
+                        $("#id_semester").selectpicker("refresh");
+
+                    }
+                })
+            });
         });
     </script>
 @endpush

@@ -7,6 +7,7 @@
 		<meta content="Sistem Akademik STAI Sunan Pandanaran" name="description">
 		<meta content="STAI Sunan Pandanaran" name="author">
 		<meta name="keywords" content="siakad, sistem akademik, staispa, STAI Sunan Pandanaran"/>
+		<meta name="csrf-token" content="{{ csrf_token() }}">
 
 		<!-- Favicon -->
 		<link rel="icon" href="{{ asset('sparic/images/brand/favicon.ico') }}" type="image/x-icon"/>
@@ -54,6 +55,16 @@
 		<!-- Color-skins css -->
 		<link id="theme" rel="stylesheet" type="text/css" media="all" href="{{ asset('sparic/colors/color-skins/color.css') }}" />
 		<link rel="stylesheet" href="{{ asset('sparic/css/demo-styles.css') }}"/>
+		
+		<!-- Notifications  css -->
+		<link href="{{ asset('sparic/plugins/notify-growl/css/jquery.growl.css')}}" rel="stylesheet" />
+		<link href="{{ asset('sparic/plugins/notify-growl/css/notifIt.css')}}" rel="stylesheet" />
+
+		<style>
+			.dropdown-item.active, .dropdown-item:active {
+				background-color: #007bff!important;
+			}
+		</style>
         @stack('css')
 	</head>
 
@@ -70,7 +81,7 @@
 				<div class="app-header header d-flex">
 					<div class="container">
 						<div class="d-flex">
-						    <a class="header-brand" href="index.html">
+						    <a class="header-brand" href="{{ route('landing_page.index') }}">
 								<img src="{{ asset('sparic/images/brand/logo.png') }}" class="header-brand-img main-logo" alt="Sparic logo">
 								<img src="{{ asset('sparic/images/brand/icon.png') }}" class="header-brand-img icon-logo" alt="Sparic logo">
 							</a><!-- logo-->
@@ -246,6 +257,20 @@
 		<!-- Custom js-->
 		<script src="{{ asset('sparic/js/custom.js') }}"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js" integrity="sha512-yDlE7vpGDP7o2eftkCiPZ+yuUyEcaBwoJoIhdXv71KZWugFqEphIS3PU60lEkFaz8RxaVsMpSvQxMBaKVwA5xg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>        @stack('js')
+		<script src="{{ asset('sparic/plugins/notify-growl/js/jquery.growl.js') }}"></script>
+		<script src="{{ asset('sparic/plugins/notify-growl/js/notifIt.js') }}"></script>
+
+		@if(Session::has('success_msg'))
+			<script type="text/javascript">
+				$.growl.notice({ duration: 3000, title: "Berhasil!",message: '{!! Session::get('success_msg') !!}' });
+			</script>
+		@endif
+
+		@if(Session::has('error_msg'))
+		<script type="text/javascript">
+			$.growl.error({ duration: 3000, title: "Gagal!",message: '{!! Session::get('error_msg') !!}' });
+		</script>
+		@endif
 
         @stack('js')
 	</body>

@@ -26,4 +26,9 @@ class t_semester_mahasiswa extends Model
     {
         return $this->belongsTo('App\Models\m_tahun_ajaran', 'id_tahun_ajaran');
     }
+
+    public function detail_semester()
+    {
+        return $this->belongsTo('App\Models\m_semester', 'id_semester');
+    }
 }

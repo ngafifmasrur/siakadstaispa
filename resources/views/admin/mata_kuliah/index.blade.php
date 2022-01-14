@@ -38,8 +38,7 @@
         ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
     ]"
     :filter="[
-        ['data' => '_token', 'value' => 'token'],
-        ['data' => 'prodi', 'value' => 'prodi'],
+        ['data' => 'prodi', 'value' => '$(`#prodi`).val()']
     ]"
     />
 </x-card-table>
@@ -411,12 +410,9 @@
 
 @push('js')
     <script>
-        var token = '{{ csrf_token() }}';
-        var prodi = $('#prodi').val();
-
-        // $(document).on('change','#prodi',function(){
-        //     $('#dataTables').DataTable().ajax.reload();
-        // });
+        $(document).on('change','#prodi',function(){
+            table.ajax.reload();
+        });
 
         $('.add-form').on('click', function () {
             $('.modal-form').modal('show');

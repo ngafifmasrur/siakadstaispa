@@ -28,6 +28,8 @@
     <x-slot name="title">Data Semester Mahasiswa</x-slot>
     <x-slot name="button">
         <a class="btn btn-app btn-sm btn-primary add-form" data-url="{{ route('admin.semester_mahasiswa.store') }}" href="#"><i class="fa fa-plus mr-2"></i>Tambah</a>
+        <button type="button" class="btn btn-app btn-sm btn-success btn-generate" data-route="{{ route('admin.semester_mahasiswa.generate') }}" disabled><i class="fa fa-plus mr-2"></i>Generate</button>
+
     </x-slot>
 
     <x-datatable 
@@ -42,10 +44,9 @@
         ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
     ]"
     :filter="[
-        ['data' => '_token', 'value' => 'token'],
-        ['data' => 'prodi', 'value' => 'prodi'],
-        ['data' => 'tahun_ajaran', 'value' => 'tahun_ajaran'],
-        ['data' => 'semester', 'value' => 'semester'],
+        ['data' => 'prodi', 'value' => '$(`#prodi`).val()'],
+        ['data' => 'semester', 'value' => '$(`#semester`).val()'],
+        ['data' => 'tahun_ajaran', 'value' => '$(`#tahun_ajaran`).val()']
     ]"
     />
 
@@ -178,18 +179,70 @@
         <button type="submit" class="btn btn-primary">Simpan</button>
     </x-slot>
 </x-modal>
+
+<x-modal class="generate-form" id="modal-form">
+    <x-slot name="title">Semester Mahasiswa</x-slot>
+    <x-slot name="modalPosition">modal-dialog-centered</x-slot>
+    @csrf
+    <input type="hidden" name="prodi">
+    <input type="hidden" name="tahun_ajaran">
+    <input type="hidden" name="semester">
+
+    <x-datatable 
+    :id="'list_mahasiswa'"
+    :route="route('admin.semester_mahasiswa.mahasiswa_data_index')" 
+    :table="[
+        ['title' => 'Pilih', 'data' => 'checkbox', 'name' => 'checkbox', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],  
+        ['title' => 'NIM', 'data' => 'nim', 'name' => 'nim'],                         
+        ['title' => 'Nama Mahasiswa', 'data' => 'nama_mahasiswa', 'name' => 'nama_mahasiswa', 'classname' => 'text-left'], 
+        ['title' => 'Jenis Kelamin', 'data' => 'jenis_kelamin', 'name' => 'jenis_kelamin'],              
+    ]"
+    :filter="[
+        ['data' => 'prodi', 'value' => '$(`#prodi`).val()'],
+        ['data' => 'semester', 'value' => '$(`#semester`).val()'],
+        ['data' => 'tahun_ajaran', 'value' => '$(`#tahun_ajaran`).val()']
+    ]"
+    />
+    <x-slot name="footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+        <button type="submit" class="btn btn-primary">Simpan</button>
+    </x-slot>
+</x-modal>
+
+{{-- <x-modal.generate>
+<div class="form-group col-lg-6">
+    <label for="id_mahasiswa">Mahasiswa</label>
+    {!! Form::select('id_mahasiswa', $mahasiswa, NULL, ['class' => 'form-control '.($errors->has('id_mahasiswa') ? 'is-invalid' : ''), 'id' => 'id_mahasiswa']) !!}
+    @error('id_mahasiswa')
+        <div class="invalid-feedback">
+            {{ $message }}
+        </div>
+    @enderror
+</div>
+</x-modal.generate> --}}
+
 @endsection
 
 @push('js')
     <script>
-        var token = '{{ csrf_token() }}';
-        var prodi = $('#prodi').val();
-        var tahun_ajaran = $('#tahun_ajaran').val();
-        var semester = $('#semester').val();
 
-        // $(document).on('change','#prodi, #tahun_ajaran, #semester',function(){
-        //     $('#dataTables').DataTable().ajax.reload();
-        // });
+        $( document ).ready(function() {
+            $(document).on('change','#prodi, #semester, #tahun_ajaran',function(){
+                table.ajax.reload();
+            });
+
+            $(document).on('change','#prodi, #semester, #tahun_ajaran',function(){
+                list_mahasiswa.ajax.reload();
+            });
+
+            $(document).on('change','#prodi, #semester, #tahun_ajaran',function(){
+                if($('#prodi').val() && $('#semester').val() && $('#tahun_ajaran').val()) {
+                    $('.btn-generate').attr('disabled', false);
+                } else {
+                    $('.btn-generate').attr('disabled', true);
+                }
+            });
+        });
 
         $('.add-form').on('click', function () {
             $('.modal-form').modal('show');
@@ -215,6 +268,22 @@
             $('[name=id_prodi]').val(id_prodi);
             $('[name=status]').val(status);
 
+        });
+
+        $('.btn-generate').on('click', function () {
+            $('.generate-form').modal('show');
+            $('.generate-form form')[0].reset();
+            $('.generate-form form').attr('action',  $(this).data('route'));
+            $('[name=_method]').val('post');
+
+            let route = $(this).data('route');
+            let prodi = $('#prodi').val();
+            let tahun_ajaran = $('#tahun_ajaran').val();
+            let semester = $('#semester').val();
+
+            $('[name=prodi]').val(prodi);
+            $('[name=tahun_ajaran]').val(tahun_ajaran);
+            $('[name=semester]').val(semester);
         });
         
     </script>

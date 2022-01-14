@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MainController;
 use App\Http\Controllers\Admin\{
     PerguruanTinggiController,
     ProgramStudiController,
@@ -26,7 +27,8 @@ use App\Http\Controllers\Mahasiswa\{
 
 use App\Http\Controllers\Dosen\{
     BiodataController as BiodataDosenController,
-    KRSController as VerifikasiKRSController
+    KRSController as VerifikasiKRSController,
+    VervalKRSController
 };
 
 use App\Http\Controllers\Akademika\{
@@ -55,6 +57,9 @@ Route::get('/', function () {
 Route::get('/home', [LandingPageController::class, 'index'])->name('landing_page.index');
 Route::get('/berita', [LandingPageController::class, 'berita'])->name('landing_page.berita');
 Route::get('/kontak', [LandingPageController::class, 'kontak'])->name('landing_page.kontak');
+
+Route::post('/mata_kuliah_list', [MainController::class, 'mata_kuliah_list'])->name('mata_kuliah_list');
+Route::post('/semester_list', [MainController::class, 'semester_list'])->name('semester_list');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -98,7 +103,9 @@ Route::group(['middleware' => ['Role:admin'], 'prefix' => 'admin', 'as' => 'admi
     
     Route::resource('/semester_mahasiswa', SemesterMahasiswaController::class)->except(['show']);
     Route::get('/semester_mahasiswa/data_index', [SemesterMahasiswaController::class, 'data_index'])->name('semester_mahasiswa.data_index');
-    
+    Route::get('/semester_mahasiswa/mahasiswa_data_index', [SemesterMahasiswaController::class, 'mahasiswa_data_index'])->name('semester_mahasiswa.mahasiswa_data_index');
+    Route::post('/semester_mahasiswa/generate', [SemesterMahasiswaController::class, 'generate'])->name('semester_mahasiswa.generate');
+
     Route::resource('/peserta_kelas_kuliah', PesertaKelasKuliahController::class)->except(['show', 'store']);
     Route::post('/peserta_kelas_kuliah/{kelas_kuliah}/store', [PesertaKelasKuliahController::class, 'store'])->name('peserta_kelas_kuliah.store');
     Route::get('/peserta_kelas_kuliah/{kelas_kuliah}/anggota', [PesertaKelasKuliahController::class, 'anggota'])->name('peserta_kelas_kuliah.anggota');
@@ -132,8 +139,11 @@ Route::group(['middleware' => ['Role:dosen'], 'prefix' => 'dosen', 'as' => 'dose
     Route::get('/biodata', [BiodataDosenController::class, 'index'])->name('biodata.index');
     Route::put('/biodata/update', [BiodataDosenController::class, 'update'])->name('biodata.update');
 
-    Route::resource('/krs', VerifikasiKRSController::class)->except(['show']);
-    Route::get('/krs/data_index', [VerifikasiKRSController::class, 'data_index'])->name('krs.data_index');
-    Route::post('/krs/{krs}/setujui', [VerifikasiKRSController::class, 'update_status'])->name('krs.update_status');
+    Route::get('/verval_krs', [VervalKRSController::class, 'index'])->name('verval_krs.index');
+    Route::get('/verval_krs/data_index', [VervalKRSController::class, 'data_index'])->name('verval_krs.data_index');
+
+    Route::get('/krs/{id_mahasiswa}/{id_semester}', [VerifikasiKRSController::class, 'index'])->name('krs.index');
+    Route::get('/krs/data_index/{id_mahasiswa}/{id_semester}', [VerifikasiKRSController::class, 'data_index'])->name('krs.data_index');
+    Route::post('/update_krs/{id_mahasiswa}/{id_semester}/setujui', [VerifikasiKRSController::class, 'update_status'])->name('krs.update_status');
 
 });

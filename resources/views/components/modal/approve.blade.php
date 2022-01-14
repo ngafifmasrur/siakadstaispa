@@ -10,6 +10,7 @@
                 <form action="" id="form_setujui" method="POST">
                     @csrf
                     <p id="setujui_text"></p>
+                    <div id="catatan"></div>
                     <input type="hidden" name="status">
                 </form>
             </div>
@@ -33,9 +34,12 @@
             var status = $(this).data('status');
 
             document.getElementById("btn_submit_setujui").innerText = status;
-
+            if(status == 'Tolak') {
+                $('#catatan').html('<strong>Catatan Revisi: </storng></ br><textarea class="form-control" name="catatan_krs" cols="10" rows="5"></textarea>');
+            } else {
+                $('#catatan').html('');
+            }
             $('[name=status]').val(status);
-
             $('#setujui_text').html(text);
             $('#form_setujui').attr('action',route);
             $('#ModalSetujui').modal('show');

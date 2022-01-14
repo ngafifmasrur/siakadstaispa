@@ -16,8 +16,8 @@ class BiodataController extends Controller
 {
     public function index()
     {
-        $agama = ref_agama::pluck('nama_agama', 'id');
-        $wilayah = ref_wilayah::pluck('nama_wilayah', 'id');
+        $agama = ref_agama::pluck('nama_agama', 'id_agama');
+        $wilayah = ref_wilayah::pluck('nama_wilayah', 'id_wilayah');
         $dosen = Auth::user()->dosen;
         return view('dosen.biodata.index', compact('agama', 'wilayah', 'dosen'));
     }
