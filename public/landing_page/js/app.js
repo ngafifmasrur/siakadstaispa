@@ -38,25 +38,6 @@ var spy = new Gumshoe('#navbar-navlist a', {
     offset: 70
 });
 
-
-// client-slider
-
-var slider = tns({
-    container: '.client-slider',
-    loop: true,
-    autoplay: true,
-    navPosition: "bottom",
-    controls: false,
-    autoplayButtonOutput: false,
-    responsive: {
-        768: {
-            gutter: 20,
-            items: 2
-        }
-    }
-});
-
-
 // Contact Form
 function validateForm() {
     var name = document.forms["myForm"]["name"].value;
