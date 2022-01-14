@@ -257,8 +257,8 @@
 		<!-- Custom js-->
 		<script src="{{ asset('sparic/js/custom.js') }}"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js" integrity="sha512-yDlE7vpGDP7o2eftkCiPZ+yuUyEcaBwoJoIhdXv71KZWugFqEphIS3PU60lEkFaz8RxaVsMpSvQxMBaKVwA5xg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>        @stack('js')
-		<script src="{{ asset('sparic/plugins/notify-growl/js/jquery.growl.js') }}"></script>
-		<script src="{{ asset('sparic/plugins/notify-growl/js/notifIt.js') }}"></script>
+		<script src="{{ asset('sparic/plugins/notify-growl/js/jquery.growl.js') }}" data-pagespeed-no-defer></script>
+		<script src="{{ asset('sparic/plugins/notify-growl/js/notifIt.js') }}" data-pagespeed-no-defer></script>
 
 		@if(Session::has('success_msg'))
 			<script type="text/javascript">

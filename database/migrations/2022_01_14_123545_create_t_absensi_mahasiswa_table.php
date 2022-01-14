@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTJurnalKuliahTable extends Migration
+class CreateTAbsensiMahasiswaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateTJurnalKuliahTable extends Migration
      */
     public function up()
     {
-        Schema::create('t_jurnal_kuliah', function (Blueprint $table) {
+        Schema::create('t_absensi_mahasiswa', function (Blueprint $table) {
             $table->id();
-            $table->uuid('id_prodi');
-            $table->uuid('id_dosen');
-            $table->integer('id_jadwal');
-            $table->date('tanggal_pelaksanaan');
-            $table->longText('topik')->nullable();
+            $table->integer('id_jurnal_kuliah');
+            $table->uuid('id_mahasiswa');
+            $table->enum('status', ['Hadir', 'Sakit', 'Ijin', 'Alpa']);
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreateTJurnalKuliahTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_jurnal_kuliah');
+        Schema::dropIfExists('t_absensi_mahasiswa');
     }
 }

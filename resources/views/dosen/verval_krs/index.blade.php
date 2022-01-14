@@ -1,14 +1,14 @@
 @extends('layouts.app')
-@section('title', 'KRS')
+@section('title', 'Perwalian')
 
 @section('content')
 
 <x-header>
-    Verval KRS
+    Perwalian
 </x-header>
 
 <x-card-table>
-    <x-slot name="title">Verval KRS</x-slot>
+    <x-slot name="title">Perwalian</x-slot>
     {{-- <x-slot name="button">
         <a class="btn btn-app btn-sm btn-primary add-form" data-url="{{ route('mahasiswa.krs.store') }}" href="#"><i class="fa fa-plus mr-2"></i>Tambah</a>
     </x-slot> --}}

@@ -27,7 +27,8 @@ use App\Http\Controllers\Dosen\{
     KRSController as VerifikasiKRSController,
     VervalKRSController,
     JadwalMengajarController,
-    NilaiController
+    NilaiController,
+    JurnalPerkuliahanController
 };
 
 use App\Http\Controllers\Akademika\{PesertaKelasKuliahController};
@@ -323,5 +324,35 @@ Route::group(
             NilaiController::class, 
             'store_nilai'
         ])->name('pengisian_nilai.store_nilai');
+
+        Route::resource('/jurnal_perkuliahan', JurnalPerkuliahanController::class)->except([
+            'show',
+            'index',
+            'create',
+        ]);
+        Route::get('/jurnal_perkuliahan/{id_jadwal}/create', [
+            JurnalPerkuliahanController::class, 
+            'create'
+        ])->name('jurnal_perkuliahan.create');
+        Route::get('/jurnal_perkuliahan', [
+            JurnalPerkuliahanController::class, 
+            'index'
+        ])->name('jurnal_perkuliahan.index');
+        Route::get('/jurnal_perkuliahan/data_index', [
+            JurnalPerkuliahanController::class, 
+            'data_index'
+        ])->name('jurnal_perkuliahan.data_index');
+        Route::get('/jurnal_perkuliahan/{id_jadwal}/jurnal', [
+            JurnalPerkuliahanController::class, 
+            'jurnal_index'
+        ])->name('jurnal_perkuliahan.jurnal_index');
+        Route::get('/jurnal_perkuliahan/{id_jadwal}/jurnal_data_index', [
+            JurnalPerkuliahanController::class, 
+            'jurnal_data_index'
+        ])->name('jurnal_perkuliahan.jurnal_data_index');
+        Route::get('/jurnal_perkuliahan/{id_jadwal}/mahasiswa_data_index', [
+            JurnalPerkuliahanController::class, 
+            'list_mahasiswa'
+        ])->name('jurnal_perkuliahan.mahasiswa_data_index');
     }
 );
