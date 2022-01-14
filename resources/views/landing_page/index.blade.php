@@ -35,10 +35,10 @@
                 <div class="col-lg-4">
                     <div class="about-box about-light text-center p-3">
                         <div class="about-icon mb-4">
-                            <img src="{{ asset('landing_page/images/ic_desc_1.png') }}" alt="" class="img-fluid mx-auto d-block">
+                            <img src="{{ asset('landing_page/images/ic_desc_1.webp') }}" alt="" class="img-fluid mx-auto d-block">
                         </div>
                         <h4 class="fw-normal"><a href="#" class="text-dark">Satu Akun Untuk Semua</a></h4>
-                        <img src="{{ asset('landing_page/images/line.png') }}" alt="" width="120" class=" mx-auto d-block">
+                        <img src="{{ asset('landing_page/images/line.webp') }}" alt="" width="120" class=" mx-auto d-block">
                         <p class="text-muted f-14 mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis amet elementum vitae.</p>
                     </div>
                 </div>
@@ -47,10 +47,10 @@
                 <div class="col-lg-4">
                     <div class="about-box about-light text-center p-3">
                         <div class="about-icon mb-4">
-                            <img src="{{ asset('landing_page/images/ic_desc_2.png') }}" alt="" class="img-fluid mx-auto d-block">
+                            <img src="{{ asset('landing_page/images/ic_desc_2.webp') }}" alt="" class="img-fluid mx-auto d-block">
                         </div>
                         <h4 class="fw-normal"><a href="#" class="text-dark">Akses dari mana saja</a></h4>
-                        <img src="{{ asset('landing_page/images/line.png') }}" alt="" width="120" class=" mx-auto d-block">
+                        <img src="{{ asset('landing_page/images/line.webp') }}" alt="" width="120" class=" mx-auto d-block">
                         <p class="text-muted f-14 mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis amet elementum vitae.</p>
                     </div>
                 </div>
@@ -59,10 +59,10 @@
                 <div class="col-lg-4">
                     <div class="about-box about-light text-center p-3">
                         <div class="about-icon mb-4">
-                            <img src="{{ asset('landing_page/images/ic_desc_3.png') }}" alt="" class="img-fluid mx-auto d-block">
+                            <img src="{{ asset('landing_page/images/ic_desc_3.webp') }}" alt="" class="img-fluid mx-auto d-block">
                         </div>
                         <h4 class="fw-normal"><a href="#" class="text-dark">Kemudahan</a></h4>
-                        <img src="{{ asset('landing_page/images/line.png') }}" alt="" width="120" class=" mx-auto d-block">
+                        <img src="{{ asset('landing_page/images/line.webp') }}" alt="" width="120" class=" mx-auto d-block">
                         <p class="text-muted f-14 mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis amet elementum vitae.</p>
                     </div>
                 </div>
@@ -86,10 +86,10 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="service-box mt-4 p-4" style="background-color:#4EA390;">
                         <div class="row">
-                            <div class="col-lg-3 service-icon mb-3" style="background-image: url('{{ asset('landing_page/images/ic_akademik.png') }}');background-size: cover;"></div>
+                            <div class="col-lg-3 service-icon mb-3" style="background-image: url('{{ asset('landing_page/images/ic_akademik.webp') }}');background-size: cover;"></div>
                             <div class="col-lg-9 service-title">
                                 <h5 class="fw-normal mb-2 mt-3"><a href="#" class="text-white">Akademik</a></h5>
-                                <img src="{{ asset('landing_page/images/line2.png') }}" alt="" width="120" class="d-block">
+                                <img src="{{ asset('landing_page/images/line2.webp') }}" alt="" width="120" class="d-block">
                             </div>
                         </div>
                         <div class="services-desc">
@@ -102,10 +102,10 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="service-box mt-4 p-4" style="background-color:#C2C851;">
                         <div class="row">
-                            <div class="col-lg-3 service-icon mb-3" style="background-image: url('{{ asset('landing_page/images/ic_perpustakaan.png') }}');background-size: cover;"></div>
+                            <div class="col-lg-3 service-icon mb-3" style="background-image: url('{{ asset('landing_page/images/ic_perpustakaan.webp') }}');background-size: cover;"></div>
                             <div class="col-lg-9 service-title">
                                 <h5 class="fw-normal mb-2 mt-3"><a href="#" class="text-white">Perpustakaan</a></h5>
-                                <img src="{{ asset('landing_page/images/line2.png') }}" alt="" width="120" class="d-block">
+                                <img src="{{ asset('landing_page/images/line2.webp') }}" alt="" width="120" class="d-block">
                             </div>
                         </div>
                         <div class="services-desc">
@@ -118,10 +118,10 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="service-box mt-4 p-4" style="background-color:#4EA390;">
                         <div class="row">
-                            <div class="col-lg-3 service-icon mb-3" style="background-image: url('{{ asset('landing_page/images/ic_surat_keterangan.png') }}');background-size: cover;"></div>
+                            <div class="col-lg-3 service-icon mb-3" style="background-image: url('{{ asset('landing_page/images/ic_surat_keterangan.webp') }}');background-size: cover;"></div>
                             <div class="col-lg-9 service-title">
                                 <h5 class="fw-normal mb-2 mt-3"><a href="#" class="text-white">Surat Keterangan</a></h5>
-                                <img src="{{ asset('landing_page/images/line2.png') }}" alt="" width="120" class="d-block">
+                                <img src="{{ asset('landing_page/images/line2.webp') }}" alt="" width="120" class="d-block">
                             </div>
                         </div>
                         <div class="services-desc">
@@ -134,10 +134,10 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="service-box mt-4 p-4" style="background-color:#C2C851;">
                         <div class="row">
-                            <div class="col-lg-3 service-icon mb-3" style="background-image: url('{{ asset('landing_page/images/ic_baak.png') }}');background-size: cover;"></div>
+                            <div class="col-lg-3 service-icon mb-3" style="background-image: url('{{ asset('landing_page/images/ic_baak.webp') }}');background-size: cover;"></div>
                             <div class="col-lg-9 service-title">
                                 <h5 class="fw-normal mb-2 mt-3"><a href="#" class="text-white">BAAK</a></h5>
-                                <img src="{{ asset('landing_page/images/line2.png') }}" alt="" width="120" class="d-block">
+                                <img src="{{ asset('landing_page/images/line2.webp') }}" alt="" width="120" class="d-block">
                             </div>
                         </div>
                         <div class="services-desc">
@@ -150,10 +150,10 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="service-box mt-4 p-4" style="background-color:#4EA390;">
                         <div class="row">
-                            <div class="col-lg-3 service-icon mb-3" style="background-image: url('{{ asset('landing_page/images/ic_portofolio_mahasiswa.png') }}');background-size: cover;"></div>
+                            <div class="col-lg-3 service-icon mb-3" style="background-image: url('{{ asset('landing_page/images/ic_portofolio_mahasiswa.webp') }}');background-size: cover;"></div>
                             <div class="col-lg-9 service-title">
                                 <h5 class="fw-normal mb-2 mt-3"><a href="#" class="text-white">Portofolio Mahasiswa</a></h5>
-                                <img src="{{ asset('landing_page/images/line2.png') }}" alt="" width="120" class="d-block">
+                                <img src="{{ asset('landing_page/images/line2.webp') }}" alt="" width="120" class="d-block">
                             </div>
                         </div>
                         <div class="services-desc">
@@ -166,10 +166,10 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="service-box mt-4 p-4" style="background-color:#C2C851;">
                         <div class="row">
-                            <div class="col-lg-3 service-icon mb-3" style="background-image: url('{{ asset('landing_page/images/ic_blog.png') }}');background-size: cover;"></div>
+                            <div class="col-lg-3 service-icon mb-3" style="background-image: url('{{ asset('landing_page/images/ic_blog.webp') }}');background-size: cover;"></div>
                             <div class="col-lg-9 service-title">
                                 <h5 class="fw-normal mb-2 mt-3"><a href="#" class="text-white">Blog</a></h5>
-                                <img src="{{ asset('landing_page/images/line2.png') }}" alt="" width="120" class="d-block">
+                                <img src="{{ asset('landing_page/images/line2.webp') }}" alt="" width="120" class="d-block">
                             </div>
                         </div>
                         <div class="services-desc">
@@ -194,7 +194,7 @@
                 <div class="col-lg-12">
                     <div class="title-heading mb-5">
                         <h3 class="text-dark mb-1 fw-normal ">Blog Terbaru</h3>
-                        <img src="{{ asset('landing_page/images/line.png') }}" alt="" width="150" class="  d-block">
+                        <img src="{{ asset('landing_page/images/line.webp') }}" alt="" width="150" class="  d-block">
                     </div>
                 </div>
                 <!-- col end -->
@@ -207,7 +207,7 @@
                         <div class="blog-content bg-white p-4">
                                 <div class="row">
                                     <div class="col-lg-1">
-                                        <img src="{{ asset('landing_page/images/imp_logo.png') }}" alt="" width="80" class="  d-block">
+                                        <img src="{{ asset('landing_page/images/imp_logo.webp') }}" alt="" width="80" class="  d-block">
                                     </div>
                                     <div class="col-lg-9 ml-2">
                                         <h4 class="fw-normal"><a href="#" class="text-dark">Lorem isum dolor sit amet</a></h4>
@@ -234,7 +234,7 @@
                         <div class="blog-content bg-white p-4">
                                 <div class="row">
                                     <div class="col-lg-1">
-                                        <img src="{{ asset('landing_page/images/imp_logo.png') }}" alt="" width="80" class="  d-block">
+                                        <img src="{{ asset('landing_page/images/imp_logo.webp') }}" alt="" width="80" class="  d-block">
                                     </div>
                                     <div class="col-lg-9 ml-2">
                                         <h4 class="fw-normal"><a href="#" class="text-dark">Lorem isum dolor sit amet</a></h4>
@@ -261,7 +261,7 @@
                         <div class="blog-content bg-white p-4">
                                 <div class="row">
                                     <div class="col-lg-1">
-                                        <img src="{{ asset('landing_page/images/imp_logo.png') }}" alt="" width="80" class="  d-block">
+                                        <img src="{{ asset('landing_page/images/imp_logo.webp') }}" alt="" width="80" class="  d-block">
                                     </div>
                                     <div class="col-lg-9 ml-2">
                                         <h4 class="fw-normal"><a href="#" class="text-dark">Lorem isum dolor sit amet</a></h4>
