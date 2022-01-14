@@ -6,6 +6,23 @@
     Jadwal Kuliah
 </x-header>
 
+<x-card>
+    <div class="row">
+        <div class="form-group col-lg-3">
+            <label for="prodi">Program Studi</label>
+            {!! Form::select('prodi', $prodi, null, ['class' => 'form-control', 'id' => 'prodi']) !!}
+        </div>
+        <div class="form-group col-lg-3">
+            <label for="tahun_ajaran">Tahun Ajaran</label>
+            {!! Form::select('tahun_ajaran', $tahun_ajaran, null, ['class' => 'form-control', 'id' => 'tahun_ajaran']) !!}
+        </div>
+        <div class="form-group col-lg-3">
+            <label for="semester">Semester</label>
+            {!! Form::select('semester', $semester, null, ['class' => 'form-control', 'id' => 'semester']) !!}
+        </div>
+    </div>
+</x-card>
+
 <x-card-table>
     <x-slot name="title">Data Jadwal Kuliah</x-slot>
     <x-slot name="button">
@@ -24,6 +41,11 @@
         ['title' => 'Jam Mulai', 'data' => 'jam_mulai', 'name' => 'jam_mulai'],
         ['title' => 'Jam Akhir', 'data' => 'jam_akhir', 'name' => 'jam_akhir'],
         ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
+    ]"
+    :filter="[
+        ['data' => 'prodi', 'value' => '$(`#prodi`).val()'],
+        ['data' => 'tahun_ajaran', 'value' => '$(`#tahun_ajaran`).val()'],
+        ['data' => 'semester', 'value' => '$(`#semester`).val()']
     ]"
     />
 </x-card-table>
@@ -245,6 +267,13 @@
 
 @push('js')
     <script>
+
+        $( document ).ready(function() {
+            $(document).on('change','#prodi, #semester, #tahun_ajaran',function(){
+                table.ajax.reload();
+            });
+        });
+
         $('.add-form').on('click', function () {
             $('.modal-form').modal('show');
             $('.modal-form form')[0].reset();
