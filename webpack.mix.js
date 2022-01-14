@@ -1,4 +1,6 @@
-const mix = require('laravel-mix');
+const mix = require('laravel-mix')
+const path = require('path')
+require('laravel-mix-workbox')
 
 /*
  |--------------------------------------------------------------------------
@@ -11,8 +13,59 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js').postCss('resources/css/app.css', 'public/css', [
+mix
+  .js('resources/js/app.js', 'public/js')
+  .postCss('resources/css/app.css', 'public/css', [
     require('postcss-import'),
     require('tailwindcss'),
     require('autoprefixer'),
-]);
+  ])
+
+mix
+  .webpackConfig({
+    output: {
+      publicPath: '',
+    },
+  })
+  .generateSW({
+    swDest: path.join(`${__dirname}/public`, 'sw.js'),
+
+    exclude: [/\.(?:png|jpg|jpeg|svg|webp)$/, 'mix.js'],
+
+    runtimeCaching: [
+      {
+        urlPattern: new RegExp(`${process.env.APP_URL}`),
+        handler: 'NetworkFirst',
+        options: {
+          cacheName: `${process.env.APP_NAME}-${process.env.APP_ENV}`,
+        },
+      },
+      // {
+      //     urlPattern: new RegExp(`${window.location.href}`),
+      //     handler: 'NetworkFirst',
+      //     options: {
+      //         cacheName: `${process.env.APP_NAME}-${process.env.APP_ENV}`,
+      //     },
+      // },
+      {
+        urlPattern: /\.(?:png|jpg|jpeg|svg|webp)$/,
+        handler: 'CacheFirst',
+        options: {
+          cacheName: 'images',
+        },
+      },
+      {
+        urlPattern: /\.(?:js|css)$/,
+        handler: 'CacheFirst',
+        options: {
+          cacheName: 'js-css',
+        },
+      },
+    ],
+
+    clientsClaim: true,
+
+    skipWaiting: true,
+
+    mode: 'production',
+  })

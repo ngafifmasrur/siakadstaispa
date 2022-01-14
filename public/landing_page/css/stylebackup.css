@@ -3,9 +3,9 @@
    Version: 2.0.0
    File Description: Main Css file of the template
 */
-@import url('https://fonts.googleapis.com/css?family=Rubik:300,400,500,700&display=swap');
+@import url("https://fonts.googleapis.com/css?family=Rubik:300,400,500,700");
 body {
-  font-family: 'Rubik', sans-serif;
+  font-family: "Rubik", sans-serif;
 }
 
 a {
@@ -18,7 +18,7 @@ p {
 }
 
 .font-primary {
-  font-family: 'Rubik', sans-serif;
+  font-family: "Rubik", sans-serif;
 }
 
 .row > * {
@@ -31,12 +31,12 @@ p {
 
 .nav-item .nav-link {
   display: inline-block;
-  color: #0c6656;
+  color: #0C6656;
   text-decoration: none;
 }
 
 .nav-item .nav-link:after {
-  content: '';
+  content: "";
   display: block;
   width: 0;
   height: 2px;
@@ -51,7 +51,7 @@ p {
   z-index: 999;
   margin-bottom: 0px;
   transition: all 0.5s ease-in-out;
-  background-color: #0c6656;
+  background-color: #0C6656;
 }
 
 .navbar-custom .navbar-nav li a {
@@ -119,9 +119,9 @@ p {
 /*---NAVBAR STICKY--*/
 .nav-sticky.navbar-custom {
   margin-top: 0px;
-  background-color: #0c6656;
+  background-color: #0C6656;
   box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.1);
-  color: #0c6656 !important;
+  color: #0C6656 !important;
 }
 
 .nav-sticky.navbar-custom .navbar-toggles {
@@ -182,7 +182,7 @@ p {
   margin-top: 0px;
   background-color: #ffffff;
   box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.1);
-  color: #0c6656 !important;
+  color: #0C6656 !important;
 }
 
 .navbar-light .nav-sticky.navbar-custom .navbar-toggles {
@@ -209,14 +209,14 @@ p {
 }
 
 .navbar-light .navbar-toggler {
-  color: #0c6656;
+  color: #0C6656;
   border-color: transparent;
 }
 
 @media (min-width: 200px) and (max-width: 768px) {
   .navbar-custom {
     margin-top: 0px;
-    background-color: #0c6656 !important;
+    background-color: #0C6656 !important;
     box-shadow: 0 10px 33px rgba(0, 0, 0, 0.1);
     color: #ffffff !important;
   }
@@ -444,7 +444,7 @@ p {
 }
 
 .home-1-bg {
-  background-image: url('../images/home-1-bg.png');
+  background-image: url("../images/home-1-bg.png");
   position: relative;
   background-size: cover;
   height: 100vh;
@@ -465,7 +465,7 @@ p {
 }
 
 .login-bg {
-  background-image: url('../images/bg-layout.png');
+  background-image: url("../images/bg-layout.png");
   background-color: #0e6cff;
   position: relative;
   background-size: cover;
@@ -474,7 +474,7 @@ p {
 }
 
 .kontak-bg {
-  background-image: url('../images/bg-layout.png');
+  background-image: url("../images/bg-layout.png");
   background-color: #0e6cff;
   position: relative;
   background-size: cover;
@@ -483,7 +483,7 @@ p {
 }
 
 .home-2-bg {
-  background-image: url('../images/home-2-bg.webp');
+  background-image: url("../images/home-2-bg.png");
   background-color: #0e6cff;
   position: relative;
   background-size: cover;
@@ -524,7 +524,7 @@ p {
 }
 
 .home-3-bg {
-  background-image: url('../images/home-3-bg.png');
+  background-image: url("../images/home-3-bg.png");
   background-color: #005bea;
   position: relative;
   background-size: cover;
@@ -575,8 +575,7 @@ p {
   z-index: 3;
 }
 
-.home-modal .btn-close:hover,
-.home-modal .btn-close:focus {
+.home-modal .btn-close:hover, .home-modal .btn-close:focus {
   opacity: 0.5;
 }
 
@@ -585,7 +584,7 @@ p {
 }
 
 .home-4-bg {
-  background-image: url('../images/home-4-bg.jpg');
+  background-image: url("../images/home-4-bg.jpg");
   position: relative;
   background-size: cover;
   height: 100vh;
@@ -629,7 +628,7 @@ p {
 }
 
 .video-button .play-icon-circle:after {
-  content: '';
+  content: "";
   background: rgba(255, 255, 255, 0.1);
   height: 106px;
   width: 106px;
@@ -643,7 +642,7 @@ p {
 }
 
 .home-5-bg {
-  background-image: url('../images/home-5-bg.jpg');
+  background-image: url("../images/home-5-bg.jpg");
   position: relative;
   background-size: cover;
   height: 100vh;
@@ -664,7 +663,7 @@ p {
 }
 
 .home-6-content {
-  background-image: url('../images/home-6-img-bg.png');
+  background-image: url("../images/home-6-img-bg.png");
   position: relative;
   background-size: cover;
   background-position: center center;
@@ -738,7 +737,7 @@ p {
 }
 
 .bg-about {
-  background-image: url('../images/bg-about.png');
+  background-image: url("../images/bg-about.png");
   background-color: #005bea;
   position: relative;
   background-size: cover;
@@ -750,7 +749,7 @@ p {
 }
 
 .title-border-color:before {
-  content: '';
+  content: "";
   position: absolute;
   width: 120px;
   height: 2px;
@@ -762,7 +761,7 @@ p {
 }
 
 .title-border-color:after {
-  content: '';
+  content: "";
   position: absolute;
   width: 30px;
   height: 6px;
@@ -799,7 +798,7 @@ p {
 }
 
 .about-box.about-light .about-icon {
-  border: 0px solid #0c6656;
+  border: 0px solid #0C6656;
 }
 
 .about-box.about-light .about-icon i {
@@ -808,9 +807,9 @@ p {
 }
 
 .about-box.about-light:hover .about-icon {
-  background-color: #0c6656;
+  background-color: #0C6656;
   box-shadow: 0 0 0 7px #e3fffe;
-  border-color: #0c6656;
+  border-color: #0C6656;
 }
 
 .about-box.about-light:hover i {
@@ -847,7 +846,7 @@ p {
 }
 
 .title-border-simple:before {
-  content: '';
+  content: "";
   position: absolute;
   width: 120px;
   height: 2px;
@@ -859,7 +858,7 @@ p {
 }
 
 .title-border-simple:after {
-  content: '';
+  content: "";
   position: absolute;
   width: 30px;
   height: 6px;
@@ -899,7 +898,7 @@ p {
 }
 
 .service-box:hover .service-icon {
-  background-color: #2f6f63;
+  background-color: #2F6F63;
   box-shadow: 0 0 0 7px rgba(0, 91, 234, 0.15);
   transition: all 0.5s;
 }
@@ -925,14 +924,14 @@ p {
 }
 
 .features-img {
-  background-image: url('../images/features-bg-effect.png');
+  background-image: url("../images/features-bg-effect.png");
   position: relative;
   background-size: cover;
   background-position: center center;
 }
 
 .features-img:after {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   right: 0;
@@ -986,7 +985,7 @@ p {
 }
 
 .pricing-box .price:after {
-  content: '';
+  content: "";
   background-color: #f8f9fa;
   height: 20px;
   width: 20px;
@@ -1005,37 +1004,33 @@ p {
   margin: 20px 0px;
 }
 
-.pricing-box:hover,
-.pricing-box.active {
+.pricing-box:hover, .pricing-box.active {
   transform: scale(1.03);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   transition: all 0.5s;
 }
 
-.pricing-box:hover .price,
-.pricing-box.active .price {
+.pricing-box:hover .price, .pricing-box.active .price {
   background-color: #005bea !important;
   transition: all 0.5s;
   border-color: #005bea;
 }
 
-.pricing-box:hover .price:after,
-.pricing-box.active .price:after {
+.pricing-box:hover .price:after, .pricing-box.active .price:after {
   background-color: #005bea !important;
   transition: all 0.5s;
   border-color: #005bea;
 }
 
 .pricing-box:hover .price h2,
-.pricing-box:hover .price h5,
-.pricing-box.active .price h2,
+.pricing-box:hover .price h5, .pricing-box.active .price h2,
 .pricing-box.active .price h5 {
   color: #ffffff !important;
   transition: all 0.5s;
 }
 
 .bg-clients {
-  background-image: url('../images/bg-clients.jpg');
+  background-image: url("../images/bg-clients.jpg");
   background-size: cover;
   position: relative;
   background-attachment: fixed;
@@ -1090,9 +1085,7 @@ p {
   border-radius: 20px;
 }
 
-.tns-outer .tns-nav button:hover,
-.tns-outer .tns-nav button:focus,
-.tns-outer .tns-nav button:active {
+.tns-outer .tns-nav button:hover, .tns-outer .tns-nav button:focus, .tns-outer .tns-nav button:active {
   outline: none;
 }
 
@@ -1241,7 +1234,7 @@ p {
 }
 
 .footer-sub-menu li a:after {
-  content: '';
+  content: "";
   background-color: #ff8700;
   height: 1px;
   width: 0%;
@@ -1309,7 +1302,7 @@ p {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: linear-gradient(45deg, #61b4b1, #0c6656);
+  background-image: linear-gradient(45deg, #61B4B1, #0C6656);
   z-index: 9999999;
 }
 

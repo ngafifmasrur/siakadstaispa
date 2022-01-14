@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\{
+    MataKuliahController,
+    ProgramStudiController
+};
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +21,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::group(['prefix' => 'v1'], function () {
+
+    Route::resource('/prodi', ProgramStudiController::class);
+    Route::resource('/mata_kuliah', MataKuliahController::class);
+
 });
