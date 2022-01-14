@@ -24,7 +24,7 @@
             
                     </tbody>
                     <tfoot align="right">
-                        <th colspan="2" class="font-weight-bold text-center"></th>
+                        <th colspan="3" class="font-weight-bold text-center"></th>
                         <th class="font-weight-bold text-center"></th>
                         <th class="font-weight-bold text-center"></th>
                     </tfoot>
@@ -48,6 +48,8 @@
             serverSide: true,
             searching: false,
             ordering: false,
+            bInfo: false,
+            paging: false,
             ajax: "{{ $route }}",
             ajax: {
                 url: "{{ $route }}{!! isset($query) ? $query : '' !!}",
@@ -105,7 +107,7 @@
  
             // computing column Total of the complete result 
             var total_sks = api
-                .column( 2 )
+                .column( 3 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
@@ -114,8 +116,8 @@
                     
                 // Update footer by showing the total with the reference of the column index 
                 $( api.column( 1 ).footer() ).html('Total');
-                $( api.column( 2 ).footer() ).html(total_sks);
-                $( api.column( 3 ).footer() ).html('-');
+                $( api.column( 3 ).footer() ).html(total_sks);
+                $( api.column( 4 ).footer() ).html('-');
             },
 
             @if(isset($buttons)) 

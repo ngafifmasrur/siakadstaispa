@@ -85,6 +85,9 @@ class MataKuliahAktifController extends Controller
             ->addColumn('nama_matkul', function ($data) {
                 return $data->matkul->nama_mata_kuliah;
             })
+            ->addColumn('kode_matkul', function ($data) {
+                return $data->matkul->kode_mata_kuliah;
+            })
             ->addColumn('sks', function ($data) {
                 return $data->matkul->sks_mata_kuliah;
             })

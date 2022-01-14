@@ -13,7 +13,14 @@ class MainController extends Controller
             return;
         }
 
-        $result = m_mata_kuliah::where('id_prodi', $request->id_prodi)->select('id_matkul', 'nama_mata_kuliah')->get();
+        // $result = m_mata_kuliah::where('id_prodi', $request->id_prodi)->select('id_matkul', 'nama_mata_kuliah')->get();
+        $result = m_mata_kuliah::get()
+                ->map(function($data) {
+                    return [
+                        'id_matkul'    => $data->id_matkul,
+                        'nama_mata_kuliah'  => $data->kode_mata_kuliah.' - '.$data->nama_mata_kuliah
+                    ];
+                })->pluck('nama_mata_kuliah', 'id_matkul');
 
         return $this->responseJson(true, 'List Mata Kuliah', $result);
     }

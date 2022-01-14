@@ -82,6 +82,7 @@
                     :route="route('admin.kurikulum_prodi.data_index', ['tahun_ajaran' => request()->get('tahun_ajaran')])" 
                     :table="[
                         ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],
+                        ['title' => 'Kode', 'data' => 'kode_matkul', 'name' => 'kode_matkul', 'classname' => 'text-left'],
                         ['title' => 'Nama Mata Kuliah', 'data' => 'nama_matkul', 'name' => 'nama_matkul', 'classname' => 'text-left'],
                         ['title' => 'SKS', 'data' => 'sks', 'name' => 'sks'],
                         ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
@@ -170,10 +171,10 @@
                             value: '',
                             text:  "Pilih Mata Kuliah"
                         }));
-                        $.each(response.data,function(index,row){
+                        $.each(response.data,function(id,name){
                             $('#id_matkul').append($('<option>', {
-                                value: row.id_matkul,
-                                text:  row.nama_mata_kuliah
+                                value: id,
+                                text:  name
                             }));
                         });
                         $("#id_matkul").selectpicker("refresh");
