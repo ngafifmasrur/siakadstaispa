@@ -1,14 +1,14 @@
 @extends('layouts.app')
-@section('title', 'KRS')
+@section('title', 'Perwalian')
 
 @section('content')
 
 <x-header>
-    KRS
+    Perwalian
 </x-header>
 
 <x-card-table>
-    <x-slot name="title">KRS</x-slot>
+    <x-slot name="title">Perwalian</x-slot>
     <x-slot name="button">
         <button {{ $semester_mahasiswa->status_krs == 'Diverifikasi' ? 'disabled' : ''}} class="btn btn-app btn-sm btn-primary btn_setujui" data-text="Anda yakin ingin menghapus data ini ?" data-status="Setujui" data-route="{{ route('dosen.krs.update_status', [ 'id_mahasiswa' => $id_mahasiswa, 'id_semester' => $id_semester]) }}" ><i class="fa fa-plus mr-2"></i>Terima</button>
         <button {{ $semester_mahasiswa->status_krs == 'Ditolak' ? 'disabled' : ''}} class="btn btn-app btn-sm btn-danger btn_setujui" data-text="Anda yakin ingin menghapus data ini ?" data-status="Tolak" data-route="{{ route('dosen.krs.update_status', [ 'id_mahasiswa' => $id_mahasiswa, 'id_semester' => $id_semester]) }}" ><i class="fa fa-plus mr-2"></i>Revisi</button>

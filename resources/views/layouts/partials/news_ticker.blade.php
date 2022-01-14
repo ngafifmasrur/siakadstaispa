@@ -3,7 +3,7 @@
         <div class="best-ticker" id="newsticker">
             <div class="bn-news">
                 <ul>
-                    <li><span class="fa fa-users bg-danger-transparent text-danger mr-1"></span> Total Users <span class="bn-positive mr-5">1,653</span></li>
+                    <li><span class="fa fa-users bg-danger-transparent text-danger mr-1"></span> Total Mahasiswa <span class="bn-positive mr-5">1,653</span></li>
                     <li><span class="fa fa-signal bg-info-transparent text-info mr-1"></span> Total Leads <span class="bn-negative mr-5">639</span></li>
                     <li><span class="fa fa-briefcase mr-1 bg-success-transparent text-success"></span> Total Trials <span class="bn-negative mr-5">12,765</span></li>
                     <li><span class="fa fa-trophy mr-1 bg-warning-transparent text-warning"></span> Total Wins <span class="bn-positive mr-5">24</span></li>

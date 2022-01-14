@@ -28,7 +28,9 @@ use App\Http\Controllers\Mahasiswa\{
 use App\Http\Controllers\Dosen\{
     BiodataController as BiodataDosenController,
     KRSController as VerifikasiKRSController,
-    VervalKRSController
+    VervalKRSController,
+    JadwalMengajarController,
+    NilaiController
 };
 
 use App\Http\Controllers\Akademika\{
@@ -146,4 +148,13 @@ Route::group(['middleware' => ['Role:dosen'], 'prefix' => 'dosen', 'as' => 'dose
     Route::get('/krs/data_index/{id_mahasiswa}/{id_semester}', [VerifikasiKRSController::class, 'data_index'])->name('krs.data_index');
     Route::post('/update_krs/{id_mahasiswa}/{id_semester}/setujui', [VerifikasiKRSController::class, 'update_status'])->name('krs.update_status');
 
+    Route::get('/jadwal_mengajar', [JadwalMengajarController::class, 'index'])->name('jadwal_mengajar.index');
+    Route::get('/jadwal_mengajar/data_index', [JadwalMengajarController::class, 'data_index'])->name('jadwal_mengajar.data_index');
+    Route::get('/jadwal_mengajar/{id_jadwal}/daftar_peserta', [JadwalMengajarController::class, 'daftar_peserta'])->name('jadwal_mengajar.daftar_peserta');
+
+    Route::get('/pengisian_nilai', [NilaiController::class, 'index'])->name('pengisian_nilai.index');
+    Route::get('/pengisian_nilai/data_index', [NilaiController::class, 'data_index'])->name('pengisian_nilai.data_index');
+    Route::get('/pengisian_nilai/{id_jadwal}/form_nilai', [NilaiController::class, 'form_nilai'])->name('pengisian_nilai.form_nilai');
+    Route::post('/pengisian_nilai/store_nilai', [NilaiController::class, 'store_nilai'])->name('pengisian_nilai.store_nilai');
+    
 });

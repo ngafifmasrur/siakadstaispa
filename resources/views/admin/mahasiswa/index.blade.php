@@ -17,7 +17,7 @@
     :route="route('admin.mahasiswa.data_index')" 
     :table="[
         ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],                            
-        ['title' => 'NIK', 'data' => 'nik', 'name' => 'nik'],
+        ['title' => 'NIM', 'data' => 'nim', 'name' => 'nim'],
         ['title' => 'Nama Mahasiswa', 'data' => 'nama_mahasiswa', 'name' => 'nama_mahasiswa', 'classname' => 'text-left'],
         ['title' => 'Jenis Kelamin', 'data' => 'jenis_kelamin', 'name' => 'jenis_kelamin'],
         ['title' => 'Tanggal Lahir', 'data' => 'tanggal_lahir', 'name' => 'tanggal_lahir'],

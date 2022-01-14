@@ -37,5 +37,10 @@ class m_jadwal extends Model
 	  {
 		return $this->belongsTo('App\Models\m_ruang_kelas', 'id_ruang');
     }
+
+    public function krs()
+	  {
+		  return $this->hasMany('App\Models\t_krs', 'id_jadwal', 'id');
+    }
     
 }
