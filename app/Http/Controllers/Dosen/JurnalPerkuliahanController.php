@@ -112,7 +112,7 @@ class JurnalPerkuliahanController extends Controller
                 $button = '<div class="btn-group" role="group" aria-label="Basic example">';
     
                 $button .= view("components.button.default", [
-                    'type' => 'button',
+                    'type' => 'link',
                     'tooltip' => 'Ubah',
                     'class' => 'btn btn-outline-primary btn-sm',
                     "icon" => "fa fa-edit",
@@ -153,33 +153,61 @@ class JurnalPerkuliahanController extends Controller
         return view('dosen.jurnal_perkuliahan.create', compact('jadwal'));
     }
 
-    public function edit($id_jadwal)
+    public function edit(t_jurnal_kuliah $jurnal_perkuliahan)
     {
-        $jadwal = m_jadwal::findOrFail($id_jadwal);
-        return view('dosen.jurnal_perkuliahan.edit', compact('jadwal'));
+        $jadwal = m_jadwal::findOrFail($jurnal_perkuliahan->id_jadwal);
+        $absensi = t_absensi_mahasiswa::where('id_jurnal_kuliah', $jurnal_perkuliahan);
+        return view('dosen.jurnal_perkuliahan.edit', compact('jadwal','absensi', 'jurnal_perkuliahan'));
     }
 
-    public function list_mahasiswa($id_jadwal)
+    public function list_mahasiswa($id_jadwal, $id_jurnal = null)
     {
         $query = t_krs::query()
                 ->where('id_jadwal', $id_jadwal);
+                
+        if(!is_null($id_jurnal)) {
+            $absensi = t_absensi_mahasiswa::query()->where('id_jurnal_kuliah', $id_jurnal);
+        } else {
+            $absensi = null;
+        }
 
         return datatables()->of($query)
             ->addIndexColumn()
-            ->addColumn('hadir',function ($data) {
-                $button = '<input type="radio" value="Hadir" name="'.$data->id.'" checked class="form-checkbox">';
+            ->addColumn('hadir',function ($data) use ($absensi) {
+                if(is_null($absensi)) {
+                    $button = '<input type="radio" value="Hadir" name="'.$data->mahasiswa->id_mahasiswa.'" checked class="form-checkbox">';
+                } else {
+                    $status = ($absensi->where('id_mahasiswa', $data->mahasiswa->id_mahasiswa)->first()->status ?? null) == 'Hadir' ? 'checked' : '';
+                    $button = '<input type="radio" value="Hadir" name="'.$data->mahasiswa->id_mahasiswa.'" '.$status.' class="form-checkbox">';
+                }
+
                 return $button;
             })
-            ->addColumn('sakit',function ($data) {
-                $button = '<input type="radio" value="Sakit" name="'.$data->id.'" class="form-checkbox">';
+            ->addColumn('sakit',function ($data) use ($absensi) {
+                if(is_null($absensi)) {
+                    $button = '<input type="radio" value="Sakit" name="'.$data->mahasiswa->id_mahasiswa.'" class="form-checkbox">';
+                } else {
+                    $status = ($absensi->where('id_mahasiswa', $data->mahasiswa->id_mahasiswa)->first()->status ?? null) == 'Sakit' ? 'checked' : '';
+                    $button = '<input type="radio" value="Sakit" name="'.$data->mahasiswa->id_mahasiswa.'" '.$status.' class="form-checkbox">';
+                }
                 return $button;
             })
-            ->addColumn('ijin',function ($data) {
-                $button = '<input type="radio" value="Ijin" name="'.$data->id.'" class="form-checkbox">';
+            ->addColumn('ijin',function ($data) use ($absensi) {
+                if(is_null($absensi)) {
+                    $button = '<input type="radio" value="Ijin" name="'.$data->mahasiswa->id_mahasiswa.'" class="form-checkbox">';
+                } else {
+                    $status = ($absensi->where('id_mahasiswa', $data->mahasiswa->id_mahasiswa)->first()->status ?? null) == 'Ijin' ? 'checked' : '';
+                    $button = '<input type="radio" value="Ijin" name="'.$data->mahasiswa->id_mahasiswa.'" '.$status.' class="form-checkbox">';
+                }
                 return $button;
             })
-            ->addColumn('alpa',function ($data) {
-                $button = '<input type="radio" value="Alpa" name="'.$data->id.'" class="form-checkbox">';
+            ->addColumn('alpa',function ($data) use ($absensi) {
+                if(is_null($absensi)) {
+                    $button = '<input type="radio" value="Alpa" name="'.$data->mahasiswa->id_mahasiswa.'" class="form-checkbox">';
+                } else {
+                    $status = ($absensi->where('id_mahasiswa', $data->mahasiswa->id_mahasiswa)->first()->status ?? null) == 'Alpa' ? 'checked' : '';
+                    $button = '<input type="radio" value="Alpa" name="'.$data->mahasiswa->id_mahasiswa.'" '.$status.' class="form-checkbox">';
+                }
                 return $button;
             })
             ->addColumn('mahasiswa', function ($data) {
@@ -247,6 +275,93 @@ class JurnalPerkuliahanController extends Controller
 
             Session::flash('error_msg', 'Terjadi kesalahan pada server');
             return redirect()->back()->withInput();
+        }
+    }
+
+    public function update(Request $request, t_jurnal_kuliah $jurnal_perkuliahan)
+    {
+        $validated = $request->validate([
+            'tanggal_pelaksanaan' => 'required|date',
+        ]);
+
+        $jadwal = m_jadwal::findOrFail($request->id_jadwal);
+        if($jurnal_perkuliahan->tanggal_pelaksanaan !== $request->tanggal_pelaksanaan) {
+            $cek = t_jurnal_kuliah::where('id_jadwal', $request->id_jadwa)
+                    ->whereDate('tanggal_pelaksanaan', $request->tanggal_pelaksanaan)
+                    ->count();
+
+            if($cek > 0) {
+                Session::flash('error_msg', 'Jurnal Kuliah dengan Tanggal Pelaksanaan '.$request->tanggal_pelaksanaan.' sudah ada.');
+                return redirect()->back()->withInput();
+            }
+        }
+
+        DB::beginTransaction();
+
+        try{
+
+            $jurnal_perkuliahan->update([
+                'tanggal_pelaksanaan' => $request->tanggal_pelaksanaan,
+                'topik' => $request->topik,
+            ]);
+
+            // Update or Insert Absensi Siswa
+            $list_absensi = $request->except('_token', 'tanggal_pelaksanaan', 'topik', 'id_jadwal', 'nama_matkul', 'kode_matkul', 'dataTables_length', '_method');
+            foreach ($list_absensi as $id => $status) {
+                $absensi = t_absensi_mahasiswa::where('id_jurnal_kuliah', $jurnal_perkuliahan->id)
+                                    ->where('id_mahasiswa', $id)->first();
+                                    
+                if($absensi) {
+                    $absensi->update(['status' => $status]);
+                } else {
+                    t_absensi_mahasiswa::create([
+                        'id_jurnal_kuliah' => $jurnal_perkuliahan->id,
+                        'id_mahasiswa' => $id,
+                        'status' => $status,
+                    ]);
+                }
+            }
+
+            DB::commit();
+
+            Session::flash('success_msg', 'Jurnal Kuliah Berhasil Disimpan!');
+            // return redirect()->route('dosen.jurnal_perkuliahan.jurnal_index', $jadwal->id);
+             return redirect()->back();
+
+        }catch(\Exception $e){
+
+            DB::rollback();
+
+            Session::flash('error_msg', 'Terjadi kesalahan pada server');
+            return dd($e);
+        }
+    }
+
+    public function destroy(t_jurnal_kuliah $jurnal_perkuliahan)
+    {
+
+        if(is_null($jurnal_perkuliahan)){
+            abort(404);
+        }
+
+        DB::beginTransaction();
+
+        try{
+            $jurnal_perkuliahan->absensi()->delete();
+            $jurnal_perkuliahan->delete();
+
+            DB::commit();
+
+            Session::flash('success_msg', 'Jurnal Kuliah Berhasil Dihapus!');
+            // return redirect()->route('dosen.jurnal_perkuliahan.jurnal_index', $jadwal->id);
+             return redirect()->back();
+
+        }catch(\Exception $e){
+
+            DB::rollback();
+
+            Session::flash('error_msg', 'Terjadi kesalahan pada server');
+            return dd($e);
         }
     }
 }

@@ -24,4 +24,6 @@
     />
 </x-card-table>
 
+<x-modal.delete/>
+
 @endsection

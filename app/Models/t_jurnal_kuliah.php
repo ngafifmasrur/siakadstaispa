@@ -21,4 +21,9 @@ class t_jurnal_kuliah extends Model
     {
         return $this->belongsTo('App\Models\m_program_studi', 'id_prodi');
     }
+
+    public function absensi()
+    {
+        return $this->hasMany('App\Models\t_absensi_mahasiswa', 'id_jurnal_kuliah');
+    }
 }
