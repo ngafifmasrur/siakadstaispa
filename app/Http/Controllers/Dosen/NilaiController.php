@@ -11,6 +11,7 @@ use App\Models\m_program_studi;
 use App\Models\m_mata_kuliah_aktif;
 use App\Models\m_ruang_kelas;
 use App\Models\m_tahun_ajaran;
+use App\Models\m_skala_nilai_prodi;
 use App\Models\m_semester;
 use App\Models\t_krs;
 use App\Http\Requests\JadwalRequest;
@@ -95,8 +96,9 @@ class NilaiController extends Controller
     {
         // $nilai = m_skala_nilai_prodi::whereBetween();
         $peserta = t_krs::where('id_jadwal', $id_jadwal)->get();
+        $id_prodi = m_jadwal::find($id_jadwal)->id_prodi;
 
-        return view('dosen.pengisian_nilai.form_nilai', compact('peserta'));
+        return view('dosen.pengisian_nilai.form_nilai', compact('peserta', 'id_prodi'));
     }
 
     public function store_nilai(Request $request)
@@ -108,21 +110,29 @@ class NilaiController extends Controller
             
             // $nilai = [];
 
-            $peserta = $request->except('_token');
+            $peserta = $request->except('_token', 'id_prodi');
             foreach ($peserta as $ID => $nilai) {
+
+                if($nilai > 100 || $nilai < 0){
+                    Session::flash('error_msg', 'Nilai tidak boleh lebih dari 100.');
+                    return redirect()->back()->withInput();
+                }
+
+                $nilai_huruf =  m_skala_nilai_prodi::where('id_prodi', $request->id_prodi)
+                                ->whereRaw('? between bobot_minimum and bobot_maksimum', [$nilai])->first()->nilai_huruf;
+
+                if(!$nilai_huruf){
+                    Session::flash('error_msg', 'Skala Nilai tidak ditemukan.');
+                    return redirect()->back()->withInput();
+                }
+
                 t_krs::find($ID)->update([
                     'nilai_angka' => $nilai,
+                    'nilai_huruf' => $nilai_huruf,
                     'updated_at' => now(),
                 ]);
-                // $nilai[] = [
-                //     'id' => $ID,
-                //     'nilai_angka' => $nilai,
-                //     'updated_at' => now(),
-                // ];
             }
     
-            // t_krs::update($nilai);
-
             DB::commit();
 
             Session::flash('success_msg', 'Penilaian Berhasil!');
@@ -133,7 +143,7 @@ class NilaiController extends Controller
             DB::rollback();
 
             Session::flash('error_msg', 'Terjadi kesalahan pada server');
-            return redirect()->back()->withInput();
+            return dd($e);
         }
     }
 }

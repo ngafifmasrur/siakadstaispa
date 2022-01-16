@@ -43,8 +43,8 @@ class BobotNilaiController extends Controller
                         'data-nilai_indeks' => $data->nilai_indeks,
                         'data-bobot_minimum' => $data->bobot_minimum,
                         'data-bobot_maksimum' => $data->bobot_maksimum,
-                        'data-tanggsal_mulai' => $data->tanggal_mulai_efektif,
-                        'data-tanggsal_selesai' => $data->tanggal_selesai_efektif,
+                        'data-tanggal_mulai' => $data->tanggal_mulai_efektif,
+                        'data-tanggal_selesai' => $data->tanggal_selesai_efektif,
                     ],
                     "route" => route('admin.bobot_nilai.update',['bobot_nilai' => $data->id]),
                 ]);
