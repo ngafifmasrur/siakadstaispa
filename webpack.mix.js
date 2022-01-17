@@ -30,7 +30,7 @@ mix
   .generateSW({
     swDest: path.join(`${__dirname}/public`, 'sw.js'),
 
-    exclude: [/\.(?:png|jpg|jpeg|svg|webp)$/, 'mix.js'],
+    exclude: [/\.(?:png|jpg|jpeg|svg|webp|js|css)$/, 'mix.js'],
 
     runtimeCaching: [
       {
@@ -40,13 +40,6 @@ mix
           cacheName: `${process.env.APP_NAME}-${process.env.APP_ENV}`,
         },
       },
-      // {
-      //     urlPattern: new RegExp(`${window.location.href}`),
-      //     handler: 'NetworkFirst',
-      //     options: {
-      //         cacheName: `${process.env.APP_NAME}-${process.env.APP_ENV}`,
-      //     },
-      // },
       {
         urlPattern: /\.(?:png|jpg|jpeg|svg|webp)$/,
         handler: 'CacheFirst',
