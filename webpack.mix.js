@@ -13,13 +13,13 @@ require('laravel-mix-workbox')
  |
  */
 
-mix
-  .js('resources/js/app.js', 'public/js')
-  .postCss('resources/css/app.css', 'public/css', [
-    require('postcss-import'),
-    require('tailwindcss'),
-    require('autoprefixer'),
-  ])
+// mix
+//   .js('resources/js/app.js', 'public/js')
+//   .postCss('resources/css/app.css', 'public/css', [
+//     require('postcss-import'),
+//     require('tailwindcss'),
+//     require('autoprefixer'),
+//   ])
 
 mix
   .webpackConfig({
@@ -48,14 +48,14 @@ mix
         },
       },
       {
-        urlPattern: `${__dirname}/public/landing_page/js/app.js`,
+        urlPattern: /\.(?:js)$/,
         handler: 'CacheFirst',
         options: {
           cacheName: 'js',
         },
       },
       {
-        urlPattern: `${__dirname}/public/landing_page/css/style.min.css`,
+        urlPattern: /\.(?:css)$/,
         handler: 'CacheFirst',
         options: {
           cacheName: 'css',
