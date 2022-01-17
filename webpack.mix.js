@@ -48,10 +48,17 @@ mix
         },
       },
       {
-        urlPattern: /\.(?:js|css)$/,
-        handler: 'NetworkFirst',
+        urlPattern: `${__dirname}/public/landing_page/js/app.js`,
+        handler: 'CacheFirst',
         options: {
-          cacheName: 'js-css',
+          cacheName: 'js',
+        },
+      },
+      {
+        urlPattern: `${__dirname}/public/landing_page/css/style.min.css`,
+        handler: 'CacheFirst',
+        options: {
+          cacheName: 'css',
         },
       },
     ],
