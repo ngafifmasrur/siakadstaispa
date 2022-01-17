@@ -5,11 +5,6 @@ namespace App\Http\Controllers\Dosen;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\m_jadwal;
-use App\Models\m_kelas_kuliah;
-use App\Models\m_dosen;
-use App\Models\m_program_studi;
-use App\Models\m_mata_kuliah_aktif;
-use App\Models\m_ruang_kelas;
 use App\Models\m_tahun_ajaran;
 use App\Models\m_semester;
 use App\Models\t_krs;
@@ -43,8 +38,6 @@ class JadwalMengajarController extends Controller
                     $query->where('m_tahun_ajaran.id_tahun_ajaran', $request->tahun_ajaran);
                 })->withCount('krs');
 
-        // $krs = t_krs::query();
-
         return datatables()->of($query)
             ->addIndexColumn()
             ->addColumn('action',function ($data) {    
@@ -61,22 +54,22 @@ class JadwalMengajarController extends Controller
                 return $button;
             })
             ->addColumn('kode_matkul', function ($data) {
-                return $data->matkul->matkul->kode_mata_kuliah;
+                return $data->matkul->matkul->kode_mata_kuliah ?? '';
             })
             ->addColumn('nama_matkul', function ($data) {
-                return $data->matkul->matkul->nama_mata_kuliah;
+                return $data->matkul->matkul->nama_mata_kuliah ?? '';
             })
             ->addColumn('ruangan', function ($data) {
-                return $data->ruangan->nama_ruangan;
+                return $data->ruangan->nama_ruangan ?? '';
             })
             ->addColumn('dosen', function ($data) {
-                return $data->dosen->nama_dosen;
+                return $data->dosen->nama_dosen ?? '';
             })
             ->addColumn('prodi', function ($data) {
-                return $data->prodi->nama_program_studi;
+                return $data->prodi->nama_program_studi ?? '';
             })
             ->addColumn('kelas', function ($data) {
-                return $data->kelas->nama_kelas_kuliah;
+                return $data->kelas->nama_kelas_kuliah ?? '';
             })
             ->addColumn('jadwal', function ($data) {
                 return $data->hari.', '.$data->jam_mulai.' - '.$data->jam_akhir;
