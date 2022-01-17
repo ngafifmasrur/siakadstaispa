@@ -17,7 +17,7 @@
 		<title>
             @yield('title')
             @if (trim($__env->yieldContent('title')))
-                &mdash;
+                -
             @endif
             SIAKAD STAISPA
         </title>

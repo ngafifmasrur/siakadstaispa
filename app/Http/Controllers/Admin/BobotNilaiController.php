@@ -18,7 +18,7 @@ class BobotNilaiController extends Controller
      */
     public function index()
     {
-        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi');
+        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi')->prepend('Pilih Program Studi', NULL);
         return view('admin.bobot_nilai.index', compact('prodi'));
     }
 

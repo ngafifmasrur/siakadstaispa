@@ -9,6 +9,7 @@ use App\Http\Controllers\Dosen\{
     JadwalMengajarController,
     NilaiController,
     JurnalPerkuliahanController,
+    MateriPerkuliahanController,
     PenelitianController,
     PengabdianController,
     PublikasiController
@@ -140,6 +141,13 @@ Route::group(
             'data_index'
         ])->name('publikasi.data_index');
         Route::resource('/publikasi', PublikasiController::class)
+            ->except(['show', 'create', 'edit']);
+
+        Route::get('/{materi_perkuliahan}/data_index', [
+            MateriPerkuliahanController::class, 
+            'data_index'
+        ])->name('{materi_perkuliahan}.data_index');
+        Route::resource('/{materi_perkuliahan}', MateriPerkuliahanController::class)
             ->except(['show', 'create', 'edit']);
     }
 );

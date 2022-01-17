@@ -30,7 +30,7 @@ class MahasiswaController extends Controller
      */
     public function index()
     {
-        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi');
+        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi')->prepend('Pilih Program Studi', NULL);
         $periode = m_semester::pluck('nama_semester', 'id_semester');
         $agama = ref_agama::pluck('nama_agama', 'id_agama');
         $status_mahasiswa = $this->status_mahasiswa;

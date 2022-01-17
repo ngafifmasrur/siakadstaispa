@@ -4,42 +4,56 @@ namespace App\Http\Controllers\Dosen;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\Dosen\PublikasiRequest;
+use App\Http\Requests\Dosen\MateriPerkuliahanRequest;
+use App\Models\m_mata_kuliah;
 use App\Models\m_program_studi;
-use App\Models\t_publikasi;
+use App\Models\t_bahan_ajar;
 use Session, DB;
 
-class PublikasiController extends Controller
+class MateriPerkuliahanController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($materi_perkuliahan)
     {
-        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi')->prepend('Pilih Program Studi', NULL);
+        if (! in_array($materi_perkuliahan, ['bahan_ajar', 'buku_referensi'])) {
+            abort(404);
+        }
 
-        return view('dosen.publikasi.index', compact('prodi'));
+        $materiText = ucwords(str_replace('_', ' ', $materi_perkuliahan));
+
+        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi')->prepend('Pilih Program Studi', NULL);
+        $matkul = m_mata_kuliah::pluck('nama_mata_kuliah', 'id_matkul')->prepend('Pilih Mata Kuliah', NULL);;
+
+        return view('dosen.materi_perkuliahan.index', compact('prodi', 'matkul', 'materi_perkuliahan', 'materiText'));
     }
 
-    public function data_index(Request $request)
+    public function data_index(Request $request, $materi_perkuliahan)
     {
-        $query = t_publikasi::byDosen();
+        $query = t_bahan_ajar::byDosen()->jenis($materi_perkuliahan);
 
         return datatables()->of($query)
             ->addIndexColumn()
             ->editColumn('prodi', function ($data) {
                 return $data->prodi->nama_program_studi;
             })
+            ->editColumn('matkul', function ($data) {
+                return $data->matkul->nama_mata_kuliah;
+            })
             ->editColumn('link', function ($data) {
                 if (! $data->link) {
                     return "";
                 }
-                
+
                 return "<a href='{$data->link}' target='_blank'>Lihat</a>";
             })
-            ->addColumn('action', function ($data) {
+            ->editColumn('path_file', function ($data) {
+                return "<a class='btn btn-success' href='". load_from_local($data->path_file) ."' target='_blank'>Lihat</a>";
+            })
+            ->addColumn('action', function ($data) use ($materi_perkuliahan) {
 
                 $button = '<div class="btn-group" role="group" aria-label="Basic example">';
 
@@ -51,13 +65,13 @@ class PublikasiController extends Controller
                     'attribute' => [
                         'data-id_prodi' => $data->id_prodi,
                         'data-id_dosen' => $data->id_dosen,
-                        'data-sifat_publikasi' => $data->sifat_publikasi,
-                        'data-tahun' => $data->tahun,
+                        'data-id_matkul' => $data->id_matkul,
                         'data-judul' => $data->judul,
-                        'data-tempat_publikasi' => $data->tempat_publikasi,
-                        'data-link' => $data->link
+                        'data-path_file' => load_from_local($data->path_file),
+                        'data-link' => $data->link,
+                        'data-jenis' => $data->jenis
                     ],
-                    "route" => route('dosen.publikasi.update', $data->id),
+                    "route" => route('dosen.{materi_perkuliahan}.update', ['materi_perkuliahan' => $materi_perkuliahan, 'id', $data->id]),
                 ]);
 
                 $button .= view("components.button.default", [
@@ -68,14 +82,14 @@ class PublikasiController extends Controller
                     'attribute' => [
                         'data-text' => 'Anda yakin ingin menghapus data ini ?',
                     ],
-                    "route" => route('dosen.publikasi.destroy', $data->id),
+                    "route" => route('dosen.{materi_perkuliahan}.destroy', ['materi_perkuliahan' => $materi_perkuliahan, 'id', $data->id])
                 ]);
 
                 $button .= '</div>';
 
                 return $button;
             })
-            ->rawColumns(['action', 'link'])
+            ->rawColumns(['action', 'link', 'path_file'])
             ->setRowAttr([
                 'style' => 'text-align: center',
             ])
@@ -98,17 +112,24 @@ class PublikasiController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PublikasiRequest $request)
+    public function store(MateriPerkuliahanRequest $request, $materi_perkuliahan)
     {
         DB::beginTransaction();
 
         try {
-            $request['id_dosen'] = auth()->user()->dosen->id_dosen;
-            t_publikasi::create($request->all());
+            $data = $request->except('path_file');
+            $data['id_dosen'] = auth()->user()->dosen->id_dosen;
+            $data['jenis'] = $materi_perkuliahan;
+
+            if ($request->hasFile('path_file')) {
+                $data['path_file'] = upload_in_local($materi_perkuliahan, $request->file('path_file'), $request->judul);
+            }
+
+            t_bahan_ajar::create($data);
             DB::commit();
 
             Session::flash('success_msg', 'Berhasil Ditambah');
-            return redirect()->route('dosen.publikasi.index');
+            return redirect()->route('dosen.{materi_perkuliahan}.index', ['materi_perkuliahan' => $materi_perkuliahan]);
         } catch (\Exception $e) {
 
             DB::rollback();
@@ -147,17 +168,28 @@ class PublikasiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PublikasiRequest $request, $id)
+    public function update(MateriPerkuliahanRequest $request, $materi_perkuliahan, $id)
     {
         DB::beginTransaction();
 
         try {
-            $t_publikasi = t_publikasi::findOrFail($id);
-            $t_publikasi->update($request->all());
+            $data = $request->except('path_file');
+            $data['id_dosen'] = auth()->user()->dosen->id_dosen;
+            $data['jenis'] = $materi_perkuliahan;
+
+            $t_bahan_ajar = t_bahan_ajar::findOrFail($id);
+
+            if ($request->hasFile('path_file')) {
+                remove_in_local($t_bahan_ajar->path_file);
+
+                $data['path_file'] = upload_in_local($materi_perkuliahan, $request->file('path_file'), $request->judul);
+            }
+
+            $t_bahan_ajar->update($request->all());
             DB::commit();
 
             Session::flash('success_msg', 'Berhasil Dibah');
-            return redirect()->route('dosen.publikasi.index');
+            return redirect()->route('dosen.{materi_perkuliahan}.index', ['materi_perkuliahan' => $materi_perkuliahan]);
         } catch (\Exception $e) {
 
             DB::rollback();
@@ -173,10 +205,11 @@ class PublikasiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($materi_perkuliahan, $id)
     {
-        $t_publikasi = t_publikasi::findOrFail($id);
-        $t_publikasi->delete();
+        $t_bahan_ajar = t_bahan_ajar::findOrFail($id);
+        remove_in_local($t_bahan_ajar->path_file);
+        $t_bahan_ajar->delete();
 
         Session::flash('success_msg', 'Berhasil Dihapus');
         return back();

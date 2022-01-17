@@ -18,7 +18,7 @@ class PenelitianController extends Controller
      */
     public function index()
     {
-        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi');
+        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi')->prepend('Pilih Program Studi', NULL);
 
         return view('dosen.penelitian.index', compact('prodi'));
     }
@@ -36,6 +36,10 @@ class PenelitianController extends Controller
                 return "- {$data->anggota_1}<br>- {$data->anggota_2}<br>- {$data->anggota_3}";
             })
             ->editColumn('link', function ($data) {
+                if (! $data->link) {
+                    return "";
+                }
+                
                 return "<a href='{$data->link}' target='_blank'>Lihat</a>";
             })
             ->addColumn('action', function ($data) {
