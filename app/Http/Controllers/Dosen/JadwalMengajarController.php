@@ -8,7 +8,7 @@ use App\Models\m_jadwal;
 use App\Models\m_tahun_ajaran;
 use App\Models\m_semester;
 use App\Models\t_krs;
-use App\Http\Requests\JadwalRequest;
+use App\Http\Requests\Dosen\KontrakRequest;
 use Session, DB;
 
 class JadwalMengajarController extends Controller
@@ -50,6 +50,20 @@ class JadwalMengajarController extends Controller
                     "label" => "Daftar Peserta",
                     "route" => route('dosen.jadwal_mengajar.daftar_peserta', $data->id),
                 ]);
+
+                $button .= view("components.button.default", [
+                    'type' => 'button',
+                    'tooltip' => 'Kontrak',
+                    'class' => 'btn btn-outline-danger btn_edit btn-xs',
+                    "icon" => "fa fa-edit",
+                    "label" => "Kontrak",
+                    'attribute' => [
+                        'data-kontrak_belajar' => $data->kontrak_belajar,
+                        'data-path_kontrak_belajar' => load_from_local($data->path_kontrak_belajar),
+                        'data-path_rpp' => load_from_local($data->path_rpp)
+                    ],
+                    "route" => route('dosen.jadwal_mengajar.update', $data->id),
+                ]);
     
                 return $button;
             })
@@ -89,5 +103,40 @@ class JadwalMengajarController extends Controller
         $peserta = t_krs::where('id_jadwal', $id_jadwal)->get();
 
         return view('dosen.jadwal_mengajar.daftar_peserta', compact('peserta'));
+    }
+
+    public function update(KontrakRequest $request, $id)
+    {
+        DB::beginTransaction();
+
+        try {
+            $data = $request->except('path_kontrak_belajar', 'path_rpp');
+
+            $m_jadwal = m_jadwal::findOrFail($id);
+
+            if ($request->hasFile('path_kontrak_belajar')) {
+                remove_in_local($m_jadwal->path_kontrak_belajar);
+
+                $data['path_kontrak_belajar'] = upload_in_local('path_kontrak_belajar', $request->file('path_kontrak_belajar'), 'path_kontrak_belajar');
+            }
+
+            if ($request->hasFile('path_rpp')) {
+                remove_in_local($m_jadwal->path_rpp);
+
+                $data['path_rpp'] = upload_in_local('path_rpp', $request->file('path_rpp'), 'path_rpp');
+            }
+
+            $m_jadwal->update($data);
+            DB::commit();
+
+            Session::flash('success_msg', 'Berhasil Dibah');
+            return redirect()->route('dosen.jadwal_mengajar.index');
+        } catch (\Exception $e) {
+
+            DB::rollback();
+
+            Session::flash('error_msg', 'Terjadi kesalahan pada server');
+            return redirect()->back()->withInput();
+        }
     }
 }

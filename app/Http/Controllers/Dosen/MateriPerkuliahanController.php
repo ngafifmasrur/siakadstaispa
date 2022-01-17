@@ -71,7 +71,7 @@ class MateriPerkuliahanController extends Controller
                         'data-link' => $data->link,
                         'data-jenis' => $data->jenis
                     ],
-                    "route" => route('dosen.{materi_perkuliahan}.update', ['materi_perkuliahan' => $materi_perkuliahan, 'id', $data->id]),
+                    "route" => route('dosen.{materi_perkuliahan}.update', ['materi_perkuliahan' => $materi_perkuliahan, 'id' => $data->id]),
                 ]);
 
                 $button .= view("components.button.default", [
@@ -82,7 +82,7 @@ class MateriPerkuliahanController extends Controller
                     'attribute' => [
                         'data-text' => 'Anda yakin ingin menghapus data ini ?',
                     ],
-                    "route" => route('dosen.{materi_perkuliahan}.destroy', ['materi_perkuliahan' => $materi_perkuliahan, 'id', $data->id])
+                    "route" => route('dosen.{materi_perkuliahan}.destroy', ['materi_perkuliahan' => $materi_perkuliahan, 'id' => $data->id])
                 ]);
 
                 $button .= '</div>';
@@ -185,7 +185,7 @@ class MateriPerkuliahanController extends Controller
                 $data['path_file'] = upload_in_local($materi_perkuliahan, $request->file('path_file'), $request->judul);
             }
 
-            $t_bahan_ajar->update($request->all());
+            $t_bahan_ajar->update($data);
             DB::commit();
 
             Session::flash('success_msg', 'Berhasil Dibah');

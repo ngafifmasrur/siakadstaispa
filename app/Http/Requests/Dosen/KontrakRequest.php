@@ -4,7 +4,7 @@ namespace App\Http\Requests\Dosen;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MateriPerkuliahanRequest extends FormRequest
+class KontrakRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,11 @@ class MateriPerkuliahanRequest extends FormRequest
     public function rules()
     {
         $mimes = 'mimes:pdf,doc,docx,xls,xlsx,ppt,pptx|max:2048';
-        
+
         return [
-            'id_prodi' => 'required',
-            'id_matkul' => 'required',
-            'judul' => 'required',
-            'path_file' => $this->route('id') ? 'nullable|'. $mimes : 'required'. $mimes,
-            'link' => 'nullable|url'
+            'kontrak_belajar' => 'required',
+            'path_kontrak_belajar' => 'nullable|'. $mimes,
+            'path_rpp' => 'required|'. $mimes,
         ];
     }
 }

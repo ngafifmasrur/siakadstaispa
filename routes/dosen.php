@@ -70,6 +70,10 @@ Route::group(
             JadwalMengajarController::class, 
             'daftar_peserta'
         ])->name('jadwal_mengajar.daftar_peserta');
+        Route::put('/jadwal_mengajar/{id}', [
+            JadwalMengajarController::class, 
+            'update'
+        ])->name('jadwal_mengajar.update');
     
         Route::get('/pengisian_nilai', [
             NilaiController::class, 
@@ -143,11 +147,19 @@ Route::group(
         Route::resource('/publikasi', PublikasiController::class)
             ->except(['show', 'create', 'edit']);
 
-        Route::get('/{materi_perkuliahan}/data_index', [
+        Route::get('/materi_perkuliahan/{materi_perkuliahan}/data_index', [
             MateriPerkuliahanController::class, 
             'data_index'
         ])->name('{materi_perkuliahan}.data_index');
-        Route::resource('/{materi_perkuliahan}', MateriPerkuliahanController::class)
-            ->except(['show', 'create', 'edit']);
+        Route::resource('/materi_perkuliahan/{materi_perkuliahan}', MateriPerkuliahanController::class)
+            ->except(['show', 'create', 'edit', 'update', 'destroy']);
+        Route::put('/materi_perkuliahan/{materi_perkuliahan}/{id}', [
+            MateriPerkuliahanController::class, 
+            'update'
+        ])->name('{materi_perkuliahan}.update');
+        Route::delete('/materi_perkuliahan/{materi_perkuliahan}/{id}', [
+            MateriPerkuliahanController::class, 
+            'destroy'
+        ])->name('{materi_perkuliahan}.destroy');
     }
 );
