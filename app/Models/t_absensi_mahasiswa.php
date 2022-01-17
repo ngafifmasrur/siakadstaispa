@@ -12,4 +12,9 @@ class t_absensi_mahasiswa extends Model
     
     protected $table = 't_absensi_mahasiswa';
     protected $guarded = [];
+
+    public function mahasiswa()
+    {
+        return $this->belongsTo('App\Models\m_mahasiswa', 'id_mahasiswa');
+    }
 }

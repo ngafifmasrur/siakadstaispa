@@ -26,4 +26,19 @@ class t_jurnal_kuliah extends Model
     {
         return $this->hasMany('App\Models\t_absensi_mahasiswa', 'id_jurnal_kuliah');
     }
+
+    public function getHadir()
+    {
+        return $this->absensi->where('status', 'Hadir')->count();
+    }
+
+    public function getTidakHadir()
+    {
+        return $this->absensi->where('status', '!=','Hadir')->count();
+    }
+
+    public function getMHSTidakHadir()
+    {
+        return $this->absensi->where('status', '!=','Hadir');
+    }
 }

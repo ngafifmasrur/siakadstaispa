@@ -42,4 +42,9 @@ class m_jadwal extends Model
 	{
 		return $this->hasMany('App\Models\t_krs', 'id_jadwal', 'id');
 	}
+
+	public function jurnal_kuliah()
+	{
+		return $this->hasMany('App\Models\t_jurnal_kuliah', 'id_jadwal', 'id');
+  	}
 }

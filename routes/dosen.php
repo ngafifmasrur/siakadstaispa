@@ -121,10 +121,10 @@ Route::group(
             JurnalPerkuliahanController::class, 
             'list_mahasiswa'
         ])->name('jurnal_perkuliahan.mahasiswa_data_index');
-        // Route::post('/jurnal_perkuliahan/{jurnal_perkuliahan}/update', [
-        //     JurnalPerkuliahanController::class, 
-        //     'update'
-        // ])->name('jurnal_perkuliahan.update');
+        Route::get('/jurnal_perkuliahan/{id_jadwal}/cetak', [
+            JurnalPerkuliahanController::class, 
+            'cetak'
+        ])->name('jurnal_perkuliahan.cetak');
 
         Route::get('/penelitian/data_index', [
             PenelitianController::class, 

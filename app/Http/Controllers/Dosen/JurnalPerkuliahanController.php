@@ -16,7 +16,7 @@ use App\Models\t_krs;
 use App\Models\t_jurnal_kuliah;
 use App\Models\t_absensi_mahasiswa;
 use App\Http\Requests\JadwalRequest;
-use Session, DB, Auth;
+use Session, DB, Auth, PDF;
 
 class JurnalPerkuliahanController extends Controller
 {
@@ -49,9 +49,11 @@ class JurnalPerkuliahanController extends Controller
 
         return datatables()->of($query)
             ->addIndexColumn()
-            ->addColumn('action',function ($data) {    
-
-                $button = view("components.button.default", [
+            ->addColumn('action',function ($data) {
+           
+                $button = '<div class="btn-group" role="group" aria-label="Basic example">';
+    
+                $button .= view("components.button.default", [
                     'type' => 'link',
                     'tooltip' => 'Isi Jurnal',
                     'class' => 'btn btn-outline-primary btn-xs',
@@ -59,6 +61,18 @@ class JurnalPerkuliahanController extends Controller
                     "label" => "Isi Jurnal",
                     "route" => route('dosen.jurnal_perkuliahan.jurnal_index', $data->id),
                 ]);
+    
+                $button .= view("components.button.default", [
+                    'type' => 'link',
+                    'tooltip' => 'Cetak Jurnal',
+                    'class' => 'btn btn-outline-primary btn-xs',
+                    "icon" => "fa fa-print",
+                    "label" => "Cetak Jurnal",
+                    'attribute' => ['target' => '_blank'],
+                    "route" => route('dosen.jurnal_perkuliahan.cetak', $data->id),
+                ]);
+    
+                $button .= '</div>';
     
                 return $button;
             })
@@ -364,4 +378,11 @@ class JurnalPerkuliahanController extends Controller
             return dd($e);
         }
     }
+
+    public function cetak($id_jadwal)
+    { 
+        $jadwal = m_jadwal::findOrfail($id_jadwal);
+        $matkul = $jadwal->matkul->matkul->nama_mata_kuliah;
+        $pdf = PDF::loadView('dosen.jurnal_perkuliahan.cetak_jurnal', compact('jadwal', 'matkul'))->setPaper('a4', 'landscape');
+        return $pdf->stream('Jurnal_-_Perkuliahan-_-'.$matkul.'.pdf');    }
 }
