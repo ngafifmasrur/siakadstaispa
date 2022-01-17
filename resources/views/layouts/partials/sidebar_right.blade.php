@@ -32,7 +32,7 @@
                                 <a class="" href=""><i class="dropdown-icon mdi mdi-tune fs-30 m-0 leading-tight"></i></a>
                                 <div>Settings</div>
                             </div> --}}
-                            <div class="col-4 text-center">
+                            <div class="col-4 text-center cursor-pointer">
                                 <a class="" onclick="document.getElementById('form_logout').submit();"><i class="dropdown-icon mdi mdi-logout-variant fs-30 m-0 leading-tight"></i></a>
                                 <div>Sign out</div>
                             </div>

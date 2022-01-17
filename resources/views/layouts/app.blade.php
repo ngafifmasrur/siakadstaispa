@@ -64,6 +64,9 @@
 			.dropdown-item.active, .dropdown-item:active {
 				background-color: #007bff!important;
 			}
+			.cursor-pinter {
+				cursor: pointer !important;
+			}
 		</style>
         @stack('css')
 	</head>
@@ -124,7 +127,7 @@
 													<a class="" href=""><i class="dropdown-icon mdi  mdi-message-outline fs-30 m-0 leading-tight"></i></a>
 													<div>Inbox</div>
 												</div>
-												<div class="col-6 text-center">
+												<div class="col-6 text-center cursor-pointer">
 													<a class="" href=""><i class="dropdown-icon mdi mdi-logout-variant fs-30 m-0 leading-tight"></i></a>
 													<div>Sign out</div>
 												</div>

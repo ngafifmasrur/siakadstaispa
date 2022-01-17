@@ -98,12 +98,12 @@
 					<form method="POST" action="{{ route('login') }}">
 						@csrf
 						<h5 class="mb-2 fw-semi-bold" align="left">Username :</h5>
-						<div class="input-group mb-3">
+						<div class="form-group mb-3">
 							<span class="input-group-addon bg-white"><i class="fa fa-user"></i></span>
 							<input type="text" class="form-control" placeholder="Masukan username yang di kehendaki, contoh: Andrian" name="email">
 						</div>
 						<h5 class="mb-2 fw-semi-bold" align="left">Password :</h5>
-						<div class="input-group mb-4">
+						<div class="form-group mb-4">
 							<span class="input-group-addon bg-white"><i class="fa fa-unlock-alt"></i></span>
 							<input type="password" class="form-control" placeholder="Password" name="password">
 						</div>
