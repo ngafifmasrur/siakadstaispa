@@ -8,7 +8,10 @@ use App\Http\Controllers\Dosen\{
     VervalKRSController,
     JadwalMengajarController,
     NilaiController,
-    JurnalPerkuliahanController
+    JurnalPerkuliahanController,
+    PenelitianController,
+    PengabdianController,
+    PublikasiController
 };
 
 /*
@@ -117,5 +120,26 @@ Route::group(
         //     JurnalPerkuliahanController::class, 
         //     'update'
         // ])->name('jurnal_perkuliahan.update');
+
+        Route::get('/penelitian/data_index', [
+            PenelitianController::class, 
+            'data_index'
+        ])->name('penelitian.data_index');
+        Route::resource('/penelitian', PenelitianController::class)
+            ->except(['show', 'create', 'edit']);
+
+        Route::get('/pengabdian/data_index', [
+            PengabdianController::class, 
+            'data_index'
+        ])->name('pengabdian.data_index');
+        Route::resource('/pengabdian', PengabdianController::class)
+            ->except(['show', 'create', 'edit']);
+
+        Route::get('/publikasi/data_index', [
+            PublikasiController::class, 
+            'data_index'
+        ])->name('publikasi.data_index');
+        Route::resource('/publikasi', PublikasiController::class)
+            ->except(['show', 'create', 'edit']);
     }
 );

@@ -67,6 +67,22 @@
 			.cursor-pinter {
 				cursor: pointer !important;
 			}
+			.bootstrap-select .dropdown-toggle:focus, .bootstrap-select>select.mobile-device:focus+.dropdown-toggle {
+				outline: none !important;
+			}
+			.bootstrap-select.form-control {
+				border: 1px solid rgba(107, 122, 144, 0.3);
+			}
+			.bootstrap-select>.dropdown-toggle {
+				background: transparent;
+			}
+			.bootstrap-select>.dropdown-toggle:hover, 
+			.bootstrap-select>.dropdown-toggle:active,
+			.btn-light:not(:disabled):not(.disabled):active, 
+			.btn-light:not(:disabled):not(.disabled).active {
+				background: transparent;
+				border: 1px solid transparent;
+			}
 		</style>
         @stack('css')
 	</head>
