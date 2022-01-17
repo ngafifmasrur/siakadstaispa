@@ -30,7 +30,7 @@ mix
   .generateSW({
     swDest: path.join(`${__dirname}/public`, 'sw.js'),
 
-    exclude: [/\.(?:png|jpg|jpeg|svg|webp|js|css)$/, 'mix.js'],
+    exclude: [/\.(?:png|jpg|jpeg|svg|webp)$/, 'mix.js'],
 
     runtimeCaching: [
       {
@@ -49,7 +49,7 @@ mix
       },
       {
         urlPattern: /\.(?:js|css)$/,
-        handler: 'CacheFirst',
+        handler: 'NetworkFirst',
         options: {
           cacheName: 'js-css',
         },
