@@ -1,6 +1,6 @@
 <nav class="horizontalMenu clearfix">
     <ul class="horizontalMenu-list">
-        <li aria-haspopup="true"><a href="{{ route('dashboard') }}" class=""><i class="typcn typcn-device-desktop hor-icon"></i> Dashboard</a></li>
+        <li aria-haspopup="true"><a href="{{ route('dosen.dashboard') }}" class=""><i class="typcn typcn-device-desktop hor-icon"></i> Dashboard</a></li>
         <li aria-haspopup="true"><a href="{{ route('dosen.biodata.index') }}" class=""><i class="fa fa-user"></i> Biodata</a></li>
 
         <li aria-haspopup="true"><a href="#" class="sub-icon {{ set_active(['dosen/jurnal_perkuliahan*', 'dosen/pengisian_nilai*', 'dosen/jadwal_mengajar*', 'dosen/verval_krs*']) }}"><i class="fa fa-university"></i> Perkuliahan <i class="fa fa-angle-down horizontal-icon"></i></a>

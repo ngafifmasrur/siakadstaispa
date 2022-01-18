@@ -12,7 +12,8 @@ use App\Http\Controllers\Dosen\{
     MateriPerkuliahanController,
     PenelitianController,
     PengabdianController,
-    PublikasiController
+    PublikasiController,
+    DashboardController
 };
 
 /*
@@ -29,6 +30,9 @@ use App\Http\Controllers\Dosen\{
 Route::group(
     ['middleware' => ['Role:dosen'], 'as' => 'dosen.'],
     function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name(
+            'dashboard'
+        );
         Route::get('/biodata', [BiodataDosenController::class, 'index'])->name(
             'biodata.index'
         );

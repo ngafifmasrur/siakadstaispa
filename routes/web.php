@@ -7,6 +7,8 @@ use App\Http\Controllers\LandingPage\{
     LandingPageController
 };
 
+use App\Http\Controllers\Auth\{RedirectAuthenticatedUsersController};
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,8 +21,10 @@ use App\Http\Controllers\LandingPage\{
 */
 
 Route::get('/', function () {
-    return redirect('/dashboard');
+    return redirect('/redirectAuthenticatedUsers');
 });
+
+Route::get('/redirectAuthenticatedUsers', [RedirectAuthenticatedUsersController::class, 'home']);
 
 Route::get('/home', [LandingPageController::class, 'index'])
     ->name('landing_page.index')

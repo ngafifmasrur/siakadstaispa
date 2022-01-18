@@ -17,7 +17,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/dashboard';
+    public const HOME = '/redirectAuthenticatedUsers';
 
     /**
      * The controller namespace for the application.
@@ -65,6 +65,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('mahasiswa')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/mahasiswa.php'));
+
+            Route::middleware(['web', 'auth'])
+                ->prefix('admin_prodi')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/prodi.php'));
         });
     }
 

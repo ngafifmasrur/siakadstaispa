@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Mahasiswa\{
+    DashboardController,
     BiodataController, 
     KRSController
 };
@@ -25,6 +26,9 @@ Route::group(
         'as' => 'mahasiswa.',
     ],
     function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name(
+            'dashboard'
+        );
         Route::get('/biodata', [BiodataController::class, 'index'])->name(
             'biodata.index'
         );

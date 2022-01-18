@@ -17,7 +17,8 @@ use App\Http\Controllers\Admin\{
     JadwalController,
     SemesterController,
     TahunAjaranController,
-    SemesterMahasiswaController
+    SemesterMahasiswaController,
+    DashboardController
 };
 
 use App\Http\Controllers\Akademika\{
@@ -38,6 +39,9 @@ use App\Http\Controllers\Akademika\{
 Route::group(
     ['middleware' => ['Role:admin'], 'as' => 'admin.'],
     function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name(
+            'dashboard'
+        );
         Route::get('/perguruan_tinggi', [
             PerguruanTinggiController::class,
             'index',

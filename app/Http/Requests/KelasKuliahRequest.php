@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Auth;
 
 class KelasKuliahRequest extends FormRequest
 {
@@ -23,8 +24,7 @@ class KelasKuliahRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'id_prodi' => 'required',
+        $rules = [
             // 'id_semester' => 'required|integer',
             // 'id_matkul' => 'required|integer',
             'nama_kelas_kuliah' => 'required|string',
@@ -32,5 +32,11 @@ class KelasKuliahRequest extends FormRequest
             // 'tanggal_mulai_efektif' => 'nullable|date',
             // 'tanggal_akhir_efektif' => 'nullable|date',
         ];
+
+        if(Auth::user()->role->name != 'admin_prodi'){
+            $rules['id_prodi'] = 'required';
+        }
+
+        return $rules;
     }
 }

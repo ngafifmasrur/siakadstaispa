@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Auth;
 
 class SemesterMHSRequest extends FormRequest
 {
@@ -27,9 +28,12 @@ class SemesterMHSRequest extends FormRequest
             'id_tahun_ajaran' => 'required',
             'id_mahasiswa' => 'required',
             'id_semester' => 'required',
-            'id_prodi' => 'required',
             'status' => 'required',
         ];
+
+        if(Auth::user()->role->name != 'admin_prodi'){
+            $rules['id_prodi'] = 'required';
+        }
 
         return $rules;
     }

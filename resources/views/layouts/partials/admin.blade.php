@@ -1,6 +1,6 @@
 <nav class="horizontalMenu clearfix">
     <ul class="horizontalMenu-list">
-        <li aria-haspopup="true"><a href="{{ route('dashboard') }}" class=""><i class="typcn typcn-device-desktop hor-icon"></i> Dashboard</a></li>
+        <li aria-haspopup="true"><a href="{{ route('admin.dashboard') }}" class=""><i class="typcn typcn-device-desktop hor-icon"></i> Dashboard</a></li>
 
         <li aria-haspopup="true"><a href="#" class="sub-icon {{ set_active(['admin/perguruan_tinggi*', 'admin/program_studi*']) }}"><i class="typcn typcn-th-large-outline hor-icon"></i> Master <i class="fa fa-angle-down horizontal-icon"></i></a>
             <ul class="sub-menu">
