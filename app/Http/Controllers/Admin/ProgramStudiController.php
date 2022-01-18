@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\m_program_studi;
+use Illuminate\Support\Facades\Http;
 use Session, DB, Str;
 
 class ProgramStudiController extends Controller
@@ -21,14 +22,24 @@ class ProgramStudiController extends Controller
     {
         $jenjang_pendidikan = $this->jenjang_pendidikan;
         $status_prodi = $this->status_prodi;
-        $query = m_program_studi::all();
+        // $query = m_program_studi::all();
+
+        $resource = Http::get(config('app.url_feeder') .'/prodi');
+
+        if ($resource->status() == 200) {
+            $query = $resource->collect('data')->map(function ($item) {
+                return (object) $item;
+            });
+        } else {
+            $query = [];
+        }
 
         return datatables()->of($query)
             ->addIndexColumn()
-            ->addColumn('action',function ($data) {
-           
+            ->addColumn('action', function ($data) {
+
                 $button = '<div class="btn-group" role="group" aria-label="Basic example">';
-    
+
                 $button .= view("components.button.default", [
                     'type' => 'button',
                     'tooltip' => 'Ubah',
@@ -42,7 +53,7 @@ class ProgramStudiController extends Controller
                     ],
                     "route" => route('admin.program_studi.update', $data->id_prodi),
                 ]);
-    
+
                 $button .= view("components.button.default", [
                     'type' => 'button',
                     'tooltip' => 'Hapus',
@@ -53,9 +64,9 @@ class ProgramStudiController extends Controller
                     ],
                     "route" => route('admin.program_studi.destroy', $data->id_prodi),
                 ]);
-    
+
                 $button .= '</div>';
-    
+
                 return $button;
             })
             ->addColumn('status', function ($data) use ($status_prodi) {
@@ -80,18 +91,21 @@ class ProgramStudiController extends Controller
     {
         DB::beginTransaction();
 
-        try{
+        try {
             $request->merge([
                 'id_prodi' => Str::uuid(),
                 'nama_jenjang_pendidikan' => $this->jenjang_pendidikan[$request->id_jenjang_pendidikan]
             ]);
-            $data = m_program_studi::create($request->all());
-            DB::commit();
+            // $data = m_program_studi::create($request->all());
+            $resource = Http::post(config('app.url_feeder') .'/prodi', $request->all());
+            if ($resource->status() != 200) {
+                throw new \Exception('Terjadi kesalahan pada server');
+            }
+            // DB::commit();
 
             Session::flash('success_msg', 'Berhasil Ditambah');
             return redirect()->route('admin.program_studi.index');
-
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
 
             DB::rollback();
 
@@ -100,21 +114,31 @@ class ProgramStudiController extends Controller
         }
     }
 
-    public function update(Request $request,m_program_studi $program_studi)
+    public function update(Request $request, $id)
     {
         DB::beginTransaction();
 
-        try{
+        try {
             $request->merge([
                 'nama_jenjang_pendidikan' => $this->jenjang_pendidikan[$request->id_jenjang_pendidikan]
             ]);
-            $program_studi->update($request->all());
-            DB::commit();
+            $resource = Http::get(config('app.url_feeder') ."/prodi/$id");
+
+            if ($resource->status() == 200) {
+                $data = Http::put(config('app.url_feeder') ."/prodi/$id", $request->all());
+
+                if ($data->status() != 200) {
+                    throw new \Exception('Terjadi kesalahan pada server');
+                }
+            } else {
+                throw new \Exception('Terjadi kesalahan pada server');
+            }
+
+            // DB::commit();
 
             Session::flash('success_msg', 'Berhasil Dibah');
             return redirect()->route('admin.program_studi.index');
-
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
 
             DB::rollback();
 
@@ -122,17 +146,32 @@ class ProgramStudiController extends Controller
             return redirect()->back()->withInput();
         }
     }
-    
-    public function destroy(m_program_studi $program_studi)
+
+    public function destroy($id)
     {
-        if(is_null($program_studi)){
-            abort(404);
+        DB::beginTransaction();
+
+        try {
+            $resource = Http::get(config('app.url_feeder') ."/prodi/$id");
+
+            if ($resource->status() == 200) {
+                $resource = Http::delete(config('app.url_feeder') ."/prodi/$id");
+
+                if ($resource->status() != 200) {
+                    throw new \Exception('Terjadi kesalahan pada server');
+                }
+            } else {
+                throw new \Exception('Terjadi kesalahan pada server');
+            }
+
+            Session::flash('success_msg', 'Berhasil Dihapus');
+            return back();
+        } catch (\Exception $e) {
+
+            DB::rollback();
+
+            Session::flash('error_msg', 'Terjadi kesalahan pada server');
+            return redirect()->back();
         }
-
-        $program_studi->delete();
-
-        Session::flash('success_msg', 'Berhasil Dihapus');
-        return back();
     }
-
 }

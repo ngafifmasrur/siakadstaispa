@@ -53,6 +53,7 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    'url_feeder' => env('APP_URL_FEEDER', 'http://localhost:8000'),
 
     'asset_url' => env('ASSET_URL', null),
 
