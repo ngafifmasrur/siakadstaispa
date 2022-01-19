@@ -46,5 +46,11 @@ class m_jadwal extends Model
 	public function jurnal_kuliah()
 	{
 		return $this->hasMany('App\Models\t_jurnal_kuliah', 'id_jadwal', 'id');
-  	}
+	  }
+	  
+	  
+	public static function byProdi()
+	{
+		return static::query()->where('id_prodi', auth()->user()->id_prodi);
+	}
 }

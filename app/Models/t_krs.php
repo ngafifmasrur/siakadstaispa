@@ -22,4 +22,10 @@ class t_krs extends Model
         return $this->belongsTo(m_mahasiswa::class, 'nim', 'nim');
     }
 
+    public static function byProdi()
+    {
+        return static::query()->whereHas('jadwal', function($q){
+            $q->where('id_prodi', auth()->user()->id_prodi);
+        });
+    }
 }

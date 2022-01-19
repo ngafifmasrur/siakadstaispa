@@ -26,4 +26,10 @@ class m_kelas_kuliah extends Model
     // {
     //     return $this->belongsTo('App\Models\m_mata_kuliah', 'id_matkul');
     // }
+
+    
+    public static function byProdi()
+    {
+        return static::query()->where('id_prodi', auth()->user()->id_prodi);
+    }
 }

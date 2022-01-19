@@ -26,4 +26,10 @@ class m_mata_kuliah extends Model
         return $this->kode_mata_kuliah.' - '.$this->nama_mata_kuliah.'';
 
     }
+
+    
+    public static function byProdi()
+    {
+        return static::query()->where('id_prodi', auth()->user()->id_prodi);
+    }
 }

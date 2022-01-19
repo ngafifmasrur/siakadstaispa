@@ -2,7 +2,7 @@
 <nav class="navbar navbar-expand-lg fixed-top navbar-custom sticky sticky-dark" id="navbar">
     <div class="container">
         <!-- LOGO -->
-        <a class="navbar-brand logo" href="index-2.html">
+        <a class="navbar-brand logo" href="{{ url('/home') }}">
             <img src="{{ asset('landing_page/images/logo_text.webp') }}" alt="" height="30">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
@@ -18,7 +18,11 @@
                     <a href="{{ route('landing_page.berita') }}" class="nav-link">Berita</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('dashboard') }}" class="nav-link">Login</a>
+                    @auth
+                    <a href="{{ route(auth()->user()->role->name.'.dashboard') }}"" class="nav-link">Login</a>
+                    @else
+                        <a href="{{ url('/login') }}"" class="nav-link">Login</a>
+                    @endauth
                 </li>
                 <li class="nav-item <?php if($nav=="kontak"){ echo "active"; } ?>">
                     <a href="{{ route('landing_page.kontak') }}" class="nav-link">Kontak</a>

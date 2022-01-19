@@ -50,7 +50,7 @@
 	<nav class="navbar navbar-expand-lg fixed-top navbar-custom sticky sticky-dark" id="navbar">
         <div class="container">
             <!-- LOGO -->
-            <a class="navbar-brand logo" href="index-2.html">
+            <a class="navbar-brand logo" href="{{ url('/home') }}">
                 <img src="{{ asset('landing_page/images/logo_text.png') }}" alt="" height="30">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
@@ -69,7 +69,11 @@
                         <a href="#services" class="nav-link">Aktivasi</a>
                     </li> -->
                     <li class="nav-item active">
-                        <a href="{{ route('dashboard') }}"" class="nav-link">Login</a>
+                        @auth
+                            <a href="{{ route(Auth::user()->role->name.'.dashboard') }}"" class="nav-link">Login</a>
+                        @else
+                            <a href="{{ url('/login') }}"" class="nav-link">Login</a>
+                        @endauth
                     </li>
                     <li class="nav-item">
                         <a href="#features" class="nav-link">Kontak</a>

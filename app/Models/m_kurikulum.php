@@ -21,4 +21,10 @@ class m_kurikulum extends Model
     {
         return $this->belongsTo('App\Models\m_semester', 'id_semester');
     }
+
+    
+    public static function byProdi()
+    {
+        return static::query()->where('id_prodi', auth()->user()->id_prodi);
+    }
 }

@@ -31,4 +31,10 @@ class t_riwayat_pendidikan_mahasiswa extends Model
     {
         return $this->belongsTo('App\Models\m_mahasiswa', 'id_mahasiswa');
     }
+
+
+    public static function byProdi()
+    {
+        return static::query()->where('id_prodi', auth()->user()->id_prodi);
+    }
 }

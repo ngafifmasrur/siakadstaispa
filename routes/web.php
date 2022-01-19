@@ -43,9 +43,3 @@ Route::post('/mata_kuliah_list', [
 Route::post('/semester_list', [MainController::class, 'semester_list'])->name(
     'semester_list'
 );
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})
-    ->middleware(['auth'])
-    ->name('dashboard');

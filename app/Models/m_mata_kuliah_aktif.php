@@ -27,4 +27,12 @@ class m_mata_kuliah_aktif extends Model
     {
         return $this->matkul->nama_mata_kuliah . ' (' . $this->detail_semester->nama_semester . ')';
     }
+
+    
+    public static function byProdi()
+    {
+        return static::query()->whereHas('matkul', function($q){
+            $q->where('id_prodi', auth()->user()->id_prodi);
+        });
+    }
 }
