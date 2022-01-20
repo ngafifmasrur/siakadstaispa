@@ -48,15 +48,15 @@ if (! function_exists('dataFeeder')) {
             
         $endpoint = \config('app.url_feeder');
 
-        $response = Http::post($endpoint, [
+        $res = Http::post($endpoint, [
             'act' => $act,
             'token' => $token,
         ]);
 
-        $result = $response->getBody()->getContents();
-        $data = json_decode($result)->data;
-        
-        return $data;
+        $response_data = json_decode($res->getBody()->getContents(), true);
+        $result = $response_data['data'];
+
+        return $result;
     }
 }
 
@@ -68,13 +68,13 @@ if (! function_exists('GetDataFeeder')) {
      * @param
      * @return
      */
-    function GetDataFeeder($act = '')
+    function GetDataFeeder($act)
     {
         // $token = GetTokenFeeder();
             
-        $endpoint = 'http://localhost:8000/api/test';
+        $endpoint = \config('app.url_feeder').'/'.$act;
 
-        $res = Http::post($endpoint);
+        $res = Http::get($endpoint);
 
         $response_data = json_decode($res->getBody()->getContents(), true);
         $result = $response_data['data'];
