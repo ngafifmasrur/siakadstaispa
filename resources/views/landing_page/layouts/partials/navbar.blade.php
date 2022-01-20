@@ -17,15 +17,15 @@
                 <li class="nav-item <?php if($nav=="berita"){ echo "active"; } ?>">
                     <a href="{{ route('landing_page.berita') }}" class="nav-link">Berita</a>
                 </li>
+                <li class="nav-item <?php if($nav=="kontak"){ echo "active"; } ?>">
+                    <a href="{{ route('landing_page.kontak') }}" class="nav-link">Kontak</a>
+                </li>
                 <li class="nav-item">
                     @auth
-                    <a href="{{ route(auth()->user()->role->name.'.dashboard') }}"" class="nav-link">Login</a>
+                    <a href="{{ route(auth()->user()->role->name.'.dashboard') }}"" class="nav-link">Dashboard</a>
                     @else
                         <a href="{{ url('/login') }}"" class="nav-link">Login</a>
                     @endauth
-                </li>
-                <li class="nav-item <?php if($nav=="kontak"){ echo "active"; } ?>">
-                    <a href="{{ route('landing_page.kontak') }}" class="nav-link">Kontak</a>
                 </li>
             </ul>
 
