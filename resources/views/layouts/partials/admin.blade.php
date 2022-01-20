@@ -17,7 +17,7 @@
                 <li aria-haspopup="true"><a href="{{ route('admin.mata_kuliah.index') }}">Mata Kuliah</a></li>
                 <li aria-haspopup="true"><a href="{{ route('admin.kurikulum_prodi.index') }}">Kurikulum Prodi</a></li>
                 <li aria-haspopup="true"><a href="{{ route('admin.bobot_nilai.index') }}">Bobot Nilai</a></li>
-                <li aria-haspopup="true"><a href="{{ route('admin.kelas_kuliah.index') }}">Kelas Kuliah</a></li>
+                {{-- <li aria-haspopup="true"><a href="{{ route('admin.kelas_kuliah.index') }}">Kelas Kuliah</a></li> --}}
                 <li aria-haspopup="true"><a href="{{ route('admin.ruang_kelas.index') }}">Ruang Kelas</a></li>
                 <li aria-haspopup="true"><a href="{{ route('admin.jadwal.index') }}">Jadwal Kuliah</a></li>
             </ul>

@@ -6,7 +6,7 @@
                 <li aria-haspopup="true"><a href="{{ route('admin_prodi.semester_mahasiswa.index') }}">Semester Mahasiswa</a></li>
                 <li aria-haspopup="true"><a href="{{ route('admin_prodi.mata_kuliah.index') }}">Mata Kuliah</a></li>
                 <li aria-haspopup="true"><a href="{{ route('admin_prodi.kurikulum_prodi.index') }}">Kurikulum Prodi</a></li>
-                <li aria-haspopup="true"><a href="{{ route('admin_prodi.kelas_kuliah.index') }}">Kelas Kuliah</a></li>
+                {{-- <li aria-haspopup="true"><a href="{{ route('admin_prodi.kelas_kuliah.index') }}">Kelas Kuliah</a></li> --}}
                 <li aria-haspopup="true"><a href="{{ route('admin_prodi.jadwal.index') }}">Jadwal Kuliah</a></li>
             </ul>
         </li>
