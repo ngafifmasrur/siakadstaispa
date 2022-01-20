@@ -11,7 +11,7 @@
     <div class="row">
         <div class="form-group col-lg-3">
             <label for="prodi">Program Studi</label>
-            {!! Form::select('prodi', $prodi, null, ['class' => 'form-control', 'id' => 'prodi']) !!}
+            {!! Form::select('prodi', $prodi, null, ['class' => 'form-control', 'id' => 'prodi_filter']) !!}
         </div>
     </div>
 </x-card>
@@ -38,7 +38,7 @@
         ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
     ]"
     :filter="[
-        ['data' => 'prodi', 'value' => '$(`#prodi`).val()']
+        ['data' => 'prodi', 'value' => '$(`#prodi_filter`).val()']
     ]"
     />
 </x-card-table>
@@ -410,8 +410,10 @@
 
 @push('js')
     <script>
-        $(document).on('change','#prodi',function(){
-            table.ajax.reload();
+        $( document ).ready(function() {
+            $(document).on('change','#prodi_filter',function(){
+                table.ajax.reload();
+            });
         });
 
         $('.add-form').on('click', function () {

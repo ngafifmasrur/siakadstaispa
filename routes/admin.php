@@ -79,11 +79,15 @@ Route::group(
         Route::resource(
             '/kurikulum_prodi',
             MataKuliahAktifController::class
-        )->except(['show']);
-        Route::get('/kurikulum_prodi/data_index/{tahun_ajaran?}', [
+        )->except(['show', 'create']);
+        Route::get('/kurikulum_prodi/data_index/{tahun_ajaran}/{prodi}', [
             MataKuliahAktifController::class,
             'data_index',
         ])->name('kurikulum_prodi.data_index');
+        Route::get('/kurikulum_prodi/tabel/{tahun_ajaran}/{prodi}', [
+            MataKuliahAktifController::class,
+            'create',
+        ])->name('kurikulum_prodi.create');
 
         Route::resource('/bobot_nilai', BobotNilaiController::class)->except([
             'show',

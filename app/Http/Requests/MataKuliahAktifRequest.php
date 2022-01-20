@@ -23,10 +23,12 @@ class MataKuliahAktifRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'id_matkul' => 'required',
             'id_semester' => 'required',
             'nilai_minimum' => 'required',
         ];
+
+        return $rules;
     }
 }

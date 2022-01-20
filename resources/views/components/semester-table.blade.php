@@ -26,7 +26,7 @@
                     <tfoot align="right">
                         <th colspan="3" class="font-weight-bold text-center"></th>
                         <th class="font-weight-bold text-center"></th>
-                        <th class="font-weight-bold text-center"></th>
+                        <th colspan="3" class="font-weight-bold text-center"></th>
                     </tfoot>
                 </table>
             </div>

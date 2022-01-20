@@ -21,34 +21,19 @@ class MataKuliahAktifController extends Controller
      */
     public function index(Request $request)
     {
-        $tahun_ajaran = '2022';
         $tahun_ajaran = m_tahun_ajaran::where('a_periode_aktif', 1)->pluck('nama_tahun_ajaran', 'id_tahun_ajaran')->prepend('Pilih Tahun Ajaran', NULL);
-        $table_semester = m_semester::pluck('semester', 'id_semester');
-
-        $matkul = m_mata_kuliah::where('id_prodi', Auth::user()->id_prodi)->get()
-                ->map(function($data) {
-                    return [
-                        'id_matkul'    => $data->id_matkul,
-                        'matkul_kode'  => $data->matkul_kode
-                    ];
-                })->pluck('matkul_kode', 'id_matkul')->prepend('Pilih Mata Kuliah', NULL);
-
-        $semester = m_semester::pluck('semester', 'id_semester')->prepend('Pilih Semester', NULL);
-
-        return view('admin_prodi.mata_kuliah_aktif.index', compact('matkul', 'semester', 'tahun_ajaran', 'table_semester'));
+        return view('admin_prodi.mata_kuliah_aktif.index', compact('tahun_ajaran'));
     }
 
-    public function data_index(Request $request, $tahun_ajaran = NULL)
+    public function data_index(Request $request, $tahun_ajaran)
     {
         $query = m_mata_kuliah_aktif::query()
                 ->whereHas('matkul', function($q){
                     $q->where('id_prodi', Auth::user()->id_prodi);
                 })
                 ->where('semester', substr($request->semester, -1))
-                ->when($tahun_ajaran, function ($query) use ($tahun_ajaran) {
-                    $query->whereHas('detail_semester', function($q) use ($tahun_ajaran) {
+                ->whereHas('detail_semester', function($q) use ($tahun_ajaran) {
                         $q->where('id_tahun_ajaran', $tahun_ajaran);
-                    });
                 });
 
         return datatables()->of($query)
@@ -65,6 +50,9 @@ class MataKuliahAktifController extends Controller
                     'attribute' => [
                         'data-id_matkul' => $data->id_matkul,
                         'data-id_semester' => $data->id_semester,
+                        'data-nilai_minimum' => $data->nilai_minimum,
+                        'data-mk_wajib' => $data->mk_wajib,
+                        'data-mk_paket' => $data->mk_paket
                     ],
                     "route" => route('admin_prodi.kurikulum_prodi.update',['kurikulum_prodi' => $data->id]),
                 ]);
@@ -93,7 +81,13 @@ class MataKuliahAktifController extends Controller
             ->addColumn('sks', function ($data) {
                 return $data->matkul->sks_mata_kuliah;
             })
-            ->rawColumns(['action'])
+            ->addColumn('wajib', function ($data) {
+                return $data->mk_wajib ? '<i class="fa fa-check" aria-hidden="true"></i>' : '<i class="fa fa-times" aria-hidden="true"></i>';
+            })
+            ->addColumn('paket', function ($data) {
+                return $data->mk_paket ? '<i class="fa fa-check" aria-hidden="true"></i>' : '<i class="fa fa-times" aria-hidden="true"></i>';
+            })
+            ->rawColumns(['action', 'wajib', 'paket'])
             ->setRowAttr([
                 'style' => 'text-align: center',
             ])
@@ -105,9 +99,22 @@ class MataKuliahAktifController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(m_tahun_ajaran $tahun_ajaran)
     {
-        abort(404);
+        $table_semester = m_semester::where('id_tahun_ajaran', $tahun_ajaran->id_tahun_ajaran)
+                        ->pluck('semester', 'id_semester');
+
+        $matkul = m_mata_kuliah::where('id_prodi', Auth::user()->id_prodi)->get()
+                ->map(function($data) {
+                    return [
+                        'id_matkul'    => $data->id_matkul,
+                        'matkul_kode'  => $data->matkul_kode
+                    ];
+                })->pluck('matkul_kode', 'id_matkul')->prepend('Pilih Mata Kuliah', NULL);
+
+        $semester = m_semester::where('id_tahun_ajaran', $tahun_ajaran->id_tahun_ajaran)->pluck('semester', 'id_semester')->prepend('Pilih Semester', NULL);
+
+        return view('admin_prodi.mata_kuliah_aktif.create', compact('matkul', 'semester', 'tahun_ajaran', 'table_semester'));
     }
 
     /**
@@ -118,23 +125,32 @@ class MataKuliahAktifController extends Controller
      */
     public function store(MataKuliahAktifRequest $request)
     {
+        $matkul = m_mata_kuliah::where('id_matkul', $request->id_matkul)->first();
+        $semester = m_semester::where('id_semester', $request->id_semester)->first();
+        $cek = m_mata_kuliah_aktif::where('id_semester', $request->id_semester)
+                                    ->where('id_matkul', $request->id_matkul)
+                                    ->where('id_prodi', Auth::user()->id_prodi)
+                                    ->first();
+        if(isset($cek)) {
+            Session::flash('error_msg', 'Kurikulum Prodi sudah pernah dibuat');
+            return redirect()->back()->withInput();
+        }
+
         DB::beginTransaction();
 
         try{
             
-            $matkul = m_mata_kuliah::where('id_matkul', $request->id_matkul)->first();
-            $semester = m_semester::where('id_semester', $request->id_semester)->first();
             $request->merge([
                 'id_prodi' => $matkul->id_prodi,
                 'mk_paket' => $request->mk_paket ?? 0,
-                'mk_wajib' => $request->mk_paket ?? 0,
+                'mk_wajib' => $request->mk_wajib ?? 0,
                 'semester' => $semester->semester
             ]);
             $data = m_mata_kuliah_aktif::create($request->all());
             DB::commit();
 
             Session::flash('success_msg', 'Berhasil Ditambah');
-            return redirect()->route('admin_prodi.kurikulum_prodi.index');
+            return redirect()->back();
 
         }catch(\Exception $e){
 
@@ -176,6 +192,18 @@ class MataKuliahAktifController extends Controller
      */
     public function update(MataKuliahAktifRequest $request, m_mata_kuliah_aktif $kurikulum_prodi)
     {
+
+   
+        $cek = m_mata_kuliah_aktif::where('id_semester', $request->id_semester)
+                                    ->where('id_matkul', $request->id_matkul)
+                                    ->where('id_prodi', Auth::user()->id_prodi)
+                                    ->whereNotIn('id', [$kurikulum_prodi->id])
+                                    ->first();
+        if(isset($cek)) {
+            Session::flash('error_msg', 'Kurikulum Prodi sudah pernah dibuat');
+            return redirect()->back()->withInput();
+        }
+
         DB::beginTransaction();
 
         try{
@@ -184,7 +212,7 @@ class MataKuliahAktifController extends Controller
             DB::commit();
 
             Session::flash('success_msg', 'Berhasil Dibah');
-            return redirect()->route('admin_prodi.kurikulum_prodi.index');
+            return redirect()->back();
 
         }catch(\Exception $e){
 

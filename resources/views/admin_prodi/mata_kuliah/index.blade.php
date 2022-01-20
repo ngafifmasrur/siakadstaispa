@@ -377,10 +377,6 @@
 
 @push('js')
     <script>
-        $(document).on('change','#prodi',function(){
-            table.ajax.reload();
-        });
-
         $('.add-form').on('click', function () {
             $('.modal-form').modal('show');
             $('.modal-form form')[0].reset();
