@@ -258,7 +258,7 @@ class SemesterMahasiswaController extends Controller
             DB::rollback();
 
             Session::flash('error_msg', 'Terjadi kesalahan pada server');
-            return dd($e);
+            return redirect()->back()->withInput();
         }
     }
 }

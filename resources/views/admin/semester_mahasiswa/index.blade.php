@@ -28,8 +28,10 @@
     <x-slot name="title">Data Semester Mahasiswa</x-slot>
     <x-slot name="button">
         <a class="btn btn-app btn-sm btn-primary add-form" data-url="{{ route('admin.semester_mahasiswa.store') }}" href="#"><i class="fa fa-plus mr-2"></i>Tambah</a>
-        <button type="button" class="btn btn-app btn-sm btn-success btn-generate" data-route="{{ route('admin.semester_mahasiswa.generate') }}" disabled><i class="fa fa-plus mr-2"></i>Generate</button>
-
+        <span class="d-inline-block" tabindex="0" data-toggle="tooltip"
+        data-placement="top" title="Silahkan Lengkapi Filter terlebih dahulu untuk generate semester mahasiswa" id="generate">
+          <button type="button" style="pointer-events: none;" class="btn btn-app btn-sm btn-success btn-generate" data-route="{{ route('admin.semester_mahasiswa.generate') }}"><i class="fa fa-plus mr-2"></i>Generate</button>
+        </span>
     </x-slot>
 
     <x-datatable 
@@ -227,6 +229,8 @@
     <script>
 
         $( document ).ready(function() {
+            $('[data-toggle="tooltip"]').tooltip();
+
             $(document).on('change','#prodi, #semester, #tahun_ajaran',function(){
                 table.ajax.reload();
             });
@@ -238,8 +242,12 @@
             $(document).on('change','#prodi, #semester, #tahun_ajaran',function(){
                 if($('#prodi').val() && $('#semester').val() && $('#tahun_ajaran').val()) {
                     $('.btn-generate').attr('disabled', false);
+                    $('#generate').removeAttr("data-original-title");
+                    $('.btn-generate').css( 'pointer-events', 'auto' );
                 } else {
                     $('.btn-generate').attr('disabled', true);
+                    $('#generate').attr("data-original-title", "Silahkan Lengkapi Filter terlebih dahulu untuk generate semester mahasiswa");
+                    $('.btn-generate').css( 'pointer-events', 'none' );
                 }
             });
         });
