@@ -74,7 +74,7 @@ if (! function_exists('GetDataFeeder')) {
             
         $endpoint = \config('app.url_feeder').'/'.$act;
 
-        $res = Http::get($endpoint);
+        $res = Http::post($endpoint);
 
         $response_data = json_decode($res->getBody()->getContents(), true);
         $result = $response_data['data'];
