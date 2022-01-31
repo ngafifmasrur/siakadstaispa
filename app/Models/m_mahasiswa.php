@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Sushi\Sushi;
 
 class m_mahasiswa extends Model
 {
-    use HasFactory;
+    use HasFactory, Sushi;
 
-    protected $table = 'm_mahasiswa';
+    // protected $table = 'm_mahasiswa';
     protected $primaryKey = 'id_mahasiswa';
     protected $guarded = [];
     public $incrementing = false;
@@ -38,5 +39,10 @@ class m_mahasiswa extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function getRows()
+    {
+        return GetDataFeeder('GetListMahasiswa');
     }
 }

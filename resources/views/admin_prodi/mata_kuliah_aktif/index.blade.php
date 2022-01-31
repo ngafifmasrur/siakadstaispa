@@ -33,7 +33,7 @@
                     $('.kurikulum_prodi').attr('disabled', false);
                     $('#kurikulum_prodi').removeAttr("data-original-title");
                     $('.kurikulum_prodi').css( 'pointer-events', 'auto' );
-                    table = "{{ url('/admin_prodi/kurikulum_prodi/create') }}"+"/"+tahun_ajaran;
+                    table = "{{ url('/admin_prodi/kurikulum_prodi/tabel') }}"+"/"+tahun_ajaran;
                     $('.kurikulum_prodi').attr( 'onclick', "location.href="+"'"+table+"'" );
 
                 } else {

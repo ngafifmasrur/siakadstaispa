@@ -40,7 +40,7 @@
                     $('#kurikulum_prodi').removeAttr("data-original-title");
                     $('.kurikulum_prodi').css( 'pointer-events', 'auto' );
                     
-                    table = "{{ url('/admin/kurikulum_prodi/create') }}"+"/"+tahun_ajaran+"/"+prodi;
+                    table = "{{ url('/admin/kurikulum_prodi/tabel') }}"+"/"+tahun_ajaran+"/"+prodi;
    
                     $('.kurikulum_prodi').attr( 'onclick', "location.href="+"'"+table+"'" );
 

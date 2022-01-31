@@ -12,9 +12,11 @@ class ProgramStudiController extends Controller
 {
     public function index()
     {
+        $query = m_program_studi::query();
+
         return view('admin.program_studi.index')->with([
             'jenjang_pendidikan' => $this->jenjang_pendidikan,
-            'status_prodi' => $this->status_prodi
+            'status_prodi' => $this->status_prodi,
         ]);
     }
 
@@ -24,15 +26,16 @@ class ProgramStudiController extends Controller
         $status_prodi = $this->status_prodi;
         // $query = m_program_studi::all();
 
-        $resource = Http::get(config('app.url_feeder') .'/prodi');
+        // $resource = Http::get(config('app.url_feeder') .'/prodi');
 
-        if ($resource->status() == 200) {
-            $query = $resource->collect('data')->map(function ($item) {
-                return (object) $item;
-            });
-        } else {
-            $query = [];
-        }
+        // if ($resource->status() == 200) {
+        //     $query = $resource->collect('data')->map(function ($item) {
+        //         return (object) $item;
+        //     });
+        // } else {
+        //     $query = [];
+        // }
+        $query = m_program_studi::query();
 
         return datatables()->of($query)
             ->addIndexColumn()
@@ -69,11 +72,11 @@ class ProgramStudiController extends Controller
 
                 return $button;
             })
-            ->addColumn('status', function ($data) use ($status_prodi) {
-                return $status_prodi[$data->status];
+            ->addColumn('status', function ($data) {
+                return  $data->status;
             })
-            ->addColumn('jenjang', function ($data) use ($jenjang_pendidikan) {
-                return $jenjang_pendidikan[$data->id_jenjang_pendidikan];
+            ->addColumn('jenjang', function ($data) {
+                return $data->nama_jenjang_pendidikan;
             })
             ->rawColumns(['action'])
             ->setRowAttr([

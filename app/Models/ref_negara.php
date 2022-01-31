@@ -4,18 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Sushi\Sushi;
 
-class m_perguruan_tinggi extends Model
+class ref_negara extends Model
 {
-    use HasFactory, Sushi;
+    use HasFactory, \Sushi\Sushi;
 
-    protected $primaryKey = 'id_perguruan_tinggi';
+    protected $primaryKey = 'id_negara';
     public $incrementing = false;
     protected $keyType = 'string';
 
     public function getRows()
     {
-        return GetDataFeeder('GetProfilPT');
+        return GetDataFeeder('getNegara');
     }
 }

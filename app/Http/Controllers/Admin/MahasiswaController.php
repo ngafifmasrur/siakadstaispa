@@ -40,7 +40,7 @@ class MahasiswaController extends Controller
 
     public function data_index(Request $request)
     {
-        $query = m_mahasiswa::all();
+        $query = m_mahasiswa::query();
         $status_mahasiswa = $this->status_mahasiswa;
 
         return datatables()->of($query)
