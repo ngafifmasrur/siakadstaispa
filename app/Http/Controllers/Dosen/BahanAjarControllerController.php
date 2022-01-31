@@ -9,7 +9,7 @@ use App\Models\m_program_studi;
 use App\Models\t_publikasi;
 use Session, DB;
 
-class PublikasiController extends Controller
+class BahanAjarControllerController extends Controller
 {
     /**
      * Display a listing of the resource.
