@@ -19,7 +19,7 @@ use App\Models\ref_wilayah;
 use App\Models\User;
 use App\Models\Role;
 use App\Http\Requests\MahasiswaRequest;
-use Session, DB, Str;
+use Session, DB, Str, Response;
 
 class MahasiswaController extends Controller
 {
@@ -45,6 +45,11 @@ class MahasiswaController extends Controller
 
         return datatables()->of($query)
             ->addIndexColumn()
+            ->addColumn('select_all', function ($data) {
+                return '
+                    <input type="checkbox"' .' name="mahasiswa_id[]" value="'. $data->id_mahasiswa .'">
+                ';
+            })
             ->addColumn('action',function ($data) {
            
                 $button = '<div class="btn-group" role="group" aria-label="Basic example">';
@@ -93,7 +98,7 @@ class MahasiswaController extends Controller
             ->addColumn('agama', function ($data) {
                 return $data->agama->nama_agama;
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'select_all'])
             ->setRowAttr([
                 'style' => 'text-align: center',
             ])
@@ -250,4 +255,22 @@ class MahasiswaController extends Controller
         return view('admin.mahasiswa.show', compact('mahasiswa', 'prodi', 'periode', 'agama', 'status_mahasiswa'));
     }
 
+    public function massCreateAccount(Request $request)
+    {
+        $role_mahasiswa  = Role::where('name', 'mahasiswa')->first();
+
+        foreach ($request->mahasiswa_id as $id) {
+            $mahasiswa = m_mahasiswa::find($id);
+            $user = new User();
+            $user->email = $mahasiswa->nim;
+            $user->name = $mahasiswa->nama_mahasiswa;
+            $user->password = bcrypt('000000');
+            $user->role_id = $role_mahasiswa->id;
+            $user->id_mahasiswa = $mahasiswa->id_mahasiswa;
+            $user->save();
+            $user->roles()->attach($role_mahasiswa);
+        }
+
+        return Response::json(['success' => 'Akun mahasiswa terpilih berhasil dibuat!'], 200);
+    }
 }

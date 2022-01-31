@@ -10,7 +10,7 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\DosenRequest;
-use Session, DB, Str;
+use Session, DB, Str, Response;
 
 class DosenController extends Controller
 {
@@ -31,6 +31,11 @@ class DosenController extends Controller
 
         return datatables()->of($query)
             ->addIndexColumn()
+            ->addColumn('select_all', function ($data) {
+                return '
+                    <input type="checkbox"' .' name="dosen_id[]" value="'. $data->id_dosen .'">
+                ';
+            })
             ->addColumn('action', function ($data) {
 
                 $button = '<div class="btn-group" role="group" aria-label="Basic example">';
@@ -69,7 +74,7 @@ class DosenController extends Controller
             ->addColumn('status', function ($data) {
                 return $data->id_status_aktif ? 'Aktif' : 'Tidak Aktif';
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'select_all'])
             ->setRowAttr([
                 'style' => 'text-align: center',
             ])
@@ -206,5 +211,24 @@ class DosenController extends Controller
 
         Session::flash('success_msg', 'Berhasil Dihapus');
         return back();
+    }
+
+    public function massCreateAccount(Request $request)
+    {
+        $role_dosen  = Role::where('name', 'dosen')->first();
+
+        foreach ($request->dosen_id as $id) {
+            $dosen = m_dosen::find($id);
+            $user = new User();
+            $user->email = $dosen->nidn;
+            $user->name = $dosen->nama_dosen;
+            $user->password = bcrypt('000000');
+            $user->role_id = $role_dosen->id;
+            $user->id_dosen = $dosen->id_dosen;
+            $user->save();
+            $user->roles()->attach($role_dosen);
+        }
+
+        return Response::json(['success' => 'Akun dosen terpilih berhasil dibuat!'], 200);
     }
 }

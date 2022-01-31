@@ -91,12 +91,12 @@ class User extends Authenticatable
 
     public function dosen()
     {
-        return $this->hasOne(m_dosen::class, 'user_id', 'id');
+        return $this->hasOne(m_dosen::class, 'id_dosen', 'id_dosen');
     }
 
     public function mahasiswa()
     {
-        return $this->hasOne(m_mahasiswa::class, 'user_id', 'id');
+        return $this->hasOne(m_mahasiswa::class, 'id_mahasiswa', 'id_mahasiswa');
     }
 
 }

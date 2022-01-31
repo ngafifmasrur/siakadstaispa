@@ -11,14 +11,14 @@ class m_dosen extends Model
     use HasFactory, Sushi;
 
     // protected $table = 'm_dosen';
-    // protected $primaryKey = 'id_dosen';
+    protected $primaryKey = 'id_dosen';
     protected $guarded = [];
     public $incrementing = false;
     protected $keyType = 'string';
     
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'id_dosen');
     }
 
     public function getRows()

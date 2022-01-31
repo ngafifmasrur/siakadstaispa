@@ -178,11 +178,19 @@ Route::group(
             DosenController::class,
             'data_index',
         ])->name('dosen.data_index');
+        Route::post('/dosen/buat_akun', [
+            DosenController::class,
+            'massCreateAccount',
+        ])->name('dosen.buat_akun');
 
         Route::get('/mahasiswa/data_index', [
             MahasiswaController::class,
             'data_index',
         ])->name('mahasiswa.data_index');
+        Route::post('/mahasiswa/buat_akun', [
+            MahasiswaController::class,
+            'massCreateAccount',
+        ])->name('mahasiswa.buat_akun');
         Route::resource('/mahasiswa', MahasiswaController::class);
 
         Route::resource(
