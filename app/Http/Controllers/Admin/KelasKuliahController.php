@@ -21,15 +21,21 @@ class KelasKuliahController extends Controller
     public function index()
     {
         $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi')->prepend('Pilih Program Studi', NULL);
-        // $semester = m_semester::pluck('nama_semester', 'id');
+        $semester = m_semester::pluck('nama_semester', 'id_semester')->prepend('Pilih Semester', NULL);
         // $mata_kuliah = m_mata_kuliah::pluck('nama_mata_kuliah', 'id');
 
-        return view('admin.kelas_kuliah.index', compact('prodi'));
+        return view('admin.kelas_kuliah.index', compact('prodi', 'semester'));
     }
 
     public function data_index(Request $request)
     {
-        $query = m_kelas_kuliah::query();
+        $query = m_kelas_kuliah::query()
+                ->when($request->id_prodi, function ($q) use ($request) {
+                    $q->where('id_prodi', $request->id_prodi);
+                })
+                ->when($request->id_semester, function ($q) use ($request) {
+                    $q->where('id_semester', $request->id_semester);
+                });
 
         return datatables()->of($query)
             ->addIndexColumn()
