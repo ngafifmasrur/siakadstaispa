@@ -35,7 +35,7 @@
     <div class="form-group row">
         <div class="form-group col-lg-12">
             <label for="variable">Variable</label>
-            {!! Form::text('variable', null, ['class' => 'form-control', 'id' => 'variable']) !!}
+            {!! Form::select('variable', $options, null, ['class' => 'form-control', 'id' => 'variable']) !!}
         </div>
     </div>
     <div class="form-group row">

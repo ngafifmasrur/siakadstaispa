@@ -17,7 +17,13 @@ class KonfigurasiController extends Controller
      */
     public function index()
     {
-        return view('admin.konfigurasi.index');
+        $options = [
+            'url_feeder_pd_dikti' => 'URL Feeder PD Dikti',
+            'username_feeder_pd_dikti' => 'Username Feeder PD Dikti',
+            'password_feeder_pd_dikti' => 'Password Feeder PD Dikti'
+        ];
+
+        return view('admin.konfigurasi.index', compact('options'));
     }
 
     public function data_index(Request $request)
