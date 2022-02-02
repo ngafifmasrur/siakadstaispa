@@ -11,7 +11,7 @@
     <x-slot name="title">Data Dosen</x-slot>
     <x-slot name="button">
         {{-- <a class="btn btn-app btn-sm btn-primary" href="{{ route('admin.dosen.create') }}"><i class="fa fa-plus mr-2"></i>Tambah</a> --}}
-        <button onclick="massCreateAccount('{{ route('admin.dosen.buat_akun') }}')" class="btn btn-success btn-xs btn-flat"><i class="fa fa-check"></i> Buat Akun</button>
+        {{-- <button onclick="massCreateAccount('{{ route('admin.dosen.buat_akun') }}')" class="btn btn-success btn-xs btn-flat"><i class="fa fa-check"></i> Buat Akun</button> --}}
 
     </x-slot>
     
@@ -19,7 +19,6 @@
         @csrf @method('post')
 
         <x-datatable :route="route('admin.dosen.data_index')" :table="[
-            ['title' => 'No.', 'data' => 'select_all', 'name' => 'select_all', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],                            
             ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],
             ['title' => 'NIDN', 'data' => 'nidn', 'name' => 'nidn', 'classname' => 'text-left'],
             ['title' => 'Nama', 'data' => 'nama_dosen', 'name' => 'nama_dosen', 'classname' => 'text-left'],
@@ -235,21 +234,6 @@
 
     });
 
-    function massCreateAccount(url) {
-        if ($('input:checked').length > 1) {
-            if (confirm('Buat akun baru untuk dosen yang dipilih?')) {
-                $.post(url, $('.dosen-form').serialize())
-                    .done((response) => {
-                        table.ajax.reload();
-                    })
-                    .fail((errors) => {
-                        return;
-                    });
-            }
-        } else {
-            return;
-        }
-    }
 
 </script>
 @endpush

@@ -37,6 +37,12 @@
                                 <span><i class="dropdown-icon mdi mdi-logout-variant fs-30 m-0 leading-tight"></i></span>
                                 <div>Sign out</div>
                             </a>
+                            @impersonating($guard = null)
+                            <a href="{{ route('impersonate.leave') }}" class="col-4 text-center cursor-pointer" style="cursor: pointer">
+                                <span><i class="dropdown-icon mdi mdi-logout-variant fs-30 m-0 leading-tight"></i></span>
+                                <div>Ke Akun Utama</div>
+                            </a>
+                            @endImpersonating
                         </div>
                     </div>
                 </div>

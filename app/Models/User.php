@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Lab404\Impersonate\Models\Impersonate;
+use Lab404\Impersonate\Services\ImpersonateManager;
 
 class User extends Authenticatable
 {
@@ -21,7 +23,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role_id'
+        'role_id',
+        'id_mahasiswa',
+        'id_dosen'
     ];
 
     /**
@@ -99,4 +103,18 @@ class User extends Authenticatable
         return $this->hasOne(m_mahasiswa::class, 'id_mahasiswa', 'id_mahasiswa');
     }
 
+    public function canImpersonate()
+    {
+        return $this->role_id == 1;
+    }
+
+    public function canBeImpersonated()
+    {
+        return $this->role_id == 2 || $this->role_id == 3;
+    }
+
+    public function isImpersonated()
+    {
+        return app(ImpersonateManager::class)->isImpersonating();
+    }
 }

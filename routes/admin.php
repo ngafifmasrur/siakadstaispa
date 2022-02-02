@@ -20,11 +20,15 @@ use App\Http\Controllers\Admin\{
     SemesterMahasiswaController,
     DashboardController,
     DataPokokController,
-    KonfigurasiController
-};
-
-use App\Http\Controllers\Akademika\{
-    PesertaKelasKuliahController
+    KonfigurasiController,
+    RegistrasiMahasiswaController,
+    PenugasanDosenController,
+    SubstansiMataKuliahController,
+    PeriodePerkuliahanController,
+    PerkuliahanMahasiswaController,
+    ManajemenUserController,
+    PesertaKelasKuliahController,
+    DosenPengajarKelasKuliahController
 };
 
 /*
@@ -137,43 +141,43 @@ Route::group(
             'data_index',
         ])->name('semester.data_index');
 
-        Route::resource(
-            '/semester_mahasiswa',
-            SemesterMahasiswaController::class
-        )->except(['show']);
-        Route::get('/semester_mahasiswa/data_index', [
-            SemesterMahasiswaController::class,
-            'data_index',
-        ])->name('semester_mahasiswa.data_index');
-        Route::get('/semester_mahasiswa/mahasiswa_data_index', [
-            SemesterMahasiswaController::class,
-            'mahasiswa_data_index',
-        ])->name('semester_mahasiswa.mahasiswa_data_index');
-        Route::post('/semester_mahasiswa/generate', [
-            SemesterMahasiswaController::class,
-            'generate',
-        ])->name('semester_mahasiswa.generate');
+        // Route::resource(
+        //     '/semester_mahasiswa',
+        //     SemesterMahasiswaController::class
+        // )->except(['show']);
+        // Route::get('/semester_mahasiswa/data_index', [
+        //     SemesterMahasiswaController::class,
+        //     'data_index',
+        // ])->name('semester_mahasiswa.data_index');
+        // Route::get('/semester_mahasiswa/mahasiswa_data_index', [
+        //     SemesterMahasiswaController::class,
+        //     'mahasiswa_data_index',
+        // ])->name('semester_mahasiswa.mahasiswa_data_index');
+        // Route::post('/semester_mahasiswa/generate', [
+        //     SemesterMahasiswaController::class,
+        //     'generate',
+        // ])->name('semester_mahasiswa.generate');
 
-        Route::resource(
-            '/peserta_kelas_kuliah',
-            PesertaKelasKuliahController::class
-        )->except(['show', 'store']);
-        Route::post('/peserta_kelas_kuliah/{kelas_kuliah}/store', [
-            PesertaKelasKuliahController::class,
-            'store',
-        ])->name('peserta_kelas_kuliah.store');
-        Route::get('/peserta_kelas_kuliah/{kelas_kuliah}/anggota', [
-            PesertaKelasKuliahController::class,
-            'anggota',
-        ])->name('peserta_kelas_kuliah.anggota');
-        Route::get('/peserta_kelas_kuliah/data_index', [
-            PesertaKelasKuliahController::class,
-            'data_index',
-        ])->name('peserta_kelas_kuliah.data_index');
-        Route::get('/peserta_kelas_kuliah/{id_kelas}/anggota_data_index', [
-            PesertaKelasKuliahController::class,
-            'anggota_data_index',
-        ])->name('peserta_kelas_kuliah.anggota_data_index');
+        // Route::resource(
+        //     '/peserta_kelas_kuliah',
+        //     PesertaKelasKuliahController::class
+        // )->except(['show', 'store']);
+        // Route::post('/peserta_kelas_kuliah/{kelas_kuliah}/store', [
+        //     PesertaKelasKuliahController::class,
+        //     'store',
+        // ])->name('peserta_kelas_kuliah.store');
+        // Route::get('/peserta_kelas_kuliah/{kelas_kuliah}/anggota', [
+        //     PesertaKelasKuliahController::class,
+        //     'anggota',
+        // ])->name('peserta_kelas_kuliah.anggota');
+        // Route::get('/peserta_kelas_kuliah/data_index', [
+        //     PesertaKelasKuliahController::class,
+        //     'data_index',
+        // ])->name('peserta_kelas_kuliah.data_index');
+        // Route::get('/peserta_kelas_kuliah/{id_kelas}/anggota_data_index', [
+        //     PesertaKelasKuliahController::class,
+        //     'anggota_data_index',
+        // ])->name('peserta_kelas_kuliah.anggota_data_index');
 
         Route::resource('/dosen', DosenController::class)->except(['show']);
         Route::get('/dosen/data_index', [
@@ -217,5 +221,55 @@ Route::group(
             DataPokokController::class,
             'index',
         ])->name('data_pokok.index');
+
+        // Registrasi Mahasiswa / Riwayat Pendidikan Mahasiswa
+        Route::get('registrasi_mahasiswa/data_index', [RegistrasiMahasiswaController::class, 'data_index',])->name('registrasi_mahasiswa.data_index');
+        Route::resource('registrasi_mahasiswa', RegistrasiMahasiswaController::class);
+
+        // Penugasan Dosen
+        Route::resource('penugasan_dosen', PenugasanDosenController::class)->except(['show']);
+        Route::get('penugasan_dosen/data_index', [PenugasanDosenController::class, 'data_index',])->name('penugasan_dosen.data_index');
+
+        //Substansi Matkul
+        Route::resource('substansi_mata_kuliah', SubstansiMataKuliahController::class)->except(['show']);
+        Route::get('substansi_mata_kuliah/data_index', [SubstansiMataKuliahController::class, 'data_index',])->name('substansi_mata_kuliah.data_index');
+
+        // Periode Perkulihan
+        Route::get('periode_perkuliahan', [PeriodePerkuliahanController::class, 'index'])->name('periode_perkuliahan.index');
+        Route::get('periode_perkuliahan/data_index', [PeriodePerkuliahanController::class, 'data_index',])->name('periode_perkuliahan.data_index');
+        Route::delete('periode_perkuliahan/{id_prodi}/{id_mahasiswa}', [PeriodePerkuliahanController::class, 'destroy'])->name('periode_perkuliahan.destroy');
+        Route::put('periode_perkuliahan/{id_prodi}/{id_mahasiswa}', [PeriodePerkuliahanController::class, 'update'])->name('periode_perkuliahan.update');
+
+        // Perkulihan Mahasiswa / Semester Mahasiswa
+        Route::get('semester_mahasiswa', [PerkuliahanMahasiswaController::class, 'index'])->name('semester_mahasiswa.index');
+        Route::get('semester_mahasiswa/data_index', [PerkuliahanMahasiswaController::class, 'data_index',])->name('semester_mahasiswa.data_index');
+        Route::delete('semester_mahasiswa/{id_registrasi_mahasiswa}/{id_semester}', [PerkuliahanMahasiswaController::class, 'destroy'])->name('semester_mahasiswa.destroy');
+        Route::put('semester_mahasiswa/{id_registrasi_mahasiswa}/{id_semester}', [PerkuliahanMahasiswaController::class, 'update'])->name('semester_mahasiswa.update');
+
+
+        // User Manajemen
+        Route::resource('manajemen_user', ManajemenUserController::class)->except(['show']);
+        Route::get('manajemen_user/data_index', [ManajemenUserController::class, 'data_index',])->name('manajemen_user.data_index');
+
+        Route::get('manajemen_user/mahasiswa', [ManajemenUserController::class, 'mahasiswa',])->name('manajemen_user.mahasiswa');
+        Route::get('manajemen_user/mahasiswa/data_index', [ManajemenUserController::class, 'mahasiswa_index',])->name('manajemen_user.mahasiswa_index');
+        Route::post('manajemen_user/mahasiswa/generate', [ManajemenUserController::class, 'generate_user_mahasiswa',])->name('manajemen_user.generate_mahasiswa');
+
+        Route::get('manajemen_user/dosen', [ManajemenUserController::class, 'dosen',])->name('manajemen_user.dosen');
+        Route::get('manajemen_user/dosen/data_index', [ManajemenUserController::class, 'dosen_index',])->name('manajemen_user.dosen_index');
+        Route::post('manajemen_user/dosen/generate', [ManajemenUserController::class, 'generate_user_dosen',])->name('manajemen_user.generate_dosen');
+
+        // Peserta Kelas Kuliah
+        Route::get('peserta_kelas_kuliah/{id_kelas_kuliah}', [PesertaKelasKuliahController::class, 'index'])->name('peserta_kelas_kuliah.index');
+        Route::get('peserta_kelas_kuliah/data_index/{id_kelas_kuliah}', [PesertaKelasKuliahController::class, 'data_index',])->name('peserta_kelas_kuliah.data_index');
+        Route::delete('peserta_kelas_kuliah/{id_kelas_kuliah}/{id_registrasi_mahasiswa}', [PesertaKelasKuliahController::class, 'destroy'])->name('peserta_kelas_kuliah.destroy');
+        Route::put('peserta_kelas_kuliah/{id_kelas_kuliah}/{id_registrasi_mahasiswa}', [PesertaKelasKuliahController::class, 'update'])->name('peserta_kelas_kuliah.update');
+
+        // Pengajar Kelas Kuliah
+        Route::get('pengajar_kelas_kuliah/{id_kelas_kuliah}', [DosenPengajarKelasKuliahController::class, 'index'])->name('pengajar_kelas_kuliah.index');
+        Route::get('pengajar_kelas_kuliah/data_index/{id_kelas_kuliah}', [DosenPengajarKelasKuliahController::class, 'data_index',])->name('pengajar_kelas_kuliah.data_index');
+        Route::delete('pengajar_kelas_kuliah/{id_kelas_kuliah}', [DosenPengajarKelasKuliahController::class, 'destroy'])->name('pengajar_kelas_kuliah.destroy');
+        Route::put('pengajar_kelas_kuliah/{id_kelas_kuliah}', [DosenPengajarKelasKuliahController::class, 'update'])->name('pengajar_kelas_kuliah.update');
+        
     }
 );

@@ -3,7 +3,7 @@
         <thead>
             <tr>
                 @foreach($table as $row)
-                    <th class="text-center" @if (!empty($row['width']))  width="{{ $row['width'] }}" @endif>{!! $row['title'] !!}</th>
+                    <th class="text-center" @if (!empty($row['width']))  width="{{ $row['width'] }}" @endif>{!! ($row['title'] !== 'checkbox') ? $row['title'] : '<input type="checkbox" name="select_all" id="select_all">' !!}</th>
                 @endforeach
             </tr>
         </thead>
@@ -88,6 +88,10 @@
                 @endif
             },
             
+        });
+
+        $('[name=select_all]').on('click', function () {
+            $(':checkbox').prop('checked', this.checked);
         });
 </script>
 

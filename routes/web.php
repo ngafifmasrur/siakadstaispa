@@ -6,6 +6,7 @@ use App\Http\Controllers\MainController;
 use App\Http\Controllers\LandingPage\{
     LandingPageController
 };
+use App\Models\m_program_studi;
 
 use App\Http\Controllers\Auth\{RedirectAuthenticatedUsersController};
 
@@ -26,6 +27,8 @@ Route::get('/', function () {
 
 Route::get('/redirectAuthenticatedUsers', [RedirectAuthenticatedUsersController::class, 'home']);
 
+Route::impersonate();
+
 Route::get('/home', [LandingPageController::class, 'index'])
     ->name('landing_page.index')
     ->middleware('cacheable:10');
@@ -43,3 +46,7 @@ Route::post('/mata_kuliah_list', [
 Route::post('/semester_list', [MainController::class, 'semester_list'])->name(
     'semester_list'
 );
+
+Route::get('/program-studi', static function () {
+    return view('test', ['prodi' =>  m_program_studi::all()]);
+});

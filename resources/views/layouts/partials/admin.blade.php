@@ -6,7 +6,6 @@
             <ul class="sub-menu">
                 <li aria-haspopup="true"><a href="{{ route('admin.perguruan_tinggi.index') }}">Perguruan Tinggi</a></li>
                 <li aria-haspopup="true"><a href="{{ route('admin.program_studi.index') }}">Program Studi</a></li>
-                <li aria-haspopup="true"><a href="{{ route('admin.konfigurasi.index') }}">Konfigurasi</a></li>
 
                 <li aria-haspopup="true"><a href="#" class="sub-icon {{ set_active([
                     'admin/data_pokok/periode',
@@ -95,7 +94,22 @@
                 <li aria-haspopup="true"><a href="{{ route('admin.mahasiswa.index') }}">Data Mahasiswa</a></li>
             </ul>
         </li>
-
+        <li aria-haspopup="true"><a href="#" class="sub-icon {{ set_active(['admin/manajemen_user*', 'admin/konfigurasi*']) }}"><i class="fa fa-gear"></i> Pengaturan <i class="fa fa-angle-down horizontal-icon"></i></a>
+            <ul class="sub-menu">
+                <li aria-haspopup="true"><a href="{{ route('admin.konfigurasi.index') }}">Konfigurasi</a></li>
+                <li aria-haspopup="true"><a href="#" class="sub-icon {{ set_active([
+                    'admin/manajemen_user/mahasiswa',
+                    'admin/manajemen_user/dosen',
+                    'admin/manajemen_user',
+                ]) }}">Manajemen Users <i class="fa fa-angle-down horizontal-icon float-right mt-1"></i></a>
+                    <ul class="sub-menu" style="overflow-y: scroll; height: auto;">
+                        <li aria-haspopup="true"><a href="{{ route('admin.manajemen_user.index') }}">Daftar User</a></li>
+                        <li aria-haspopup="true"><a href="{{ route('admin.manajemen_user.mahasiswa') }}">Generate User Mahasiswa</a></li>
+                        <li aria-haspopup="true"><a href="{{ route('admin.manajemen_user.dosen') }}">Generate User Dosen</a></li>
+                    </ul>
+                </li>            
+            </ul>
+        </li>
     </ul>
 </nav>
 

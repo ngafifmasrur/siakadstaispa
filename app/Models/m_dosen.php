@@ -21,6 +21,12 @@ class m_dosen extends Model
         return $this->belongsTo(User::class, 'id_dosen');
     }
 
+    public function hasUser()
+    {
+        $user = User::where('id_dosen', $this->id_dosen)->count();
+        return $user > 0 ? true : false;
+    }
+
     public function getRows()
     {
         return GetDataFeeder('GetListDosen');

@@ -16,6 +16,11 @@ class m_mahasiswa extends Model
     public $incrementing = false;
     protected $keyType = 'string';
     
+    public function getRows()
+    {
+        return GetDataFeeder('GetListMahasiswa');
+    }
+    
     public function prodi()
     {
         return $this->belongsTo('App\Models\m_program_studi', 'id_prodi');
@@ -38,11 +43,17 @@ class m_mahasiswa extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'id_mahasiswa');
+        return $this->belongsTo(User::class, 'id_mahasiswa', 'id_mahasiswa');
     }
 
-    public function getRows()
+    public function hasUser()
     {
-        return GetDataFeeder('GetListMahasiswa');
+        $user = User::where('id_mahasiswa', $this->id_mahasiswa)->count();
+        return $user > 0 ? true : false;
+    }
+
+    public function riwayat_pendidikan()
+    {
+        return $this->hasMany(t_riwayat_pendidikan::class, 'id_mahasiswa');
     }
 }
