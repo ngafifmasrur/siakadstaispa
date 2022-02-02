@@ -2,85 +2,12 @@
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+use App\Models\m_konfigurasi;
 
 function set_active($path, $active = 'show') {
 
     return call_user_func_array('Request::is', (array)$path) ? $active : '';
 
-}
-
-if (! function_exists('GetTokenFeeder')) {
-
-    /**
-     * description
-     *
-     * @param
-     * @return
-     */
-    function GetTokenFeeder()
-    {
-        $endpoint = \config('app.url_feeder');
-
-        $response = Http::post($endpoint, [
-            'act' => 'GetToken',
-            'username' => '',
-            'password' => '',
-        ]);
-        
-        $result = $response->getBody()->getContents();
-        $token = json_decode($result)->data->token;
-
-        return $token;
-    }
-}
-
-if (! function_exists('dataFeeder')) {
-
-    /**
-     * description
-     *
-     * @param
-     * @return
-     */
-    function dataFeeder($act = '')
-    {
-        $token = GetTokenFeeder();
-            
-        $endpoint = \config('app.url_feeder');
-
-        $res = Http::post($endpoint, [
-            'act' => $act,
-            'token' => $token,
-        ]);
-
-        $response_data = json_decode($res->getBody()->getContents(), true);
-        $result = $response_data['data'];
-
-        return $result;
-    }
-}
-
-if (! function_exists('GetDataFeeder')) {
-
-    /**
-     * description
-     *
-     * @param
-     * @return
-     */
-    function GetDataFeeder($act)
-    {
-        // $token = GetTokenFeeder();
-            
-        $endpoint = \config('app.url_feeder').'/'.$act;
-
-        $res = Http::post($endpoint);
-
-        $response_data = json_decode($res->getBody()->getContents(), true);
-        $result = $response_data['data'];
-
-        return $result;
-    }
 }
 
 if (! function_exists('upload_in_local')) {
@@ -199,5 +126,188 @@ if (! function_exists('format_uang')) {
         }
 
         return number_format($number, 0, ',', '.');
+    }
+}
+
+if (! function_exists('GetTokenFeeder')) {
+
+    /**
+     * description
+     *
+     * @param
+     * @return
+     */
+    function GetTokenFeeder()
+    {
+        $endpoint = \config('app.url_feeder');
+
+        $response = Http::post($endpoint, [
+            'act' => 'GetToken',
+            'username' => '',
+            'password' => '',
+        ]);
+        
+        $result = $response->getBody()->getContents();
+        $token = json_decode($result)->data->token;
+
+        return $token;
+    }
+}
+
+if (! function_exists('dataFeeder')) {
+
+    /**
+     * description
+     *
+     * @param
+     * @return
+     */
+    function dataFeeder($act = '')
+    {
+        $token = GetTokenFeeder();
+            
+        $endpoint = \config('app.url_feeder');
+
+        $res = Http::post($endpoint, [
+            'act' => $act,
+            'token' => $token,
+        ]);
+
+        $response_data = json_decode($res->getBody()->getContents(), true);
+        $result = $response_data['data'];
+
+        return $result;
+    }
+}
+
+if (! function_exists('GetDataFeeder')) {
+
+    /**
+     * description
+     *
+     * @param
+     * @return
+     */
+    function GetDataFeeder($act)
+    {
+        // $token = GetTokenFeeder();
+            
+        $endpoint = \config('app.url_feeder').'/'.$act;
+
+        $res = Http::post($endpoint);
+
+        $response_data = json_decode($res->getBody()->getContents(), true);
+        $result = $response_data['data'];
+
+        return $result;
+    }
+}
+
+if (! function_exists('InsertDataFeeder')) {
+
+    /**
+     * description
+     *
+     * @param
+     * @return
+     */
+    function InsertDataFeeder($act, $records)
+    {
+            
+        $endpoint = 'http://127.0.0.1:8000/api/insertTest';
+        $res = Http::post($endpoint, [
+            'token' => 'test',
+            'act' => $act,
+            'records' => $records
+        ]);
+
+        $result = json_decode($res->getBody()->getContents(), true);
+
+        if($result['error_code'] !== '0') {
+            return response()->json([
+                'code'    => 400,
+                'message' => $result['error_desc'],
+                'data'    => null
+            ], 400);
+        }
+
+        return response()->json([
+			'code'    => 200,
+			'message' => 'Berhasil disimpan',
+			'data'    => $result['data']
+		], 200);
+    }
+}
+
+if (! function_exists('UpdateDataFeeder')) {
+
+    /**
+     * description
+     *
+     * @param
+     * @return
+     */
+    function UpdateDataFeeder($act, $key, $records)
+    {
+            
+        $endpoint = 'http://127.0.0.1:8000/api/insertTest';
+        $res = Http::post($endpoint, [
+            'token' => 'test',
+            'act' => $act,
+            'key' => $key,
+            'records' => $records
+        ]);
+
+        $result = json_decode($res->getBody()->getContents(), true);
+
+        if($result['error_code'] !== '0') {
+            return response()->json([
+                'code'    => 400,
+                'message' => $result['error_desc'],
+                'data'    => $result['data']
+            ], 400);
+        }
+
+        return response()->json([
+			'code'    => 200,
+			'message' => 'Berhasil disimpan',
+			'data'    => $result['data']
+		], 200);
+    }
+}
+
+if (! function_exists('DeleteDataFeeder')) {
+
+    /**
+     * description
+     *
+     * @param
+     * @return
+     */
+    function DeleteDataFeeder($act, $key)
+    {
+            
+        $endpoint = 'http://127.0.0.1:8000/api/insertTest';
+        $res = Http::post($endpoint, [
+            'token' => 'test',
+            'act' => $act,
+            'key' => $key
+        ]);
+
+        $result = json_decode($res->getBody()->getContents(), true);
+
+        if($result['error_code'] !== '0') {
+            return response()->json([
+                'code'    => 400,
+                'message' => $result['error_desc'],
+                'data'    => $result['data']
+            ], 400);
+        }
+
+        return response()->json([
+			'code'    => 200,
+			'message' => 'Berhasil disimpan',
+			'data'    => $result['data']
+		], 200);
     }
 }
