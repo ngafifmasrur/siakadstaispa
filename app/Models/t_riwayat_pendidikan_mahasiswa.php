@@ -4,13 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Sushi\Sushi;
 
 class t_riwayat_pendidikan_mahasiswa extends Model
 {
-    use HasFactory;
+    use HasFactory, Sushi;
 
-    protected $table = 't_riwayat_pendidikan_mahasiswa';
+    protected $primaryKey = 'id_registrasi_mahasiswa';
     protected $guarded = [];
+    public $incrementing = false;
+    protected $keyType = 'string';
+
+    public function getRows()
+    {
+        return GetDataFeeder('GetListRiwayatPendidikanMahasiswa');
+    }
 
     public function prodi()
     {
@@ -31,7 +39,6 @@ class t_riwayat_pendidikan_mahasiswa extends Model
     {
         return $this->belongsTo('App\Models\m_mahasiswa', 'id_mahasiswa');
     }
-
 
     public static function byProdi()
     {
