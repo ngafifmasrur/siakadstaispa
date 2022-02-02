@@ -18,7 +18,9 @@ use App\Http\Controllers\Admin\{
     SemesterController,
     TahunAjaranController,
     SemesterMahasiswaController,
-    DashboardController
+    DashboardController,
+    DataPokokController,
+    KonfigurasiController
 };
 
 use App\Http\Controllers\Akademika\{
@@ -201,5 +203,19 @@ Route::group(
             RiwayatPendidikanMHSController::class,
             'data_index',
         ])->name('riwayat_pendidikan.data_index');
+
+        Route::get('/konfigurasi/data_index', [
+            KonfigurasiController::class,
+            'data_index',
+        ])->name('konfigurasi.data_index');
+        
+        Route::resource('/konfigurasi', KonfigurasiController::class)->except([
+            'show',
+        ]);
+
+        Route::get('/data_pokok/{master}', [
+            DataPokokController::class,
+            'index',
+        ])->name('data_pokok.index');
     }
 );

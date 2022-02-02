@@ -60,6 +60,9 @@
 		<link href="{{ asset('sparic/plugins/notify-growl/css/jquery.growl.css')}}" rel="stylesheet" />
 		<link href="{{ asset('sparic/plugins/notify-growl/css/notifIt.css')}}" rel="stylesheet" />
 
+		{{-- <link href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" /> --}}
+		<link href="{{ asset('sparic/plugins/datatable/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
+
 		<style>
 			.dropdown-item.active, .dropdown-item:active {
 				background-color: #007bff!important;
@@ -83,6 +86,10 @@
 				background: transparent;
 				border: 1px solid transparent;
 			}
+			.sub-menu-data-pokok {
+				height: 400px;
+				overflow-y: scroll;
+			}
 		</style>
         @stack('css')
 	</head>
@@ -105,7 +112,7 @@
 								<img src="{{ asset('sparic/images/brand/icon.png') }}" class="header-brand-img icon-logo" alt="Sparic logo">
 							</a><!-- logo-->
 							<a id="horizontal-navtoggle" class="animated-arrow hor-toggle"><span></span></a>
-							<a href="#" data-toggle="search" class="nav-link nav-link  navsearch"><i class="fa fa-search"></i></a><!-- search icon -->
+							{{-- <a href="#" data-toggle="search" class="nav-link nav-link  navsearch"><i class="fa fa-search"></i></a><!-- search icon --> --}}
 
                             <!--Top Navbar-->
                             @include('layouts.partials.top_navbar')
@@ -151,13 +158,19 @@
 										</div>
 									</div>
 								</div><!-- profile -->
-								<div class="header-form">
-									<form class="form-inline">
+								<div class="header-form d-flex">
+									{{-- <form class="form-inline">
 										<div class="search-element mr-3">
 											<input class="form-control" type="search" placeholder="Search" aria-label="Search">
 											<span class="Search-icon"><i class="fa fa-search"></i></span>
 										</div>
-									</form><!-- search-bar -->
+									</form> --}}
+									<!-- search-bar -->
+									<div class="nav-link">
+										Semester aktif:
+										<br>
+										{{ $tahun_ajaran }} {{ $semester }}
+									</div>
 								</div>
 								<div class="dropdown">
 									<a  class="nav-link icon siderbar-link" data-toggle="sidebar-right" data-target=".sidebar-right">
@@ -279,6 +292,12 @@
 		
 		<script src="{{ asset('sparic/plugins/notify-growl/js/jquery.growl.js') }}" data-pagespeed-no-defer></script>
 		<script src="{{ asset('sparic/plugins/notify-growl/js/notifIt.js') }}" data-pagespeed-no-defer></script>
+
+		{{-- <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
+		<script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script> --}}
+		<!-- INTERNAL Data tables -->
+		<script src="{{ asset('sparic/plugins/datatable/js/jquery.dataTables.js')}}"   data-pagespeed-no-defer></script>
+		<script src="{{ asset('sparic/plugins/datatable/js/dataTables.bootstrap4.js')}}"  data-pagespeed-no-defer></script>
 
 		@if(Session::has('success_msg'))
 			<script type="text/javascript">

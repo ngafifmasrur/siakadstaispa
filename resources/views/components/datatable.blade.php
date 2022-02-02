@@ -1,9 +1,3 @@
-@push('css')
-{{-- <link href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" /> --}}
-<link href="{{ asset('sparic/plugins/datatable/dataTables.bootstrap4.min.css')}}" rel="stylesheet" />
-
-@endpush
-
 <div class="datatable table-responsive" style="overflow-x: auto !important;">
     <table class="table table-bordered table-hover" id="{{ isset($id) ? $id : 'dataTables' }}" width="100%" cellspacing="0">
         <thead>
@@ -21,11 +15,6 @@
 </div>
 
 @push('js')
-{{-- <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script> --}}
-<!-- INTERNAL Data tables -->
-<script src="{{ asset('sparic/plugins/datatable/js/jquery.dataTables.js')}}"   data-pagespeed-no-defer></script>
-<script src="{{ asset('sparic/plugins/datatable/js/dataTables.bootstrap4.js')}}"  data-pagespeed-no-defer></script>
         
 <script>
         let @if(isset($id)) {{$id}} @else table @endif = $(`{{ isset($id) ? '#'.$id : '#dataTables' }}`).DataTable({
