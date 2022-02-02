@@ -17,13 +17,14 @@
     :route="route('admin.kelas_kuliah.data_index')" 
     :table="[
         ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],                            
-        ['title' => 'Nama Kelas', 'data' => 'nama_kelas_kuliah', 'name' => 'nama_kelas_kuliah', 'classname' => 'text-left'],
-        ['title' => 'Program Studi', 'data' => 'prodi', 'name' => 'prodi', 'classname' => 'text-left'],
-        {{-- ['title' => 'Semester', 'data' => 'semester', 'name' => 'semester'],
-        ['title' => 'Matkul', 'data' => 'matkul', 'name' => 'matkul'], --}}
-        ['title' => 'Bahasan', 'data' => 'bahasan', 'name' => 'bahasan', 'classname' => 'text-left'],
-        {{-- ['title' => 'Tanggal Mulai Efektif', 'data' => 'tanggal_mulai_efektif', 'name' => 'tanggal_mulai_efektif'],
-        ['title' => 'Tanggal Akhir Efektif', 'data' => 'tanggal_akhir_efektif', 'name' => 'tanggal_akhir_efektif'], --}}
+        ['title' => 'Program Studi', 'data' => 'nama_program_studi', 'name' => 'nama_program_studi', 'classname' => 'text-left'],
+        ['title' => 'Semester', 'data' => 'nama_semester', 'name' => 'nama_semester', 'classname' => 'text-left'],
+        ['title' => 'Kode Matkul', 'data' => 'kode_mata_kuliah', 'name' => 'kode_mata_kuliah'],
+        ['title' => 'Nama Matkul', 'data' => 'nama_mata_kuliah', 'name' => 'nama_mata_kuliah', 'classname' => 'text-left'],
+        ['title' => 'Nama Kelas Kuliah', 'data' => 'nama_kelas_kuliah', 'name' => 'nama_kelas_kuliah', 'classname' => 'text-left'],
+        ['title' => 'SKS', 'data' => 'sks', 'name' => 'sks'],
+        ['title' => 'Dosen', 'data' => 'dosen', 'name' => 'dosen'],
+        ['title' => 'Mahasiswa', 'data' => 'mahasiswa', 'name' => 'mahasiswa'],
         ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
     ]"
     />

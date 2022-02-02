@@ -29,7 +29,7 @@ class KelasKuliahController extends Controller
 
     public function data_index(Request $request)
     {
-        $query = m_kelas_kuliah::all();
+        $query = m_kelas_kuliah::query();
 
         return datatables()->of($query)
             ->addIndexColumn()
@@ -42,16 +42,7 @@ class KelasKuliahController extends Controller
                     'tooltip' => 'Ubah',
                     'class' => 'btn btn-outline-primary btn-sm btn_edit',
                     "icon" => "fa fa-edit",
-                    'attribute' => [
-                        'data-nama' => $data->nama_kelas_kuliah,
-                        'data-prodi' => $data->id_prodi,
-                        // 'data-semester' => $data->id_semester,
-                        // 'data-matkul' => $data->id_matkul,
-                        'data-bahasan' => $data->bahasan,
-                        // 'data-tanggal_mulai' => $data->tanggal_mulai_efektif,
-                        // 'data-tanggal_akhir' => $data->tanggal_akhir_efektif,
-                    ],
-                    "route" => route('admin.kelas_kuliah.update',['kelas_kuliah' => $data->id]),
+                    "route" => route('admin.kelas_kuliah.update',['kelas_kuliah' => $data->id_kelas_kuliah]),
                 ]);
     
                 $button .= view("components.button.default", [
@@ -62,23 +53,43 @@ class KelasKuliahController extends Controller
                     'attribute' => [
                         'data-text' => 'Anda yakin ingin menghapus data ini ?',
                     ],
-                    "route" => route('admin.kelas_kuliah.destroy',['kelas_kuliah' => $data->id]),
+                    "route" => route('admin.kelas_kuliah.destroy',['kelas_kuliah' => $data->id_kelas_kuliah]),
                 ]);
     
                 $button .= '</div>';
     
                 return $button;
             })
-            ->addColumn('prodi', function ($data) {
+            ->addColumn('dosen',function ($data) {
+                $button = view("components.button.default", [
+                    'type' => 'link',
+                    'tooltip' => 'Daftar Dosen',
+                    'class' => 'btn btn-primary btn-sm',
+                    "icon" => "fa fa-users",
+                    "route" => route('admin.pengajar_kelas_kuliah.index',['id_kelas_kuliah' => $data->id_kelas_kuliah]),
+                ]);
+                return $button;
+            })
+            ->addColumn('mahasiswa',function ($data) {
+                $button = view("components.button.default", [
+                    'type' => 'link',
+                    'tooltip' => 'Daftar Mahasiswa',
+                    'class' => 'btn btn-primary btn-sm',
+                    "icon" => "fa fa-users",
+                    "route" => route('admin.peserta_kelas_kuliah.index',['id_kelas_kuliah' => $data->id_kelas_kuliah]),
+                ]);
+                return $button;
+            })
+            ->addColumn('nama_program_studi', function ($data) {
                 return $data->prodi->nama_program_studi;
             })
-            // ->addColumn('matkul', function ($data) {
-            //     return $data->mata_kuliah->nama_mata_kuliah;
-            // })
-            // ->addColumn('semester', function ($data) {
-            //     return $data->semester->nama_semester;
-            // })
-            ->rawColumns(['action'])
+            ->addColumn('nama_mata_kuliah', function ($data) {
+                return $data->mata_kuliah->nama_mata_kuliah;
+            })
+            ->addColumn('nama_semester', function ($data) {
+                return $data->semester->nama_semester;
+            })
+            ->rawColumns(['action', 'dosen', 'mahasiswa'])
             ->setRowAttr([
                 'style' => 'text-align: center',
             ])

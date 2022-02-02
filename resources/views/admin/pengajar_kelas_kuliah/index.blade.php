@@ -1,27 +1,29 @@
 @extends('layouts.app')
-@section('title', 'Peserta Kelas Kuliah')
+@section('title', 'Dosen Pengajar Kelas Kuliah')
 
 @section('content')
 
 <x-header>
-    Peserta Kelas Kuliah
+    Dosen Pengajar Kelas Kuliah
 </x-header>
 
 <x-card-table>
-    <x-slot name="title">Data Peserta Kelas Kuliah</x-slot>
+    <x-slot name="title">Data Dosen Pengajar Kelas Kuliah</x-slot>
     <x-slot name="button">
         <a class="float-right btn btn-sm btn-outline-primary add-form" data-url="#" href="#"><i data-feather="plus" class="mr-2"></i>Tambah</a>
     </x-slot>
 
     <x-datatable 
-    :route="route('admin.peserta_kelas_kuliah.data_index', $id_kelas_kuliah)" 
+    :route="route('admin.pengajar_kelas_kuliah.data_index', $id_kelas_kuliah)" 
     :table="[
         ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],                            
-        ['title' => 'Nama Mahasiswa', 'data' => 'nama_mahasiswa', 'name' => 'nama_mahasiswa', 'classname' => 'text-left'],
-        ['title' => 'NIM', 'data' => 'nim', 'name' => 'nim', 'classname' => 'text-left'],
-        ['title' => 'Program Studi', 'data' => 'nama_program_studi', 'name' => 'nama_program_studi', 'classname' => 'text-left'],
-        ['title' => 'Mata Kuliah', 'data' => 'nama_mata_kuliah', 'name' => 'nama_mata_kuliah', 'classname' => 'text-left'],
-        ['title' => 'Angkatan', 'data' => 'angkatan', 'name' => 'angkatan'],
+        ['title' => 'Nama Dosen', 'data' => 'nama_dosen', 'name' => 'nama_dosen', 'classname' => 'text-left'],
+        ['title' => 'NIDN', 'data' => 'nidn', 'name' => 'nidn', 'classname' => 'text-left'],
+        ['title' => 'Kelas Kuliah', 'data' => 'nama_kelas_kuliah', 'name' => 'nama_kelas_kuliah', 'classname' => 'text-left'],
+        ['title' => 'SKS Substansi Total', 'data' => 'sks_substansi_total', 'name' => 'sks_substansi_total', 'classname' => 'text-center'],
+        ['title' => 'Rencana Tatap Muka', 'data' => 'rencana_tatap_muka', 'name' => 'rencana_tatap_muka'],
+        ['title' => 'Realisasi Tatap Muka', 'data' => 'realisasi_tatap_muka', 'name' => 'realisasi_tatap_muka'],
+        ['title' => 'Jenis Evaluasi', 'data' => 'nama_jenis_evaluasi', 'name' => 'nama_jenis_evaluasi', 'classname' => 'text-left'],
         ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
     ]"
     />
