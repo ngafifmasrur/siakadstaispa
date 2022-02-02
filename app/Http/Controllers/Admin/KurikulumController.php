@@ -18,14 +18,14 @@ class KurikulumController extends Controller
      */
     public function index()
     {
-        $prodi = m_program_studi::pluck('nama_program_studi', 'id');
-        $semester = m_semester::pluck('nama_semester', 'id');
+        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi');
+        $semester = m_semester::pluck('nama_semester', 'id_semester');
         return view('admin.kurikulum.index', compact('prodi', 'semester'));
     }
 
     public function data_index(Request $request)
     {
-        $query = m_kurikulum::all();
+        $query = m_kurikulum::query();
 
         return datatables()->of($query)
             ->addIndexColumn()
@@ -46,7 +46,7 @@ class KurikulumController extends Controller
                         'data-sks_wajib' => $data->jumlah_sks_wajib,
                         'data-sks_pilihan' => $data->jumlah_sks_pilihan,
                     ],
-                    "route" => route('admin.kurikulum.update',['kurikulum' => $data->id]),
+                    "route" => route('admin.kurikulum.update',['kurikulum' => $data->id_kurikulum]),
                 ]);
     
                 $button .= view("components.button.default", [
@@ -57,17 +57,17 @@ class KurikulumController extends Controller
                     'attribute' => [
                         'data-text' => 'Anda yakin ingin menghapus data ini ?',
                     ],
-                    "route" => route('admin.kurikulum.destroy',['kurikulum' => $data->id]),
+                    "route" => route('admin.kurikulum.destroy',['kurikulum' => $data->id_kurikulum]),
                 ]);
     
                 $button .= '</div>';
     
                 return $button;
             })
-            ->addColumn('prodi', function ($data) {
+            ->addColumn('nama_program_studi', function ($data) {
                 return $data->prodi->nama_program_studi;
             })
-            ->addColumn('semester', function ($data) {
+            ->addColumn('nama_semester', function ($data) {
                 return $data->semester->nama_semester;
             })
             ->rawColumns(['action'])

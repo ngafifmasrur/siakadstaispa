@@ -17,11 +17,13 @@
     :table="[
         ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],
         ['title' => 'Nama Kurikulum', 'data' => 'nama_kurikulum', 'name' => 'nama_kurikulum', 'classname' => 'text-left'],
-        ['title' => 'Program Studi', 'data' => 'prodi', 'name' => 'prodi', 'classname' => 'text-left'],
-        ['title' => 'Semester', 'data' => 'semester', 'name' => 'semester', 'classname' => 'text-left'],
+        ['title' => 'Program Studi', 'data' => 'nama_program_studi', 'name' => 'nama_program_studi', 'classname' => 'text-left'],
+        ['title' => 'Semester', 'data' => 'nama_semester', 'name' => 'nama_semester', 'classname' => 'text-left'],
         ['title' => 'Jumlah SKS Lulus', 'data' => 'jumlah_sks_lulus', 'name' => 'jumlah_sks_lulus'],
         ['title' => 'Jumlah SKS Wajib', 'data' => 'jumlah_sks_wajib', 'name' => 'jumlah_sks_wajib'],
         ['title' => 'Jumlah SKS Pilihan', 'data' => 'jumlah_sks_pilihan', 'name' => 'jumlah_sks_pilihan'],
+        ['title' => 'Jumlah SKS Matkul Wajib', 'data' => 'jumlah_sks_mata_kuliah_wajib', 'name' => 'jumlah_sks_mata_kuliah_wajib'],
+        ['title' => 'Jumlah SKS Matkul Pilihan', 'data' => 'jumlah_sks_mata_kuliah_pilihan', 'name' => 'jumlah_sks_mata_kuliah_pilihan'],
         ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
     ]"
     />
