@@ -28,7 +28,8 @@ use App\Http\Controllers\Admin\{
     PerkuliahanMahasiswaController,
     ManajemenUserController,
     PesertaKelasKuliahController,
-    DosenPengajarKelasKuliahController
+    DosenPengajarKelasKuliahController,
+    KurikurumProdiController
 };
 
 /*
@@ -81,19 +82,6 @@ Route::group(
             MataKuliahController::class,
             'data_index',
         ])->name('mata_kuliah.data_index');
-
-        Route::resource(
-            '/kurikulum_prodi',
-            MataKuliahAktifController::class
-        )->except(['show', 'create']);
-        Route::get('/kurikulum_prodi/data_index/{tahun_ajaran}/{prodi}', [
-            MataKuliahAktifController::class,
-            'data_index',
-        ])->name('kurikulum_prodi.data_index');
-        Route::get('/kurikulum_prodi/tabel/{tahun_ajaran}/{prodi}', [
-            MataKuliahAktifController::class,
-            'create',
-        ])->name('kurikulum_prodi.create');
 
         Route::resource('/bobot_nilai', BobotNilaiController::class)->except([
             'show',
@@ -271,5 +259,11 @@ Route::group(
         Route::delete('pengajar_kelas_kuliah/{id_kelas_kuliah}', [DosenPengajarKelasKuliahController::class, 'destroy'])->name('pengajar_kelas_kuliah.destroy');
         Route::put('pengajar_kelas_kuliah/{id_kelas_kuliah}', [DosenPengajarKelasKuliahController::class, 'update'])->name('pengajar_kelas_kuliah.update');
         
+        // Kurikulum Prodi
+        Route::resource('/kurikulum_prodi', KurikurumProdiController::class)->except(['show', 'create', 'destroy']);
+        Route::get('/kurikulum_prodi/data_index/{id_kurikulum}/{id_prodi}', [KurikurumProdiController::class,'data_index',])->name('kurikulum_prodi.data_index');
+        Route::get('/kurikulum_prodi/tabel/{id_kurikulum}/{id_prodi}', [KurikurumProdiController::class,'create',])->name('kurikulum_prodi.create');
+        Route::delete('/kurikulum_prodi/delete/{id_kurikulum}/{id_matkul}', [KurikurumProdiController::class,'destroy',])->name('kurikulum_prodi.destroy');
+
     }
 );

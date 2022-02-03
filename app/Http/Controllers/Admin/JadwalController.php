@@ -26,36 +26,17 @@ class JadwalController extends Controller
     {
         $ruangan = m_ruang_kelas::pluck('nama_ruangan', 'id')->prepend('Pilih Ruangan', NULL);
         $dosen = m_dosen::pluck('nama_dosen', 'id_dosen')->prepend('Cari Dosen', NULL);
-        $kelas = m_kelas_kuliah::pluck('nama_kelas_kuliah', 'id')->prepend('Pilih Kelas', NULL);
-        $matkul = m_mata_kuliah_aktif::get()
-        ->map(function($data) {
-            return [
-                'id'    => $data->id,
-                'matkul'  => $data->matkul->nama_mata_kuliah
-            ];
-        })
-        ->pluck('matkul', 'id')
-        ->prepend('Pilih Mata Kuliah', NULL);
-
-        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi')->prepend('Pilih Program Studi', NULL);
-        $tahun_ajaran = m_tahun_ajaran::where('a_periode_aktif', 1)->pluck('nama_tahun_ajaran', 'id_tahun_ajaran')->prepend('Pilih Tahun Ajaran', NULL);
-        $semester = m_semester::pluck('nama_semester', 'id_semester')->prepend('Pilih Semester', NULL);
-        return view('admin.jadwal.index', compact('ruangan', 'dosen', 'prodi', 'matkul', 'kelas', 'tahun_ajaran', 'semester'));
+        $kelas = m_kelas_kuliah::pluck('nama_kelas_kuliah', 'id_kelas_kuliah')->prepend('Pilih Kelas Kuliah', NULL);
+        return view('admin.jadwal.index', compact('ruangan', 'dosen','kelas'));
     }
 
     public function data_index(Request $request)
     {
         $query = m_jadwal::query()
-                ->select('m_jadwal.*', 'm_tahun_ajaran.id_tahun_ajaran', 'm_mata_kuliah_aktif.id_semester')
-                ->join('m_mata_kuliah_aktif', 'm_mata_kuliah_aktif.id', 'm_jadwal.id_matkul_aktif')
-                ->join('m_semester', 'm_semester.id_semester', 'm_mata_kuliah_aktif.id_semester')
-                ->join('m_tahun_ajaran', 'm_tahun_ajaran.id_tahun_ajaran', 'm_semester.id_tahun_ajaran')
                 ->when($request->prodi, function ($query) use ($request) {
-                    $query->where('m_jadwal.id_prodi', $request->prodi);
-                })->when($request->semester, function ($query) use ($request) {
-                    $query->where('m_mata_kuliah_aktif.id_semester', $request->semester);
-                })->when($request->tahun_ajaran, function ($query) use ($request) {
-                    $query->where('m_tahun_ajaran.id_tahun_ajaran', $request->tahun_ajaran);
+                    $query->where('id_ruang', $request->id_ruang);
+                })->when($request->id_dosen, function ($query) use ($request) {
+                    $query->where('id_dosen', $request->id_dosen);
                 });
 
         return datatables()->of($query)
@@ -70,14 +51,12 @@ class JadwalController extends Controller
                     'class' => 'btn btn-outline-primary btn-sm btn_edit',
                     "icon" => "fa fa-edit",
                     'attribute' => [
-                        'data-id_prodi' => $data->id_prodi,
                         'data-id_dosen' => $data->id_dosen,
-                        'data-id_kelas' => $data->id_kelas,
-                        'data-id_ruang' => $data->id_matkul_aktif,
+                        'data-id_kelas_kuliah' => $data->id_kelas_kuliah,
+                        'data-id_ruang' => $data->id_ruang,
                         'data-hari' => $data->hari,
                         'data-jam_mulai' => $data->jam_mulai,
                         'data-jam_akhir' => $data->jam_akhir,
-
                     ],
                     "route" => route('admin.jadwal.update', $data->id),
                 ]);
@@ -102,9 +81,6 @@ class JadwalController extends Controller
             })
             ->addColumn('dosen', function ($data) {
                 return $data->dosen->nama_dosen;
-            })
-            ->addColumn('prodi', function ($data) {
-                return $data->prodi->nama_program_studi;
             })
             ->addColumn('kelas', function ($data) {
                 return $data->kelas->nama_kelas_kuliah;

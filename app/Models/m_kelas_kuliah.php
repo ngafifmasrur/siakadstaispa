@@ -38,4 +38,9 @@ class m_kelas_kuliah extends Model
     {
         return static::query()->where('id_prodi', auth()->user()->id_prodi);
     }
+
+    public function jadwal()
+    {
+        return $this->belongsTo('App\Models\m_jadwal', 'id_kelas_kuliah');
+    }
 }

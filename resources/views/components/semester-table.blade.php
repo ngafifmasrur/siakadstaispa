@@ -26,7 +26,7 @@
                     <tfoot align="right">
                         <th colspan="3" class="font-weight-bold text-center"></th>
                         <th class="font-weight-bold text-center"></th>
-                        <th colspan="3" class="font-weight-bold text-center"></th>
+                        <th colspan="2" class="font-weight-bold text-center"></th>
                     </tfoot>
                 </table>
             </div>
@@ -61,7 +61,7 @@
                             @endif
                         @endforeach
                     @endif
-                    d.semester = '{{$id}}';
+                    d.semester = 1;
                 }
             },
             columns: [
@@ -115,7 +115,7 @@
                 
                     
                 // Update footer by showing the total with the reference of the column index 
-                $( api.column( 1 ).footer() ).html('Total');
+                $( api.column( 2 ).footer() ).html('Total');
                 $( api.column( 3 ).footer() ).html(total_sks);
                 $( api.column( 4 ).footer() ).html('-');
             },

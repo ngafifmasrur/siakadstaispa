@@ -9,16 +9,12 @@
 <x-card>
     <div class="row">
         <div class="form-group col-lg-3">
-            <label for="prodi">Program Studi</label>
-            {!! Form::select('prodi', $prodi, null, ['class' => 'form-control', 'id' => 'prodi']) !!}
+            <label for="ruangan">Ruangan</label>
+            {!! Form::select('ruangan', $ruangan, null, ['class' => 'form-control', 'id' => 'ruangan']) !!}
         </div>
         <div class="form-group col-lg-3">
-            <label for="tahun_ajaran">Tahun Ajaran</label>
-            {!! Form::select('tahun_ajaran', $tahun_ajaran, null, ['class' => 'form-control', 'id' => 'tahun_ajaran']) !!}
-        </div>
-        <div class="form-group col-lg-3">
-            <label for="semester">Semester</label>
-            {!! Form::select('semester', $semester, null, ['class' => 'form-control', 'id' => 'semester']) !!}
+            <label for="dosen">Dosen</label>
+            {!! Form::select('dosen', $dosen, null, ['class' => 'form-control', 'id' => 'dosen']) !!}
         </div>
     </div>
 </x-card>
@@ -35,7 +31,6 @@
         ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],
         ['title' => 'Ruangan', 'data' => 'ruangan', 'name' => 'ruangan', 'classname' => 'text-left'],
         ['title' => 'Dosen', 'data' => 'dosen', 'name' => 'dosen', 'classname' => 'text-left'],
-        ['title' => 'Program Studi', 'data' => 'prodi', 'name' => 'prodi', 'classname' => 'text-left'],
         ['title' => 'Kelas', 'data' => 'kelas', 'name' => 'kelas', 'classname' => 'text-left'],
         ['title' => 'Hari', 'data' => 'hari', 'name' => 'hari', 'classname' => 'text-left'],
         ['title' => 'Jam Mulai', 'data' => 'jam_mulai', 'name' => 'jam_mulai'],
@@ -43,9 +38,8 @@
         ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
     ]"
     :filter="[
-        ['data' => 'prodi', 'value' => '$(`#prodi`).val()'],
-        ['data' => 'tahun_ajaran', 'value' => '$(`#tahun_ajaran`).val()'],
-        ['data' => 'semester', 'value' => '$(`#semester`).val()']
+        ['data' => 'id_ruang', 'value' => '$(`#ruangan`).val()'],
+        ['data' => 'id_dosen', 'value' => '$(`#dosen`).val()'],
     ]"
     />
 </x-card-table>
@@ -71,31 +65,9 @@
     </div>
     <div class="form-group row">
         <div class="form-group col-lg-12">
-            <label for="id_prodi">Program Studi</label>
-            {!! Form::select('id_prodi', $prodi, null, ['class' => 'form-control '.($errors->has('id_prodi') ? 'is-invalid' : ''), 'id' => 'id_prodi']) !!}
-            @error('id_prodi')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-            @enderror
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="id_kelas">Kelas</label>
-            {!! Form::select('id_kelas', $kelas, null, ['class' => 'form-control '.($errors->has('id_kelas') ? 'is-invalid' : ''), 'id' => 'id_kelas']) !!}
-            @error('id_kelas')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-            @enderror
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="id_matkul_aktif">Mata Kuliah</label>
-            {!! Form::select('id_matkul_aktif', $matkul, null, ['class' => 'form-control '.($errors->has('id_matkul_aktif') ? 'is-invalid' : ''), 'id' => 'id_matkul_aktif']) !!}
-            @error('id_matkul_aktif')
+            <label for="id_kelas_kuliah">Kelas</label>
+            {!! Form::select('id_kelas_kuliah', $kelas, null, ['class' => 'form-control '.($errors->has('id_kelas_kuliah') ? 'is-invalid' : ''), 'id' => 'id_kelas_kuliah']) !!}
+            @error('id_kelas_kuliah')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
@@ -182,31 +154,9 @@
     </div>
     <div class="form-group row">
         <div class="form-group col-lg-12">
-            <label for="id_prodi">Program Studi</label>
-            {!! Form::select('id_prodi', $prodi, null, ['class' => 'form-control '.($errors->has('id_prodi') ? 'is-invalid' : ''), 'id' => 'id_prodi']) !!}
-            @error('id_prodi')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-            @enderror
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="id_kelas">Kelas</label>
-            {!! Form::select('id_kelas', $kelas, null, ['class' => 'form-control '.($errors->has('id_kelas') ? 'is-invalid' : ''), 'id' => 'id_kelas']) !!}
-            @error('id_kelas')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-            @enderror
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="id_matkul_aktif">Mata Kuliah</label>
-            {!! Form::select('id_matkul_aktif', $matkul, null, ['class' => 'form-control '.($errors->has('id_matkul_aktif') ? 'is-invalid' : ''), 'id' => 'id_matkul_aktif']) !!}
-            @error('id_matkul_aktif')
+            <label for="id_kelas_kuliah">Kelas</label>
+            {!! Form::select('id_kelas_kuliah', $kelas, null, ['class' => 'form-control '.($errors->has('id_kelas_kuliah') ? 'is-invalid' : ''), 'id' => 'id_kelas_kuliah']) !!}
+            @error('id_kelas_kuliah')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
@@ -286,19 +236,15 @@
             $('.modal-form form')[0].reset();
             $('.modal-form form').attr('action',  $(this).data('route'));
             $('[name=_method]').val('put');
-            var id_prodi = $(this).data('id_prodi');
             var id_dosen = $(this).data('id_dosen');
-            var id_kelas = $(this).data('id_kelas');
-            var id_matkul_aktif = $(this).data('id_matkul_aktif');
+            var id_kelas_kuliah = $(this).data('id_kelas_kuliah');
             var id_ruang = $(this).data('id_ruang');
             var hari = $(this).data('hari');
             var jam_mulai = $(this).data('jam_mulai');
             var jam_akhir = $(this).data('jam_akhir');
 
-            $('[name=id_prodi]').val(id_prodi);
             $('[name=id_dosen]').val(id_dosen);
-            $('[name=id_kelas]').val(id_kelas);
-            $('[name=id_matkul_aktif]').val(id_matkul_aktif);
+            $('[name=id_kelas_kuliah]').val(id_kelas_kuliah);
             $('[name=id_ruang]').val(id_ruang);
             $('[name=hari]').val(hari);
             $('[name=jam_mulai]').val(jam_mulai);

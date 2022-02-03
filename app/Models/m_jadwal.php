@@ -18,19 +18,9 @@ class m_jadwal extends Model
 		return $this->belongsTo('App\Models\m_dosen', 'id_dosen');
 	}
 
-	public function matkul()
-	{
-		return $this->belongsTo('App\Models\m_mata_kuliah_aktif', 'id_matkul_aktif');
-	}
-
-	public function prodi()
-	{
-		return $this->belongsTo('App\Models\m_program_studi', 'id_prodi');
-	}
-
 	public function kelas()
 	{
-		return $this->belongsTo('App\Models\m_kelas_kuliah', 'id_kelas');
+		return $this->belongsTo('App\Models\m_kelas_kuliah', 'id_kelas_kuliah');
 	}
 
 	public function ruangan()
