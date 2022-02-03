@@ -25,8 +25,7 @@ class JadwalRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'id_kelas' => 'required',
-            'id_matkul_aktif' => 'required|integer',
+            'id_kelas_kuliah' => 'required',
             'id_ruang' => 'required|integer',
             'id_dosen' => 'required',
             'hari' => 'required',
@@ -35,9 +34,9 @@ class JadwalRequest extends FormRequest
         ];
 
         
-        if(Auth::user()->role->name != 'admin_prodi'){
-            $rules['id_prodi'] = 'required';
-        }
+        // if(Auth::user()->role->name != 'admin_prodi'){
+        //     $rules['id_prodi'] = 'required';
+        // }
 
         return $rules;
     }
