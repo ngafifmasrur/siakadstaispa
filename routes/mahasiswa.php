@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Mahasiswa\{
     DashboardController,
     BiodataController, 
-    KRSController
+    KRSController,
+    PrestasiMahasiswaController
 };
 
 /*
@@ -26,6 +27,7 @@ Route::group(
         'as' => 'mahasiswa.',
     ],
     function () {
+        Route::get('/', fn () => redirect()->route('mahasiswa.dashboard'));
         Route::get('/dashboard', [DashboardController::class, 'index'])->name(
             'dashboard'
         );
@@ -53,5 +55,8 @@ Route::group(
             KRSController::class,
             'ajukan',
         ])->name('krs.ajukan');
+
+        Route::get('prestasi_mahasiswa/data_index', [PrestasiMahasiswaController::class, 'data_index',])->name('prestasi_mahasiswa.data_index');
+        Route::resource('prestasi_mahasiswa', PrestasiMahasiswaController::class);
     }
 );

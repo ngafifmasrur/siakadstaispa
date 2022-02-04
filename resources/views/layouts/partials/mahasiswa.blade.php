@@ -3,6 +3,7 @@
         <li aria-haspopup="true"><a href="{{ route('mahasiswa.dashboard') }}" class=""><i class="typcn typcn-device-desktop hor-icon"></i> Dashboard</a></li>
         <li aria-haspopup="true"><a href="{{ route('mahasiswa.biodata.index') }}" class=""><i class="fa fa-user"></i> Biodata</a></li>
         <li aria-haspopup="true"><a href="{{ route('mahasiswa.krs.index', date('Y')) }}" class=""><i class="fa fa-book"></i> KRS</a></li>
+        <li aria-haspopup="true"><a href="{{ route('mahasiswa.prestasi_mahasiswa.index') }}" class=""><i class="fa fa-clipboard"></i> Prestasi</a></li>
     </ul>
 </nav>
 

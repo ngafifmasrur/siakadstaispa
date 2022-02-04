@@ -30,6 +30,7 @@ use App\Http\Controllers\Dosen\{
 Route::group(
     ['middleware' => ['Role:dosen'], 'as' => 'dosen.'],
     function () {
+        Route::get('/', fn () => redirect()->route('dosen.dashboard'));
         Route::get('/dashboard', [DashboardController::class, 'index'])->name(
             'dashboard'
         );

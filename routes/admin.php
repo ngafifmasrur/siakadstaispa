@@ -46,6 +46,7 @@ use App\Http\Controllers\Admin\{
 Route::group(
     ['middleware' => ['Role:admin'], 'as' => 'admin.'],
     function () {
+        Route::get('/', fn () => redirect()->route('admin.dashboard'));
         Route::get('/dashboard', [DashboardController::class, 'index'])->name(
             'dashboard'
         );

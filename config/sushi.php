@@ -2,7 +2,7 @@
 
 return [
 
-    'cache-path' => database_path('database/sqlite'),
+    'cache-path' => storage_path('framework/cache'),
 
     'sushi.cache-prefix' => 'sushi'
 
