@@ -17,7 +17,7 @@ class CreateTJurnalKuliahTable extends Migration
             $table->id();
             $table->uuid('id_prodi');
             $table->uuid('id_dosen');
-            $table->integer('id_jadwal');
+            $table->uuid('id_kelas_kuliah');
             $table->date('tanggal_pelaksanaan');
             $table->longText('topik')->nullable();
             $table->timestamps();

@@ -79,29 +79,12 @@ Route::group(
             'update'
         ])->name('jadwal_mengajar.update');
     
-        Route::get('/pengisian_nilai', [
-            NilaiController::class, 
-            'index'
-        ])->name('pengisian_nilai.index');
-        Route::get('/pengisian_nilai/data_index', [
-            NilaiController::class, 
-            'data_index'
-        ])->name('pengisian_nilai.data_index');
-        Route::get('/pengisian_nilai/{id_jadwal}/form_nilai', [
-            NilaiController::class, 
-            'form_nilai'
-        ])->name('pengisian_nilai.form_nilai');
-        Route::post('/pengisian_nilai/store_nilai', [
-            NilaiController::class, 
-            'store_nilai'
-        ])->name('pengisian_nilai.store_nilai');
-
         Route::resource('/jurnal_perkuliahan', JurnalPerkuliahanController::class)->except([
             'show',
             'index',
             'create',
         ]);
-        Route::get('/jurnal_perkuliahan/{id_jadwal}/create', [
+        Route::get('/jurnal_perkuliahan/{id_kelas_kuliah}/create', [
             JurnalPerkuliahanController::class, 
             'create'
         ])->name('jurnal_perkuliahan.create');
@@ -113,19 +96,19 @@ Route::group(
             JurnalPerkuliahanController::class, 
             'data_index'
         ])->name('jurnal_perkuliahan.data_index');
-        Route::get('/jurnal_perkuliahan/{id_jadwal}/jurnal', [
+        Route::get('/jurnal_perkuliahan/{id_kelas_kuliah}/jurnal', [
             JurnalPerkuliahanController::class, 
             'jurnal_index'
         ])->name('jurnal_perkuliahan.jurnal_index');
-        Route::get('/jurnal_perkuliahan/{id_jadwal}/jurnal_data_index', [
+        Route::get('/jurnal_perkuliahan/{id_kelas_kuliah}/jurnal_data_index', [
             JurnalPerkuliahanController::class, 
             'jurnal_data_index'
         ])->name('jurnal_perkuliahan.jurnal_data_index');
-        Route::get('/jurnal_perkuliahan/{id_jadwal}/mahasiswa_data_index/{id_jurnal?}', [
+        Route::get('/jurnal_perkuliahan/{id_kelas_kuliah}/mahasiswa_data_index/{id_jurnal?}', [
             JurnalPerkuliahanController::class, 
             'list_mahasiswa'
         ])->name('jurnal_perkuliahan.mahasiswa_data_index');
-        Route::get('/jurnal_perkuliahan/{id_jadwal}/cetak', [
+        Route::get('/jurnal_perkuliahan/{id_kelas_kuliah}/cetak', [
             JurnalPerkuliahanController::class, 
             'cetak'
         ])->name('jurnal_perkuliahan.cetak');
@@ -165,5 +148,12 @@ Route::group(
             MateriPerkuliahanController::class, 
             'destroy'
         ])->name('{materi_perkuliahan}.destroy');
+
+
+        // Penilaian
+        Route::get('/pengisian_nilai', [NilaiController::class, 'index'])->name('pengisian_nilai.index');
+        Route::get('/pengisian_nilai/data_index', [NilaiController::class, 'data_index'])->name('pengisian_nilai.data_index');
+        Route::get('/pengisian_nilai/{id_kelas_kuliah}/form_nilai', [NilaiController::class, 'form_nilai'])->name('pengisian_nilai.form_nilai');
+        Route::post('/pengisian_nilai/store_nilai', [NilaiController::class, 'store_nilai'])->name('pengisian_nilai.store_nilai');
     }
 );
