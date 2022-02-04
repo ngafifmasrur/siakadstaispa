@@ -18,14 +18,20 @@ class KurikulumController extends Controller
      */
     public function index()
     {
-        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi');
-        $semester = m_semester::pluck('nama_semester', 'id_semester');
+        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi')->prepend('Pilih Program Studi', NULL);
+        $semester = m_semester::pluck('nama_semester', 'id_semester')->prepend('Pilih Semester', NULL);
         return view('admin.kurikulum.index', compact('prodi', 'semester'));
     }
 
     public function data_index(Request $request)
     {
-        $query = m_kurikulum::query();
+        $query = m_kurikulum::query()
+        ->when($request->prodi, function ($query) use ($request) {
+            $query->where('id_prodi', $request->prodi);
+        })
+        ->when($request->semester, function ($query) use ($request) {
+            $query->where('id_semester', $request->semester);
+        });
 
         return datatables()->of($query)
             ->addIndexColumn()

@@ -7,6 +7,15 @@
     Substansi Mata Kuliah
 </x-header>
 
+<x-card>
+    <div class="row">
+        <div class="form-group col-lg-3">
+            <label for="prodi">Program Studi</label>
+            {!! Form::select('prodi', $prodi, null, ['class' => 'form-control', 'id' => 'prodi']) !!}
+        </div>
+    </div>
+</x-card>
+
 <x-card-table>
     <x-slot name="title">Data Substansi Mata Kuliah</x-slot>
     <x-slot name="button">
@@ -27,6 +36,9 @@
         ['title' => 'Jenis Substansi', 'data' => 'nama_jenis_substansi', 'name' => 'nama_jenis_substansi', 'classname' => 'text-left'],
         ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
     ]"
+    :filter="[
+        ['data' => 'prodi', 'value' => '$(`#prodi`).val()']
+    ]"
     />
 
 </x-card-table>
@@ -37,6 +49,12 @@
 
 @push('js')
     <script>
+        $( document ).ready(function() {
+            $(document).on('change','#prodi',function(){
+                table.ajax.reload();
+            });
+        });
+
         $('.add-form').on('click', function () {
             $('.modal-form').modal('show');
             $('.modal-form form')[0].reset();

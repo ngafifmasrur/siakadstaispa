@@ -31,7 +31,7 @@ class MahasiswaController extends Controller
     public function index()
     {
         $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi')->prepend('Pilih Program Studi', NULL);
-        $periode = m_semester::pluck('nama_semester', 'id_semester');
+        $periode = m_semester::pluck('nama_semester', 'id_semester')->prepend('Pilih Periode Masuk', NULL);
         $agama = ref_agama::pluck('nama_agama', 'id_agama');
         $status_mahasiswa = $this->status_mahasiswa;
 
@@ -40,7 +40,14 @@ class MahasiswaController extends Controller
 
     public function data_index(Request $request)
     {
-        $query = m_mahasiswa::query();
+        $query = m_mahasiswa::query()
+        ->when($request->prodi, function ($query) use ($request) {
+            $query->where('id_prodi', $request->prodi);
+        })
+        ->when($request->periode, function ($query) use ($request) {
+            $query->where('id_periode', $request->periode);
+        });
+
         $status_mahasiswa = $this->status_mahasiswa;
 
         return datatables()->of($query)

@@ -7,10 +7,23 @@
     Semester Mahasiswa
 </x-header>
 
+<x-card>
+    <div class="row">
+        <div class="form-group col-lg-3">
+            <label for="prodi">Program Studi</label>
+            {!! Form::select('prodi', $prodi, null, ['class' => 'form-control', 'id' => 'prodi']) !!}
+        </div>
+        <div class="form-group col-lg-3">
+            <label for="semester">Semester</label>
+            {!! Form::select('semester', $semester, null, ['class' => 'form-control', 'id' => 'semester']) !!}
+        </div>
+    </div>
+</x-card>
+
 <x-card-table>
     <x-slot name="title">Data Semester Mahasiswa</x-slot>
     <x-slot name="button">
-        <a class="float-right btn btn-sm btn-outline-blue add-form" data-url="#" href="#"><i data-feather="plus" class="mr-2"></i>Tambah</a>
+        <a class="float-right btn btn-sm btn-outline-primary add-form" data-url="#" href="#"><i data-feather="plus" class="mr-2"></i>Tambah</a>
     </x-slot>
 
     <x-datatable 
@@ -27,6 +40,10 @@
         ['title' => 'SKS Total', 'data' => 'sks_total', 'name' => 'sks_total'],
         ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
     ]"
+    :filter="[
+        ['data' => 'prodi', 'value' => '$(`#prodi`).val()'],
+        ['data' => 'semester', 'value' => '$(`#semester`).val()'],
+    ]"
     />
 
 </x-card-table>
@@ -37,6 +54,12 @@
 
 @push('js')
     <script>
+
+        $( document ).ready(function() {
+            $(document).on('change','#prodi, #semester',function(){
+                table.ajax.reload();
+            });
+        });
 
         $('.add-form').on('click', function () {
             $('.modal-form').modal('show');
