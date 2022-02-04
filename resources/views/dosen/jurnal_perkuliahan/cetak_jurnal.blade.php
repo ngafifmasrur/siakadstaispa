@@ -31,21 +31,21 @@
                 <td width="300px"></td>
                 <td>Jurusan</td>
                 <td align="right">  :</td>
-                <td>{{ $jadwal->prodi->nama_program_studi }}</td>
+                <td>{{ $jadwal->kelas_kuliah->nama_program_studi }}</td>
             </tr>
             <tr>
                 <td>Ruang/Hari</td>
                 <td align="right">  :</td>
-                <td>{{ $jadwal->ruangan->nama_ruangan.', '.$jadwal->hari}}</td>
+                <td>{{ $jadwal->kelas_kuliah->ruangan.', '.$jadwal->kelas_kuliah->hari}}</td>
                 <td width="300px"></td>
                 <td>Tahun Akademik</td>
                 <td align="right">  :</td>
-                <td>{{ $jadwal->matkul->detail_semester->nama_semester }}</td>
+                <td>{{ $jadwal->kelas_kuliah->nama_semester }}</td>
             </tr>
             <tr>
                 <td>Dosen Pendamping</td>
                 <td style="text-align: right">  :</td>
-                <td>{{ $jadwal->dosen->nama_dosen }}</td>
+                <td>{{ $jadwal->nama_dosen }}</td>
             </tr>
         </table>
     </div>
@@ -63,7 +63,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($jadwal->jurnal_kuliah as $item)
+            @foreach ($jurnal as $item)
             <tr>
                 <td align="center">{{ $loop->iteration }}</td>
                 <td align="center">{{ date('d-m-Y', strtotime($item->tanggal_pelaksanaan)) }}</td>
@@ -84,7 +84,7 @@
         </tbody>
     </table>
     <p style="text-align: justify;">
-        Jumlah Perkuliahan Terlakasana: {{ $jadwal->jurnal_kuliah->count() }}
+        Jumlah Perkuliahan Terlakasana: {{ $jurnal->count() }}
     </p>
     <div style="width:80%; margin-left:auto;margin-right:auto;margin-top:29px">
         <div style="float: left;">
@@ -96,7 +96,7 @@
             <br>
             <br>
             <p>
-                {{ $jadwal->dosen->nama_dosen }} 
+                {{ $jadwal->nama_dosen }} 
             </p>
         </div>
     

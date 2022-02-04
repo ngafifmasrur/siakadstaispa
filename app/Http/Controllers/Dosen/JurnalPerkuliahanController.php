@@ -15,6 +15,8 @@ use App\Models\m_semester;
 use App\Models\t_krs;
 use App\Models\t_jurnal_kuliah;
 use App\Models\t_absensi_mahasiswa;
+use App\Models\t_dosen_pengajar_kelas_kuliah;
+use App\Models\t_peserta_kelas_kuliah;
 use App\Http\Requests\JadwalRequest;
 use Session, DB, Auth, PDF;
 
@@ -27,28 +29,48 @@ class JurnalPerkuliahanController extends Controller
      */
     public function index()
     {
-        $tahun_ajaran = m_tahun_ajaran::where('a_periode_aktif', 1)->pluck('nama_tahun_ajaran', 'id_tahun_ajaran')->prepend('Pilih Tahun Ajaran', NULL);
+        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi')->prepend('Pilih Program Studi', NULL);
         $semester = m_semester::pluck('nama_semester', 'id_semester')->prepend('Pilih Semester', NULL);
-        return view('dosen.jurnal_perkuliahan.index', compact('tahun_ajaran', 'semester'));
+        return view('dosen.jurnal_perkuliahan.index', compact('prodi', 'semester'));
     }
 
     public function data_index(Request $request)
     {
-        $query = m_jadwal::query()
-                ->select('m_jadwal.*', 'm_tahun_ajaran.id_tahun_ajaran', 'm_mata_kuliah_aktif.id_semester')
-                ->join('m_mata_kuliah_aktif', 'm_mata_kuliah_aktif.id', 'm_jadwal.id_matkul_aktif')
-                ->join('m_semester', 'm_semester.id_semester', 'm_mata_kuliah_aktif.id_semester')
-                ->join('m_tahun_ajaran', 'm_tahun_ajaran.id_tahun_ajaran', 'm_semester.id_tahun_ajaran')
-                ->when($request->semester, function ($query) use ($request) {
-                    $query->where('m_mata_kuliah_aktif.id_semester', $request->semester);
-                })->when($request->tahun_ajaran, function ($query) use ($request) {
-                    $query->where('m_tahun_ajaran.id_tahun_ajaran', $request->tahun_ajaran);
-                })->withCount('krs');
-
-        // $krs = t_krs::query();
+        $query = t_dosen_pengajar_kelas_kuliah::query()
+                ->where('id_dosen', Auth::user()->id_dosen)
+                ->when($request->prodi, function($q) use ($request){
+                    $q->where('id_prodi', $request->prodi);
+                })
+                ->when($request->semester, function($q) use ($request){
+                    $q->where('id_semester', $request->semester);
+                });
 
         return datatables()->of($query)
             ->addIndexColumn()
+            ->addColumn('nama_semester', function ($data) {
+                return $data->kelas_kuliah->nama_semester;
+            })
+            ->addColumn('nama_program_studi', function ($data) {
+                return $data->kelas_kuliah->nama_program_studi;
+            })
+            ->addColumn('nama_mata_kuliah', function ($data) {
+                return $data->kelas_kuliah->nama_mata_kuliah;
+            })
+            ->addColumn('nama_kelas_kuliah', function ($data) {
+                return $data->kelas_kuliah->nama_kelas_kuliah;
+            })
+            ->addColumn('ruang', function ($data) {
+                return  $data->kelas_kuliah->ruangan ?? '-';
+            })
+            ->addColumn('hari', function ($data) {
+                return $data->kelas_kuliah->hari ?? '-';
+            })
+            ->addColumn('waktu', function ($data) {
+                return $data->kelas_kuliah->jam_mulai ?? ''.' - '.$data->kelas_kuliah->jam_akhir ?? '';
+            })
+            ->addColumn('jumlah_mahasiswa', function ($data) {
+                return $data->kelas_kuliah->jumlah_mahasiswa;
+            })
             ->addColumn('action',function ($data) {
            
                 $button = '<div class="btn-group" role="group" aria-label="Basic example">';
@@ -59,7 +81,7 @@ class JurnalPerkuliahanController extends Controller
                     'class' => 'btn btn-outline-primary btn-xs',
                     "icon" => "fa fa-pencil",
                     "label" => "Isi Jurnal",
-                    "route" => route('dosen.jurnal_perkuliahan.jurnal_index', $data->id),
+                    "route" => route('dosen.jurnal_perkuliahan.jurnal_index', $data->id_kelas_kuliah),
                 ]);
     
                 $button .= view("components.button.default", [
@@ -69,36 +91,12 @@ class JurnalPerkuliahanController extends Controller
                     "icon" => "fa fa-print",
                     "label" => "Cetak Jurnal",
                     'attribute' => ['target' => '_blank'],
-                    "route" => route('dosen.jurnal_perkuliahan.cetak', $data->id),
+                    "route" => route('dosen.jurnal_perkuliahan.cetak', $data->id_kelas_kuliah),
                 ]);
     
                 $button .= '</div>';
     
                 return $button;
-            })
-            ->addColumn('kode_matkul', function ($data) {
-                return $data->matkul->matkul->kode_mata_kuliah;
-            })
-            ->addColumn('nama_matkul', function ($data) {
-                return $data->matkul->matkul->nama_mata_kuliah;
-            })
-            ->addColumn('ruangan', function ($data) {
-                return $data->ruangan->nama_ruangan;
-            })
-            ->addColumn('dosen', function ($data) {
-                return $data->dosen->nama_dosen;
-            })
-            ->addColumn('prodi', function ($data) {
-                return $data->prodi->nama_program_studi;
-            })
-            ->addColumn('kelas', function ($data) {
-                return $data->kelas->nama_kelas_kuliah;
-            })
-            ->addColumn('jadwal', function ($data) {
-                return $data->hari.', '.$data->jam_mulai.' - '.$data->jam_akhir;
-            })
-            ->addColumn('jumlah_peserta', function ($data) {
-                return $data->krs_count;
             })
             ->rawColumns(['action'])
             ->setRowAttr([
@@ -107,17 +105,17 @@ class JurnalPerkuliahanController extends Controller
             ->toJson();
     }
 
-    public function jurnal_index($id_jadwal)
+    public function jurnal_index($id_kelas_kuliah)
     {
-        $jadwal = m_jadwal::findOrFail($id_jadwal);
-        return view('dosen.jurnal_perkuliahan.jurnal_index', compact('id_jadwal', 'jadwal'));
+        $jadwal = t_dosen_pengajar_kelas_kuliah::where('id_kelas_kuliah', $id_kelas_kuliah)->first();
+        return view('dosen.jurnal_perkuliahan.jurnal_index', compact('jadwal'));
     }
 
-    public function jurnal_data_index($id_jadwal)
+    public function jurnal_data_index($id_kelas_kuliah)
     {
         $query = t_jurnal_kuliah::query()
-                ->where('id_jadwal', $id_jadwal)
-                ->where('id_dosen', Auth::user()->dosen->id_dosen);
+                ->where('id_kelas_kuliah', $id_kelas_kuliah)
+                ->where('id_dosen', Auth::user()->id_dosen);
 
         return datatables()->of($query)
             ->addIndexColumn()
@@ -152,7 +150,7 @@ class JurnalPerkuliahanController extends Controller
                 return $data->prodi->nama_program_studi;
             })
             ->addColumn('jadwal', function ($data) {
-                return $data->jadwal->hari.', '.$data->jadwal->jam_mulai.' - '.$data->jadwal->jam_akhir;
+                return $data->kelas->hari.', '.$data->kelas->jam_mulai.' - '.$data->kelas->jam_akhir;
             })
             ->rawColumns(['action'])
             ->setRowAttr([
@@ -161,23 +159,23 @@ class JurnalPerkuliahanController extends Controller
             ->toJson();
     }
 
-    public function create($id_jadwal)
+    public function create($t_jurnal_kuliah)
     {
-        $jadwal = m_jadwal::findOrFail($id_jadwal);
+        $jadwal = t_dosen_pengajar_kelas_kuliah::where('id_aktivitas_mengajar', $t_jurnal_kuliah)->first();
         return view('dosen.jurnal_perkuliahan.create', compact('jadwal'));
     }
 
     public function edit(t_jurnal_kuliah $jurnal_perkuliahan)
     {
-        $jadwal = m_jadwal::findOrFail($jurnal_perkuliahan->id_jadwal);
+        $jadwal = t_dosen_pengajar_kelas_kuliah::where('id_kelas_kuliah', $jurnal_perkuliahan->id_kelas_kuliah)->first();
         $absensi = t_absensi_mahasiswa::where('id_jurnal_kuliah', $jurnal_perkuliahan);
         return view('dosen.jurnal_perkuliahan.edit', compact('jadwal','absensi', 'jurnal_perkuliahan'));
     }
 
-    public function list_mahasiswa($id_jadwal, $id_jurnal = null)
+    public function list_mahasiswa($id_kelas_kuliah, $id_jurnal = null)
     {
-        $query = t_krs::query()
-                ->where('id_jadwal', $id_jadwal);
+        $query = t_peserta_kelas_kuliah::query()
+                ->where('id_kelas_kuliah', $id_kelas_kuliah);
                 
         if(!is_null($id_jurnal)) {
             $absensi = t_absensi_mahasiswa::query()->where('id_jurnal_kuliah', $id_jurnal);
@@ -189,46 +187,46 @@ class JurnalPerkuliahanController extends Controller
             ->addIndexColumn()
             ->addColumn('hadir',function ($data) use ($absensi) {
                 if(is_null($absensi)) {
-                    $button = '<input type="radio" value="Hadir" name="'.$data->mahasiswa->id_mahasiswa.'" checked class="form-checkbox">';
+                    $button = '<input type="radio" value="Hadir" name="'.$data->id_mahasiswa.'" checked class="form-checkbox">';
                 } else {
-                    $status = ($absensi->where('id_mahasiswa', $data->mahasiswa->id_mahasiswa)->first()->status ?? null) == 'Hadir' ? 'checked' : '';
-                    $button = '<input type="radio" value="Hadir" name="'.$data->mahasiswa->id_mahasiswa.'" '.$status.' class="form-checkbox">';
+                    $status = ($absensi->where('id_mahasiswa', $data->id_mahasiswa)->first()->status ?? null) == 'Hadir' ? 'checked' : '';
+                    $button = '<input type="radio" value="Hadir" name="'.$data->id_mahasiswa.'" '.$status.' class="form-checkbox">';
                 }
 
                 return $button;
             })
             ->addColumn('sakit',function ($data) use ($absensi) {
                 if(is_null($absensi)) {
-                    $button = '<input type="radio" value="Sakit" name="'.$data->mahasiswa->id_mahasiswa.'" class="form-checkbox">';
+                    $button = '<input type="radio" value="Sakit" name="'.$data->id_mahasiswa.'" class="form-checkbox">';
                 } else {
-                    $status = ($absensi->where('id_mahasiswa', $data->mahasiswa->id_mahasiswa)->first()->status ?? null) == 'Sakit' ? 'checked' : '';
-                    $button = '<input type="radio" value="Sakit" name="'.$data->mahasiswa->id_mahasiswa.'" '.$status.' class="form-checkbox">';
+                    $status = ($absensi->where('id_mahasiswa', $data->id_mahasiswa)->first()->status ?? null) == 'Sakit' ? 'checked' : '';
+                    $button = '<input type="radio" value="Sakit" name="'.$data->id_mahasiswa.'" '.$status.' class="form-checkbox">';
                 }
                 return $button;
             })
             ->addColumn('ijin',function ($data) use ($absensi) {
                 if(is_null($absensi)) {
-                    $button = '<input type="radio" value="Ijin" name="'.$data->mahasiswa->id_mahasiswa.'" class="form-checkbox">';
+                    $button = '<input type="radio" value="Ijin" name="'.$data->id_mahasiswa.'" class="form-checkbox">';
                 } else {
-                    $status = ($absensi->where('id_mahasiswa', $data->mahasiswa->id_mahasiswa)->first()->status ?? null) == 'Ijin' ? 'checked' : '';
-                    $button = '<input type="radio" value="Ijin" name="'.$data->mahasiswa->id_mahasiswa.'" '.$status.' class="form-checkbox">';
+                    $status = ($absensi->where('id_mahasiswa', $data->id_mahasiswa)->first()->status ?? null) == 'Ijin' ? 'checked' : '';
+                    $button = '<input type="radio" value="Ijin" name="'.$data->id_mahasiswa.'" '.$status.' class="form-checkbox">';
                 }
                 return $button;
             })
             ->addColumn('alpa',function ($data) use ($absensi) {
                 if(is_null($absensi)) {
-                    $button = '<input type="radio" value="Alpa" name="'.$data->mahasiswa->id_mahasiswa.'" class="form-checkbox">';
+                    $button = '<input type="radio" value="Alpa" name="'.$data->id_mahasiswa.'" class="form-checkbox">';
                 } else {
-                    $status = ($absensi->where('id_mahasiswa', $data->mahasiswa->id_mahasiswa)->first()->status ?? null) == 'Alpa' ? 'checked' : '';
-                    $button = '<input type="radio" value="Alpa" name="'.$data->mahasiswa->id_mahasiswa.'" '.$status.' class="form-checkbox">';
+                    $status = ($absensi->where('id_mahasiswa', $data->id_mahasiswa)->first()->status ?? null) == 'Alpa' ? 'checked' : '';
+                    $button = '<input type="radio" value="Alpa" name="'.$data->id_mahasiswa.'" '.$status.' class="form-checkbox">';
                 }
                 return $button;
             })
             ->addColumn('mahasiswa', function ($data) {
-                return $data->mahasiswa->nama_mahasiswa;
+                return $data->nama_mahasiswa;
             })
             ->addColumn('nim', function ($data) {
-                return $data->mahasiswa->nim;
+                return $data->nim;
             })
             ->rawColumns(['action','hadir','sakit','ijin','alpa'])
             ->setRowAttr([
@@ -243,9 +241,9 @@ class JurnalPerkuliahanController extends Controller
             'tanggal_pelaksanaan' => 'required|date',
         ]);
 
-        $jadwal = m_jadwal::findOrFail($request->id_jadwal);
+        $jadwal = t_dosen_pengajar_kelas_kuliah::where('id_kelas_kuliah', $request->id_kelas_kuliah)->first();
 
-        $cek = t_jurnal_kuliah::where('id_jadwal', $jadwal->id)
+        $cek = t_jurnal_kuliah::where('id_kelas_kuliah', $jadwal->id_kelas_kuliah)
                 ->whereDate('tanggal_pelaksanaan', $request->tanggal_pelaksanaan)
                 ->count();
 
@@ -259,16 +257,16 @@ class JurnalPerkuliahanController extends Controller
         try{
 
             $jurnal_kuliah = t_jurnal_kuliah::create([
-                'id_prodi' => $jadwal->prodi->id_prodi,
-                'id_dosen' => Auth::user()->dosen->id_dosen,
-                'id_jadwal' => $jadwal->id,
+                'id_prodi' => $jadwal->id_prodi,
+                'id_dosen' => Auth::user()->id_dosen,
+                'id_kelas_kuliah' => $jadwal->id_kelas_kuliah,
                 'tanggal_pelaksanaan' => $request->tanggal_pelaksanaan,
                 'topik' => $request->topik,
             ]);
 
             // Insert Absensi Siswa
             $absensi = [];
-            $list_absensi = $request->except('_token', 'tanggal_pelaksanaan', 'topik', 'id_jadwal', 'nama_matkul', 'kode_matkul', 'dataTables_length');
+            $list_absensi = $request->except('_token', 'tanggal_pelaksanaan', 'topik', 'id_kelas_kuliah', 'nama_matkul', 'kode_matkul', 'dataTables_length');
             foreach ($list_absensi as $id => $status) {
                 $absensi[] = [
                     'id_jurnal_kuliah' => $jurnal_kuliah->id,
@@ -281,7 +279,7 @@ class JurnalPerkuliahanController extends Controller
             DB::commit();
 
             Session::flash('success_msg', 'Jurnal Kuliah Berhasil Disimpan!');
-            return redirect()->route('dosen.jurnal_perkuliahan.jurnal_index', $jadwal->id);
+            return redirect()->route('dosen.jurnal_perkuliahan.jurnal_index', $jadwal->id_kelas_kuliah);
 
         }catch(\Exception $e){
 
@@ -298,9 +296,9 @@ class JurnalPerkuliahanController extends Controller
             'tanggal_pelaksanaan' => 'required|date',
         ]);
 
-        $jadwal = m_jadwal::findOrFail($request->id_jadwal);
+        $jadwal = t_dosen_pengajar_kelas_kuliah::where('id_kelas_kuliah', $request->id_kelas_kuliah)->first();
         if($jurnal_perkuliahan->tanggal_pelaksanaan !== $request->tanggal_pelaksanaan) {
-            $cek = t_jurnal_kuliah::where('id_jadwal', $request->id_jadwa)
+            $cek = t_jurnal_kuliah::where('id_kelas_kuliah', $request->id_kelas_kuliah)
                     ->whereDate('tanggal_pelaksanaan', $request->tanggal_pelaksanaan)
                     ->count();
 
@@ -340,14 +338,14 @@ class JurnalPerkuliahanController extends Controller
 
             Session::flash('success_msg', 'Jurnal Kuliah Berhasil Disimpan!');
             // return redirect()->route('dosen.jurnal_perkuliahan.jurnal_index', $jadwal->id);
-             return redirect()->back();
+            return redirect()->back()->withInput();
 
         }catch(\Exception $e){
 
             DB::rollback();
 
             Session::flash('error_msg', 'Terjadi kesalahan pada server');
-            return dd($e);
+            return redirect()->back();
         }
     }
 
@@ -379,10 +377,11 @@ class JurnalPerkuliahanController extends Controller
         }
     }
 
-    public function cetak($id_jadwal)
+    public function cetak($id_kelas_kuliah)
     { 
-        $jadwal = m_jadwal::findOrfail($id_jadwal);
-        $matkul = $jadwal->matkul->matkul->nama_mata_kuliah;
-        $pdf = PDF::loadView('dosen.jurnal_perkuliahan.cetak_jurnal', compact('jadwal', 'matkul'))->setPaper('a4', 'landscape');
+        $jadwal = t_dosen_pengajar_kelas_kuliah::where('id_kelas_kuliah', $id_kelas_kuliah)->first();
+        $matkul = $jadwal->kelas_kuliah->nama_mata_kuliah;
+        $jurnal = t_jurnal_kuliah::where('id_kelas_kuliah', $id_kelas_kuliah)->get();
+        $pdf = PDF::loadView('dosen.jurnal_perkuliahan.cetak_jurnal', compact('jadwal', 'matkul', 'jurnal'))->setPaper('a4', 'landscape');
         return $pdf->stream('Jurnal_-_Perkuliahan-_-'.$matkul.'.pdf');    }
 }

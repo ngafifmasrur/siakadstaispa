@@ -8,15 +8,15 @@
 </x-header>
 
 <x-card-table>
-    <x-slot name="title">Form Edit Jurnal Kuliah Mata Kuliah: {{ $jadwal->matkul->matkul->nama_mata_kuliah }}</x-slot>
+    <x-slot name="title">Form Edit Jurnal Kuliah Mata Kuliah: {{ $jadwal->kelas_kuliah->nama_mata_kuliah }}</x-slot>
 
     <form action="{{ route('dosen.jurnal_perkuliahan.update', $jurnal_perkuliahan->id) }}" method="POST">
         @csrf @method('PUT')
-        <input type="hidden" name="id_jadwal" value="{{ $jadwal->id }}">
+        <input type="hidden" name="id_kelas_kuliah" value="{{ $jadwal->id_kelas_kuliah }}">
         <div class="form-group row">
             <label for="nama_matkul" class="col-sm-2 col-form-label">Nama Mata Kuliah</label>
             <div class="col-sm-10">
-                {!! Form::text('nama_matkul', $jadwal->matkul->matkul->nama_mata_kuliah, ['class' => 'form-control '.($errors->has('nama_matkul') ? 'is-invalid' : ''), 'id' => 'nama_matkul', 'readonly' => true]) !!}
+                {!! Form::text('nama_matkul', $jadwal->kelas_kuliah->nama_mata_kuliah, ['class' => 'form-control '.($errors->has('nama_matkul') ? 'is-invalid' : ''), 'id' => 'nama_matkul', 'readonly' => true]) !!}
                 @error('nama_matkul')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -27,7 +27,7 @@
         <div class="form-group row">
             <label for="kode_matkul" class="col-sm-2 col-form-label">Kode Mata Kuliah</label>
             <div class="col-sm-10">
-                {!! Form::text('kode_matkul', $jadwal->matkul->matkul->kode_mata_kuliah, ['class' => 'form-control '.($errors->has('kode_matkul') ? 'is-invalid' : ''), 'id' => 'kode_matkul', 'readonly' => true]) !!}
+                {!! Form::text('kode_matkul', $jadwal->kelas_kuliah->kode_mata_kuliah, ['class' => 'form-control '.($errors->has('kode_matkul') ? 'is-invalid' : ''), 'id' => 'kode_matkul', 'readonly' => true]) !!}
                 @error('kode_matkul')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -61,7 +61,7 @@
             <label for="topik" class="col-sm-2 col-form-label">Absensi Mahasiswa </label>
             <div class="col-sm-10">
                 <x-datatable 
-                :route="route('dosen.jurnal_perkuliahan.mahasiswa_data_index', [ 'id_jadwal' => $jadwal->id, 'id_jurnal' => $jurnal_perkuliahan->id])" 
+                :route="route('dosen.jurnal_perkuliahan.mahasiswa_data_index', [ 'id_kelas_kuliah' => $jadwal->id_kelas_kuliah, 'id_jurnal' => $jurnal_perkuliahan->id])" 
                 :table="[
                     ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],
                     ['title' => 'NIM', 'data' => 'nim', 'name' => 'nim'],

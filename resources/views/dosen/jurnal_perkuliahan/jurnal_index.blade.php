@@ -9,11 +9,11 @@
 <x-card-table>
     <x-slot name="title">Jurnal Perkuliahan</x-slot>
     <x-slot name="button">
-        <a class="btn btn-app btn-sm btn-primary add-form" href="{{ route('dosen.jurnal_perkuliahan.create', $id_jadwal) }}"><i class="fa fa-plus mr-2"></i>Tambah</a>
+        <a class="btn btn-app btn-sm btn-primary add-form" href="{{ route('dosen.jurnal_perkuliahan.create', $jadwal->id_kelas_kuliah) }}"><i class="fa fa-plus mr-2"></i>Tambah</a>
     </x-slot>
 
     <x-datatable 
-    :route="route('dosen.jurnal_perkuliahan.jurnal_data_index', $id_jadwal)" 
+    :route="route('dosen.jurnal_perkuliahan.jurnal_data_index', $jadwal->id_kelas_kuliah)" 
     :table="[
         ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],
         ['title' => 'Program Studi', 'data' => 'prodi', 'name' => 'prodi', 'classname' => 'text-left'],

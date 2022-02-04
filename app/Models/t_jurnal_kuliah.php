@@ -12,9 +12,9 @@ class t_jurnal_kuliah extends Model
     protected $table = 't_jurnal_kuliah';
     protected $guarded = [];
 
-    public function jadwal()
+    public function kelas()
     {
-        return $this->belongsTo('App\Models\m_jadwal', 'id_jadwal');
+        return $this->belongsTo('App\Models\m_kelas_kuliah', 'id_kelas_kuliah', 'id_kelas_kuliah');
     }
 
     public function prodi()
