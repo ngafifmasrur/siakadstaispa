@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Sushi\Sushi;
 
-class t_peserta_kelas_kuliah extends Model
+class t_detail_nilai_perkuliahan_kelas extends Model
 {
     use HasFactory, Sushi;
 
@@ -16,11 +16,6 @@ class t_peserta_kelas_kuliah extends Model
 
     public function getRows()
     {
-        return GetDataFeeder('GetPesertaKelasKuliah');
-    }
-
-    public function nilai()
-    {
-        return $this->belongsTo(t_detail_nilai_perkuliahan_kelas::class, 'id_kelas_kuliah', 'id_kelas_kuliah');
+        return GetDataFeeder('GetDetailNilaiPerkuliahanKelas');
     }
 }

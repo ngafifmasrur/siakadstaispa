@@ -14,8 +14,10 @@ use App\Models\m_tahun_ajaran;
 use App\Models\m_skala_nilai_prodi;
 use App\Models\m_semester;
 use App\Models\t_krs;
+use App\Models\t_dosen_pengajar_kelas_kuliah;
+use App\Models\t_peserta_kelas_kuliah;
 use App\Http\Requests\JadwalRequest;
-use Session, DB;
+use Session, DB, Auth;
 
 class NilaiController extends Controller
 {
@@ -26,64 +28,57 @@ class NilaiController extends Controller
      */
     public function index()
     {
-        $tahun_ajaran = m_tahun_ajaran::where('a_periode_aktif', 1)->pluck('nama_tahun_ajaran', 'id_tahun_ajaran')->prepend('Pilih Tahun Ajaran', NULL);
+        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi')->prepend('Pilih Program Studi', NULL);
         $semester = m_semester::pluck('nama_semester', 'id_semester')->prepend('Pilih Semester', NULL);
-        return view('dosen.pengisian_nilai.index', compact('tahun_ajaran', 'semester'));
+        return view('dosen.pengisian_nilai.index', compact('prodi', 'semester'));
     }
 
     public function data_index(Request $request)
     {
-        $query = m_jadwal::query()
-                ->select('m_jadwal.*', 'm_tahun_ajaran.id_tahun_ajaran', 'm_mata_kuliah_aktif.id_semester')
-                ->join('m_mata_kuliah_aktif', 'm_mata_kuliah_aktif.id', 'm_jadwal.id_matkul_aktif')
-                ->join('m_semester', 'm_semester.id_semester', 'm_mata_kuliah_aktif.id_semester')
-                ->join('m_tahun_ajaran', 'm_tahun_ajaran.id_tahun_ajaran', 'm_semester.id_tahun_ajaran')
-                ->when($request->semester, function ($query) use ($request) {
-                    $query->where('m_mata_kuliah_aktif.id_semester', $request->semester);
-                })->when($request->tahun_ajaran, function ($query) use ($request) {
-                    $query->where('m_tahun_ajaran.id_tahun_ajaran', $request->tahun_ajaran);
-                })->withCount('krs');
-
-        // $krs = t_krs::query();
+        $query = t_dosen_pengajar_kelas_kuliah::query()
+                ->where('id_dosen', Auth::user()->id_dosen)
+                ->when($request->prodi, function($q) use ($request){
+                    $q->where('id_prodi', $request->prodi);
+                })
+                ->when($request->semester, function($q) use ($request){
+                    $q->where('id_semester', $request->semester);
+                });
 
         return datatables()->of($query)
             ->addIndexColumn()
-            ->addColumn('action',function ($data) {    
-
+            ->addColumn('nama_semester', function ($data) {
+                return $data->kelas_kuliah->nama_semester;
+            })
+            ->addColumn('nama_program_studi', function ($data) {
+                return $data->kelas_kuliah->nama_program_studi;
+            })
+            ->addColumn('nama_mata_kuliah', function ($data) {
+                return $data->kelas_kuliah->nama_mata_kuliah;
+            })
+            ->addColumn('nama_kelas_kuliah', function ($data) {
+                return $data->kelas_kuliah->nama_kelas_kuliah;
+            })
+            ->addColumn('ruang', function ($data) {
+                return  $data->kelas_kuliah->ruangan ?? '-';
+            })
+            ->addColumn('hari', function ($data) {
+                return $data->kelas_kuliah->hari ?? '-';
+            })
+            ->addColumn('waktu', function ($data) {
+                return $data->kelas_kuliah->jam_mulai ?? ''.' - '.$data->kelas_kuliah->jam_akhir ?? '';
+            })
+            ->addColumn('jumlah_mahasiswa', function ($data) {
+                return $data->kelas_kuliah->jumlah_mahasiswa;
+            })
+            ->addColumn('action', function ($data) {
                 $button = view("components.button.default", [
                     'type' => 'link',
-                    'tooltip' => 'Isi Nilai',
-                    'class' => 'btn btn-outline-primary btn-xs',
-                    "icon" => "fa fa-pencil",
-                    "label" => "Form Nilai",
-                    "route" => route('dosen.pengisian_nilai.form_nilai', $data->id),
+                    'tooltip' => 'Penilaian',
+                    'class' => 'btn btn-outline-primary btn-sm',
+                    "icon" => "fa fa-edit",
+                    "route" => route('dosen.pengisian_nilai.form_nilai', $data->id_kelas_kuliah),
                 ]);
-    
                 return $button;
-            })
-            ->addColumn('kode_matkul', function ($data) {
-                return $data->matkul->matkul->kode_mata_kuliah;
-            })
-            ->addColumn('nama_matkul', function ($data) {
-                return $data->matkul->matkul->nama_mata_kuliah;
-            })
-            ->addColumn('ruangan', function ($data) {
-                return $data->ruangan->nama_ruangan;
-            })
-            ->addColumn('dosen', function ($data) {
-                return $data->dosen->nama_dosen;
-            })
-            ->addColumn('prodi', function ($data) {
-                return $data->prodi->nama_program_studi;
-            })
-            ->addColumn('kelas', function ($data) {
-                return $data->kelas->nama_kelas_kuliah;
-            })
-            ->addColumn('jadwal', function ($data) {
-                return $data->hari.', '.$data->jam_mulai.' - '.$data->jam_akhir;
-            })
-            ->addColumn('jumlah_peserta', function ($data) {
-                return $data->krs_count;
             })
             ->rawColumns(['action'])
             ->setRowAttr([
@@ -92,13 +87,11 @@ class NilaiController extends Controller
             ->toJson();
     }
 
-    public function form_nilai($id_jadwal)
+    public function form_nilai($id_kelas_kuliah)
     {
-        // $nilai = m_skala_nilai_prodi::whereBetween();
-        $peserta = t_krs::where('id_jadwal', $id_jadwal)->get();
-        $id_prodi = m_jadwal::find($id_jadwal)->id_prodi;
-
-        return view('dosen.pengisian_nilai.form_nilai', compact('peserta', 'id_prodi'));
+        $kelas_kuliah = m_kelas_kuliah::where('id_kelas_kuliah', $id_kelas_kuliah)->first();
+        $peserta = t_peserta_kelas_kuliah::where('id_kelas_kuliah', $id_kelas_kuliah)->get();
+        return view('dosen.pengisian_nilai.form_nilai', compact('peserta', 'kelas_kuliah'));
     }
 
     public function store_nilai(Request $request)
@@ -108,9 +101,7 @@ class NilaiController extends Controller
 
         try{
             
-            // $nilai = [];
-
-            $peserta = $request->except('_token', 'id_prodi');
+            $peserta = $request->except('_token', 'id_kelas_kuliah');
             foreach ($peserta as $ID => $nilai) {
 
                 if($nilai > 100 || $nilai < 0){
@@ -126,11 +117,11 @@ class NilaiController extends Controller
                     return redirect()->back()->withInput();
                 }
 
-                t_krs::find($ID)->update([
-                    'nilai_angka' => $nilai,
-                    'nilai_huruf' => $nilai_huruf,
-                    'updated_at' => now(),
-                ]);
+                // t_krs::find($ID)->update([
+                //     'nilai_angka' => $nilai,
+                //     'nilai_huruf' => $nilai_huruf,
+                //     'updated_at' => now(),
+                // ]);
             }
     
             DB::commit();
