@@ -24,8 +24,8 @@ class RegistrasiMahasiswaController extends Controller
      */
     public function index()
     {
-        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi');
-        $periode = m_semester::pluck('nama_semester', 'id_semester');
+        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi')->prepend('Pilih Program Studi', NULL);
+        $periode = m_semester::pluck('nama_semester', 'id_semester')->prepend('Pilih Periode Masuk', NULL);
         $mahasiswa = m_mahasiswa::pluck('nama_mahasiswa', 'id_mahasiswa');
         $jalur_daftar = $this->jalur_daftar;
         $jenis_daftar = ref_jenis_pendaftaran::pluck('nama_jenis_daftar', 'id_jenis_daftar');
@@ -37,6 +37,9 @@ class RegistrasiMahasiswaController extends Controller
         $query = t_riwayat_pendidikan_mahasiswa::query()
                 ->when($request->id_prodi, function ($query) use ($request) {
                     $query->where('id_prodi', $request->id_prodi);
+                })
+                ->when($request->id_periode_masuk, function ($query) use ($request) {
+                    $query->where('id_periode_masuk', $request->id_periode_masuk);
                 });
 
         return datatables()->of($query)

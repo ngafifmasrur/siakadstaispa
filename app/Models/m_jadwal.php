@@ -23,6 +23,11 @@ class m_jadwal extends Model
 		return $this->belongsTo('App\Models\m_kelas_kuliah', 'id_kelas_kuliah');
 	}
 
+	public function dosen_pengajar()
+	{
+		return $this->belongsTo('App\Models\t_dosen_pengajar_kelas_kuliah', 'id_kelas_kuliah');
+	}
+
 	public function ruangan()
 	{
 		return $this->belongsTo('App\Models\m_ruang_kelas', 'id_ruang');
