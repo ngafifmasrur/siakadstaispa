@@ -1,26 +1,28 @@
 @extends('layouts.app')
-@section('title', 'Registrasi Mahasiswa')
+@section('title', 'Prestasi')
 
 @section('content')
 
 <x-header>
-    Registrasi Mahasiswa
+    Prestasi
 </x-header>
 
 <x-card-table>
-    <x-slot name="title">Data Registrasi Mahasiswa</x-slot>
+    <x-slot name="title">Data Prestasi</x-slot>
     <x-slot name="button">
-        <a class="float-right btn btn-sm btn-outline-blue add-form" data-url="#" href="#"><i data-feather="plus" class="mr-2"></i>Tambah</a>
+        <a class="float-right btn btn-sm btn-outline-primary add-form" data-url="#" href="#"><i data-feather="plus" class="mr-2"></i>Tambah</a>
     </x-slot>
 
     <x-datatable 
-    :route="route('admin.registrasi_mahasiswa.data_index')" 
+    :route="route('mahasiswa.prestasi_mahasiswa.data_index')" 
     :table="[
         ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],                            
-        ['title' => 'NIM', 'data' => 'nim', 'name' => 'nim'],
-        ['title' => 'Nama Mahasiswa', 'data' => 'nama_mahasiswa', 'name' => 'nama_mahasiswa', 'classname' => 'text-left'],
-        ['title' => 'Periode Masuk', 'data' => 'periode', 'name' => 'periode'],
-        ['title' => 'Program Studi', 'data' => 'prodi', 'name' => 'prodi', 'classname' => 'text-left'],
+        ['title' => 'Jenis Prestasi', 'data' => 'jenis_prestasi', 'name' => 'jenis_prestasi'],
+        ['title' => 'Tingkat Prestasi', 'data' => 'tingkat_prestasi', 'name' => 'tingkat_prestasi', 'classname' => 'text-left'],
+        ['title' => 'Nama Prestasi', 'data' => 'nama_prestasi', 'name' => 'nama_prestasi'],
+        ['title' => 'Tahun', 'data' => 'tahun_prestasi', 'name' => 'tahun_prestasi', 'classname' => 'text-left'],
+        ['title' => 'Penyelenggara', 'data' => 'penyelenggara', 'name' => 'penyelenggara', 'classname' => 'text-left'],
+        ['title' => 'Peringkat', 'data' => 'peringkat', 'name' => 'peringkat', 'classname' => 'text-left'],
         ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
     ]"
     />
@@ -30,71 +32,75 @@
 <x-modal.delete/>
 
 <x-modal class="modal-form" id="modal-form">
-    <x-slot name="title">Ruang Kelas</x-slot>
+    <x-slot name="title">Prestasi</x-slot>
     <x-slot name="modalPosition">modal-dialog-centered</x-slot>
     
+    @php
+        $years = [];
+        for ($year=2000; $year <= date('Y'); $year++) $years[$year] = $year;
+    @endphp
+
     @csrf 
     @method('post')
-    <div class="form-group row">
+    <div class="row">
+        <div class="form-group col-lg-6">
+            <label for="jenis_prestasi">Jenis Prestasi</label>
+            {!! Form::select('jenis_prestasi', $jenisPrestasi, null, ['class' => 'form-control '.($errors->has('jenis_prestasi') ? 'is-invalid' : ''), 'id' => 'jenis_prestasi']) !!}
+            @error('jenis_prestasi')
+            <div class="invalid-feedback">
+                {{ $message }}
+            </div>
+            @enderror
+        </div>
+        <div class="form-group col-lg-6">
+            <label for="tingkat_prestasi">Tingkat Prestasi</label>
+            {!! Form::select('tingkat_prestasi', $tingkatPrestasi, null, ['class' => 'form-control '.($errors->has('tingkat_prestasi') ? 'is-invalid' : ''), 'id' => 'tingkat_prestasi']) !!}
+            @error('tingkat_prestasi')
+            <div class="invalid-feedback">
+                {{ $message }}
+            </div>
+            @enderror
+        </div>
+    </div>
+
+    <div class="row">
         <div class="form-group col-lg-12">
-            <label for="id_mahasiswa">Mahasiswa</label>
-            {!! Form::text('id_mahasiswa', null, ['class' => 'form-control '.($errors->has('id_mahasiswa') ? 'is-invalid' : ''), 'id' => 'id_mahasiswa']) !!}
-            @error('id_mahasiswa')
+            <label for="nama_prestasi">Nama Prestasi</label>
+            {!! Form::text('nama_prestasi', null, ['class' => 'form-control '.($errors->has('nama_prestasi') ? 'is-invalid' : ''), 'id' => 'nama_prestasi']) !!}
+            @error('nama_prestasi')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
             @enderror
         </div>
     </div>
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="id_jenis_daftar">Jenis Daftar</label>
-            {!! Form::text('id_jenis_daftar', null, ['class' => 'form-control '.($errors->has('id_jenis_daftar') ? 'is-invalid' : ''), 'id' => 'id_jenis_daftar']) !!}
-            @error('id_jenis_daftar')
+
+    <div class="row">
+        <div class="form-group col-lg-6">
+            <label for="tahun">Tahun</label>
+            {!! Form::select('tahun', $years, date('Y'), ['class' => 'form-control '.($errors->has('tahun') ? 'is-invalid' : ''), 'id' => 'tahun']) !!}
+            @error('tahun')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+        <div class="form-group col-lg-6">
+            <label for="penyelenggara">Penyelenggara</label>
+            {!! Form::text('penyelenggara', null, ['class' => 'form-control '.($errors->has('penyelenggara') ? 'is-invalid' : ''), 'id' => 'penyelenggara']) !!}
+            @error('penyelenggara')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
             @enderror
         </div>
     </div>
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="id_jalur_daftar">Jalur Masuk</label>
-            {!! Form::text('id_jalur_daftar', null, ['class' => 'form-control '.($errors->has('id_jalur_daftar') ? 'is-invalid' : ''), 'id' => 'id_jalur_daftar']) !!}
-            @error('id_jalur_daftar')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-            @enderror
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="id_periode_masuk">Periode Masuk</label>
-            {!! Form::text('id_periode_masuk', null, ['class' => 'form-control '.($errors->has('id_periode_masuk') ? 'is-invalid' : ''), 'id' => 'id_periode_masuk']) !!}
-            @error('id_periode_masuk')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-            @enderror
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="tanggal_daftar">Tanggal Masuk</label>
-            {!! Form::date('tanggal_daftar', null, ['class' => 'form-control '.($errors->has('tanggal_daftar') ? 'is-invalid' : ''), 'id' => 'tanggal_daftar']) !!}
-            @error('tanggal_daftar')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-            @enderror
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="tanggal_daftar">Tanggal Masuk</label>
-            {!! Form::date('tanggal_daftar', null, ['class' => 'form-control '.($errors->has('tanggal_daftar') ? 'is-invalid' : ''), 'id' => 'tanggal_daftar']) !!}
-            @error('tanggal_daftar')
+
+    <div class="row">
+        <div class="form-group col-lg-6">
+            <label for="peringkat">Peringkat</label>
+            {!! Form::number('peringkat', null, ['class' => 'form-control '.($errors->has('peringkat') ? 'is-invalid' : ''), 'id' => 'peringkat']) !!}
+            @error('peringkat')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
@@ -119,26 +125,23 @@
             $('.modal-form form').attr('action', $(this).data('url'));
         });
 
-        function editForm(url, title = 'Edit', modal = '#modal-form', func) {
-                $.get(url)
-                    .done(response => {
-                        $(`${modal}`).modal('show');
-                        $(`${modal} .modal-title`).text(title);
-                        $(`${modal} form`).attr('action', url);
-                        $(`${modal} [name=_method]`).val('put');
+        $(document).on('click', '.btn_edit', function () {
+            $('.modal-form').modal('show');
+            $('.modal-form form')[0].reset();
+            $('.modal-form form').attr('action',  $(this).data('route'));
+            $('[name=_method]').val('put');
+            
+            var id_tingkat_prestasi = $(this).data('id_tingkat_prestasi');
+            var nama_prestasi = $(this).data('nama_prestasi');
+            var tahun_prestasi = $(this).data('tahun_prestasi');
+            var penyelenggara = $(this).data('penyelenggara');
+            var peringkat = $(this).data('peringkat');
 
-                        resetForm(`${modal} form`);
-                        loopForm(response.data);
-
-                        if (func != undefined) {
-                            func(response.data);
-                        }
-                    })
-                    .fail(errors => {
-                        alert('Tidak dapat menampilkan data');
-                        return;
-                    });
-            }
-
+            $('[name=id_tingkat_prestasi]').val(id_tingkat_prestasi);
+            $('[name=nama_prestasi]').val(nama_prestasi);
+            $('[name=tahun_prestasi]').val(tahun_prestasi);
+            $('[name=penyelenggara]').val(penyelenggara);
+            $('[name=peringkat]').val(peringkat);
+        });
     </script>
 @endpush

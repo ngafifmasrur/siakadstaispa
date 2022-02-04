@@ -5,12 +5,6 @@ namespace App\Http\Controllers\Mahasiswa;
 use App\Http\Controllers\Controller;
 use App\Models\{
     m_jenis_prestasi,
-    m_kelas_kuliah,
-    m_program_studi,
-    m_mahasiswa,
-    m_semester,
-    ref_jenis_pendaftaran,
-    m_perguruan_tinggi,
     m_prestasi_mahasiswa,
     m_tingkat_prestasi,
     t_riwayat_pendidikan_mahasiswa
@@ -30,14 +24,15 @@ class PrestasiMahasiswaController extends Controller
     public function index()
     {
         $jenisPrestasi  = m_jenis_prestasi::pluck('nama_jenis_prestasi', 'id_jenis_prestasi');
-        $tingkatPrestasi  = m_tingkat_prestasi::pluck('nama_jenis_prestasi', 'id_jenis_prestasi');
+        $tingkatPrestasi  = m_tingkat_prestasi::pluck('nama_tingkat_prestasi', 'id_tingkat_prestasi');
 
         return view('mahasiswa.prestasi.index', compact('jenisPrestasi', 'tingkatPrestasi'));
     }
 
     public function data_index(Request $request)
     {
-        $query = m_prestasi_mahasiswa::where('id_mahasiswa', Auth::user()->id_mahasiswa);
+        $query = m_prestasi_mahasiswa::with('jenis_prestasi')
+            ->where('id_mahasiswa', Auth::user()->id_mahasiswa);
 
         return datatables()->of($query)
             ->addIndexColumn()
@@ -51,8 +46,14 @@ class PrestasiMahasiswaController extends Controller
                     'class' => 'btn btn-outline-primary btn-sm btn_edit',
                     "icon" => "fa fa-edit",
                     'attribute' => [
-                        'onclick' => 'editForm(`'. route('admin.prestasi_mahasiswa.update', $data->id_prestasi) .'`, `Edit`, `#modal-form`)'
+                        'data-id_jenis_prestasi' => $data->id_jenis_prestasi,
+                        'data-id_tingkat_prestasi' => $data->id_tingkat_prestasi,
+                        'data-nama_prestasi' => $data->nama_prestasi,
+                        'data-tahun_prestasi' => $data->tahun_prestasi,
+                        'data-penyelenggara' => $data->penyelenggara,
+                        'data-peringkat' => $data->peringkat,
                     ],
+                    "route" => route('mahasiswa.prestasi_mahasiswa.update', $data->id_prestasi),
                 ]);
     
                 $button .= view("components.button.default", [
@@ -63,24 +64,18 @@ class PrestasiMahasiswaController extends Controller
                     'attribute' => [
                         'data-text' => 'Anda yakin ingin menghapus data ini ?',
                     ],
-                    "route" => route('admin.prestasi_mahasiswa.destroy', $data->id_prestasi),
+                    "route" => route('mahasiswa.prestasi_mahasiswa.destroy', $data->id_prestasi),
                 ]);
     
                 $button .= '</div>';
     
                 return $button;
             })
-            ->addColumn('prodi', function ($data) {
-                return $data->prodi->nama_program_studi;
+            ->addColumn('jenis_prestasi', function ($data) {
+                return $data->jenis_prestasi->nama_jenis_prestasi;
             })
-            ->addColumn('nama_mahasiswa', function ($data) {
-                return $data->mahasiswa->nama_mahasiswa;
-            })
-            ->addColumn('periode', function ($data) {
-                return $data->periode->nama_semester;
-            })
-            ->addColumn('jenis_daftar', function ($data) {
-                return $data->jenis_daftar->nama_jenis_daftar;
+            ->addColumn('tingkat_prestasi', function ($data) {
+                return $data->tingkat_prestasi->nama_tingkat_prestasi;
             })
             ->rawColumns(['action'])
             ->setRowAttr([
@@ -104,6 +99,7 @@ class PrestasiMahasiswaController extends Controller
     public function store(Request $request)
     {
         $records = $request->all();
+        $records['id_mahasiswa'] = Auth::user()->id_mahasiswa;
         $result = InsertDataFeeder('InsertPrestasiMahasiswa', $records);
 
         return $result;
