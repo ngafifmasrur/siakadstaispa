@@ -13,6 +13,7 @@ class t_peserta_kelas_kuliah extends Model
     protected $guarded = [];
     public $incrementing = false;
     protected $keyType = 'string';
+    public $sushiInsertChunkSize = 20;
 
     public function getRows()
     {

@@ -16,10 +16,11 @@ class m_kelas_kuliah extends Model
     public $incrementing = false;
     protected $keyType = 'string';
     protected $appends = ['hari', 'jam_mulai', 'jam_akhir', 'ruangan'];
+    public $sushiInsertChunkSize = 20;
 
     public function getRows()
     {
-        $data = GetDataFeeder('GetListKelasKuliah');
+        $data = GetDataFeeder('GetDetailKelasKuliah');
         foreach($data as $key => $item) {
             $data[$key]['hari'] = $this->jadwal('hari');
             $data[$key]['ruangan'] = $this->jadwal('ruang');
@@ -78,5 +79,15 @@ class m_kelas_kuliah extends Model
             $result = m_jadwal::where('id_kelas_kuliah', $this->id_kelas_kuliah)->first()->$value ?? NULL;
         }
         return $result;
+    }
+
+    public function dosen()
+    {
+        return $this->hasMany(t_dosen_pengajar_kelas_kuliah::class, 'id_kelas_kuliah');
+    }
+
+    public function mahasiswa()
+    {
+        return $this->hasMany(t_peserta_kelas_kuliah::class, 'id_kelas_kuliah');
     }
 }
