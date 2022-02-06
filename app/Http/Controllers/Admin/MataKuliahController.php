@@ -26,8 +26,6 @@ class MataKuliahController extends Controller
 
     public function data_index(Request $request)
     {
-        $jenis_matkul = $this->jenis_matkul;
-        $kelompok_matkul = $this->kelompok_matkul;
         $query = m_mata_kuliah::query()
                 ->when($request->prodi, function ($query) use ($request) {
                     $query->where('id_prodi', $request->prodi);
@@ -44,27 +42,27 @@ class MataKuliahController extends Controller
                     'tooltip' => 'Ubah',
                     'class' => 'btn btn-outline-primary btn-sm btn_edit',
                     "icon" => "fa fa-edit",
-                    'attribute' => [
-                        'data-id_prodi' => $data->id_prodi,
-                        'data-kode_mata_kuliah' => $data->kode_mata_kuliah,
-                        'data-nama_mata_kuliah' => $data->nama_mata_kuliah,
-                        'data-id_jenis_mata_kuliah' => $data->id_jenis_mata_kuliah,
-                        'data-id_kelompok_mata_kuliah' => $data->id_kelompok_mata_kuliah,
-                        'data-sks_mata_kuliah' => $data->sks_mata_kuliah,
-                        'data-sks_tatap_muka' => $data->sks_tatap_muka,
-                        'data-sks_praktek' => $data->sks_praktek,
-                        'data-sks_praktek_lapangan' => $data->sks_praktek_lapangan,
-                        'data-sks_simulasi' => $data->sks_simulasi,
-                        'data-metode_kuliah' => $data->metode_kuliah,
-                        'data-ada_sap' => $data->ada_sap,
-                        'data-ada_silabus' => $data->ada_silabus,
-                        'data-ada_bahan_ajar' => $data->ada_bahan_ajar,
-                        'data-ada_acara_praktek' => $data->ada_acara_praktek,
-                        'data-ada_diktat' => $data->ada_diktat,
-                        'data-paket' => $data->paket,
-                        'data-tanggal_mulai_efektif' => $data->tanggal_mulai_efektif,
-                        'data-tanggal_selesai_efektif' => $data->tanggal_selesai_efektif,
-                    ],
+                    // 'attribute' => [
+                    //     'data-id_prodi' => $data->id_prodi,
+                    //     'data-kode_mata_kuliah' => $data->kode_mata_kuliah,
+                    //     'data-nama_mata_kuliah' => $data->nama_mata_kuliah,
+                    //     'data-id_jenis_mata_kuliah' => $data->id_jenis_mata_kuliah,
+                    //     'data-id_kelompok_mata_kuliah' => $data->id_kelompok_mata_kuliah,
+                    //     'data-sks_mata_kuliah' => $data->sks_mata_kuliah,
+                    //     'data-sks_tatap_muka' => $data->sks_tatap_muka,
+                    //     'data-sks_praktek' => $data->sks_praktek,
+                    //     'data-sks_praktek_lapangan' => $data->sks_praktek_lapangan,
+                    //     'data-sks_simulasi' => $data->sks_simulasi,
+                    //     'data-metode_kuliah' => $data->metode_kuliah,
+                    //     'data-ada_sap' => $data->ada_sap,
+                    //     'data-ada_silabus' => $data->ada_silabus,
+                    //     'data-ada_bahan_ajar' => $data->ada_bahan_ajar,
+                    //     'data-ada_acara_praktek' => $data->ada_acara_praktek,
+                    //     'data-ada_diktat' => $data->ada_diktat,
+                    //     'data-paket' => $data->paket,
+                    //     'data-tanggal_mulai_efektif' => $data->tanggal_mulai_efektif,
+                    //     'data-tanggal_selesai_efektif' => $data->tanggal_selesai_efektif,
+                    // ],
                     "route" => route('admin.mata_kuliah.update',['mata_kuliah' => $data->id_matkul]),
                 ]);
     
@@ -83,14 +81,11 @@ class MataKuliahController extends Controller
     
                 return $button;
             })
-            ->addColumn('prodi', function ($data) {
-                return $data->prodi->nama_program_studi;
+            ->addColumn('jenis_matkul', function ($data) {
+                return $data->jenis_matkul->nama_jenis_mata_kuliah;
             })
-            ->addColumn('jenis', function ($data) use ($jenis_matkul) {
-                return $jenis_matkul[$data->id_jenis_mata_kuliah];
-            })
-            ->addColumn('kelompok', function ($data) use ($kelompok_matkul) {
-                return $kelompok_matkul[$data->id_kelompok_mata_kuliah];
+            ->addColumn('kelompok_matkul', function ($data) {
+                return $data->nama_kelompok_mata_kuliah ?? '-';
             })
             ->rawColumns(['action'])
             ->setRowAttr([

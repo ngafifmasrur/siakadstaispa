@@ -10,12 +10,26 @@ class m_mata_kuliah extends Model
 {
     use HasFactory, Sushi;
 
-    // protected $table = 'm_mata_kuliah';
     protected $primaryKey = 'id_matkul';
-    // protected $guarded = [];
     public $incrementing = false;
     protected $keyType = 'string';
     protected $appends = ['matkul_kode'];
+    protected $getSchema = [
+        'id_matkul' => 'uuid',
+        'kode_mata_kuliah' => 'string',
+        'nama_mata_kuliah' => 'string',
+        'sks_mata_kuliah' => 'integer',
+        'id_prodi' => 'uuid',
+        'nama_program_studi' => 'string',
+        'id_jenis_mata_kuliah' => 'string',
+        'id_kelompok_mata_kuliah' => 'string',
+        'semester' => 'integer',
+    ];
+    
+    public function getRows()
+    {
+        return GetDataFeeder('GetListMataKuliah');
+    }
 
     public function prodi()
     {
@@ -33,8 +47,13 @@ class m_mata_kuliah extends Model
         return static::query()->where('id_prodi', auth()->user()->id_prodi);
     }
 
-    public function getRows()
+    public function jenis_matkul()
     {
-        return GetDataFeeder('GetListMataKuliah');
+        return $this->belongsTo(ref_jenis_mata_kuliah::class, 'id_jenis_mata_kuliah');
+    }
+
+    public function kelompok_matkul()
+    {
+        return $this->belongsTo(ref_kelompok_mata_kuliah::class, 'id_kelompok_mata_kuliah');
     }
 }

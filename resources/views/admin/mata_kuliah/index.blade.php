@@ -28,13 +28,10 @@
         ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],
         ['title' => 'Kode', 'data' => 'kode_mata_kuliah', 'name' => 'kode_mata_kuliah', 'width' => '10'],
         ['title' => 'Nama Mata Kuliah', 'data' => 'nama_mata_kuliah', 'name' => 'nama_mata_kuliah', 'classname' => 'text-left'],
-        ['title' => 'Program Studi', 'data' => 'prodi', 'name' => 'prodi', 'classname' => 'text-left'],
-        ['title' => 'Jenis', 'data' => 'jenis', 'name' => 'jenis'],
-        ['title' => 'Kelompok', 'data' => 'kelompok', 'name' => 'kelompok'],
+        ['title' => 'Program Studi', 'data' => 'nama_program_studi', 'name' => 'nama_program_studi', 'classname' => 'text-left'],
+        ['title' => 'Jenis', 'data' => 'jenis_matkul', 'name' => 'jenis_matkul'],
+        ['title' => 'Kelompok', 'data' => 'kelompok_matkul', 'name' => 'kelompok_matkul'],
         ['title' => 'SKS MK', 'data' => 'sks_mata_kuliah', 'name' => 'sks_mata_kuliah'],
-        ['title' => 'SKS TM', 'data' => 'sks_tatap_muka', 'name' => 'sks_tatap_muka'],
-        ['title' => 'SKS P', 'data' => 'sks_praktek', 'name' => 'sks_praktek'],
-        ['title' => 'SKS PL', 'data' => 'sks_praktek_lapangan', 'name' => 'sks_praktek_lapangan'],
         ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
     ]"
     :filter="[
