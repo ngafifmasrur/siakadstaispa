@@ -143,8 +143,8 @@ if (! function_exists('GetTokenFeeder')) {
 
         $response = Http::post($endpoint, [
             'act' => 'GetToken',
-            'username' => '',
-            'password' => '',
+            'username' => '213191',
+            'password' => '59652749',
         ]);
         
         $result = $response->getBody()->getContents();
@@ -190,11 +190,15 @@ if (! function_exists('GetDataFeeder')) {
      */
     function GetDataFeeder($act)
     {
-        // $token = GetTokenFeeder();
-            
-        $endpoint = \config('app.url_feeder').'/'.$act;
+        $token = GetTokenFeeder();
+        // $url_feeder = 'http://108.136.218.38:8082/ws/live2.php';
+        $endpoint = \config('app.url_feeder');
 
-        $res = Http::post($endpoint);
+        // $res = Http::post($endpoint);
+        $res = Http::post($endpoint, [
+            'act' => $act,
+            'token' => $token,
+        ]);
 
         $response_data = json_decode($res->getBody()->getContents(), true);
         $result = $response_data['data'];
