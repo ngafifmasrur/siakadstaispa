@@ -2,22 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Sushi\Sushi;
-
-class t_peserta_kelas_kuliah extends Model
+class t_peserta_kelas_kuliah extends SushiModel
 {
-    use HasFactory, Sushi;
-
-    protected $guarded = [];
-    public $incrementing = false;
-    protected $keyType = 'string';
-    public $sushiInsertChunkSize = 20;
-
     public function getRows()
     {
-        return GetDataFeeder('GetPesertaKelasKuliah');
+        return GetDataFeeder('GetPesertaKelasKuliah', self::$filter);
     }
 
     public function nilai()
@@ -25,3 +14,4 @@ class t_peserta_kelas_kuliah extends Model
         return $this->belongsTo(t_detail_nilai_perkuliahan_kelas::class, 'id_kelas_kuliah', 'id_kelas_kuliah');
     }
 }
+

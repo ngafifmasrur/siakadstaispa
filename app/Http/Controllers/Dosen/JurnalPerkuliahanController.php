@@ -159,9 +159,9 @@ class JurnalPerkuliahanController extends Controller
             ->toJson();
     }
 
-    public function create($t_jurnal_kuliah)
+    public function create($id_kelas_kuliah)
     {
-        $jadwal = t_dosen_pengajar_kelas_kuliah::where('id_aktivitas_mengajar', $t_jurnal_kuliah)->first();
+        $jadwal = t_dosen_pengajar_kelas_kuliah::where('id_kelas_kuliah', $id_kelas_kuliah)->first();
         return view('dosen.jurnal_perkuliahan.create', compact('jadwal'));
     }
 
@@ -172,11 +172,13 @@ class JurnalPerkuliahanController extends Controller
         return view('dosen.jurnal_perkuliahan.edit', compact('jadwal','absensi', 'jurnal_perkuliahan'));
     }
 
-    public function list_mahasiswa($id_kelas_kuliah, $id_jurnal = null)
+    public function list_mahasiswa($id_kelas_kuliah, $id_jurnal = null, Request $request)
     {
-        $query = t_peserta_kelas_kuliah::query()
-                ->where('id_kelas_kuliah', $id_kelas_kuliah);
-                
+        $query = t_peserta_kelas_kuliah::setFilter([
+            'filter' => "id_kelas_kuliah='$id_kelas_kuliah'",
+            'limit' => $request->length
+        ])->get();
+
         if(!is_null($id_jurnal)) {
             $absensi = t_absensi_mahasiswa::query()->where('id_jurnal_kuliah', $id_jurnal);
         } else {
@@ -228,7 +230,7 @@ class JurnalPerkuliahanController extends Controller
             ->addColumn('nim', function ($data) {
                 return $data->nim;
             })
-            ->rawColumns(['action','hadir','sakit','ijin','alpa'])
+            ->rawColumns(['action','hadir','sakit','ijin', 'alpa'])
             ->setRowAttr([
                 'style' => 'text-align: center',
             ])
