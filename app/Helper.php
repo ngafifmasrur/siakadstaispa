@@ -171,6 +171,7 @@ if (! function_exists('dataFeeder')) {
         $res = Http::post($endpoint, [
             'act' => $act,
             'token' => $token,
+            'limit' => 500
         ]);
 
         $response_data = json_decode($res->getBody()->getContents(), true);
@@ -188,16 +189,23 @@ if (! function_exists('GetDataFeeder')) {
      * @param
      * @return
      */
-    function GetDataFeeder($act)
+    function GetDataFeeder($act, $filter = [])
     {
+        // $keyword = "id_prodi='7bd9f485-a884-4a93-a42c-0b7a34d7ee3c'";
+        // if($filter){
+        //     foreach ($filter['filter'] as $key => $item) {
+        //         $keyword .= $key."="."'".$item."'".' AND ';
+        //     }
+        // }
+
         $token = GetTokenFeeder();
-        // $url_feeder = 'http://108.136.218.38:8082/ws/live2.php';
         $endpoint = \config('app.url_feeder');
 
-        // $res = Http::post($endpoint);
         $res = Http::post($endpoint, [
             'act' => $act,
             'token' => $token,
+            'filter' => $filter['filter'] ?? null,
+            'limit' => $filter['limit'] ?? null
         ]);
 
         $response_data = json_decode($res->getBody()->getContents(), true);
