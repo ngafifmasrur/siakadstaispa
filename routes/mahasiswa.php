@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Mahasiswa\{
     DashboardController,
-    BiodataController, 
+    BiodataController,
     KRSController,
     PrestasiMahasiswaController
 };
@@ -56,7 +56,7 @@ Route::group(
             'ajukan',
         ])->name('krs.ajukan');
 
-        Route::get('prestasi_mahasiswa/data_index', [PrestasiMahasiswaController::class, 'data_index',])->name('prestasi_mahasiswa.data_index');
+        Route::get('prestasi_mahasiswa/data_index', [PrestasiMahasiswaController::class, 'data_index'])->name('prestasi_mahasiswa.data_index');
         Route::resource('prestasi_mahasiswa', PrestasiMahasiswaController::class);
     }
 );

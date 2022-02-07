@@ -72,6 +72,7 @@
                         <li aria-haspopup="true"><a href="{{ route('admin.data_pokok.index', ['master' => 'status_mahasiswa']) }}">Status Mahasiswa</a></li>
                     </ul>
                 </li>
+                <li aria-haspopup="true"><a href="{{ route('admin.aktivitas.index') }}" class="">Kegiatan Mahasiswa</a></li>
             </ul>
         </li>
         <li aria-haspopup="true"><a href="#" class="sub-icon {{ set_active(['admin/semester*', 'admin/semester_mahasiswa*', 'admin/tahun_ajaran*', 'admin/kurikulum_prodi*', 'admin/mata_kuliah*', 'admin/bobot_nilai*', 'admin/kelas_kuliah*','admin/jadwal*', 'admin/ruang_kelas*']) }}"><i class="fa fa-university"></i> Akademik <i class="fa fa-angle-down horizontal-icon"></i></a>

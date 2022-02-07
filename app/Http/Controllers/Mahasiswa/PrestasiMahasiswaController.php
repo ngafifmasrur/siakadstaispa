@@ -7,7 +7,6 @@ use App\Models\{
     m_jenis_prestasi,
     m_prestasi_mahasiswa,
     m_tingkat_prestasi,
-    t_riwayat_pendidikan_mahasiswa
 };
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -84,7 +83,7 @@ class PrestasiMahasiswaController extends Controller
             ->toJson();
     }
 
-    public function show(t_riwayat_pendidikan_mahasiswa $prestasi_mahasiswa)
+    public function show(m_prestasi_mahasiswa $prestasi_mahasiswa)
     {
 
         abort_if(! $prestasi_mahasiswa, 404);

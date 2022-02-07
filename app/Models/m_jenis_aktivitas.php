@@ -6,18 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Sushi\Sushi;
 
-class m_semester extends Model
+class m_jenis_aktivitas extends Model
 {
     use HasFactory, Sushi;
-
-    // protected $table = 'm_semester';
-    protected $primaryKey = 'id_semester';
+    
+    protected $primaryKey = 'id_jenis_aktivitas_mahasiswa';
     protected $guarded = [];
     public $incrementing = false;
     protected $keyType = 'string';
-
+    
     public function getRows()
     {
-        return GetDataFeeder('GetSemester');
+        return GetDataFeeder('GetJenisAktivitasMahasiswa');
     }
 }
