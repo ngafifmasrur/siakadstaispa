@@ -202,7 +202,6 @@ if (! function_exists('GetDataFeeder')) {
         if(Redis::exists($act)) {
             $result = json_decode(Redis::get($act), true);
             return $result;
-
         }
 
         $token = GetTokenFeeder();
@@ -234,7 +233,7 @@ if (! function_exists('InsertDataFeeder')) {
      * @param
      * @return
      */
-    function InsertDataFeeder($act, $records)
+    function InsertDataFeeder($act, $records, $redis)
     {
             
         $token = GetTokenFeeder();
@@ -256,7 +255,7 @@ if (! function_exists('InsertDataFeeder')) {
         }
 
         //clear Redis 
-        Redis::del($act);
+        Redis::del($redis);
 
         return response()->json([
 			'code'    => 200,
