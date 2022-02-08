@@ -42,27 +42,26 @@ class MataKuliahController extends Controller
                     'tooltip' => 'Ubah',
                     'class' => 'btn btn-outline-primary btn-sm btn_edit',
                     "icon" => "fa fa-edit",
-                    // 'attribute' => [
-                    //     'data-id_prodi' => $data->id_prodi,
-                    //     'data-kode_mata_kuliah' => $data->kode_mata_kuliah,
-                    //     'data-nama_mata_kuliah' => $data->nama_mata_kuliah,
-                    //     'data-id_jenis_mata_kuliah' => $data->id_jenis_mata_kuliah,
-                    //     'data-id_kelompok_mata_kuliah' => $data->id_kelompok_mata_kuliah,
-                    //     'data-sks_mata_kuliah' => $data->sks_mata_kuliah,
-                    //     'data-sks_tatap_muka' => $data->sks_tatap_muka,
-                    //     'data-sks_praktek' => $data->sks_praktek,
-                    //     'data-sks_praktek_lapangan' => $data->sks_praktek_lapangan,
-                    //     'data-sks_simulasi' => $data->sks_simulasi,
-                    //     'data-metode_kuliah' => $data->metode_kuliah,
-                    //     'data-ada_sap' => $data->ada_sap,
-                    //     'data-ada_silabus' => $data->ada_silabus,
-                    //     'data-ada_bahan_ajar' => $data->ada_bahan_ajar,
-                    //     'data-ada_acara_praktek' => $data->ada_acara_praktek,
-                    //     'data-ada_diktat' => $data->ada_diktat,
-                    //     'data-paket' => $data->paket,
-                    //     'data-tanggal_mulai_efektif' => $data->tanggal_mulai_efektif,
-                    //     'data-tanggal_selesai_efektif' => $data->tanggal_selesai_efektif,
-                    // ],
+                    'attribute' => [
+                        'data-id_prodi' => $data->id_prodi,
+                        'data-kode_mata_kuliah' => $data->kode_mata_kuliah,
+                        'data-nama_mata_kuliah' => $data->nama_mata_kuliah,
+                        'data-id_jenis_mata_kuliah' => $data->id_jenis_mata_kuliah,
+                        'data-id_kelompok_mata_kuliah' => $data->id_kelompok_mata_kuliah,
+                        'data-sks_mata_kuliah' => $data->sks_mata_kuliah,
+                        'data-sks_tatap_muka' => $data->sks_tatap_muka,
+                        'data-sks_praktek' => $data->sks_praktek,
+                        'data-sks_praktek_lapangan' => $data->sks_praktek_lapangan,
+                        'data-sks_simulasi' => $data->sks_simulasi,
+                        'data-metode_kuliah' => $data->metode_kuliah,
+                        'data-ada_sap' => $data->ada_sap,
+                        'data-ada_silabus' => $data->ada_silabus,
+                        'data-ada_bahan_ajar' => $data->ada_bahan_ajar,
+                        'data-ada_acara_praktek' => $data->ada_acara_praktek,
+                        'data-ada_diktat' => $data->ada_diktat,
+                        'data-tanggal_mulai_efektif' => $data->tanggal_mulai_efektif,
+                        'data-tanggal_akhir_efektif' => $data->tanggal_akhir_efektif,
+                    ],
                     "route" => route('admin.mata_kuliah.update',['mata_kuliah' => $data->id_matkul]),
                 ]);
     
@@ -97,31 +96,49 @@ class MataKuliahController extends Controller
     public function store(Request $request)
     {
         $records = $request->except('_token', '_method', 'paket');
-        $result = InsertDataFeeder('InsertMataKuliah', $records);
+        $result = InsertDataFeeder('InsertMataKuliah', $records, 'GetListMataKuliah');
 
-        return $result;
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
+        }
+       
+        Session::flash('success_msg', 'Berhasil Ditambah');
+        return redirect()->back();
     }
 
-    public function update(Request $request, $anggota_aktivitas)
+    public function update(Request $request, $mata_kuliah)
     {
-        $records = $request->all();
+        $records = $request->except('_token', '_method', 'paket');
         $key = [
-            'id_anggota' => $anggota_aktivitas
+            'id_matkul' => $mata_kuliah
         ];
 
-        $result = UpdateDataFeeder('UpdateAnggotaAktivitasMahasiswa', $key, $records);
+        $result = UpdateDataFeeder('UpdateMataKuliah', $key, $records, 'GetListMataKuliah');
 
-        return $result;
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
+        }
+       
+        Session::flash('success_msg', 'Berhasil Diupdate');
+        return redirect()->back();
     }
 
-    public function destroy(Request $request, $anggota_aktivitas)
+    public function destroy(Request $request, $mata_kuliah)
     {
         $key = [
-            'id_anggota' => $anggota_aktivitas
+            'id_matkul' => $mata_kuliah
         ];
         
-        $result = DeleteDataFeeder('DeleteAnggotaAktivitasMahasiswa', $key);
+        $result = DeleteDataFeeder('DeleteMataKuliah', $key, 'GetListMataKuliah');
 
-        return $result;
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
+        }
+       
+        Session::flash('success_msg', 'Berhasil Dihapus');
+        return redirect()->back();
     }
 }

@@ -120,7 +120,7 @@
     </div>
     <div class="row">
         <div class="form-group col-lg-6">
-            <label for="sks_mata_kuliah">SKS Praktek</label>
+            <label for="sks_praktek">SKS Praktek</label>
             {!! Form::number('sks_praktek', null, ['class' => 'form-control '.($errors->has('sks_praktek') ? 'is-invalid' : ''), 'id' => 'sks_praktek']) !!}
             @error('sks_praktek')
             <div class="invalid-feedback">
@@ -218,7 +218,7 @@
     </div>
     <x-slot name="footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-        <button type="button" onclick="store('{{ route('admin.mata_kuliah.store') }}')" class="btn btn-primary">Simpan</button>
+        <button type="submit" class="btn btn-primary">Simpan</button>
     </x-slot>
 </x-modal>
 
@@ -233,21 +233,21 @@
             });
         });
 
-        function store(url) {
-            $.post(url, $('.modal-form form').serialize())
-                .done((response) => {
-                    // var success = eval("(" + response.responseText + ")");
-                    $.growl.notice({ duration: 3000, title: "Berhasil!",message: response.responseText });
-                    $('.modal-form').modal('hide');
-                    $('.modal-form form')[0].reset();
-                    table.ajax.reload();
-                })
-                .fail((errors) => {
-                    var err = eval("(" + errors.responseText + ")");
-                    $.growl.error({ duration: 3000, title: "Gagal!",message: err.message });
-                    return;
-            });  
-        }
+        // function store(url) {
+        //     $.post(url, $('.modal-form form').serialize())
+        //         .done((response) => {
+        //             // var success = eval("(" + response.responseText + ")");
+        //             $.growl.notice({ duration: 3000, title: "Berhasil!",message: response.responseText });
+        //             $('.modal-form').modal('hide');
+        //             $('.modal-form form')[0].reset();
+        //             table.ajax.reload();
+        //         })
+        //         .fail((errors) => {
+        //             var err = eval("(" + errors.responseText + ")");
+        //             $.growl.error({ duration: 3000, title: "Gagal!",message: err.message });
+        //             return;
+        //     });  
+        // }
 
         $('.add-form').on('click', function () {
             $('.modal-form').modal('show');
@@ -277,9 +277,8 @@
             var ada_bahan_ajar = $(this).data('ada_bahan_ajar');
             var ada_acara_praktek = $(this).data('ada_acara_praktek');
             var ada_diktat = $(this).data('ada_diktat');
-            var paket = $(this).data('paket');
             var tanggal_mulai_efektif = $(this).data('tanggal_mulai_efektif');
-            var tanggal_selesai_efektif = $(this).data('tanggal_selesai_efektif');
+            var tanggal_akhir_efektif = $(this).data('tanggal_akhir_efektif');
 
             $('[name=id_prodi]').val(id_prodi);
             $('[name=kode_mata_kuliah]').val(kode_mata_kuliah);
@@ -293,16 +292,13 @@
             $('[name=sks_simulasi]').val(sks_simulasi);
             $('[name=metode_kuliah]').val(metode_kuliah);
             $('[name=jumlah_sks_pilihan]').val(jumlah_sks_pilihan);            
-            $('[name=id_semester]').val(id_semester);
             $('[name=ada_sap]').val(ada_sap);
             $('[name=ada_silabus]').val(ada_silabus);
             $('[name=ada_bahan_ajar]').val(ada_bahan_ajar);
             $('[name=ada_acara_praktek]').val(ada_acara_praktek);
             $('[name=ada_diktat]').val(ada_diktat);            
-            $('[name=id_semester]').val(id_semester);
-            $('[name=paket]').val(paket);
             $('[name=tanggal_mulai_efektif]').val(tanggal_mulai_efektif);
-            $('[name=tanggal_selesai_efektif]').val(tanggal_selesai_efektif);
+            $('[name=tanggal_akhir_efektif]').val(tanggal_selesai_efektif);
 
         });
     </script>
