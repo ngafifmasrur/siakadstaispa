@@ -212,7 +212,9 @@ if (! function_exists('GetDataFeeder')) {
             'act' => $act,
             'token' => $token,
             'filter' => $filter['filter'] ?? null,
-            'limit' => $filter['limit'] ?? null
+            'order' => $filter['order'] ?? null,
+            'limit' => $filter['limit'] ?? null,
+            'offset' => $filter['offset'] ?? null
         ]);
 
         $response_data = json_decode($res->getBody()->getContents(), true);
@@ -235,11 +237,12 @@ if (! function_exists('InsertDataFeeder')) {
     function InsertDataFeeder($act, $records)
     {
             
-        $endpoint = 'http://127.0.0.1:8000/api/insertTest';
+        $token = GetTokenFeeder();
+        $endpoint = \config('app.url_feeder');
         $res = Http::post($endpoint, [
-            'token' => 'test',
             'act' => $act,
-            'records' => $records
+            'token' => $token,
+            'record' => $records
         ]);
 
         $result = json_decode($res->getBody()->getContents(), true);
@@ -273,13 +276,14 @@ if (! function_exists('UpdateDataFeeder')) {
      */
     function UpdateDataFeeder($act, $key, $records)
     {
-            
-        $endpoint = 'http://127.0.0.1:8000/api/insertTest';
+        
+        $token = GetTokenFeeder();
+        $endpoint = \config('app.url_feeder');
         $res = Http::post($endpoint, [
-            'token' => 'test',
             'act' => $act,
+            'token' => $token,
             'key' => $key,
-            'records' => $records
+            'record' => $records
         ]);
 
         $result = json_decode($res->getBody()->getContents(), true);
@@ -313,11 +317,11 @@ if (! function_exists('DeleteDataFeeder')) {
      */
     function DeleteDataFeeder($act, $key)
     {
-            
-        $endpoint = 'http://127.0.0.1:8000/api/insertTest';
+        $token = GetTokenFeeder();
+        $endpoint = \config('app.url_feeder');
         $res = Http::post($endpoint, [
-            'token' => 'test',
             'act' => $act,
+            'token' => $token,
             'key' => $key
         ]);
 
