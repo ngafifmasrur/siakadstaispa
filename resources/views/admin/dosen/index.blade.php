@@ -24,8 +24,8 @@
             ['title' => 'Nama', 'data' => 'nama_dosen', 'name' => 'nama_dosen', 'classname' => 'text-left'],
             ['title' => 'NIP', 'data' => 'nip', 'name' => 'nip', 'classname' => 'text-left'],
             ['title' => 'Jenis Kelamin', 'data' => 'jenis_kelamin', 'name' => 'jenis_kelamin', 'classname' => 'text-left'],
-            ['title' => 'Status Aktif', 'data' => 'status', 'name' => 'status', 'classname' => 'text-center'],
-            ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
+            ['title' => 'Status Aktif', 'data' => 'status', 'name' => 'status', 'classname' => 'text-center']
+            {{-- ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'], --}}
         ]" />
     </form>
 </x-card-table>
