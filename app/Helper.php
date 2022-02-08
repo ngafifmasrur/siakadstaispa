@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use App\Models\m_konfigurasi;
+use Illuminate\Support\Facades\Redis;
 
 function set_active($path, $active = 'show') {
 
@@ -198,6 +199,12 @@ if (! function_exists('GetDataFeeder')) {
         //     }
         // }
 
+        if(Redis::exists($act)) {
+            $result = json_decode(Redis::get($act), true);
+            return $result;
+
+        }
+
         $token = GetTokenFeeder();
         $endpoint = \config('app.url_feeder');
 
@@ -210,6 +217,8 @@ if (! function_exists('GetDataFeeder')) {
 
         $response_data = json_decode($res->getBody()->getContents(), true);
         $result = $response_data['data'];
+
+        Redis::set($act, json_encode($result));
 
         return $result;
     }
@@ -242,6 +251,9 @@ if (! function_exists('InsertDataFeeder')) {
                 'data'    => null
             ], 400);
         }
+
+        //clear Redis 
+        Redis::del($act);
 
         return response()->json([
 			'code'    => 200,
@@ -280,6 +292,9 @@ if (! function_exists('UpdateDataFeeder')) {
             ], 400);
         }
 
+        //clear Redis 
+        Redis::del($act);
+
         return response()->json([
 			'code'    => 200,
 			'message' => 'Berhasil disimpan',
@@ -315,6 +330,9 @@ if (! function_exists('DeleteDataFeeder')) {
                 'data'    => $result['data']
             ], 400);
         }
+
+        //clear Redis 
+        Redis::del($act);
 
         return response()->json([
 			'code'    => 200,
