@@ -169,7 +169,7 @@
 									<div class="nav-link">
 										Semester aktif:
 										<br>
-										{{ $tahun_ajaran }} {{ $semester }}
+										{{ $semester }}
 									</div>
 								</div>
 								<div class="dropdown">

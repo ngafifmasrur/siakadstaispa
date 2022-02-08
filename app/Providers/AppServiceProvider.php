@@ -29,8 +29,8 @@ class AppServiceProvider extends ServiceProvider
             $view->with('tahun_ajaran', m_global_konfigurasi::first()->nama_tahun_ajaran);
 
             // $view->with('tahun_ajaran', m_tahun_ajaran::where('a_periode_aktif', '1')->value('nama_tahun_ajaran'));
-            $view->with('semester', '2021/2022');
-            $view->with('tahun_ajaran', '2021/2022');
+            // $view->with('semester', '2021/2022');
+            // $view->with('tahun_ajaran', '2021/2022');
         });
     }
 }
