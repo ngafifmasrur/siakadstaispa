@@ -44,12 +44,8 @@ class KonfigurasiGlobalController extends Controller
 
         $konfigurasi_global = m_global_konfigurasi::first();
         $konfigurasi_global_prodi = m_global_konfigurasi_prodi::all();
-        $semester = m_semester::setFilter([
-            'filter' => "id_semester='$request->id_semester_aktif'",
-        ])->first();
-        $tahun_ajaran = m_tahun_ajaran::setFilter([
-            'filter' => "id_tahun_ajaran='$semester->id_tahun_ajaran'",
-        ])->first();
+        $semester = m_semester::where('id_semester', $request->id_semester_aktif)->first();
+        $tahun_ajaran = m_tahun_ajaran::where('id_tahun_ajaran', $semester->id_tahun_ajaran)->first();
 
             $konfigurasi_global->update([
                 'id_semester_aktif' => $request->id_semester_aktif,
