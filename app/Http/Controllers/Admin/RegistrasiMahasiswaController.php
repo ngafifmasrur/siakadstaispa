@@ -74,16 +74,16 @@ class RegistrasiMahasiswaController extends Controller
                 return $button;
             })
             ->addColumn('prodi', function ($data) {
-                return $data->prodi->nama_program_studi;
+                return $data->nama_program_studi;
             })
             ->addColumn('nama_mahasiswa', function ($data) {
-                return $data->mahasiswa->nama_mahasiswa;
+                return $data->nama_mahasiswa;
             })
             ->addColumn('periode', function ($data) {
-                return $data->periode->nama_semester;
+                return $data->nama_periode_masuk;
             })
             ->addColumn('jenis_daftar', function ($data) {
-                return $data->jenis_daftar->nama_jenis_daftar;
+                return $data->nama_jenis_daftar;
             })
             ->rawColumns(['action'])
             ->setRowAttr([
