@@ -16,6 +16,9 @@ class CreateMGlobalKonfigurasiTable extends Migration
         Schema::create('m_global_konfigurasi', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('id_semester_aktif');
+            $table->string('nama_semester_aktif');
+            $table->bigInteger('id_tahun_ajaran');
+            $table->string('nama_tahun_ajaran');
             $table->bigInteger('id_semester_nilai');
             $table->string('perhitungan_matkul');
             $table->bigInteger('id_semester_krs');

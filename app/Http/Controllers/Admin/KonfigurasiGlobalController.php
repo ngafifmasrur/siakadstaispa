@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\{
     m_global_konfigurasi,
     m_global_konfigurasi_prodi,
-    m_semester
+    m_semester,
+    m_tahun_ajaran
 };
 use DB, Session;
 
@@ -33,13 +34,22 @@ class KonfigurasiGlobalController extends Controller
     {
         $konfigurasi_global = m_global_konfigurasi::first();
         $konfigurasi_global_prodi = m_global_konfigurasi_prodi::all();
-
+        $semester = m_semester::setFilter([
+            'filter' => "id_semester='$request->id_semester_aktif'",
+        ])->first();
+        $tahun_ajaran = m_tahun_ajaran::setFilter([
+            'filter' => "id_tahun_ajaran='$semester->id_tahun_ajaran'",
+        ])->first();
+        
         DB::beginTransaction();
 
         try {
 
             $konfigurasi_global->update([
-                'id_semester_aktif' => $request->id_semester_aktif,
+                'id_semester_aktif' => $semester->id_semester,
+                'nama_semester_aktif' => $semester->nama_semester,
+                'id_tahun_ajaran' => $tahun_ajaran->id_tahun_ajaran,
+                'nama_tahun_ajaran' => $tahun_ajaran->nama_tahun_ajaran,
                 'id_semester_nilai' => $request->id_semester_nilai,
                 'perhitungan_matkul' => $request->perhitungan_matkul,
                 'id_semester_krs' => $request->id_semester_krs,

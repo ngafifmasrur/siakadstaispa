@@ -18,6 +18,7 @@ use App\Models\t_absensi_mahasiswa;
 use App\Models\t_dosen_pengajar_kelas_kuliah;
 use App\Models\t_peserta_kelas_kuliah;
 use App\Http\Requests\JadwalRequest;
+use App\Models\m_global_konfigurasi;
 use Session, DB, Auth, PDF;
 
 class JurnalPerkuliahanController extends Controller
@@ -36,7 +37,10 @@ class JurnalPerkuliahanController extends Controller
 
     public function data_index(Request $request)
     {
-        $query = t_dosen_pengajar_kelas_kuliah::query()
+        $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
+        $query = t_dosen_pengajar_kelas_kuliah::setFilter([
+                    'filter' => "id_semester='$semester_aktif'",
+                ])
                 ->where('id_dosen', Auth::user()->id_dosen)
                 ->when($request->prodi, function($q) use ($request){
                     $q->where('id_prodi', $request->prodi);
@@ -176,7 +180,6 @@ class JurnalPerkuliahanController extends Controller
     {
         $query = t_peserta_kelas_kuliah::setFilter([
             'filter' => "id_kelas_kuliah='$id_kelas_kuliah'",
-            'limit' => $request->length
         ])->get();
 
         if(!is_null($id_jurnal)) {

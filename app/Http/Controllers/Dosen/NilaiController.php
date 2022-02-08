@@ -17,6 +17,7 @@ use App\Models\t_krs;
 use App\Models\t_dosen_pengajar_kelas_kuliah;
 use App\Models\t_peserta_kelas_kuliah;
 use App\Models\t_detail_nilai_perkuliahan_kelas;
+use App\Models\m_global_konfigurasi;
 use App\Http\Requests\JadwalRequest;
 use Session, DB, Auth;
 
@@ -36,14 +37,14 @@ class NilaiController extends Controller
 
     public function data_index(Request $request)
     {
-        $query = t_dosen_pengajar_kelas_kuliah::query()
+        $semester_nilai = m_global_konfigurasi::first()->id_semester_nilai;
+        $query = t_dosen_pengajar_kelas_kuliah::setFilter([
+                    'filter' => "id_semester='$semester_nilai'",
+                ])
                 ->where('id_dosen', Auth::user()->id_dosen)
                 ->when($request->prodi, function($q) use ($request){
                     $q->where('id_prodi', $request->prodi);
-                })
-                ->when($request->semester, function($q) use ($request){
-                    $q->where('id_semester', $request->semester);
-                });
+                })->get();
 
         return datatables()->of($query)
             ->addIndexColumn()

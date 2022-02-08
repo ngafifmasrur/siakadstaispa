@@ -8,6 +8,7 @@ use App\Models\m_jadwal;
 use App\Models\t_dosen_pengajar_kelas_kuliah;
 use App\Models\m_semester;
 use App\Models\m_program_studi;
+use App\Models\m_global_konfigurasi;
 use App\Http\Requests\Dosen\KontrakRequest;
 use Session, DB, Auth;
 
@@ -27,14 +28,14 @@ class JadwalMengajarController extends Controller
 
     public function data_index(Request $request)
     {
-        $query = t_dosen_pengajar_kelas_kuliah::query()
+        $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
+        $query = t_dosen_pengajar_kelas_kuliah::setFilter([
+                    'filter' => "id_semester='$semester_aktif'",
+                ])
                 ->where('id_dosen', Auth::user()->id_dosen)
                 ->when($request->prodi, function($q) use ($request){
                     $q->where('id_prodi', $request->prodi);
-                })
-                ->when($request->semester, function($q) use ($request){
-                    $q->where('id_semester', $request->semester);
-                });
+                })->get();
 
         return datatables()->of($query)
             ->addIndexColumn()
