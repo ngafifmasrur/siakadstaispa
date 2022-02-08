@@ -25,6 +25,7 @@
         <form action="{{ route('dosen.pengisian_nilai.store_nilai') }}" method="post" id="nilai-form">
             @csrf
             <input type="hidden" name="id_kelas_kuliah" value="{{ $kelas_kuliah->id_kelas_kuliah }}">
+            <input type="hidden" name="id_prodi" value="{{ $kelas_kuliah->id_prodi }}">
             @foreach ($peserta as $item)
             <tr>
                 <td class="text-center">{{ $loop->iteration }}</td>

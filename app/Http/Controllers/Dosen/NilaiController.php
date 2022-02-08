@@ -107,7 +107,7 @@ class NilaiController extends Controller
 
         try{
             
-            $peserta = $request->except('_token', 'id_kelas_kuliah');
+            $peserta = $request->except('_token', 'id_kelas_kuliah', 'id_prodi');
             foreach ($peserta as $ID => $nilai) {
 
                 if($nilai > 100 || $nilai < 0){
@@ -115,19 +115,28 @@ class NilaiController extends Controller
                     return redirect()->back()->withInput();
                 }
 
-                $nilai_huruf =  m_skala_nilai_prodi::where('id_prodi', $request->id_prodi)
-                                ->whereRaw('? between bobot_minimum and bobot_maksimum', [$nilai])->first()->nilai_huruf;
+                $hasil_nilai =  m_skala_nilai_prodi::where('id_prodi', $request->id_prodi)
+                                ->whereRaw('? between bobot_minimum and bobot_maksimum', [$nilai])->first();
 
-                if(!$nilai_huruf){
+                if(!$hasil_nilai){
                     Session::flash('error_msg', 'Skala Nilai tidak ditemukan.');
                     return redirect()->back()->withInput();
                 }
 
-                // t_krs::find($ID)->update([
-                //     'nilai_angka' => $nilai,
-                //     'nilai_huruf' => $nilai_huruf,
-                //     'updated_at' => now(),
-                // ]);
+                // Update Nilai
+                $records = [
+                    "nilai_angka" => $hasil_nilai->nilai_angka,
+                    "nilai_indeks" => $hasil_nilai->nilai_indeks,
+                    "nilai_huruf" => $hasil_nilai->nilai_huruf
+                ];
+            
+                $key = [
+                    'id_registrasi_mahasiswa' => $ID,
+                    'id_kelas_kuliah' => $request->id_kelas_kuliah
+                ];
+            
+                $results[] = UpdateDataFeeder('UpdateNilaiPerkuliahanKelas', $key, $records);
+
             }
     
             DB::commit();
