@@ -25,8 +25,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer('layouts.app', function ($view) {
-            $view->with('semester', m_global_konfigurasi::first()->semester_aktif->nama_semester);
-            $view->with('tahun_ajaran', m_global_konfigurasi::first()->semester_aktif->nama_semester);
+            $view->with('semester', m_global_konfigurasi::first()->nama_semester_aktif);
+            $view->with('tahun_ajaran', m_global_konfigurasi::first()->nama_tahun_ajaran);
 
             // $view->with('tahun_ajaran', m_tahun_ajaran::where('a_periode_aktif', '1')->value('nama_tahun_ajaran'));
             $view->with('semester', '2021/2022');
