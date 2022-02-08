@@ -9,6 +9,6 @@ class ref_alat_transportasi extends SushiModel
 
     public function getRows()
     {
-        return GetDataFeeder('GetAlatRansportasi');
+        return GetDataFeeder('GetAlatTransportasi');
     }
 }
