@@ -10,7 +10,7 @@
 <x-card-table>
     <x-slot name="title">Data Dosen Pengajar Kelas Kuliah</x-slot>
     <x-slot name="button">
-        <a class="float-right btn btn-sm btn-outline-primary add-form" data-url="#" href="#"><i data-feather="plus" class="mr-2"></i>Tambah</a>
+        <a class="btn btn-app btn-sm btn-primary add-form" data-url="{{ route('admin.pengajar_kelas_kuliah.store', $id_kelas_kuliah)}}" href="#"><i class="fa fa-plus mr-2"></i>Tambah</a>
     </x-slot>
 
     <x-datatable 
@@ -31,6 +31,72 @@
 </x-card-table>
 
 <x-modal.delete/>
+
+<x-modal class="modal-form" id="modal-form">
+    <x-slot name="title">Dosen Pengajar</x-slot>
+    <x-slot name="modalPosition">modal-dialog-centered</x-slot>
+    
+    @csrf @method('post')
+    <div class="row">
+        <div class="form-group col-lg-12">
+            <label for="id_registrasi_dosen">Dosen</label>
+            {!! Form::select('id_registrasi_dosen', $dosen, null, ['class' => 'form-control '.($errors->has('id_registrasi_dosen') ? 'is-invalid' : ''), 'id' => 'id_registrasi_dosen']) !!}
+            @error('id_registrasi_dosen')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-lg-12">
+            <label for="sks_substansi_total">SKS Substansi Total</label>
+            {!! Form::number('sks_substansi_total', null, ['class' => 'form-control '.($errors->has('sks_substansi_total') ? 'is-invalid' : ''), 'id' => 'sks_substansi_total']) !!}
+            @error('sks_substansi_total')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+    </div>
+    {{-- <div class="row">
+        <div class="form-group col-lg-12">
+            <label for="rencana_tatap_muka">Rencana Tatap Muka</label>
+            {!! Form::number('rencana_tatap_muka', null, ['class' => 'form-control '.($errors->has('rencana_tatap_muka') ? 'is-invalid' : ''), 'id' => 'rencana_tatap_muka']) !!}
+            @error('rencana_tatap_muka')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-lg-12">
+            <label for="realisasi_tatap_muka">Realisasi Tatap Muka</label>
+            {!! Form::number('realisasi_tatap_muka', null, ['class' => 'form-control '.($errors->has('realisasi_tatap_muka') ? 'is-invalid' : ''), 'id' => 'realisasi_tatap_muka']) !!}
+            @error('realisasi_tatap_muka')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+    </div> --}}
+    <div class="row">
+        <div class="form-group col-lg-12">
+            <label for="id_jenis_evaluasi">Jenis Evaluasi</label>
+            {!! Form::select('id_jenis_evaluasi', $jenis_evaluasi, null, ['class' => 'form-control '.($errors->has('id_jenis_evaluasi') ? 'is-invalid' : ''), 'id' => 'id_jenis_evaluasi']) !!}
+            @error('id_jenis_evaluasi')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+    </div>
+    <x-slot name="footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+        <button type="submit" class="btn btn-primary">Simpan</button>
+    </x-slot>
+</x-modal>
 
 @endsection
 

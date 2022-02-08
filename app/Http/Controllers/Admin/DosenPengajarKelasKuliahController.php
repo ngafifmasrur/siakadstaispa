@@ -5,7 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\{
-    t_dosen_pengajar_kelas_kuliah
+    t_dosen_pengajar_kelas_kuliah,
+    t_penugasan_dosen,
+    ref_jenis_evaluasi,
+
 };
 use Session, DB;
 
@@ -18,7 +21,9 @@ class DosenPengajarKelasKuliahController extends Controller
      */
     public function index($id_kelas_kuliah)
     {
-        return view('admin.pengajar_kelas_kuliah.index', compact('id_kelas_kuliah'));
+        $jenis_evaluasi = ref_jenis_evaluasi::pluck('nama_jenis_evaluasi', 'id_jenis_evaluasi')->prepend('Pilih Jenis Evaluasi', NULL);
+        $dosen = t_penugasan_dosen::pluck('nama_dosen', 'id_registrasi_dosen')->prepend('Pilih Dosen', NULL);
+        return view('admin.pengajar_kelas_kuliah.index', compact('id_kelas_kuliah', 'jenis_evaluasi', 'dosen'));
     }
 
     public function data_index(Request $request, $id_kelas_kuliah)
@@ -63,12 +68,20 @@ class DosenPengajarKelasKuliahController extends Controller
             ->toJson();
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $id_kelas_kuliah)
     {
-        $records = $request->all();
-        $result = InsertDataFeeder('InsertDosenPengajarKelasKuliah', $records);
+        $records = $request->except('_token', '_method');
+        $records['id_kelas_kuliah'] = $id_kelas_kuliah;
+        $records['id_substansi'] = '';
+        $result = InsertDataFeeder('InsertDosenPengajarKelasKuliah', $records, 'GetDosenPengajarKelasKuliah');
 
-        return $result;
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
+        }
+       
+        Session::flash('success_msg', 'Berhasil Ditambah');
+        return redirect()->back();
     }
 
     public function update(Request $request, $id_aktivitas_mengajar)
