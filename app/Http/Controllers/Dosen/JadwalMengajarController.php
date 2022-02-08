@@ -9,6 +9,7 @@ use App\Models\t_dosen_pengajar_kelas_kuliah;
 use App\Models\m_semester;
 use App\Models\m_program_studi;
 use App\Models\m_global_konfigurasi;
+use App\Models\m_kelas_kuliah;
 use App\Http\Requests\Dosen\KontrakRequest;
 use Session, DB, Auth;
 
@@ -29,16 +30,25 @@ class JadwalMengajarController extends Controller
     public function data_index(Request $request)
     {
         $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
-        $query = t_dosen_pengajar_kelas_kuliah::setFilter([
+
+        $kelasKuliah = t_dosen_pengajar_kelas_kuliah::setFilter([
+                            'filter' => "id_dosen='".Auth::user()->id_dosen."'",
+                        ])
+                        ->where('id_dosen', Auth::user()->id_dosen)
+                        ->where('id_semester', $semester_aktif)
+                        ->pluck('id_kelas_kuliah')->toArray();
+
+        $query = m_kelas_kuliah::setFilter([
                     'filter' => "id_semester='$semester_aktif'",
                 ])
-                ->where('id_dosen', Auth::user()->id_dosen)
+                ->whereIn('id_kelas_kuliah', $kelasKuliah)
                 ->when($request->prodi, function($q) use ($request){
                     $q->where('id_prodi', $request->prodi);
                 })->get();
 
         return datatables()->of($query)
             ->addIndexColumn()
+            /*
             ->addColumn('nama_semester', function ($data) {
                 return $data->kelas_kuliah->nama_semester;
             })
@@ -63,6 +73,7 @@ class JadwalMengajarController extends Controller
             ->addColumn('jumlah_mahasiswa', function ($data) {
                 return $data->kelas_kuliah->jumlah_mahasiswa;
             })
+            */
             ->setRowAttr([
                 'style' => 'text-align: center',
             ])

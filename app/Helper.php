@@ -199,10 +199,10 @@ if (! function_exists('GetDataFeeder')) {
         //     }
         // }
 
-        if(Redis::exists($act)) {
-            $result = json_decode(Redis::get($act), true);
-            return $result;
-        }
+        // if(Redis::exists($act)) {
+        //     $result = json_decode(Redis::get($act), true);
+        //     return $result;
+        // }
 
         $token = GetTokenFeeder();
         $endpoint = \config('app.url_feeder');
