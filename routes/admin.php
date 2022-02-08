@@ -262,7 +262,8 @@ Route::group(
         Route::get('pengajar_kelas_kuliah/data_index/{id_kelas_kuliah}', [DosenPengajarKelasKuliahController::class, 'data_index',])->name('pengajar_kelas_kuliah.data_index');
         Route::delete('pengajar_kelas_kuliah/{id_kelas_kuliah}', [DosenPengajarKelasKuliahController::class, 'destroy'])->name('pengajar_kelas_kuliah.destroy');
         Route::put('pengajar_kelas_kuliah/{id_kelas_kuliah}', [DosenPengajarKelasKuliahController::class, 'update'])->name('pengajar_kelas_kuliah.update');
-        
+        Route::post('pengajar_kelas_kuliah/{id_kelas_kuliah}', [DosenPengajarKelasKuliahController::class, 'store'])->name('pengajar_kelas_kuliah.store');
+
         // Kurikulum Prodi
         Route::resource('/kurikulum_prodi', KurikurumProdiController::class)->except(['show', 'create', 'destroy']);
         Route::get('/kurikulum_prodi/data_index/{id_kurikulum}/{id_prodi}', [KurikurumProdiController::class,'data_index',])->name('kurikulum_prodi.data_index');
