@@ -246,22 +246,13 @@ if (! function_exists('InsertDataFeeder')) {
 
         $result = json_decode($res->getBody()->getContents(), true);
 
-        if($result['error_code'] !== '0') {
-            return response()->json([
-                'code'    => 400,
-                'message' => $result['error_desc'],
-                'data'    => null
-            ], 400);
+        if($result['error_code'] == '0') {
+            //clear Redis 
+            Redis::del($redis);
         }
 
-        //clear Redis 
-        Redis::del($redis);
-
-        return response()->json([
-			'code'    => 200,
-			'message' => 'Berhasil disimpan',
-			'data'    => $result['data']
-		], 200);
+        
+        return $result;
     }
 }
 
@@ -273,7 +264,7 @@ if (! function_exists('UpdateDataFeeder')) {
      * @param
      * @return
      */
-    function UpdateDataFeeder($act, $key, $records)
+    function UpdateDataFeeder($act, $key, $records, $redis)
     {
         
         $token = GetTokenFeeder();
@@ -287,22 +278,12 @@ if (! function_exists('UpdateDataFeeder')) {
 
         $result = json_decode($res->getBody()->getContents(), true);
 
-        if($result['error_code'] !== '0') {
-            return response()->json([
-                'code'    => 400,
-                'message' => $result['error_desc'],
-                'data'    => $result['data']
-            ], 400);
+        if($result['error_code'] == '0') {
+            //clear Redis 
+            Redis::del($redis);
         }
 
-        //clear Redis 
-        Redis::del($act);
-
-        return response()->json([
-			'code'    => 200,
-			'message' => 'Berhasil disimpan',
-			'data'    => $result['data']
-		], 200);
+        return $result;
     }
 }
 
@@ -314,7 +295,7 @@ if (! function_exists('DeleteDataFeeder')) {
      * @param
      * @return
      */
-    function DeleteDataFeeder($act, $key)
+    function DeleteDataFeeder($act, $key, $redis)
     {
         $token = GetTokenFeeder();
         $endpoint = \config('app.url_feeder');
@@ -326,21 +307,11 @@ if (! function_exists('DeleteDataFeeder')) {
 
         $result = json_decode($res->getBody()->getContents(), true);
 
-        if($result['error_code'] !== '0') {
-            return response()->json([
-                'code'    => 400,
-                'message' => $result['error_desc'],
-                'data'    => $result['data']
-            ], 400);
+        if($result['error_code'] == '0') {
+            //clear Redis 
+            Redis::del($redis);
         }
 
-        //clear Redis 
-        Redis::del($act);
-
-        return response()->json([
-			'code'    => 200,
-			'message' => 'Berhasil disimpan',
-			'data'    => $result['data']
-		], 200);
+        return $result;
     }
 }
