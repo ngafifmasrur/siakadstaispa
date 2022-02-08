@@ -32,6 +32,16 @@ class KonfigurasiGlobalController extends Controller
 
     public function update(Request $request)
     {
+
+        $validated = $request->validate([
+            'id_semester_aktif' => 'required',
+            'id_semester_nilai' => 'required',
+            'perhitungan_matkul' => 'required',
+            'id_semester_krs' => 'required',
+            'id_semester_tracer_study' => 'required',
+            'batas_sks_krs' => 'required',
+        ]);
+
         $konfigurasi_global = m_global_konfigurasi::first();
         $konfigurasi_global_prodi = m_global_konfigurasi_prodi::all();
         $semester = m_semester::setFilter([
@@ -40,13 +50,9 @@ class KonfigurasiGlobalController extends Controller
         $tahun_ajaran = m_tahun_ajaran::setFilter([
             'filter' => "id_tahun_ajaran='$semester->id_tahun_ajaran'",
         ])->first();
-        
-        DB::beginTransaction();
-
-        try {
 
             $konfigurasi_global->update([
-                'id_semester_aktif' => $semester->id_semester,
+                'id_semester_aktif' => $request->id_semester_aktif,
                 'nama_semester_aktif' => $semester->nama_semester,
                 'id_tahun_ajaran' => $tahun_ajaran->id_tahun_ajaran,
                 'nama_tahun_ajaran' => $tahun_ajaran->nama_tahun_ajaran,
@@ -57,25 +63,18 @@ class KonfigurasiGlobalController extends Controller
                 'batas_sks_krs' => $request->batas_sks_krs,
             ]);
 
-            $konfigurasi_global_prodi->each(function($konfig_prodi, $key) use ($request) {
-                $konfig_prodi->update([
-                    'buka_krs' => $request->buka_krs_.$key ?? 0,
-                    'buka_penilaian' => $request->buka_penilaian_.$key ?? 0,
-                    'buka_khs' => $request->buka_khs_.$key ?? 0,
-                    'buka_transkrip' => $request->buka_transkrip_.$key ?? 0,
-                    'buka_kartu_ujian' => $request->buka_kartu_ujian_.$key ?? 0,
+            foreach($konfigurasi_global_prodi as $key => $item) {
+                m_global_konfigurasi_prodi::find($key+1)->update([
+                    'buka_krs' => $request->input('buka_krs_' . '' . $key) ?? 0,
+                    'buka_penilaian' => $request->input('buka_penilaian_' . '' . $key) ?? 0,
+                    'buka_khs' => $request->input('buka_khs_' . '' . $key) ?? 0,
+                    'buka_transkrip' => $request->input('buka_transkrip_' . '' . $key) ?? 0,
+                    'buka_kartu_ujian' => $request->input('buka_kartu_ujian_' . '' . $key) ?? 0,
                 ]);
-           });
+            }
 
-            Session::flash('success_msg', 'Konfigurasi berhasil disimpan');
-            return redirect()->route('admin.konfigurasi_global.index');
-        } catch (\Exception $e) {
-
-            DB::rollback();
-
-            Session::flash('error_msg', 'Terjadi kesalahan pada server');
-            return redirect()->back()->withInput();
-        }
+        Session::flash('success_msg', 'Konfigurasi berhasil disimpan');
+        return redirect()->route('admin.konfigurasi_global.index');
     }
     
 }

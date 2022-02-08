@@ -67,11 +67,11 @@
                     <tr>
                         <td class="text-center">{{ $key+1 }}</td>
                         <td>{{ $item->nama_prodi }}</td>
-                        <td class="text-center">{!! $item->buka_krs  ? '<input type="checkbox" value="1" name="batas_krs_'.$key.'" class="form-checkbox" checked>' : '<input type="radio" value="1" name="batas_krs_'.$key.'" class="form-checkbox">' !!}</td>
-                        <td class="text-center">{!! $item->buka_penilaian  ? '<input type="checkbox" value="1" name="buka_penilaian_'.$key.'" class="form-checkbox" checked>' : '<input type="radio" value="1" name="buka_penilaian_'.$key.'" class="form-checkbox">' !!}</td>
-                        <td class="text-center">{!! $item->buka_khs  ? '<input type="checkbox" value="1" name="buka_khs_'.$key.'" class="form-checkbox" checked>' : '<input type="radio" value="1" name="buka_khs_'.$key.'" class="form-checkbox">' !!}</td>
-                        <td class="text-center">{!! $item->buka_transkrip  ? '<input type="checkbox" value="1" name="buka_transkrip_'.$key.'" class="form-checkbox" checked>' : '<input type="radio" value="1" name="buka_transkrip_'.$key.'" class="form-checkbox">' !!}</td>
-                        <td class="text-center">{!! $item->buka_kartu_ujian  ? '<input type="checkbox" value="1" name="buka_kartu_ujian_'.$key.'" class="form-checkbox" checked>' : '<input type="radio" value="1" name="buka_kartu_ujian_'.$key.'" class="form-checkbox">' !!}</td>
+                        <td class="text-center">{!! $item->buka_krs  ? '<input type="checkbox" value="1" name="buka_krs_'.$key.'" class="form-checkbox" checked>' : '<input type="checkbox" value="1" name="buka_krs_'.$key.'" class="form-checkbox">' !!}</td>
+                        <td class="text-center">{!! $item->buka_penilaian  ? '<input type="checkbox" value="1" name="buka_penilaian_'.$key.'" class="form-checkbox" checked>' : '<input type="checkbox" value="1" name="buka_penilaian_'.$key.'" class="form-checkbox">' !!}</td>
+                        <td class="text-center">{!! $item->buka_khs  ? '<input type="checkbox" value="1" name="buka_khs_'.$key.'" class="form-checkbox" checked>' : '<input type="checkbox" value="1" name="buka_khs_'.$key.'" class="form-checkbox">' !!}</td>
+                        <td class="text-center">{!! $item->buka_transkrip  ? '<input type="checkbox" value="1" name="buka_transkrip_'.$key.'" class="form-checkbox" checked>' : '<input type="checkbox" value="1" name="buka_transkrip_'.$key.'" class="form-checkbox">' !!}</td>
+                        <td class="text-center">{!! $item->buka_kartu_ujian  ? '<input type="checkbox" value="1" name="buka_kartu_ujian_'.$key.'" class="form-checkbox" checked>' : '<input type="checkbox" value="1" name="buka_kartu_ujian_'.$key.'" class="form-checkbox">' !!}</td>
                     </tr>
                     @empty
                         Tidak ada program studi
