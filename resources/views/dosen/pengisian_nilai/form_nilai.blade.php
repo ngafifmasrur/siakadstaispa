@@ -30,7 +30,7 @@
                 <td class="text-center">{{ $loop->iteration }}</td>
                 <td>{{ $item->nim }}</td>
                 <td>{{ $item->nama_mahasiswa }}</td>
-                <td  class="text-center"><input class="form-control text-center" type="number" name="{{ $item->id_registrasi_mahasiswa }}" value="{{ $item->nilai->nilai_indeks }}" min="0" max="100" required></td>
+                <td  class="text-center"><input class="form-control text-center" type="number" name="{{ $item->id_registrasi_mahasiswa }}" value="{{ $item->nilai_indeks }}" min="0" max="100" required></td>
             </tr>
         @endforeach
         </form>

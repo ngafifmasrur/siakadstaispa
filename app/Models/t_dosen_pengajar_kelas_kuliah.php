@@ -23,7 +23,6 @@ class t_dosen_pengajar_kelas_kuliah extends SushiModel
         'id_semester' => 'integer',
     ];
 
-
     public function getRows()
     {
         return GetDataFeeder('GetDosenPengajarKelasKuliah', self::$filter);

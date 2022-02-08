@@ -16,6 +16,7 @@ use App\Models\m_semester;
 use App\Models\t_krs;
 use App\Models\t_dosen_pengajar_kelas_kuliah;
 use App\Models\t_peserta_kelas_kuliah;
+use App\Models\t_detail_nilai_perkuliahan_kelas;
 use App\Http\Requests\JadwalRequest;
 use Session, DB, Auth;
 
@@ -29,7 +30,7 @@ class NilaiController extends Controller
     public function index()
     {
         $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi')->prepend('Pilih Program Studi', NULL);
-        $semester = m_semester::pluck('nama_semester', 'id_semester')->prepend('Pilih Semester', NULL);
+        $semester = m_semester::orderBy('nama_semester', 'desc')->pluck('nama_semester', 'id_semester')->prepend('Pilih Semester', NULL);
         return view('dosen.pengisian_nilai.index', compact('prodi', 'semester'));
     }
 
@@ -89,8 +90,12 @@ class NilaiController extends Controller
 
     public function form_nilai($id_kelas_kuliah)
     {
-        $kelas_kuliah = m_kelas_kuliah::where('id_kelas_kuliah', $id_kelas_kuliah)->first();
-        $peserta = t_peserta_kelas_kuliah::where('id_kelas_kuliah', $id_kelas_kuliah)->get();
+        $kelas_kuliah = m_kelas_kuliah::setFilter([
+            'filter' => "id_kelas_kuliah='$id_kelas_kuliah'",
+        ])->first();
+        $peserta = t_detail_nilai_perkuliahan_kelas::setFilter([
+            'filter' => "id_kelas_kuliah='$id_kelas_kuliah'",
+        ])->get();
         return view('dosen.pengisian_nilai.form_nilai', compact('peserta', 'kelas_kuliah'));
     }
 
