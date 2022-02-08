@@ -31,7 +31,8 @@ use App\Http\Controllers\Admin\{
     ManajemenUserController,
     PesertaKelasKuliahController,
     DosenPengajarKelasKuliahController,
-    KurikurumProdiController
+    KurikurumProdiController,
+    KonfigurasiGlobalController
 };
 
 /*
@@ -275,6 +276,11 @@ Route::group(
         Route::get('anggota_aktivitas/data_index/{aktivitas}', [AnggotaAktivitasController::class, 'data_index'])->name('anggota_aktivitas.data_index');
         Route::get('anggota_aktivitas/{aktivitas}', [AnggotaAktivitasController::class, 'index'])->name('anggota_aktivitas.index');
         Route::resource('anggota_aktivitas', AnggotaAktivitasController::class)->except('index');
+
+        // Konfigurasi Global
+        Route::get('konfigurasi_global', [KonfigurasiGlobalController::class, 'index'])->name('konfigurasi_global.index');
+        Route::get('konfigurasi_global/edit', [KonfigurasiGlobalController::class, 'edit'])->name('konfigurasi_global.edit');
+        Route::post('konfigurasi_global', [KonfigurasiGlobalController::class, 'update'])->name('konfigurasi_global.update');
 
     }
 );
