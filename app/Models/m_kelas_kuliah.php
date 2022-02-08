@@ -1,26 +1,17 @@
 <?php
 
 namespace App\Models;
-
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Sushi\Sushi;
 use App\Models\m_jadwal;
 
-class m_kelas_kuliah extends Model
+class m_kelas_kuliah extends SushiModel
 {
-    use HasFactory, Sushi;
 
     protected $primaryKey = 'id_kelas_kuliah';
-    protected $guarded = [];
-    public $incrementing = false;
-    protected $keyType = 'string';
     protected $appends = ['hari', 'jam_mulai', 'jam_akhir', 'ruangan'];
-    public $sushiInsertChunkSize = 20;
 
     public function getRows()
     {
-        $data = GetDataFeeder('GetDetailKelasKuliah');
+        $data = GetDataFeeder('GetDetailKelasKuliah', self::$filter);
         foreach($data as $key => $item) {
             $data[$key]['hari'] = $this->jadwal('hari');
             $data[$key]['ruangan'] = $this->jadwal('ruang');

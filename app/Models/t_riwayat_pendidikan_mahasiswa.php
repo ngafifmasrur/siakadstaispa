@@ -2,22 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Sushi\Sushi;
-
-class t_riwayat_pendidikan_mahasiswa extends Model
+class t_riwayat_pendidikan_mahasiswa extends SushiModel
 {
-    use HasFactory, Sushi;
-
     protected $primaryKey = 'id_registrasi_mahasiswa';
-    protected $guarded = [];
-    public $incrementing = false;
-    protected $keyType = 'string';
 
-    public function getRows()
+    public static function getRows()
     {
-        return GetDataFeeder('GetListRiwayatPendidikanMahasiswa');
+        return GetDataFeeder('GetListRiwayatPendidikanMahasiswa', self::$filter);
     }
 
     public function prodi()

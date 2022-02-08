@@ -94,111 +94,34 @@ class MataKuliahController extends Controller
             ->toJson();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function store(Request $request)
     {
-        abort(404);
+        $records = $request->except('_token', '_method', 'paket');
+        $result = InsertDataFeeder('InsertMataKuliah', $records);
+
+        return $result;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(MataKuliahRequest $request)
+    public function update(Request $request, $anggota_aktivitas)
     {
+        $records = $request->all();
+        $key = [
+            'id_anggota' => $anggota_aktivitas
+        ];
 
-        DB::beginTransaction();
+        $result = UpdateDataFeeder('UpdateAnggotaAktivitasMahasiswa', $key, $records);
 
-        try{
-            $request->merge([
-                'id_matkul' => Str::uuid(),
-            ]);
-            $data = m_mata_kuliah::create($request->all());
-            DB::commit();
-
-            Session::flash('success_msg', 'Berhasil Ditambah');
-            return redirect()->route('admin.mata_kuliah.index');
-
-        }catch(\Exception $e){
-
-            DB::rollback();
-
-            Session::flash('error_msg', 'Terjadi kesalahan pada server');
-            return redirect()->back()->withInput();
-        }
+        return $result;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function destroy(Request $request, $anggota_aktivitas)
     {
-        abort(404);
-    }
+        $key = [
+            'id_anggota' => $anggota_aktivitas
+        ];
+        
+        $result = DeleteDataFeeder('DeleteAnggotaAktivitasMahasiswa', $key);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        abort(404);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(MataKuliahRequest $request,m_mata_kuliah $mata_kuliah)
-    {
-        DB::beginTransaction();
-
-        try{
-            
-            $mata_kuliah->update($request->validated());
-            DB::commit();
-
-            Session::flash('success_msg', 'Berhasil Dibah');
-            return redirect()->route('admin.mata_kuliah.index');
-
-        }catch(\Exception $e){
-
-            DB::rollback();
-
-            Session::flash('error_msg', 'Terjadi kesalahan pada server');
-            return redirect()->back()->withInput();
-        }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(m_mata_kuliah $mata_kuliah)
-    {
-        if(is_null($mata_kuliah)){
-            abort(404);
-        }
-
-        $mata_kuliah->delete();
-
-        Session::flash('success_msg', 'Berhasil Dihapus');
-        return back();
+        return $result;
     }
 }

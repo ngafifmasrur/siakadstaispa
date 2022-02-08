@@ -78,7 +78,6 @@
                 <x-slot name="title">Semester {{ $item }}</x-slot>
                 <x-semester-table
                     :title="'Semester '.$item"
-                    :id="'semester'.$item"
                     :route="route('admin.kurikulum_prodi.data_index', [ 'tahun_ajaran' => $tahun_ajaran->id_tahun_ajaran, 'prodi' => $prodi->id_prodi])" 
                     :table="[
                         ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],

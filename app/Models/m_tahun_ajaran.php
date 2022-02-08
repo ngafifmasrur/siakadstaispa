@@ -2,20 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Sushi\Sushi;
-
-class m_tahun_ajaran extends Model
+class m_tahun_ajaran extends SushiModel
 {
-    use HasFactory, Sushi;
-
-    // protected $table = 'm_tahun_ajaran';
     protected $primaryKey = 'id_tahun_ajaran';
-    protected $guarded = [];
+    protected $schema = [
+        'id_tahun_ajaran' => 'integer',
+        'nama_tahun_ajaran' => 'string',
+        'a_periode_aktif' => 'boolean',
+        'tanggal_mulai' => 'date',
+        'tanggal_selesai' => 'date'
+    ];
 
     public function getRows()
     {
-        return GetDataFeeder('GetTahunAjaran');
+        return GetDataFeeder('GetTahunAjaran', self::$filter);
     }
 }

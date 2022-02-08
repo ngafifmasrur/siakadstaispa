@@ -2,19 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Sushi\Sushi;
-
-class m_mata_kuliah extends Model
+class m_mata_kuliah extends SushiModel
 {
-    use HasFactory, Sushi;
 
     protected $primaryKey = 'id_matkul';
-    public $incrementing = false;
-    protected $keyType = 'string';
     protected $appends = ['matkul_kode'];
-    protected $getSchema = [
+    protected $schema = [
         'id_matkul' => 'uuid',
         'kode_mata_kuliah' => 'string',
         'nama_mata_kuliah' => 'string',
@@ -28,7 +21,7 @@ class m_mata_kuliah extends Model
     
     public function getRows()
     {
-        return GetDataFeeder('GetListMataKuliah');
+        return GetDataFeeder('GetListMataKuliah', self::$filter);
     }
 
     public function prodi()

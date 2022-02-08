@@ -2,17 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Sushi\Sushi;
 
-class m_perguruan_tinggi extends Model
+class m_perguruan_tinggi extends SushiModel
 {
-    use HasFactory, Sushi;
-
     protected $primaryKey = 'id_perguruan_tinggi';
-    public $incrementing = false;
-    protected $keyType = 'string';
 
     public function getRows()
     {

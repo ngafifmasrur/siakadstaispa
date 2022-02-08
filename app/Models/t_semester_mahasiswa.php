@@ -11,7 +11,7 @@ class t_semester_mahasiswa extends Model
 
     protected $table = 't_semester_mahasiswa';
     protected $guarded = [];
-
+    
     public function prodi()
     {
       return $this->belongsTo('App\Models\m_program_studi', 'id_prodi');

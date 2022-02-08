@@ -2,22 +2,26 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Sushi\Sushi;
-
-class m_kurikulum extends Model
+class m_kurikulum extends SushiModel
 {
-    use HasFactory, Sushi;
-
     protected $primaryKey = 'id_kurikulum';
-    protected $guarded = [];
-    public $incrementing = false;
-    protected $keyType = 'string';
+    protected $schema = [
+        'id_kurikulum' => 'uuid',
+        'nama_kurikulum' => 'string',
+        'id_prodi' => 'uuid',
+        'nama_program_studi' => 'string',
+        'id_semester' => 'integer',
+        'semester_mulai_berlaku' => 'string',
+        'jumlah_sks_lulus' => 'integer',
+        'jumlah_sks_wajib' => 'integer',
+        'jumlah_sks_pilihan' => 'integer',
+        'jumlah_sks_mata_kuliah_wajib' => 'integer',
+        'jumlah_sks_mata_kuliah_pilihan' => 'integer',
+    ];
 
     public function getRows()
     {
-        return GetDataFeeder('GetListKurikulum');
+        return GetDataFeeder('GetListKurikulum', self::$filter);
     }
 
     public function prodi()

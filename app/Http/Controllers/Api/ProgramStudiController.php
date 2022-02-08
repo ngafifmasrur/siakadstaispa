@@ -81,4 +81,18 @@ class ProgramStudiController extends BaseController
 
         return $this->ok($data, 'Berhasil dihapus');
     }
+
+
+
+    public function test()
+    {
+        $records = [
+            'no' => '1',
+            'asdas' => 'sd'
+        ];
+
+        $result = InsertDataFeeder('Tesdst', $records);
+
+        return $result;
+    }
 }

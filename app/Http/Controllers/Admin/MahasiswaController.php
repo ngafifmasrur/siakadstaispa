@@ -31,7 +31,7 @@ class MahasiswaController extends Controller
     public function index()
     {
         $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi')->prepend('Pilih Program Studi', NULL);
-        $periode = m_semester::pluck('nama_semester', 'id_semester')->prepend('Pilih Periode Masuk', NULL);
+        $periode = m_semester::orderBy('nama_semester', 'desc')->pluck('nama_semester', 'id_semester')->prepend('Pilih Periode Masuk', NULL);
         $agama = ref_agama::pluck('nama_agama', 'id_agama');
         $status_mahasiswa = $this->status_mahasiswa;
 
@@ -40,17 +40,27 @@ class MahasiswaController extends Controller
 
     public function data_index(Request $request)
     {
-        $query = m_mahasiswa::query()
-        ->when($request->prodi, function ($query) use ($request) {
-            $query->where('id_prodi', $request->prodi);
+        $query = m_mahasiswa::setFilter([
+            'limit' => $request->start+$request->length
+        ])
+        ->when($request->prodi, function($q) use ($request){
+            $q->where('id_prodi', $request->prodi);
         })
-        ->when($request->periode, function ($query) use ($request) {
-            $query->where('id_periode', $request->periode);
-        });
+        ->when($request->periode, function($q) use ($request){
+            $q->where('id_periode', $request->periode);
+        })
+        ->get();
 
-        $status_mahasiswa = $this->status_mahasiswa;
+        $count_total = m_mahasiswa::count_total();
+        $count_filter = m_mahasiswa::count_total([
+            'limit' => $request->start+$request->length
+        ]);
 
         return datatables()->of($query)
+            ->with([
+                "recordsTotal"    => intval($count_total),
+                "recordsFiltered" => $count_filter,
+            ])
             ->addIndexColumn()
             ->addColumn('select_all', function ($data) {
                 return '

@@ -27,9 +27,20 @@ class DosenController extends Controller
 
     public function data_index(Request $request)
     {
-        $query = m_dosen::all();
+        $query = m_dosen::setFilter([
+            'limit' => $request->start+$request->length,
+        ])->get();
+
+        $count_total = m_dosen::count_total();
+        $count_filter = m_dosen::count_total([
+            'limit' => $request->start+$request->length,
+        ]);
 
         return datatables()->of($query)
+            ->with([
+                "recordsTotal"    => $count_total,
+                "recordsFiltered" => $count_filter,
+            ])
             ->addIndexColumn()
             ->addColumn('select_all', function ($data) {
                 return '

@@ -2,24 +2,33 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Sushi\Sushi;
-
-class m_mahasiswa extends Model
+class m_mahasiswa extends SushiModel
 {
-    use HasFactory, Sushi;
-
-    // protected $table = 'm_mahasiswa';
     protected $primaryKey = 'id_mahasiswa';
-    protected $guarded = [];
-    public $incrementing = false;
-    protected $keyType = 'string';
-    public $sushiInsertChunkSize = 20;
+    protected $schema = [
+        'nama_mahasiswa' => 'string',
+        'jenis_kelamin' => 'string',
+        'tanggal_lahir' => 'date',
+        'id_perguruan_tinggi' => 'uuid',
+        'id_mahasiswa' => 'uuid',
+        'id_agama' => 'integer',
+        'id_prodi' => 'uuid',
+        'nama_program_studi' => 'string',
+        'nama_status_mahasiswa' => 'string',
+        'nim' => 'string',
+        'id_periode' => 'integer',
+        'nama_periode_masuk' => 'string',
+        'id_registrasi_mahasiswa' => 'uuid',
+    ];
 
     public function getRows()
     {
-        return GetDataFeeder('GetListMahasiswa');
+        return GetDataFeeder('GetListMahasiswa', self::$filter);
+    }
+
+    public static function count_total()
+    {
+        return GetDataFeeder('GetCountMahasiswa', self::$filter);
     }
     
     public function prodi()

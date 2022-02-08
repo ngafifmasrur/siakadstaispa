@@ -23,8 +23,9 @@ class PesertaKelasKuliahController extends Controller
 
     public function data_index(Request $request, $id_kelas_kuliah)
     {
-        $query = t_peserta_kelas_kuliah::query()
-        ->where('id_kelas_kuliah', $id_kelas_kuliah);
+        $query = t_peserta_kelas_kuliah::setFilter([
+            'filter' => "id_kelas_kuliah='$id_kelas_kuliah'",
+        ])->get();
 
         return datatables()->of($query)
             ->addIndexColumn()

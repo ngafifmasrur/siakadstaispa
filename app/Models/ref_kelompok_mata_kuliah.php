@@ -2,18 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Sushi\Sushi;
-
-class ref_kelompok_mata_kuliah extends Model
+class ref_kelompok_mata_kuliah extends SushiModel
 {
-    use HasFactory, Sushi;
 
     protected $primaryKey = 'id_kelompok_mata_kuliah';
-    protected $guarded = [];
-    public $incrementing = false;
-    protected $keyType = 'string';
 
     // Isi Model
     protected $rows = [

@@ -7,6 +7,14 @@
     Generate User Mahasiswa
 </x-header>
 
+<x-card-info>
+    <ol>
+        <li>Fitur ini digunakan untuk melakukan generate Username & Password Mahasiswa.</li>
+        <li>Default user yang di-generate untuk username : <strong>NIM</strong> & password : <strong>Tanggal Lahir</strong> dengan format yyyy-mm-dd (tanda '-' dihilangkan ). Contoh : 1999-12-01 -> 19991201</li>
+        <li>Untuk melihat daftar user <a href="{{ route('admin.manajemen_user.index')}}">disini</a></li>
+    </ol>
+</x-card-info>
+
 <x-card>
     <div class="row">
         <div class="form-group col-lg-3">
@@ -59,7 +67,7 @@
 
     function massCreateAccount(url) {
         if ($('input:checked').length > 0) {
-            if (confirm('Buat akun baru untuk mahasiswa yang dipilih?')) {
+            if (confirm('Buat '+$('input:checked').length+' akun baru mahasiswa?')) {
                 $.post(url, $('.mahasiswa-form').serialize())
                     .done((response) => {
                         $.growl.notice({ duration: 3000, title: "Berhasil!",message: 'Akun mahasiswa terpilih berhasil dibuat!' });

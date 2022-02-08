@@ -87,13 +87,13 @@ class KelasKuliahController extends Controller
                 return $button;
             })
             ->addColumn('nama_program_studi', function ($data) {
-                return $data->prodi->nama_program_studi;
+                return $data->nama_program_studi;
             })
             ->addColumn('nama_mata_kuliah', function ($data) {
-                return $data->mata_kuliah->nama_mata_kuliah;
+                return $data->nama_mata_kuliah;
             })
             ->addColumn('nama_semester', function ($data) {
-                return $data->semester->nama_semester;
+                return $data->nama_semester;
             })
             ->rawColumns(['action', 'dosen', 'mahasiswa'])
             ->setRowAttr([

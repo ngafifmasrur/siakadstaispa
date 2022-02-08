@@ -14,6 +14,7 @@ class SushiModel extends Eloquent
     public $incrementing = false;
     protected $keyType = 'string';
     public $sushiInsertChunkSize = 20;
+    
     protected static $filter;
 
     public static function setFilter($value = [])

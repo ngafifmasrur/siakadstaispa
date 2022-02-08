@@ -79,21 +79,33 @@ class ManajemenUserController extends Controller
     public function mahasiswa()
     {
         $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi')->prepend('Pilih Program Studi', NULL);
-        $semester = m_semester::pluck('nama_semester', 'id_semester')->prepend('Pilih Angkatan', NULL);
+        $semester = m_semester::orderBy('nama_semester', 'desc')->pluck('nama_semester', 'id_semester')->prepend('Pilih Angkatan', NULL);
         return view('admin.manajemen_user.mahasiswa', compact('prodi', 'semester'));
     }
 
     public function mahasiswa_index(Request $request)
     {
-        $query = m_mahasiswa::query()
-        ->when($request->id_prodi, function($q) use ($request) {
+        $query = m_mahasiswa::setFilter([
+            'limit' => $request->start+$request->length
+        ])
+        ->when($request->id_prodi, function($q) use ($request){
             $q->where('id_prodi', $request->id_prodi);
         })
-        ->when($request->id_periode, function($q) use ($request) {
+        ->when($request->id_periode, function($q) use ($request){
             $q->where('id_periode', $request->id_periode);
-        });
+        })
+        ->get();
+
+        $count_total = m_mahasiswa::count_total();
+        $count_filter = m_mahasiswa::count_total([
+            'limit' => $request->start+$request->length
+        ]);
 
         return datatables()->of($query)
+            ->with([
+                "recordsTotal"    => intval($count_total),
+                "recordsFiltered" => $count_filter,
+            ])
             ->addIndexColumn()
             ->addColumn('select_all', function ($data) {
                 if($data->hasUser()){
@@ -103,10 +115,10 @@ class ManajemenUserController extends Controller
                 }
             })
             ->addColumn('nama_program_studi', function ($data) {
-                return $data->prodi->nama_program_studi;
+                return $data->nama_program_studi;
             })
             ->addColumn('nama_periode_masuk', function ($data) {
-                return $data->periode->nama_semester;
+                return $data->nama_periode_masuk;
             })
             ->rawColumns(['select_all'])
             ->setRowAttr([
@@ -124,7 +136,7 @@ class ManajemenUserController extends Controller
             $user = new User();
             $user->email = $mahasiswa->nim;
             $user->name = $mahasiswa->nama_mahasiswa;
-            $user->password = bcrypt('000000');
+            $user->password = bcrypt(str_replace("-", "",$mahasiswa->tanggal_lahir));
             $user->role_id = $role_mahasiswa->id;
             $user->id_mahasiswa = $mahasiswa->id_mahasiswa;
             $user->save();
@@ -172,7 +184,7 @@ class ManajemenUserController extends Controller
             $user = new User();
             $user->email = $dosen->nidn;
             $user->name = $dosen->nama_dosen;
-            $user->password = bcrypt('000000');
+            $user->password = bcrypt(str_replace("-", "",$dosen->tanggal_lahir));
             $user->role_id = $role_dosen->id;
             $user->id_dosen = $dosen->id_dosen;
             $user->save();

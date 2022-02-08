@@ -7,6 +7,14 @@
     Generate User Dosen
 </x-header>
 
+<x-card-info>
+    <ol>
+        <li>Fitur ini digunakan untuk melakukan generate Username & Password Dosen.</li>
+        <li>Default user yang di-generate untuk username : <strong>NIDN</strong> & password : <strong>Tanggal Lahir</strong> dengan format yyyy-mm-dd (tanda '-' dihilangkan ). Contoh : 1999-12-01 -> 19991201</li>
+        <li>Untuk melihat daftar user <a href="{{ route('admin.manajemen_user.index')}}">disini</a></li>
+    </ol>
+</x-card-info>
+
 <x-card-table>
     <x-slot name="title">Generate User Dosen</x-slot>
     <x-slot name="button">

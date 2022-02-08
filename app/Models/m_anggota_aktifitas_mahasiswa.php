@@ -2,22 +2,13 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Sushi\Sushi;
-
-class m_anggota_aktifitas_mahasiswa extends Model
+class m_anggota_aktifitas_mahasiswa extends SushiModel
 {
-    use HasFactory, Sushi;
-    
     protected $primaryKey = 'id_anggota';
-    protected $guarded = [];
-    public $incrementing = false;
-    protected $keyType = 'string';
     
     public function getRows()
     {
-        return GetDataFeeder('GetListAnggotaAktivitasMahasiswa');
+        return GetDataFeeder('GetListAnggotaAktivitasMahasiswa', self::$filter);
     }
 
     public function aktivitas()

@@ -71,10 +71,10 @@ class KurikulumController extends Controller
                 return $button;
             })
             ->addColumn('nama_program_studi', function ($data) {
-                return $data->prodi->nama_program_studi;
+                return $data->nama_program_studi;
             })
             ->addColumn('nama_semester', function ($data) {
-                return $data->semester->nama_semester;
+                return $data->semester_mulai_berlaku;
             })
             ->rawColumns(['action'])
             ->setRowAttr([

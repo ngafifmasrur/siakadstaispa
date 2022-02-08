@@ -2,22 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Sushi\Sushi;
-
-class m_semester extends Model
+class m_semester extends SushiModel
 {
-    use HasFactory, Sushi;
-
-    // protected $table = 'm_semester';
     protected $primaryKey = 'id_semester';
-    protected $guarded = [];
-    public $incrementing = false;
-    protected $keyType = 'string';
 
     public function getRows()
     {
-        return GetDataFeeder('GetSemester');
+        return GetDataFeeder('GetSemester', self::$filter);
     }
+
+    protected $schema = [
+        'id_semester' => 'integer',
+        'id_tahun_ajaran' => 'string',
+        'nama_semester' => 'string',
+        'semester' => 'integer',
+        'a_periode_aktif' => 'boolean',
+        'tanggal_mulai' => 'date',
+        'tanggal_selesai' => 'date',
+    ];
 }

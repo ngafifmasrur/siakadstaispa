@@ -2,20 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Sushi\Sushi;
-
-class t_perkuliahan_mahasiswa extends Model
+class t_perkuliahan_mahasiswa extends SushiModel
 {
-    use HasFactory, Sushi;
-
-    protected $guarded = [];
-    public $incrementing = false;
-    protected $keyType = 'string';
-
     public function getRows()
     {
-        return GetDataFeeder('GetListPerkuliahanMahasiswa ');
+        return GetDataFeeder('GetListPerkuliahanMahasiswa', self::$filter);
     }
 }
