@@ -26,10 +26,9 @@ class MataKuliahController extends Controller
 
     public function data_index(Request $request)
     {
-        $query = m_mata_kuliah::query()
-                ->when($request->prodi, function ($query) use ($request) {
+        $query = m_mata_kuliah::when($request->prodi, function ($query) use ($request) {
                     $query->where('id_prodi', $request->prodi);
-                });
+                })->get();
 
         return datatables()->of($query)
             ->addIndexColumn()
@@ -81,7 +80,7 @@ class MataKuliahController extends Controller
                 return $button;
             })
             ->addColumn('jenis_matkul', function ($data) {
-                return $data->jenis_matkul->nama_jenis_mata_kuliah;
+                return $data->nama_jenis_mata_kuliah;
             })
             ->addColumn('kelompok_matkul', function ($data) {
                 return $data->nama_kelompok_mata_kuliah ?? '-';
@@ -96,7 +95,7 @@ class MataKuliahController extends Controller
     public function store(Request $request)
     {
         $records = $request->except('_token', '_method', 'paket');
-        $result = InsertDataFeeder('InsertMataKuliah', $records, 'GetListMataKuliah');
+        $result = InsertDataFeeder('InsertMataKuliah', $records, 'GetDetailMataKuliah');
 
         if($result['error_code'] !== '0') {
             Session::flash('error_msg', $result['error_desc']);
@@ -114,7 +113,7 @@ class MataKuliahController extends Controller
             'id_matkul' => $mata_kuliah
         ];
 
-        $result = UpdateDataFeeder('UpdateMataKuliah', $key, $records, 'GetListMataKuliah');
+        $result = UpdateDataFeeder('UpdateMataKuliah', $key, $records, 'GetDetailMataKuliah');
 
         if($result['error_code'] !== '0') {
             Session::flash('error_msg', $result['error_desc']);
@@ -131,7 +130,7 @@ class MataKuliahController extends Controller
             'id_matkul' => $mata_kuliah
         ];
         
-        $result = DeleteDataFeeder('DeleteMataKuliah', $key, 'GetListMataKuliah');
+        $result = DeleteDataFeeder('DeleteMataKuliah', $key, 'GetDetailMataKuliah');
 
         if($result['error_code'] !== '0') {
             Session::flash('error_msg', $result['error_desc']);

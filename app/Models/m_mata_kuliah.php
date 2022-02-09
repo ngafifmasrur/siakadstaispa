@@ -11,17 +11,28 @@ class m_mata_kuliah extends SushiModel
         'id_matkul' => 'uuid',
         'kode_mata_kuliah' => 'string',
         'nama_mata_kuliah' => 'string',
-        'sks_mata_kuliah' => 'integer',
         'id_prodi' => 'uuid',
         'nama_program_studi' => 'string',
         'id_jenis_mata_kuliah' => 'string',
         'id_kelompok_mata_kuliah' => 'string',
-        'semester' => 'integer',
+        'sks_mata_kuliah' => 'float',
+        'sks_tatap_muka' => 'float',
+        'sks_praktek' => 'float',
+        'sks_praktek_lapangan' => 'float',
+        'sks_simulasi' => 'float',
+        'metode_kuliah' => 'string',
+        'ada_sap' => 'boolean',
+        'ada_silabus' => 'boolean',
+        'ada_bahan_ajar' => 'boolean',
+        'ada_acara_praktek' => 'boolean',
+        'ada_diktat' => 'boolean',
+        'tanggal_mulai_efektif' => 'date',
+        'tanggal_selesai_efektif' => 'date'
     ];
     
     public function getRows()
     {
-        return GetDataFeeder('GetListMataKuliah', self::$filter);
+        return GetDataFeeder('GetDetailMataKuliah', self::$filter);
     }
 
     public function prodi()

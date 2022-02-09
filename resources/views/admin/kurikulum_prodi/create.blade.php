@@ -24,7 +24,6 @@
         @csrf
             {!! Form::hidden('id_prodi', $id_prodi->id_prodi, ['class' => 'form-control', 'id' => 'prodi', 'data-targt' => 'id_matkul']) !!}
             {!! Form::hidden('id_kurikulum', $id_kurikulum->id_kurikulum, ['class' => 'form-control', 'id' => 'id_kurikulum']) !!}
-            {!! Form::hidden('id_semester', $id_kurikulum->id_semester, ['class' => 'form-control', 'id' => 'id_semester']) !!}
 
         <div class="row">
             <div class="form-group col-lg-3">
@@ -37,36 +36,9 @@
                 @enderror
             </div>
             <div class="form-group col-lg-2">
-                <label for="sks_mata_kuliah" class="font-weight-bold">SKS Matkul</label>
-                {!! Form::number('sks_mata_kuliah', null, ['class' => 'form-control '.($errors->has('sks_mata_kuliah') ? 'is-invalid' : ''), 'id' => 'sks_mata_kuliah']) !!}
-                @error('sks_mata_kuliah')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-                @enderror
-            </div>
-            <div class="form-group col-lg-2">
-                <label for="sks_praktek" class="font-weight-bold">SKS Praktek</label>
-                {!! Form::number('sks_praktek', null, ['class' => 'form-control '.($errors->has('sks_praktek') ? 'is-invalid' : ''), 'id' => 'sks_praktek']) !!}
-                @error('sks_praktek')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-                @enderror
-            </div>
-            <div class="form-group col-lg-2">
-                <label for="sks_praktek_lapangan" class="font-weight-bold">SKS Praktek Lapangan</label>
-                {!! Form::number('sks_praktek_lapangan', null, ['class' => 'form-control '.($errors->has('sks_praktek_lapangan') ? 'is-invalid' : ''), 'id' => 'sks_praktek_lapangan']) !!}
-                @error('sks_praktek_lapangan')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-                @enderror
-            </div>
-            <div class="form-group col-lg-2">
-                <label for="sks_simulasi" class="font-weight-bold">SKS Simulasi</label>
-                {!! Form::number('sks_simulasi', null, ['class' => 'form-control '.($errors->has('sks_simulasi') ? 'is-invalid' : ''), 'id' => 'sks_simulasi']) !!}
-                @error('sks_simulasi')
+                <label for="semester" class="font-weight-bold">Semester</label>
+                {!! Form::number('semester', null, ['class' => 'form-control '.($errors->has('semester') ? 'is-invalid' : ''), 'id' => 'semester']) !!}
+                @error('semester')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
