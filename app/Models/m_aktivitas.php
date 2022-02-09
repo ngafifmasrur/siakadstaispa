@@ -6,7 +6,22 @@ class m_aktivitas extends SushiModel
 {
     
     protected $primaryKey = 'id_aktivitas';
-    
+    protected $schema = [
+        'id_aktivitas' => 'uuid',
+        'jenis_anggota' => 'integer',
+        'nama_jenis_anggota' => 'string',
+        'id_jenis_aktivitas' => 'integer',
+        'id_prodi' => 'uuid',
+        'nama_prodi' => 'string',
+        'id_semester' => 'uuid',
+        'nama_semester' => 'string',
+        'judul' => 'string',
+        'keterangan' => 'string',
+        'lokasi' => 'string',
+        'sk_tugas' => 'string',
+        'tanggal_sk_tugas' => 'date',
+    ];
+
     public function getRows()
     {
         return GetDataFeeder('GetListAktivitasMahasiswa', self::$filter);
