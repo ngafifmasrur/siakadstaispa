@@ -8,9 +8,7 @@
 
 <x-card-table>
     <x-slot name="title">Data Program Studi</x-slot>
-    <x-slot name="button">
-        <a class="btn btn-app btn-sm btn-primary add-form" data-url="{{ route('admin.program_studi.store') }}" href="#"><i class="fa fa-plus mr-2"></i>Tambah</a>
-    </x-slot>
+    
 
     <x-datatable 
     :route="route('admin.program_studi.data_index')" 
@@ -20,7 +18,6 @@
         ['title' => 'Nama Program Studi', 'data' => 'nama_program_studi', 'name' => 'nama_program_studi', 'classname' => 'text-left'],
         ['title' => 'Status', 'data' => 'status', 'name' => 'status'],
         ['title' => 'Jenjang', 'data' => 'jenjang', 'name' => 'jenjang'],
-        ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
     ]"
     />
 

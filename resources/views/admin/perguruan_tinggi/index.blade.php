@@ -8,9 +8,7 @@
 <!-- Main page content-->
 <x-card-table>
     <x-slot name="title">Perguruan Tinggi</x-slot>
-    <x-slot name="button">
-        <button class="btn btn-app btn-sm btn-primary" onclick="document.getElementById('form_pt').submit();" href="#"><i class="fa fa-save mr-2"></i>Simpan</button>
-    </x-slot>
+    
 
     <form action="{{ route('admin.perguruan_tinggi.update')}}" method="post" id="form_pt">
         @csrf
