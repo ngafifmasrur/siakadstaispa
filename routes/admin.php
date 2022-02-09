@@ -234,10 +234,11 @@ Route::group(
         Route::post('periode_perkuliahan', [PeriodePerkuliahanController::class, 'store'])->name('periode_perkuliahan.store');
 
         // Perkulihan Mahasiswa / Semester Mahasiswa
-        Route::get('semester_mahasiswa', [PerkuliahanMahasiswaController::class, 'index'])->name('semester_mahasiswa.index');
-        Route::get('semester_mahasiswa/data_index', [PerkuliahanMahasiswaController::class, 'data_index',])->name('semester_mahasiswa.data_index');
-        Route::delete('semester_mahasiswa/{id_registrasi_mahasiswa}/{id_semester}', [PerkuliahanMahasiswaController::class, 'destroy'])->name('semester_mahasiswa.destroy');
-        Route::put('semester_mahasiswa/{id_registrasi_mahasiswa}/{id_semester}', [PerkuliahanMahasiswaController::class, 'update'])->name('semester_mahasiswa.update');
+        Route::get('perkuliahan_mahasiswa', [PerkuliahanMahasiswaController::class, 'index'])->name('perkuliahan_mahasiswa.index');
+        Route::get('perkuliahan_mahasiswa/data_index', [PerkuliahanMahasiswaController::class, 'data_index',])->name('perkuliahan_mahasiswa.data_index');
+        Route::delete('perkuliahan_mahasiswa/{id_registrasi_mahasiswa}/{id_semester}', [PerkuliahanMahasiswaController::class, 'destroy'])->name('perkuliahan_mahasiswa.destroy');
+        Route::put('perkuliahan_mahasiswa/{id_registrasi_mahasiswa}/{id_semester}', [PerkuliahanMahasiswaController::class, 'update'])->name('perkuliahan_mahasiswa.update');
+        Route::post('perkuliahan_mahasiswa', [PerkuliahanMahasiswaController::class, 'store'])->name('perkuliahan_mahasiswa.store');
 
 
         // User Manajemen
