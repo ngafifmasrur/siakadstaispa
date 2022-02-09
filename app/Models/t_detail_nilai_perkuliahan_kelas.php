@@ -20,7 +20,7 @@ class t_detail_nilai_perkuliahan_kelas extends SushiModel
         'angkatan' => 'integer',
         'nilai_angka' => 'integer',
         'nilai_indeks' => 'integer',
-        'nilai_huruf' => 'integer',
+        'nilai_huruf' => 'string',
     ];
 
     public function getRows()
