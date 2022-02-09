@@ -15,7 +15,7 @@
         </div>
         <div class="form-group col-lg-3">
             <label for="periode">Periode Masuk</label>
-            {!! Form::select('periode', $periode, null, ['class' => 'form-control', 'id' => 'periode']) !!}
+            {!! Form::select('periode', $periode, $semester_id, ['class' => 'form-control', 'id' => 'periode']) !!}
         </div>
     </div>
 </x-card>
@@ -23,7 +23,7 @@
 <x-card-table>
     <x-slot name="title">Data Registrasi Mahasiswa</x-slot>
     <x-slot name="button">
-        <a class="float-right btn btn-sm btn-outline-blue add-form" data-url="#" href="#"><i data-feather="plus" class="mr-2"></i>Tambah</a>
+        <a class="btn btn-app btn-sm btn-primary add-form" data-url="{{ route('admin.registrasi_mahasiswa.store') }}" href="#"><i class="fa fa-plus mr-2"></i>Tambah</a>
     </x-slot>
 
     <x-datatable 
@@ -47,7 +47,7 @@
 <x-modal.delete/>
 
 <x-modal class="modal-form" id="modal-form">
-    <x-slot name="title">Ruang Kelas</x-slot>
+    <x-slot name="title">Registrasi Mahasiswa</x-slot>
     <x-slot name="modalPosition">modal-dialog-centered</x-slot>
     
     @csrf 
@@ -55,7 +55,7 @@
     <div class="form-group row">
         <div class="form-group col-lg-12">
             <label for="id_mahasiswa">Mahasiswa</label>
-            {!! Form::text('id_mahasiswa', null, ['class' => 'form-control '.($errors->has('id_mahasiswa') ? 'is-invalid' : ''), 'id' => 'id_mahasiswa']) !!}
+            {!! Form::select('id_mahasiswa', $mahasiswa, null, ['class' => 'form-control '.($errors->has('id_mahasiswa') ? 'is-invalid' : ''), 'id' => 'id_mahasiswa']) !!}
             @error('id_mahasiswa')
                 <div class="invalid-feedback">
                     {{ $message }}
@@ -66,7 +66,7 @@
     <div class="form-group row">
         <div class="form-group col-lg-12">
             <label for="id_jenis_daftar">Jenis Daftar</label>
-            {!! Form::text('id_jenis_daftar', null, ['class' => 'form-control '.($errors->has('id_jenis_daftar') ? 'is-invalid' : ''), 'id' => 'id_jenis_daftar']) !!}
+            {!! Form::select('id_jenis_daftar', $jenis_daftar, null, ['class' => 'form-control '.($errors->has('id_jenis_daftar') ? 'is-invalid' : ''), 'id' => 'id_jenis_daftar']) !!}
             @error('id_jenis_daftar')
                 <div class="invalid-feedback">
                     {{ $message }}
@@ -77,7 +77,7 @@
     <div class="form-group row">
         <div class="form-group col-lg-12">
             <label for="id_jalur_daftar">Jalur Masuk</label>
-            {!! Form::text('id_jalur_daftar', null, ['class' => 'form-control '.($errors->has('id_jalur_daftar') ? 'is-invalid' : ''), 'id' => 'id_jalur_daftar']) !!}
+            {!! Form::select('id_jalur_daftar', $jalur_masuk, null, ['class' => 'form-control '.($errors->has('id_jalur_daftar') ? 'is-invalid' : ''), 'id' => 'id_jalur_daftar']) !!}
             @error('id_jalur_daftar')
                 <div class="invalid-feedback">
                     {{ $message }}
@@ -88,7 +88,7 @@
     <div class="form-group row">
         <div class="form-group col-lg-12">
             <label for="id_periode_masuk">Periode Masuk</label>
-            {!! Form::text('id_periode_masuk', null, ['class' => 'form-control '.($errors->has('id_periode_masuk') ? 'is-invalid' : ''), 'id' => 'id_periode_masuk']) !!}
+            {!! Form::select('id_periode_masuk', $periode, null, ['class' => 'form-control '.($errors->has('id_periode_masuk') ? 'is-invalid' : ''), 'id' => 'id_periode_masuk']) !!}
             @error('id_periode_masuk')
                 <div class="invalid-feedback">
                     {{ $message }}
@@ -98,7 +98,7 @@
     </div>
     <div class="form-group row">
         <div class="form-group col-lg-12">
-            <label for="tanggal_daftar">Tanggal Masuk</label>
+            <label for="tanggal_daftar">Tanggal Daftar</label>
             {!! Form::date('tanggal_daftar', null, ['class' => 'form-control '.($errors->has('tanggal_daftar') ? 'is-invalid' : ''), 'id' => 'tanggal_daftar']) !!}
             @error('tanggal_daftar')
                 <div class="invalid-feedback">
@@ -109,9 +109,42 @@
     </div>
     <div class="form-group row">
         <div class="form-group col-lg-12">
-            <label for="tanggal_daftar">Tanggal Masuk</label>
-            {!! Form::date('tanggal_daftar', null, ['class' => 'form-control '.($errors->has('tanggal_daftar') ? 'is-invalid' : ''), 'id' => 'tanggal_daftar']) !!}
-            @error('tanggal_daftar')
+            <label for="id_prodi">Program Studi</label>
+            {!! Form::select('id_prodi', $prodi, null, ['class' => 'form-control '.($errors->has('id_prodi') ? 'is-invalid' : ''), 'id' => 'id_prodi']) !!}
+            @error('id_prodi')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="form-group col-lg-12">
+            <label for="sks_diakui">SKS Diakui</label>
+            {!! Form::number('sks_diakui', null, ['class' => 'form-control '.($errors->has('sks_diakui') ? 'is-invalid' : ''), 'id' => 'sks_diakui']) !!}
+            @error('sks_diakui')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="form-group col-lg-12">
+            <label for="id_pembiayaan">Pembiayaan</label>
+            {!! Form::select('id_pembiayaan', $pembiayaan, null, ['class' => 'form-control '.($errors->has('id_pembiayaan') ? 'is-invalid' : ''), 'id' => 'id_pembiayaan']) !!}
+            @error('id_pembiayaan')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="form-group col-lg-12">
+            <label for="biaya_masuk">Biaya Masuk</label>
+            {!! Form::number('biaya_masuk', null, ['class' => 'form-control '.($errors->has('biaya_masuk') ? 'is-invalid' : ''), 'id' => 'biaya_masuk']) !!}
+            @error('biaya_masuk')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
@@ -141,27 +174,5 @@
             $('[name=_method]').val('post');
             $('.modal-form form').attr('action', $(this).data('url'));
         });
-
-        function editForm(url, title = 'Edit', modal = '#modal-form', func) {
-                $.get(url)
-                    .done(response => {
-                        $(`${modal}`).modal('show');
-                        $(`${modal} .modal-title`).text(title);
-                        $(`${modal} form`).attr('action', url);
-                        $(`${modal} [name=_method]`).val('put');
-
-                        resetForm(`${modal} form`);
-                        loopForm(response.data);
-
-                        if (func != undefined) {
-                            func(response.data);
-                        }
-                    })
-                    .fail(errors => {
-                        alert('Tidak dapat menampilkan data');
-                        return;
-                    });
-            }
-
     </script>
 @endpush
