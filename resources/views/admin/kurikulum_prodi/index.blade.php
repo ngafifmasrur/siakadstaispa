@@ -10,11 +10,13 @@
     <div class="row">
         <div class="form-group col-lg-3">
             <label for="prodi" class="font-weight-bold">Program Studi</label>
-            {!! Form::select('prodi', $prodi, null, ['class' => 'form-control', 'id' => 'prodi', 'data-targt' => '#id_matkul']) !!}
+            {!! Form::select('prodi', $prodi, null, ['class' => 'form-control', 'id' => 'prodi', 'data-target' => '#id_matkul']) !!}
         </div>
         <div class="form-group col-lg-3">
             <label for="kurikulum" class="font-weight-bold">Kurikulum</label>
-            {!! Form::select('kurikulum', $kurikulum, null, ['class' => 'form-control', 'id' => 'kurikulum']) !!}
+            <select name="kurikulum" id="kurikulum" class="form-control">
+                <option value="">Pilih Program Studi Dahulu</option>
+            </select>
         </div>
         <div class="form-group col-lg-3 mt-auto">
             <span class="d-inline-block" tabindex="0" data-toggle="tooltip"
@@ -28,6 +30,21 @@
 
 @push('js')
     <script>
+        
+        $("#prodi").change(function(){
+            $.ajax({
+                url: "{{ route('admin.kurikulum_prodi.kurikulum_by_prodi') }}?id_prodi=" + $(this).val(),
+                method: 'GET',
+                success: function(data) {
+                    $('#kurikulum').html('');
+                    $.each(data, function(index, value) {
+                        $('#kurikulum').append('<option value="' + value.id_kurikulum+ '">' + value.nama_kurikulum+ '</option>');
+                    });
+                    $('select').selectpicker('refresh');
+                }
+            });
+        });
+
         $( document ).ready(function() {
             $('[data-toggle="tooltip"]').tooltip();
 

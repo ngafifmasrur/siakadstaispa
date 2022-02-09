@@ -271,6 +271,7 @@ Route::group(
         Route::get('/kurikulum_prodi/data_index/{id_kurikulum}/{id_prodi}', [KurikurumProdiController::class,'data_index',])->name('kurikulum_prodi.data_index');
         Route::get('/kurikulum_prodi/tabel/{id_kurikulum}/{id_prodi}', [KurikurumProdiController::class,'create',])->name('kurikulum_prodi.create');
         Route::delete('/kurikulum_prodi/delete/{id_kurikulum}/{id_matkul}', [KurikurumProdiController::class,'destroy',])->name('kurikulum_prodi.destroy');
+        Route::get('/kurikulum_prodi/kurikulum_by_prodi', [KurikurumProdiController::class,'kurikulum_by_prodi',])->name('kurikulum_prodi.kurikulum_by_prodi');
 
         // aktivitas mahasiswa
         Route::get('aktivitas/data_index', [AktivitasController::class, 'data_index'])->name('aktivitas.data_index');

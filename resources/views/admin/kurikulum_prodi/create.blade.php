@@ -22,6 +22,10 @@
 <x-card>
     <form action="{{ route('admin.kurikulum_prodi.store') }}" method="POST">
         @csrf
+            {!! Form::hidden('id_prodi', $id_prodi->id_prodi, ['class' => 'form-control', 'id' => 'prodi', 'data-targt' => 'id_matkul']) !!}
+            {!! Form::hidden('id_kurikulum', $id_kurikulum->id_kurikulum, ['class' => 'form-control', 'id' => 'id_kurikulum']) !!}
+            {!! Form::hidden('id_semester', $id_kurikulum->id_semester, ['class' => 'form-control', 'id' => 'id_semester']) !!}
+
         <div class="row">
             <div class="form-group col-lg-3">
                 <label for="id_matkul" class="font-weight-bold">Mata Kuliah</label>
@@ -33,23 +37,41 @@
                 @enderror
             </div>
             <div class="form-group col-lg-2">
-                <label for="id_semester" class="font-weight-bold">Semester</label>
-                {!! Form::select('id_semester', $semester, null, ['class' => 'form-control '.($errors->has('id_semester') ? 'is-invalid' : ''), 'id' => 'id_semester']) !!}
-                @error('id_semester')
+                <label for="sks_mata_kuliah" class="font-weight-bold">SKS Matkul</label>
+                {!! Form::number('sks_mata_kuliah', null, ['class' => 'form-control '.($errors->has('sks_mata_kuliah') ? 'is-invalid' : ''), 'id' => 'sks_mata_kuliah']) !!}
+                @error('sks_mata_kuliah')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
                 @enderror
             </div>
-            {{-- <div class="form-group col-lg-2">
-                <label for="nilai_minimum" class="font-weight-bold">Nilai Min</label>
-                {!! Form::select('nilai_minimum', ['' => 'Pilih Nilai Min', 'A' => 'A', 'B' => 'B', 'C' => 'C', 'D' => 'D', 'E' => 'E'], null, ['class' => 'form-control '.($errors->has('nilai_minimum') ? 'is-invalid' : ''), 'id' => 'nilai_minimum']) !!}
-                @error('nilai_minimum')
+            <div class="form-group col-lg-2">
+                <label for="sks_praktek" class="font-weight-bold">SKS Praktek</label>
+                {!! Form::number('sks_praktek', null, ['class' => 'form-control '.($errors->has('sks_praktek') ? 'is-invalid' : ''), 'id' => 'sks_praktek']) !!}
+                @error('sks_praktek')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
                 @enderror
-            </div> --}}
+            </div>
+            <div class="form-group col-lg-2">
+                <label for="sks_praktek_lapangan" class="font-weight-bold">SKS Praktek Lapangan</label>
+                {!! Form::number('sks_praktek_lapangan', null, ['class' => 'form-control '.($errors->has('sks_praktek_lapangan') ? 'is-invalid' : ''), 'id' => 'sks_praktek_lapangan']) !!}
+                @error('sks_praktek_lapangan')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+                @enderror
+            </div>
+            <div class="form-group col-lg-2">
+                <label for="sks_simulasi" class="font-weight-bold">SKS Simulasi</label>
+                {!! Form::number('sks_simulasi', null, ['class' => 'form-control '.($errors->has('sks_simulasi') ? 'is-invalid' : ''), 'id' => 'sks_simulasi']) !!}
+                @error('sks_simulasi')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+                @enderror
+            </div>
             <div class="form-group col-lg-2">
                 <label for="opsi" class="font-weight-bold d-block">Opsi Tambahan</label>
                 <div class="form-check form-check-inline">
@@ -112,7 +134,7 @@
             @enderror
         </div>
     </div>
-    <div class="form-group row">
+    {{-- <div class="form-group row">
         <div class="form-group col-lg-12">
             <label for="id_semester">Semester</label>
             {!! Form::select('id_semester', $semester, null, ['class' => 'form-control '.($errors->has('id_semester') ? 'is-invalid' : ''), 'id' => 'id_semester']) !!}
@@ -122,7 +144,7 @@
                 </div>
             @enderror
         </div>
-    </div>
+    </div> --}}
     <div class="form-group row">
         <div class="form-group col-lg-12">
             <label for="nilai_minimum" >Nilai Min</label>
