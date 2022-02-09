@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\{
-    t_peserta_kelas_kuliah
+    t_peserta_kelas_kuliah,
+    m_kelas_kuliah
 };
 use Session, DB;
 
@@ -18,7 +19,13 @@ class PesertaKelasKuliahController extends Controller
      */
     public function index($id_kelas_kuliah)
     {
-        return view('admin.peserta_kelas_kuliah.index', compact('id_kelas_kuliah'));
+        $kelas_kuliah = m_kelas_kuliah::where('id_kelas_kuliah', $id_kelas_kuliah)->first();
+        $angkatan = $kelas_kuliah->semester->tahun_ajaran;
+        $mahasiswa = t_peserta_kelas_kuliah::setFilter([
+            'filter' => "id_prodi='$kelas_kuliah->id_prodi' AND angkatan='$angkatan'",
+        ])->pluck('nama_mahasiswa', 'id_registrasi_mahasiswa')->prepend('Pilih Mahasiswa');
+        
+        return view('admin.peserta_kelas_kuliah.index', compact('id_kelas_kuliah', 'mahasiswa'));
     }
 
     public function data_index(Request $request, $id_kelas_kuliah)
@@ -33,13 +40,13 @@ class PesertaKelasKuliahController extends Controller
             
                 $button = '<div class="btn-group" role="group" aria-label="Basic example">';
 
-                $button .= view("components.button.default", [
-                    'type' => 'button',
-                    'tooltip' => 'Ubah',
-                    'class' => 'btn btn-outline-primary btn-sm btn_edit',
-                    "icon" => "fa fa-edit",
-                    "route" => route('admin.peserta_kelas_kuliah.update', [$data->id_kelas_kuliah, $data->id_registrasi_mahasiswa]),
-                ]);
+                // $button .= view("components.button.default", [
+                //     'type' => 'button',
+                //     'tooltip' => 'Ubah',
+                //     'class' => 'btn btn-outline-primary btn-sm btn_edit',
+                //     "icon" => "fa fa-edit",
+                //     "route" => route('admin.peserta_kelas_kuliah.update', [$data->id_kelas_kuliah, $data->id_registrasi_mahasiswa]),
+                // ]);
 
                 $button .= view("components.button.default", [
                     'type' => 'button',
@@ -63,7 +70,7 @@ class PesertaKelasKuliahController extends Controller
             ->toJson();
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $id_kelas_kuliah)
     {
         $records = $request->all();
         $result = InsertDataFeeder('InsertPesertaKelasKuliah', $records);

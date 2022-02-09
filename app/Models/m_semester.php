@@ -19,4 +19,9 @@ class m_semester extends SushiModel
     {
         return GetDataFeeder('GetSemester', self::$filter);
     }
+
+    public function tahun_ajaran()
+    {
+        return $this->belongsTo(m_tahun_ajaran::class, 'id_tahun_ajaran');
+    }
 }

@@ -10,7 +10,7 @@
 <x-card-table>
     <x-slot name="title">Data Peserta Kelas Kuliah</x-slot>
     <x-slot name="button">
-        <a class="float-right btn btn-sm btn-outline-primary add-form" data-url="#" href="#"><i data-feather="plus" class="mr-2"></i>Tambah</a>
+        <a class="btn btn-app btn-sm btn-primary add-form" data-url="{{ route('admin.peserta_kelas_kuliah.store', $id_kelas_kuliah) }}" href="#"><i class="fa fa-plus mr-2"></i>Tambah</a>
     </x-slot>
 
     <x-datatable 
@@ -29,6 +29,29 @@
 </x-card-table>
 
 <x-modal.delete/>
+
+<x-modal class="modal-form" id="modal-form">
+    <x-slot name="title">Peserta Kelas Kuliah</x-slot>
+    <x-slot name="modalPosition">modal-dialog-centered</x-slot>
+    
+    @csrf 
+    @method('post')
+    <div class="form-group row">
+        <div class="form-group col-lg-12">
+            <label for="id_registrasi_mahasiswa">Mahasiswa</label>
+            {!! Form::select('id_registrasi_mahasiswa', $mahasiswa, null, ['class' => 'form-control '.($errors->has('id_registrasi_mahasiswa') ? 'is-invalid' : ''), 'id' => 'id_registrasi_mahasiswa']) !!}
+            @error('id_registrasi_mahasiswa')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+    </div>
+    <x-slot name="footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+        <button type="submit" class="btn btn-primary">Simpan</button>
+    </x-slot>
+</x-modal>
 
 @endsection
 

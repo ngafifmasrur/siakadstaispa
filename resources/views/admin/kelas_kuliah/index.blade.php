@@ -64,7 +64,7 @@
                 </div>
             @enderror
         </div>
-        {{-- <div class="form-group col-lg-6">
+        <div class="form-group col-lg-12">
             <label for="id_semester">Semester</label>
             {!! Form::select('id_semester', $semester, null, ['class' => 'form-control '.($errors->has('id_semester') ? 'is-invalid' : ''), 'id' => 'id_semester']) !!}
             @error('id_semester')
@@ -72,10 +72,10 @@
                     {{ $message }}
                 </div>
             @enderror
-        </div> --}}
+        </div>
     </div>
     <div class="form-group row">
-        {{-- <div class="form-group col-lg-6">
+        <div class="form-group col-lg-12">
             <label for="id_matkul">Mata Kuliah</label>
             {!! Form::select('id_matkul', $mata_kuliah, null, ['class' => 'form-control '.($errors->has('nilai_huruf') ? 'is-invalid' : ''), 'id' => 'id_matkul']) !!}
             @error('id_matkul')
@@ -83,7 +83,7 @@
                     {{ $message }}
                 </div>
             @enderror
-        </div> --}}
+        </div>
         <div class="form-group col-lg-12">
             <label for="nama_kelas_kuliah">Nama Kelas</label>
             {!! Form::text('nama_kelas_kuliah', null, ['class' => 'form-control '.($errors->has('nama_kelas_kuliah') ? 'is-invalid' : ''), 'id' => 'nama_kelas_kuliah']) !!}
@@ -105,8 +105,8 @@
             @enderror
         </div>
     </div>
-    {{-- <div class="form-group row">
-        <div class="form-group col-lg-6">
+    <div class="form-group row">
+        <div class="form-group col-lg-12">
             <label for="tanggal_mulai_efektif">Tanggal Mulai Efektif</label>
             {!! Form::date('tanggal_mulai_efektif', null, ['class' => 'form-control '.($errors->has('tanggal_mulai_efektif') ? 'is-invalid' : ''), 'id' => 'tanggal_mulai_efektif']) !!}
             @error('tanggal_mulai_efektif')
@@ -115,7 +115,7 @@
                 </div>
             @enderror
         </div>
-        <div class="form-group col-lg-6">
+        <div class="form-group col-lg-12">
             <label for="tanggal_akhir_efektif">Tanggal Akhir Efektif</label>
             {!! Form::date('tanggal_akhir_efektif', null, ['class' => 'form-control '.($errors->has('tanggal_selesai_efektif') ? 'is-invalid' : ''), 'id' => 'tanggal_akhir_efektif']) !!}
             @error('tanggal_akhir_efektif')
@@ -124,57 +124,14 @@
                 </div>
             @enderror
         </div>
-    </div> --}}
+    </div>
     <x-slot name="footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
         <button type="submit" class="btn btn-primary">Simpan</button>
     </x-slot>
 </x-modal>
 
-<x-modal class="edit-form" id="modal-form">
-    <x-slot name="title">Kelas Kuliah</x-slot>
-    <x-slot name="modalPosition">modal-dialog-centered</x-slot>
-    @csrf
-    @method('put')
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="id_prodi">Program Studi</label>
-            {!! Form::select('id_prodi', $prodi, null, ['class' => 'form-control '.($errors->has('id_prodi') ? 'is-invalid' : ''), 'id' => 'id_prodi']) !!}
-            @error('id_prodi')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-            @enderror
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="nama_kelas_kuliah">Nama Kelas</label>
-            {!! Form::text('nama_kelas_kuliah', null, ['class' => 'form-control '.($errors->has('nama_kelas_kuliah') ? 'is-invalid' : ''), 'id' => 'nama_kelas_kuliah']) !!}
-            @error('nama_kelas_kuliah')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-            @enderror
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="bahasan">Bahasan</label>
-            {!! Form::text('bahasan', null, ['class' => 'form-control '.($errors->has('bahasan') ? 'is-invalid' : ''), 'id' => 'bahasan']) !!}
-            @error('bahasan')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
-            @enderror
-        </div>
-    </div>
 
-    <x-slot name="footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-        <button type="submit" class="btn btn-primary">Simpan</button>
-    </x-slot>
-</x-modal>
 @endsection
 
 @push('js')
@@ -198,20 +155,20 @@
             $('.modal-form form').attr('action',  $(this).data('route'));
             $('[name=_method]').val('put');
             var id_prodi = $(this).data('prodi');
-            // var id_matkul = $(this).data('matkul');
-            // var id_semester = $(this).data('semester');
+            var id_matkul = $(this).data('matkul');
+            var id_semester = $(this).data('semester');
             var nama_kelas_kuliah = $(this).data('nama');
             var bahasan = $(this).data('bahasan');
-            // var tanggal_mulai = $(this).data('tanggal_mulai');
-            // var tanggal_akhir = $(this).data('tanggal_akhir');
+            var tanggal_mulai = $(this).data('tanggal_mulai');
+            var tanggal_akhir = $(this).data('tanggal_akhir');
 
             $('[name=id_prodi]').val(id_prodi);
-            // $('[name=id_matkul]').val(id_matkul);
-            // $('[name=id_semester]').val(id_semester);
+            $('[name=id_matkul]').val(id_matkul);
+            $('[name=id_semester]').val(id_semester);
             $('[name=nama_kelas_kuliah]').val(nama_kelas_kuliah);
             $('[name=bahasan]').val(bahasan);
-            // $('[name=tanggal_mulai_efektif]').val(tanggal_mulai);
-            // $('[name=tanggal_akhir_efektif]').val(tanggal_akhir);
+            $('[name=tanggal_mulai_efektif]').val(tanggal_mulai);
+            $('[name=tanggal_akhir_efektif]').val(tanggal_akhir);
 
         });
     </script>

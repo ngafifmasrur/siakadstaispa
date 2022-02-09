@@ -21,10 +21,10 @@ class KelasKuliahController extends Controller
     public function index()
     {
         $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi')->prepend('Pilih Program Studi', NULL);
-        $semester = m_semester::pluck('nama_semester', 'id_semester')->prepend('Pilih Semester', NULL);
-        // $mata_kuliah = m_mata_kuliah::pluck('nama_mata_kuliah', 'id');
+        $semester = m_semester::orderBy('nama_semester', 'desc')->pluck('nama_semester', 'id_semester')->prepend('Pilih Semester', NULL);
+        $mata_kuliah = m_mata_kuliah::pluck('nama_mata_kuliah', 'id_matkul')->prepend('Pilih Matkul', NULL);
 
-        return view('admin.kelas_kuliah.index', compact('prodi', 'semester'));
+        return view('admin.kelas_kuliah.index', compact('prodi', 'semester', 'mata_kuliah'));
     }
 
     public function data_index(Request $request)
@@ -72,6 +72,15 @@ class KelasKuliahController extends Controller
                     'tooltip' => 'Daftar Dosen',
                     'class' => 'btn btn-primary btn-sm',
                     "icon" => "fa fa-users",
+                    "attribute" => [
+                        'data-nama' => $data->nama_kelas_kuliah,
+                        'data-prodi' => $data->id_prodi,
+                        'data-semester' => $data->id_semester,
+                        'data-matkul' => $data->id_matkul,
+                        'data-bahasan' => $data->bahasan,
+                        'data-tanggal_mulai' => $data->tanggal_mulai_efektif,
+                        'data-tanggal_akhir' => $data->tanggal_akhir_efektif,
+                    ],
                     "route" => route('admin.pengajar_kelas_kuliah.index',['id_kelas_kuliah' => $data->id_kelas_kuliah]),
                 ]);
                 return $button;
@@ -102,109 +111,52 @@ class KelasKuliahController extends Controller
             ->toJson();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function store(Request $request)
     {
-        abort(404);
-    }
+        $records = $request->except('_token', '_method');
+        $result = InsertDataFeeder('InsertKelasKuliah', $records, 'GetListKelasKuliah');
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(KelasKuliahRequest $request)
-    {
-
-        DB::beginTransaction();
-
-        try{
-            
-            $data = m_kelas_kuliah::create($request->all());
-            DB::commit();
-
-            Session::flash('success_msg', 'Berhasil Ditambah');
-            return redirect()->route('admin.kelas_kuliah.index');
-
-        }catch(\Exception $e){
-
-            DB::rollback();
-
-            Session::flash('error_msg', 'Terjadi kesalahan pada server');
-            return redirect()->back()->withInput();
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
         }
+       
+        Session::flash('success_msg', 'Berhasil Ditambah');
+        return redirect()->back();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function update(Request $request, $kelas_kuliah)
     {
-        abort(404);
-    }
+        $records = $request->except('_token', '_method');
+        $key = [
+            'id_kelas_kuliah' => $kelas_kuliah
+        ];
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        abort(404);
-    }
+        $result = UpdateDataFeeder('UpdateKelasKuliah', $key, $records, 'GetListKelasKuliah');
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(KelasKuliahRequest $request,m_kelas_kuliah $kelas_kuliah)
-    {
-        DB::beginTransaction();
-
-        try{
-            
-            $kelas_kuliah->update($request->validated());
-            DB::commit();
-
-            Session::flash('success_msg', 'Berhasil Dibah');
-            return redirect()->route('admin.kelas_kuliah.index');
-
-        }catch(\Exception $e){
-
-            DB::rollback();
-
-            Session::flash('error_msg', 'Terjadi kesalahan pada server');
-            return redirect()->back()->withInput();
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
         }
+       
+        Session::flash('success_msg', 'Berhasil Diupdate');
+        return redirect()->back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(m_kelas_kuliah $kelas_kuliah)
+    public function destroy(Request $request, $kelas_kuliah)
     {
-        if(is_null($kelas_kuliah)){
-            abort(404);
+        $key = [
+            'id_kelas_kuliah' => $kelas_kuliah
+        ];
+        
+        $result = DeleteDataFeeder('DeleteKelasKuliah', $key, 'GetListKelasKuliah');
+
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
         }
-
-        $kelas_kuliah->delete();
-
+       
         Session::flash('success_msg', 'Berhasil Dihapus');
-        return back();
+        return redirect()->back();
     }
 }

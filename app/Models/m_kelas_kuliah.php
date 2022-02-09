@@ -7,6 +7,27 @@ class m_kelas_kuliah extends SushiModel
 {
 
     protected $primaryKey = 'id_kelas_kuliah';
+    protected $schema = [
+        'id_kelas_kuliah' => 'uuid',
+        'id_prodi' => 'uuid',
+        'nama_program_studi' => 'string',
+        'id_semester' => 'integer',
+        'nama_semester' => 'string',
+        'id_matkul' => 'uuid',
+        'kode_mata_kuliah' => 'string',
+        'nama_mata_kuliah' => 'string',
+        'nama_kelas_kuliah' => 'string',
+        'bahasan' => 'string',
+        'lingkup' => 'integer',
+        'mode' => 'string',
+        'tanggal_mulai_efektif' => 'date',
+        'tanggal_akhir_efektif' => 'date',
+        'kapasitas' => 'integer',
+        'tanggal_tutup_daftar' => 'date',
+        'prodi_penyelenggara' => 'uuid',
+        'perguruan_tinggi_penyelenggara' => 'uuid',
+
+    ];
 
     public function getRows()
     {

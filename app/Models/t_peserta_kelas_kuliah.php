@@ -16,6 +16,7 @@ class t_peserta_kelas_kuliah extends SushiModel
         'nama_mata_kuliah' => 'string',
         'id_prodi' => 'uuid',
         'nama_program_studi' => 'string',
+        'angkatan' => 'string',
     ];
 
 

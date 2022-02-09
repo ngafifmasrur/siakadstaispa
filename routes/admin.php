@@ -231,6 +231,7 @@ Route::group(
         Route::get('periode_perkuliahan/data_index', [PeriodePerkuliahanController::class, 'data_index',])->name('periode_perkuliahan.data_index');
         Route::delete('periode_perkuliahan/{id_prodi}/{id_mahasiswa}', [PeriodePerkuliahanController::class, 'destroy'])->name('periode_perkuliahan.destroy');
         Route::put('periode_perkuliahan/{id_prodi}/{id_mahasiswa}', [PeriodePerkuliahanController::class, 'update'])->name('periode_perkuliahan.update');
+        Route::post('periode_perkuliahan', [PeriodePerkuliahanController::class, 'store'])->name('periode_perkuliahan.store');
 
         // Perkulihan Mahasiswa / Semester Mahasiswa
         Route::get('semester_mahasiswa', [PerkuliahanMahasiswaController::class, 'index'])->name('semester_mahasiswa.index');
@@ -256,6 +257,7 @@ Route::group(
         Route::get('peserta_kelas_kuliah/data_index/{id_kelas_kuliah}', [PesertaKelasKuliahController::class, 'data_index',])->name('peserta_kelas_kuliah.data_index');
         Route::delete('peserta_kelas_kuliah/{id_kelas_kuliah}/{id_registrasi_mahasiswa}', [PesertaKelasKuliahController::class, 'destroy'])->name('peserta_kelas_kuliah.destroy');
         Route::put('peserta_kelas_kuliah/{id_kelas_kuliah}/{id_registrasi_mahasiswa}', [PesertaKelasKuliahController::class, 'update'])->name('peserta_kelas_kuliah.update');
+        Route::post('peserta_kelas_kuliah/{id_kelas_kuliah}', [PesertaKelasKuliahController::class, 'store'])->name('peserta_kelas_kuliah.store');
 
         // Pengajar Kelas Kuliah
         Route::get('pengajar_kelas_kuliah/{id_kelas_kuliah}', [DosenPengajarKelasKuliahController::class, 'index'])->name('pengajar_kelas_kuliah.index');

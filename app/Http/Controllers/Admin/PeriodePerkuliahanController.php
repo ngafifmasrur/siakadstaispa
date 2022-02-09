@@ -73,23 +73,36 @@ class PeriodePerkuliahanController extends Controller
 
     public function store(Request $request)
     {
-        $records = $request->all();
-        $result = InsertDataFeeder('InsertPeriodePerkuliahan', $records);
+        $records = $request->except('_token', '_method');
+        $records = $request->except('_token', '_method', 'paket');
+        $result = InsertDataFeeder('InsertPeriodePerkuliahan', $records, 'GetListPeriodePerkuliahan');
 
-        return $result;
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
+        }
+       
+        Session::flash('success_msg', 'Berhasil Ditambah');
+        return redirect()->back();
     }
 
     public function update(Request $request, $id_prodi, $id_semester)
     {
-        $records = $request->all();
+        $records = $request->except('_token', '_method');
         $key = [
             'id_semester' => $id_semester,
             'id_prodi' => $id_prodi
         ];
 
-        $result = UpdateDataFeeder('UpdatePeriodePerkuliahan', $key, $records);
+        $result = UpdateDataFeeder('UpdatePeriodePerkuliahan', $key, $records, 'GetListPeriodePerkuliahan');
 
-        return $result;
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
+        }
+       
+        Session::flash('success_msg', 'Berhasil Ditambah');
+        return redirect()->back();
     }
 
     public function destroy(Request $request, $id_prodi, $id_semester)
@@ -99,9 +112,15 @@ class PeriodePerkuliahanController extends Controller
             'id_prodi' => $id_prodi
         ];
         
-        $result = DeleteDataFeeder('DeletePeriodePerkuliahan', $key);
+        $result = DeleteDataFeeder('DeletePeriodePerkuliahan', $key, 'GetListPeriodePerkuliahan');
 
-        return $result;
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
+        }
+       
+        Session::flash('success_msg', 'Berhasil Ditambah');
+        return redirect()->back();
     }
 
 }
