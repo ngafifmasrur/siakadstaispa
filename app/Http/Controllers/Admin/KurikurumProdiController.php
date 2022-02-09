@@ -92,17 +92,22 @@ class KurikurumProdiController extends Controller
 
     public function store(Request $request)
     {
-        $semester = m_semester::where('id_semester', $request->id_semester)->value('semester');
+        $matkul = m_mata_kuliah::setFilter([
+            'filter' => "id_matkul='$request->id_matkul'"
+        ])->first();
         $records = $request->except('_token', '_method', 'id_semester', 'id_prodi');
-        $records['semester'] = $semester;
-
+        $records['sks_mata_kuliah'] = $matkul->sks_mata_kuliah;
+        $records['sks_tatap_muka'] = $matkul->sks_tatap_muka;
+        $records['sks_praktek'] = $matkul->sks_praktek;
+        $records['sks_praktek_lapangan'] = $matkul->sks_praktek_lapangan;
+        $records['sks_simulasi'] = $matkul->sks_simulasi;
         $result = InsertDataFeeder('InsertMatkulKurikulum', $records, 'GetListKurikulum');
 
         if($result['error_code'] !== '0') {
             Session::flash('error_msg', $result['error_desc']);
             return back()->withInput();
         }
-       
+        
         Session::flash('success_msg', 'Berhasil Ditambah');
         return redirect()->back();
     }
