@@ -31,7 +31,7 @@ class JurnalPerkuliahanController extends Controller
     public function index()
     {
         $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi')->prepend('Pilih Program Studi', NULL);
-        $semester = m_semester::pluck('nama_semester', 'id_semester')->prepend('Pilih Semester', NULL);
+        $semester = m_semester::orderBy('nama_semester','DESC')->pluck('nama_semester', 'id_semester')->prepend('Pilih Semester', NULL);
         return view('dosen.jurnal_perkuliahan.index', compact('prodi', 'semester'));
     }
 

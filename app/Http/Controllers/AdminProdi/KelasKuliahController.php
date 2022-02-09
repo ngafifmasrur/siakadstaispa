@@ -20,7 +20,7 @@ class KelasKuliahController extends Controller
      */
     public function index()
     {
-                // $semester = m_semester::pluck('nama_semester', 'id');
+                // $semester = m_semester::orderBy('nama_semester','DESC')->pluck('nama_semester', 'id');
         // $mata_kuliah = m_mata_kuliah::pluck('nama_mata_kuliah', 'id');
 
         return view('admin_prodi.kelas_kuliah.index');

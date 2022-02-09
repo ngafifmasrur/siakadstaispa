@@ -18,7 +18,7 @@ class KurikulumController extends Controller
      */
     public function index()
     {
-        $semester = m_semester::pluck('nama_semester', 'id');
+        $semester = m_semester::orderBy('nama_semester','DESC')->pluck('nama_semester', 'id');
         return view('admin_prodi.kurikulum.index', compact('semester'));
     }
 

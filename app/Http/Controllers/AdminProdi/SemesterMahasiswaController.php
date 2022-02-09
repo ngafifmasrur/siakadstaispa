@@ -22,7 +22,7 @@ class SemesterMahasiswaController extends Controller
     public function index()
     {
         $tahun_ajaran = m_tahun_ajaran::where('a_periode_aktif', 1)->pluck('nama_tahun_ajaran', 'id_tahun_ajaran')->prepend('Pilih Tahun Ajaran', NULL);
-        $semester = m_semester::pluck('nama_semester', 'id_semester')->prepend('Pilih Semester', NULL);
+        $semester = m_semester::orderBy('nama_semester','DESC')->pluck('nama_semester', 'id_semester')->prepend('Pilih Semester', NULL);
         $mahasiswa = m_mahasiswa::pluck('nama_mahasiswa', 'id_mahasiswa')->prepend('Cari Mahasiswa', NULL);
         return view('admin_prodi.semester_mahasiswa.index', compact('tahun_ajaran', 'semester', 'mahasiswa'));
     }

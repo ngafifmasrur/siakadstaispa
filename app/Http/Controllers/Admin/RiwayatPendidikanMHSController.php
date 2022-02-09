@@ -24,7 +24,7 @@ class RiwayatPendidikanMHSController extends Controller
     public function index($id_mahasiswa)
     {
         $prodi = m_program_studi::pluck('nama_program_studi', 'id');
-        $periode = m_semester::pluck('nama_semester', 'id');
+        $periode = m_semester::orderBy('nama_semester','DESC')->pluck('nama_semester', 'id');
         $mahasiswa = m_mahasiswa::findOrFail($id_mahasiswa);
         $jalur_daftar = $this->jalur_daftar;
         $jenis_daftar = ref_jenis_pendaftaran::pluck('nama_jenis_daftar', 'id');

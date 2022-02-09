@@ -265,7 +265,7 @@ class MahasiswaController extends Controller
     public function show(m_mahasiswa $mahasiswa)
     {
         $prodi = m_program_studi::pluck('nama_program_studi', 'id');
-        $periode = m_semester::pluck('nama_semester', 'id');
+        $periode = m_semester::orderBy('nama_semester','DESC')->pluck('nama_semester', 'id');
         $agama = ref_agama::pluck('nama_agama', 'id');
         $status_mahasiswa = $this->status_mahasiswa;
 

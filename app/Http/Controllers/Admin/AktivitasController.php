@@ -25,7 +25,7 @@ class AktivitasController extends Controller
     {
         $jenisAktivitas  = m_jenis_aktivitas::pluck('nama_jenis_aktivitas_mahasiswa', 'id_jenis_aktivitas_mahasiswa');
         $prodi  = m_program_studi::pluck('nama_program_studi', 'id_prodi');
-        $semester  = m_semester::pluck('nama_semester', 'id_semester');
+        $semester  = m_semester::orderBy('nama_semester','DESC')->pluck('nama_semester', 'id_semester');
 
         return view('admin.aktivitas.index', compact('jenisAktivitas', 'prodi', 'semester'));
     }

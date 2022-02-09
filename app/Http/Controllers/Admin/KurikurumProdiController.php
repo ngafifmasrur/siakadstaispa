@@ -23,7 +23,7 @@ class KurikurumProdiController extends Controller
     public function index(Request $request)
     {
         $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi')->prepend('Pilih Program Studi', NULL);
-        $kurikulum = m_kurikulum::pluck('nama_kurikulum', 'id_kurikulum')->prepend('Pilih Kurikulum', NULL);
+        $kurikulum = m_kurikulum::orderBy('id_semester','DESC')->pluck('nama_kurikulum', 'id_kurikulum')->prepend('Pilih Kurikulum', NULL);
         return view('admin.kurikulum_prodi.index', compact('prodi', 'kurikulum'));
     }
 
@@ -85,7 +85,7 @@ class KurikurumProdiController extends Controller
                     ];
                 })->pluck('matkul_kode', 'id_matkul')->prepend('Pilih Mata Kuliah', NULL);
 
-        $semester = m_semester::pluck('nama_semester', 'id_semester')->prepend('Pilih Semester', NULL);
+        $semester = m_semester::orderBy('nama_semester','DESC')->pluck('nama_semester', 'id_semester')->prepend('Pilih Semester', NULL);
 
         return view('admin.kurikulum_prodi.create', compact('matkul', 'semester', 'id_prodi', 'id_kurikulum', 'table_semester'));
     }

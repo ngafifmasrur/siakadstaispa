@@ -25,7 +25,7 @@ class RegistrasiMahasiswaController extends Controller
     public function index()
     {
         $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi')->prepend('Pilih Program Studi', NULL);
-        $periode = m_semester::pluck('nama_semester', 'id_semester')->prepend('Pilih Periode Masuk', NULL);
+        $periode = m_semester::orderBy('nama_semester','DESC')->pluck('nama_semester', 'id_semester')->prepend('Pilih Periode Masuk', NULL);
         $mahasiswa = m_mahasiswa::pluck('nama_mahasiswa', 'id_mahasiswa');
         $jalur_daftar = $this->jalur_daftar;
         $jenis_daftar = ref_jenis_pendaftaran::pluck('nama_jenis_daftar', 'id_jenis_daftar');
