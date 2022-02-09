@@ -98,53 +98,6 @@
     </x-slot>
 </x-modal>
 
-<x-modal class="edit-form" id="modal-form">
-    <x-slot name="title">Kurikulum</x-slot>
-    <x-slot name="modalPosition">modal-dialog-centered</x-slot>
-    @csrf
-    @method('put')
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="kode_program_studi">Nama Kurikulum</label>
-            {!! Form::text('nama_kurikulum', null, ['class' => 'form-control', 'id' => 'nama_kurikulum']) !!}
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="id_prodi">Program Studi</label>
-            {!! Form::select('id_prodi', $prodi, null, ['class' => 'form-control', 'id' => 'id_prodi']) !!}
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="id_semester">Semester</label>
-            {!! Form::select('id_semester', $semester, null, ['class' => 'form-control', 'id' => 'id_semester']) !!}
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="jumlah_sks_lulus">Jumlah SKS Lulus</label>
-            {!! Form::number('jumlah_sks_lulus', null, ['class' => 'form-control', 'id' => 'jumlah_sks_lulus']) !!}
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="jumlah_sks_lulus">Jumlah SKS Wajib</label>
-            {!! Form::number('jumlah_sks_wajib', null, ['class' => 'form-control', 'id' => 'jumlah_sks_wajib']) !!}
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="jumlah_sks_lulus">Jumlah SKS Pilihan</label>
-            {!! Form::number('jumlah_sks_pilihan', null, ['class' => 'form-control', 'id' => 'jumlah_sks_pilihan']) !!}
-        </div>
-    </div>
-
-    <x-slot name="footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-        <button type="submit" class="btn btn-primary">Simpan</button>
-    </x-slot>
-</x-modal>
 @endsection
 
 @push('js')

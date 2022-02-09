@@ -19,7 +19,7 @@ class KurikulumController extends Controller
     public function index()
     {
         $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi')->prepend('Pilih Program Studi', NULL);
-        $semester = m_semester::pluck('nama_semester', 'id_semester')->prepend('Pilih Semester', NULL);
+        $semester = m_semester::orderBy('nama_semester', 'desc')->pluck('nama_semester', 'id_semester')->prepend('Pilih Semester', NULL);
         return view('admin.kurikulum.index', compact('prodi', 'semester'));
     }
 
@@ -83,108 +83,52 @@ class KurikulumController extends Controller
             ->toJson();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        abort(404);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        DB::beginTransaction();
+        $records = $request->except('_token', '_method');
+        $result = InsertDataFeeder('InsertKurikulum', $records, 'GetListKurikulum');
 
-        try{
-            
-            $data = m_kurikulum::create($request->all());
-            DB::commit();
-
-            Session::flash('success_msg', 'Berhasil Ditambah');
-            return redirect()->route('admin.kurikulum.index');
-
-        }catch(\Exception $e){
-
-            DB::rollback();
-
-            Session::flash('error_msg', 'Terjadi kesalahan pada server');
-            return redirect()->back()->withInput();
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
         }
+       
+        Session::flash('success_msg', 'Berhasil Ditambah');
+        return redirect()->back();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function update(Request $request, $kurikulum)
     {
-        abort(404);
-    }
+        $records = $request->except('_token', '_method');
+        $key = [
+            'id_kurikulum' => $kurikulum
+        ];
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        abort(404);
-    }
+        $result = UpdateDataFeeder('UpdateKurikulum', $key, $records, 'GetListKurikulum');
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, m_kurikulum $kurikulum)
-    {
-        DB::beginTransaction();
-
-        try{
-            
-            $kurikulum->update($request->all());
-            DB::commit();
-
-            Session::flash('success_msg', 'Berhasil Dibah');
-            return redirect()->route('admin.kurikulum.index');
-
-        }catch(\Exception $e){
-
-            DB::rollback();
-
-            Session::flash('error_msg', 'Terjadi kesalahan pada server');
-            return redirect()->back()->withInput();
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
         }
+       
+        Session::flash('success_msg', 'Berhasil Diupdate');
+        return redirect()->back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(m_kurikulum $kurikulum)
+    public function destroy(Request $request, $kurikulum)
     {
-        if(is_null($kurikulum)){
-            abort(404);
+        $key = [
+            'id_kurikulum' => $kurikulum
+        ];
+        
+        $result = DeleteDataFeeder('DeleteKurikulum', $key, 'GetListKurikulum');
+
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
         }
-
-        $kurikulum->delete();
-
+       
         Session::flash('success_msg', 'Berhasil Dihapus');
-        return back();
+        return redirect()->back();
     }
 }
