@@ -73,11 +73,13 @@ class KurikurumProdiController extends Controller
      */
     public function create(m_kurikulum $id_kurikulum, m_program_studi $id_prodi)
     {
-        $table_semester = t_matkul_kurikulum::where('id_kurikulum', $id_kurikulum->id_kurikulum)
-                        ->where('id_prodi', $id_prodi->id_prodi)
-                        ->pluck('semester', 'semester');
+        $table_semester = t_matkul_kurikulum::setFilter([
+            'filter' => "id_kurikulum='$id_kurikulum->id_kurikulum' AND id_prodi='$id_prodi->id_prodi'"
+        ])->pluck('semester', 'semester');
 
-        $matkul = m_mata_kuliah::where('id_prodi', $id_prodi->id_prodi)->get()
+        $matkul = m_mata_kuliah::setFilter([
+            'filter' => "id_prodi='$id_prodi->id_prodi'"
+        ])->get()
                 ->map(function($data) {
                     return [
                         'id_matkul'    => $data->id_matkul,
@@ -85,17 +87,24 @@ class KurikurumProdiController extends Controller
                     ];
                 })->pluck('matkul_kode', 'id_matkul')->prepend('Pilih Mata Kuliah', NULL);
 
-        $semester = m_semester::pluck('nama_semester', 'id_semester')->prepend('Pilih Semester', NULL);
-
-        return view('admin.kurikulum_prodi.create', compact('matkul', 'semester', 'id_prodi', 'id_kurikulum', 'table_semester'));
+        return view('admin.kurikulum_prodi.create', compact('matkul', 'id_prodi', 'id_kurikulum', 'table_semester'));
     }
 
     public function store(Request $request)
     {
-        $records = $request->all();
-        $result = InsertDataFeeder('InsertMatkulKurikulum', $records);
+        $semester = m_semester::where('id_semester', $request->id_semester)->value('semester');
+        $records = $request->except('_token', '_method', 'id_semester', 'id_prodi');
+        $records['semester'] = $semester;
 
-        return $result;
+        $result = InsertDataFeeder('InsertMatkulKurikulum', $records, 'GetListKurikulum');
+
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
+        }
+       
+        Session::flash('success_msg', 'Berhasil Ditambah');
+        return redirect()->back();
     }
 
     public function destroy(Request $request, $id_kurikulum, $id_matkul)
@@ -109,5 +118,18 @@ class KurikurumProdiController extends Controller
         $result = DeleteDataFeeder('DeleteMatkulKurikulum', $key);
 
         return $result;
+    }
+
+    public function kurikulum_by_prodi(Request $request)
+    {
+        if (!$request->id_prodi) {
+            $kurikulum = null;
+        } else {
+            $kurikulum = m_kurikulum::setFilter([
+                'filter' => "id_prodi='$request->id_prodi'"
+            ])->get();
+        }
+
+        return response()->json($kurikulum);
     }
 }
