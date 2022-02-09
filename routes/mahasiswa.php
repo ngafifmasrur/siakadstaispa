@@ -8,7 +8,9 @@ use App\Http\Controllers\Mahasiswa\{
     KRSController,
     PrestasiMahasiswaController,
     AktivitasPerkuliahanController,
-    HistoriPendidikanController
+    HistoriPendidikanController,
+    HistoriNilaiController,
+    TranskripController
 };
 
 /*
@@ -66,5 +68,11 @@ Route::group(
 
         Route::get('histori_pendidikan/data_index', [HistoriPendidikanController::class, 'data_index'])->name('histori_pendidikan.data_index');
         Route::resource('histori_pendidikan', HistoriPendidikanController::class);
+
+        Route::get('histori_nilai/data_index', [HistoriNilaiController::class, 'data_index'])->name('histori_nilai.data_index');
+        Route::resource('histori_nilai', HistoriNilaiController::class);
+
+        Route::get('transkrip/data_index', [TranskripController::class, 'data_index'])->name('transkrip.data_index');
+        Route::resource('transkrip', TranskripController::class);
     }
 );
