@@ -6,7 +6,9 @@ use App\Http\Controllers\Mahasiswa\{
     DashboardController,
     BiodataController,
     KRSController,
-    PrestasiMahasiswaController
+    PrestasiMahasiswaController,
+    AktivitasPerkuliahanController,
+    HistoriPendidikanController
 };
 
 /*
@@ -58,5 +60,11 @@ Route::group(
 
         Route::get('prestasi_mahasiswa/data_index', [PrestasiMahasiswaController::class, 'data_index'])->name('prestasi_mahasiswa.data_index');
         Route::resource('prestasi_mahasiswa', PrestasiMahasiswaController::class);
+
+        Route::get('aktivitas_perkuliahan/data_index', [AktivitasPerkuliahanController::class, 'data_index'])->name('aktivitas_perkuliahan.data_index');
+        Route::resource('aktivitas_perkuliahan', AktivitasPerkuliahanController::class);
+
+        Route::get('histori_pendidikan/data_index', [HistoriPendidikanController::class, 'data_index'])->name('histori_pendidikan.data_index');
+        Route::resource('histori_pendidikan', HistoriPendidikanController::class);
     }
 );
