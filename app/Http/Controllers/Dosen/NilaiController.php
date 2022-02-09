@@ -135,14 +135,14 @@ class NilaiController extends Controller
                     'id_kelas_kuliah' => $request->id_kelas_kuliah
                 ];
             
-                $results[] = UpdateDataFeeder('UpdateNilaiPerkuliahanKelas', $key, $records);
+                $results[] = UpdateDataFeeder('UpdateNilaiPerkuliahanKelas', $key, $records, 'GetDetailNilaiPerkuliahanKelas');
 
             }
     
             DB::commit();
 
-            Session::flash('success_msg', 'Penilaian Berhasil!');
-            return redirect()->back();
+            // Session::flash('success_msg', 'Penilaian Berhasil!');
+            return redirect()->back()->with('results', $results);
 
         }catch(\Exception $e){
 

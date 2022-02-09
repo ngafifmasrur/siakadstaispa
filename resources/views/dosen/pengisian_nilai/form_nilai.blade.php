@@ -12,6 +12,19 @@
         <button class="btn btn-app btn-sm btn-primary" onclick="document.getElementById('nilai-form').submit();"><i class="fa fa-save mr-2"></i>Simpan</button>
     </x-slot>
 
+    @if (Session::get('results'))
+        <div class="alert alert-danger" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <strong>Error, Periksa Ulang data input...</strong>
+            <hr class="message-inner-separator">
+            <ul>
+                @foreach(Session::get('results') as $key => $item)
+                    <li>{{ $item['error_code'].' - '.$item['error_desc'] }}</li>
+                @endforeach 
+            </ul>
+        </div>
+    @endif
+
     <x-table>
         <x-slot name="thead">
             <tr>
