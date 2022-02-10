@@ -17,10 +17,10 @@
 </x-card>
 
 <x-card-table>
-    <x-slot name="title">Data Histori Nilai</x-slot>
+    <x-slot name="title">Data Transkrip</x-slot>
 
     <x-datatable 
-    :route="route('mahasiswa.histori_pendidikan.data_index')" 
+    :route="route('mahasiswa.transkrip.data_index')" 
     :table="[
         ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],                            
         ['title' => 'Kode MK', 'data' => 'kode_mata_kuliah', 'name' => 'kode_mata_kuliah'],
@@ -32,7 +32,7 @@
         ['title' => 'SKS*N.Indeks', 'data' => 'total_nilai', 'name' => 'total_nilai'],
     ]"
     :filter="[
-        ['data' => 'id_registrasi_mahasiswa', 'value' => '$(`#id_registrasi_mahasiswa`).val()']
+        ['data' => 'periode', 'value' => '$(`#periode`).val()']
     ]"
     />
 

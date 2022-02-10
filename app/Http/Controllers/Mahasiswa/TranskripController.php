@@ -30,14 +30,13 @@ class TranskripController extends Controller
     public function data_index(Request $request)
     {
 
-        $user = Auth::user();
-        $riwayat_pendidikan = t_riwayat_pendidikan_mahasiswa::setFilter([
-            'filter' => "id_mahasiswa='$user->id_mahasiswa' AND id_periode_masuk='$request->periode'"
-        ])->first() ?? null;
+        $id_registrasi_mahasiswa = t_riwayat_pendidikan_mahasiswa::setFilter([
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."' AND id_periode_masuk='$request->periode'"
+        ])->first()->id_registrasi_mahasiswa;
 
         if(!isset($riwayat_pendidikan)) {
             $query = t_transkrip_mahasiswa::setFilter([
-                'filter' => "id_registrasi_mahasiswa='$riwayat_pendidikan->id_registrasi_mahasiswa'"
+                'filter' => "id_registrasi_mahasiswa='$id_registrasi_mahasiswa'"
             ])->get();
         } else {
             $query = null;
@@ -46,7 +45,12 @@ class TranskripController extends Controller
         return datatables()->of($query)
             ->addIndexColumn()
             ->addColumn('total_nilai',function ($data) {
-                return $data->sks_mata_kuliah*$data->nilai_indeks;
+                // return $data->sks_mata_kuliah*$data->nilai_indeks;
+                return '-';
+            })
+            ->addColumn('kode_mata_kuliah',function ($data) {
+                // return $data->sks_mata_kuliah*$data->nilai_indeks;
+                return '-';
             })
             // ->addColumn('action',function ($data) {
            

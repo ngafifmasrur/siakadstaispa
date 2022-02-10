@@ -26,7 +26,7 @@
     </x-slot>
 
     <x-datatable 
-    :route="route('mahasiswa.histori_pendidikan.data_index')" 
+    :route="route('mahasiswa.histori_nilai.data_index')" 
     :table="[
         ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],                            
         ['title' => 'Kode MK', 'data' => 'kode_mk', 'name' => 'kode_mk'],

@@ -65,13 +65,16 @@
             @forelse ($nilai ?? [] as $item)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $item->matkul->kode_mata_kuliah }}</td>
+                    {{-- <td>{{ $item->matkul->kode_mata_kuliah ?? '-' }}</td> --}}
+                    <td>-</td>
                     <td>{{ $item->nama_mata_kuliah }}</td>
-                    <td>{{ $item->matkul->sks_mata_kuliah }}</td>
+                    {{-- <td>{{ $item->matkul->sks_mata_kuliah ?? '-' }}</td> --}}
+                    <td>-</td>
                     <td>{{ $item->nilai_angka }}</td>
                     <td>{{ $item->nilai_huruf }}</td>
                     <td>{{ $item->nilai_indeks }}</td>
-                    <td>{{ $item->matkul->sks_mata_kuliah+$item->nilai_indeks }}</td>
+                    <td>-</td>
+                    {{-- <td>{{ $item->matkul->sks_mata_kuliah+$item->nilai_indeks }}</td> --}}
                 </tr>
             @empty
                 <tr>

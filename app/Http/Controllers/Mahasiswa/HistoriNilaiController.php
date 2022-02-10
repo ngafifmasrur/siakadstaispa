@@ -30,14 +30,13 @@ class HistoriNilaiController extends Controller
 
     public function data_index(Request $request)
     {
-        $user = Auth::user();
         $riwayat_pendidikan = t_riwayat_pendidikan_mahasiswa::setFilter([
-            'filter' => "id_mahasiswa='$user->id_mahasiswa' AND id_periode_masuk='$request->periode'"
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."' AND id_periode_masuk='$request->periode'"
         ])->first() ?? null;
 
         if(isset($riwayat_pendidikan)) {
             $query = t_riwayat_nilai_mahasiswa::setFilter([
-                'filter' => "id_registasi_mahasiswa='$riwayat_pendidikan->id_registasi_mahasiswa'"
+                'filter' => "id_registrasi_mahasiswa='$riwayat_pendidikan->id_registrasi_mahasiswa'"
             ])->get();
         } else {
             $query = null;
@@ -46,13 +45,16 @@ class HistoriNilaiController extends Controller
         return datatables()->of($query)
             ->addIndexColumn()
            ->addColumn('kode_mk',function ($data) {
-                return $data->matkul->kode_mata_kuliah;
+                // return $data->matkul->kode_mata_kuliah;
+                return '-';
             })
             ->addColumn('sks_mata_kuliah',function ($data) {
-                return $data->matkul->sks_mata_kuliah;
+                // return $data->matkul->sks_mata_kuliah;
+                return '-';
             })
             ->addColumn('total_nilai',function ($data) {
-                return $data->matkul->sks_mata_kuliah*$data->nilai_indeks;
+                // return $data->matkul->sks_mata_kuliah*$data->nilai_indeks;
+                return '-';
             })
             // ->addColumn('action',function ($data) {
            
@@ -111,7 +113,7 @@ class HistoriNilaiController extends Controller
 
         if(isset($riwayat_pendidikan)) {
             $nilai = t_riwayat_nilai_mahasiswa::setFilter([
-                'filter' => "id_registasi_mahasiswa='$riwayat_pendidikan->id_registasi_mahasiswa'"
+                'filter' => "id_registrasi_mahasiswa='$riwayat_pendidikan->id_registrasi_mahasiswa'"
             ])->get();
         } else {
             $nilai = null;
