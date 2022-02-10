@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\{
     t_peserta_kelas_kuliah,
-    m_kelas_kuliah
+    m_kelas_kuliah,
+    t_riwayat_pendidikan_mahasiswa,
+    m_global_konfigurasi
 };
 use Session, DB;
 
@@ -19,10 +21,11 @@ class PesertaKelasKuliahController extends Controller
      */
     public function index($id_kelas_kuliah)
     {
+        $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
         $kelas_kuliah = m_kelas_kuliah::where('id_kelas_kuliah', $id_kelas_kuliah)->first();
         $angkatan = $kelas_kuliah->semester->tahun_ajaran;
-        $mahasiswa = t_peserta_kelas_kuliah::setFilter([
-            'filter' => "id_prodi='$kelas_kuliah->id_prodi' AND angkatan='$angkatan'",
+        $mahasiswa = t_riwayat_pendidikan_mahasiswa::setFilter([
+            'filter' => "id_prodi='$kelas_kuliah->id_prodi' AND id_periode_masuk='$semester_aktif'",
         ])->pluck('nama_mahasiswa', 'id_registrasi_mahasiswa')->prepend('Pilih Mahasiswa');
         
         return view('admin.peserta_kelas_kuliah.index', compact('id_kelas_kuliah', 'mahasiswa'));
@@ -72,10 +75,19 @@ class PesertaKelasKuliahController extends Controller
 
     public function store(Request $request, $id_kelas_kuliah)
     {
-        $records = $request->all();
-        $result = InsertDataFeeder('InsertPesertaKelasKuliah', $records);
+        $records = [];
+        $records['id_registrasi_mahasiswa'] = $request->id_registrasi_mahasiswa;
+        $records['id_kelas_kuliah'] = $id_kelas_kuliah;
 
-        return $result;
+        $result = InsertDataFeeder('InsertPesertaKelasKuliah', $records, 'GetPesertaKelasKuliah');
+
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
+        }
+       
+        Session::flash('success_msg', 'Berhasil Ditambah');
+        return redirect()->back();
     }
 
     public function update(Request $request, $id_kelas_kuliah, $id_registrasi_mahasiswa)
@@ -98,8 +110,13 @@ class PesertaKelasKuliahController extends Controller
             'id_registrasi_mahasiswa' => $id_registrasi_mahasiswa
         ];
         
-        $result = DeleteDataFeeder('DeletePesertaKelasKuliah', $key);
+        $result = DeleteDataFeeder('DeletePesertaKelasKuliah', $key, $GetPesertaKelasKuliah);
 
-        return $result;
-    }
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
+        }
+       
+        Session::flash('success_msg', 'Berhasil Ditambah');
+        return redirect()->back();    }
 }

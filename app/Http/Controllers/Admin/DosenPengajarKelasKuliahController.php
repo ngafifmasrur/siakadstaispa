@@ -8,7 +8,8 @@ use App\Models\{
     t_dosen_pengajar_kelas_kuliah,
     t_penugasan_dosen,
     ref_jenis_evaluasi,
-
+    m_global_konfigurasi,
+    m_kelas_kuliah
 };
 use Session, DB;
 
@@ -21,8 +22,19 @@ class DosenPengajarKelasKuliahController extends Controller
      */
     public function index($id_kelas_kuliah)
     {
+        $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
         $jenis_evaluasi = ref_jenis_evaluasi::pluck('nama_jenis_evaluasi', 'id_jenis_evaluasi')->prepend('Pilih Jenis Evaluasi', NULL);
-        $dosen = t_penugasan_dosen::pluck('nama_dosen', 'id_registrasi_dosen')->prepend('Pilih Dosen', NULL);
+        
+        // Kelas Kuliah
+        $kelas_kuliah = m_kelas_kuliah::setFilter([
+            'filter' => "id_kelas_kuliah='$id_kelas_kuliah'"
+        ])->first();
+
+        // Cari Dosen By Prodi kelas kuliah & Semester Aktif
+        $dosen = t_penugasan_dosen::setFilter([
+            'filter' => "id_prodi='$kelas_kuliah->id_prodi' AND id_tahun_ajaran='$semester_aktif'",
+        ])->pluck('nama_dosen', 'id_registrasi_dosen')->prepend('Pilih Dosen', NULL);
+
         return view('admin.pengajar_kelas_kuliah.index', compact('id_kelas_kuliah', 'jenis_evaluasi', 'dosen'));
     }
 
