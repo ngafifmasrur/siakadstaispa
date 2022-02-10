@@ -7,9 +7,7 @@
 ]) }}>
     <div class="modal-dialog {{ $modalPosition ?? '' }} {{ $modalDialogClass ?? 'modal-lg' }} " role="document">
         <div class="modal-content">
-            <form method="post" enctype="multipart/form-data" {{ $attributes->merge([
-                "id" => isset($id_modal) ? $id_modal : "modal-store",
-            ]) }}>
+            <form method="post" enctype="multipart/form-data">
                 @isset($title)
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">{{ $title ?? 'Text' }}</h5>
