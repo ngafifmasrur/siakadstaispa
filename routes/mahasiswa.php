@@ -43,22 +43,10 @@ Route::group(
             'update',
         ])->name('biodata.update');
 
-        Route::resource('/krs', KRSController::class)->except([
-            'show',
-            'index',
-        ]);
-        Route::get('/krs/{tahun_ajaran}', [
-            KRSController::class,
-            'index',
-        ])->name('krs.index');
-        Route::get('/krs/data_index/{tahun_ajaran}', [
-            KRSController::class,
-            'data_index',
-        ])->name('krs.data_index');
-        Route::post('/krs/ajukan/{tahun_ajaran}', [
-            KRSController::class,
-            'ajukan',
-        ])->name('krs.ajukan');
+        Route::get('/krs/data_index', [KRSController::class,'data_index',])->name('krs.data_index');
+        Route::get('/krs', [ KRSController::class,'index',])->name('krs.index');
+        Route::delete('/krs/{id_kelas_kuliah}/{id_registrasi_mahasiswa}', [KRSController::class,'data_index',])->name('krs.destory');
+        Route::post('/krs', [ KRSController::class,'store',])->name('krs.store');
 
         Route::get('prestasi_mahasiswa/data_index', [PrestasiMahasiswaController::class, 'data_index'])->name('prestasi_mahasiswa.data_index');
         Route::resource('prestasi_mahasiswa', PrestasiMahasiswaController::class);

@@ -29,4 +29,9 @@ class t_peserta_kelas_kuliah extends SushiModel
     {
         return $this->belongsTo(t_detail_nilai_perkuliahan_kelas::class, 'id_kelas_kuliah', 'id_kelas_kuliah');
     }
+
+    public function mata_kuliah()
+    {
+        return $this->belongsTo('App\Models\m_mata_kuliah', 'id_matkul');
+    }
 }

@@ -4,10 +4,16 @@ namespace App\Http\Controllers\Mahasiswa;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\t_krs;
-use App\Models\t_semester_mahasiswa;
-use App\Models\m_tahun_ajaran;
-use App\Models\m_jadwal;
+use App\Models\{
+    t_krs,
+    t_semester_mahasiswa,
+    t_peserta_kelas_kuliah,
+    m_global_konfigurasi,
+    m_tahun_ajaran,
+    m_jadwal,
+    m_kelas_kuliah,
+    t_riwayat_pendidikan_mahasiswa
+};
 use Session, DB, Auth;
 
 class KRSController extends Controller
@@ -17,36 +23,42 @@ class KRSController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($tahun_ajaran)
+    public function index()
     {
-        $krs_mahasiswa = t_krs::where('nim', Auth::user()->mahasiswa->nim)
-        ->select('id_jadwal')->get()->toArray();
-        $jadwal = m_jadwal::whereNotIn('id', $krs_mahasiswa)->get();
-        $list_tahun_ajaran = m_tahun_ajaran::pluck('id_tahun_ajaran', 'nama_tahun_ajaran');
-
-        $semester_siswa = t_semester_mahasiswa::where('id_mahasiswa', Auth::user()->mahasiswa->id_mahasiswa)
-                            ->where('id_tahun_ajaran', $tahun_ajaran)
-                            ->where('status', 'Aktif')
-                            ->first();
-
-        if(is_null($semester_siswa)){
+        $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
+        $id_registrasi_mahasiswa = t_riwayat_pendidikan_mahasiswa::setFilter([
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."' AND id_periode_masuk='$semester_aktif'"
+        ])->first();
+        
+        if(!isset($id_registrasi_mahasiswa)){
             Session::flash('error_msg', 'Mahasiswa tidak memiliki semester aktif');
-            return view('mahasiswa.krs.index2', compact('tahun_ajaran'));
+            return view('mahasiswa.krs.index2');
         }
-        return view('mahasiswa.krs.index', compact('jadwal', 'tahun_ajaran', 'list_tahun_ajaran', 'semester_siswa'));
+        return view('mahasiswa.krs.index');
     }
 
-    public function data_index(Request $request, $tahun_ajaran)
+    public function data_index(Request $request)
     {
-        $query = t_krs::join('m_jadwal', 'm_jadwal.id', 'id_jadwal')
-                        ->join('m_mata_kuliah_aktif', 'm_mata_kuliah_aktif.id', 'm_jadwal.id_matkul_aktif')
-                        ->join('m_semester', 'm_semester.id_semester', 'm_mata_kuliah_aktif.id_semester')
-                        ->where('nim', Auth::user()->mahasiswa->nim)
-                        ->where('id_tahun_ajaran',$tahun_ajaran)
-                        ->select('t_krs.*', 'm_semester.id_tahun_ajaran');
+        $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
+        $kelasKuliah = t_peserta_kelas_kuliah::setFilter([
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
+        ])->pluck('id_kelas_kuliah')->toArray();
+        
+        $query = m_kelas_kuliah::setFilter([
+            'filter' => "id_semester='".Auth::user()->id_mahasiswa."'"
+        ])->whereIn('id_kelas_kuliah', $kelasKuliah)->get();
 
         return datatables()->of($query)
             ->addIndexColumn()
+            ->addColumn('sks_mata_kuliah',function ($data) {
+                return $data->mata_kuliah->sks_mata_kuliah;
+            })
+            ->addColumn('nama_dosen',function ($data) {
+                return '-';
+            })
+            ->addColumn('ruangan',function ($data) {
+                return '-';
+            })
             ->addColumn('action',function ($data) {
            
                 $button = '<div class="btn-group" role="group" aria-label="Basic example">';
@@ -59,7 +71,7 @@ class KRSController extends Controller
                     'attribute' => [
                         'data-text' => 'Anda yakin ingin menghapus data ini ?',
                     ],
-                    "route" => route('mahasiswa.krs.destroy', $data->id),
+                    "route" => route('mahasiswa.krs.destroy', [$data->id_kelas_kuliah, $data->id_registrasi_mahasiswa]),
                 ]);
 
     
@@ -67,56 +79,61 @@ class KRSController extends Controller
     
                 return $button;
             })
-            ->addColumn('dosen', function ($data) {
-                return $data->jadwal->dosen->nama_dosen;
-            })
-            ->addColumn('prodi', function ($data) {
-                return $data->jadwal->prodi->nama_program_studi;
-            })
-            ->addColumn('kode_matkul', function ($data) {
-                return $data->jadwal->matkul->matkul->kode_mata_kuliah;
-            })
-            ->addColumn('matkul', function ($data) {
-                return $data->jadwal->matkul->matkul->nama_mata_kuliah;
-            })
-            ->addColumn('sks', function ($data) {
-                return $data->jadwal->matkul->matkul->sks_mata_kuliah;
-            })
-            ->addColumn('kelas', function ($data) {
-                return $data->jadwal->kelas->nama_kelas_kuliah;
-            })
-            ->addColumn('ruangan', function ($data) {
-                return $data->jadwal->ruangan->nama_ruangan;
-            })
-            ->addColumn('jadwal', function ($data) {
-                return $data->jadwal->hari.', '.$data->jadwal->jam_mulai.' - '.$data->jadwal->jam_akhir;
-            })
-            ->addColumn('status',function ($data) {
-                if($data->status == 'Menunggu') {
-                    $button = view("components.button.default", [
-                        'type' => 'button',
-                        'tooltip' => 'Status',
-                        'class' => 'btn btn-primary btn-sm',
-                        "label" => "Belum Disetujui",
-                    ]);
-                } elseif ($data->status == 'Disetujui') {
-                    $button = view("components.button.default", [
-                        'type' => 'button',
-                        'tooltip' => 'Status',
-                        'class' => 'btn btn-success btn-sm',
-                        "label" => "Disetujui",
-                    ]);
+            ->rawColumns(['action'])
+            ->setRowAttr([
+                'style' => 'text-align: center',
+            ])
+            ->toJson();
+    }
+
+    public function create()
+    {
+        return view('mahasiswa.krs.create');
+    }
+
+    public function list_kelas_kuliah()
+    {
+        $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
+        $id_registrasi_mahasiswa = t_riwayat_pendidikan_mahasiswa::setFilter([
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."' AND id_periode_masuk='$semester_aktif'"
+        ])->first()->id_registrasi_mahasiswa;
+
+        $query = m_kelas_kuliah::setFilter([
+            'filter' => "id_semester_aktif='$semester_aktif' AND id_prodi='".Auth::user()->mahasiswa->id_prodi."'"
+        ])->get();
+
+        $query->map(function ($item) use ($id_registrasi_mahasiswa) {
+            $check = t_peserta_kelas_kuliah::setFilter([
+                'filter' => "id_kelas_kuliah='$item->id_kelas_kuliah' AND id_registrasi_mahasiswa='$id_registrasi_mahasiswa'"
+            ])->count();
+
+            if($check > 0){
+                $item['checked'] = 1;
+            } else {
+                $item['checked'] = 0;
+            }
+            return $item;
+        });
+
+        return datatables()->of($query)
+            ->addIndexColumn()
+            ->addColumn('select_all', function ($data) {
+                if($data->checked == true){
+                    return '';
                 } else {
-                    $button = view("components.button.default", [
-                        'type' => 'button',
-                        'tooltip' => 'Status',
-                        'class' => 'btn btn-danger btn-sm',
-                        "label" => "Ditolak",
-                    ]);
+                    return '<input type="checkbox"' .' name="kelas_kuliah[]" value="'. $data->id_kelas_kuliah .'">';
                 }
-                return $button;
             })
-            ->rawColumns(['action', 'status'])
+            ->addColumn('sks_mata_kuliah',function ($data) {
+                return $data->mata_kuliah->sks_mata_kuliah;
+            })
+            ->addColumn('nama_dosen',function ($data) {
+                return '-';
+            })
+            ->addColumn('ruangan',function ($data) {
+                return '-';
+            })
+            ->rawColumns(['select_all'])
             ->setRowAttr([
                 'style' => 'text-align: center',
             ])
@@ -125,31 +142,24 @@ class KRSController extends Controller
 
     public function store(Request $request)
     {
+        $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
+        $id_registrasi_mahasiswa = t_riwayat_pendidikan_mahasiswa::setFilter([
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."' AND id_periode_masuk='$semester_aktif'"
+        ])->first()->id_registrasi_mahasiswa;
 
-        DB::beginTransaction();
+        $kelas_kuliah = $request->except('_token', '_method');
 
-        try{
-            
-            $list_jadwal = $request->input('jadwal');
-            foreach($list_jadwal as $jadwal){
-                t_krs::create([
-                    'id_jadwal' => $jadwal,
-                    'nim' => Auth::user()->mahasiswa->nim,
-                    'status' => 'Menunggu'
-                ]);
-            }
-            DB::commit();
-
-            Session::flash('success_msg', 'Berhasil Ditambah');
-            return redirect()->back();
-
-        }catch(\Exception $e){
-
-            DB::rollback();
-
-            Session::flash('error_msg', 'Terjadi kesalahan pada server');
-            return redirect()->back()->withInput();
+        foreach ($request->kelas_kuliah as $id_kelas_kuliah) {
+            $records = [
+                "id_registrasi_mahasiswa" => $id_registrasi_mahasiswa,
+                "id_kelas_kuliah" => $id_kelas_kuliah
+            ];
+        
+            $results[] = InsertDataFeeder('InsertPesertaKelasKuliah', $records, 'GetPesertaKelasKuliah');
         }
+
+        return redirect()->back()->with('results', $results);
+
     }
 
         /**
@@ -158,71 +168,22 @@ class KRSController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(t_krs $kr)
+    public function destroy($id_kelas_kuliah, $id_registrasi_mahasiswa)
     {
-        if(is_null($kr)){
-            abort(404);
-        }
-
-        $kr->delete();
-
-        Session::flash('success_msg', 'Berhasil Dihapus');
-        return back();
-    }
-
-    public function ajukan(Request $request, $tahun_ajaran)
-    {
-
-        $krs_mahasiswa = t_krs::join('m_jadwal', 'm_jadwal.id', 'id_jadwal')
-                        ->join('m_mata_kuliah_aktif', 'm_mata_kuliah_aktif.id', 'm_jadwal.id_matkul_aktif')
-                        ->join('m_semester', 'm_semester.id_semester', 'm_mata_kuliah_aktif.id_semester')
-                        ->join('m_mata_kuliah', 'm_mata_kuliah.id_matkul', 'm_mata_kuliah_aktif.id_matkul')
-                        ->where('nim', Auth::user()->mahasiswa->nim)
-                        ->where('id_tahun_ajaran',$tahun_ajaran)
-                        ->select('t_krs.*', 'm_semester.id_tahun_ajaran', 'm_mata_kuliah.sks_mata_kuliah')
-                        ->count();
-
-        if($krs_mahasiswa <= 0) {
-            Session::flash('error_msg', 'Terjadi kesalahan pada server');
-            return redirect()->back()->withInput();
-        }
-
-        $total_sks = t_krs::join('m_jadwal', 'm_jadwal.id', 'id_jadwal')
-        ->join('m_mata_kuliah_aktif', 'm_mata_kuliah_aktif.id', 'm_jadwal.id_matkul_aktif')
-        ->join('m_semester', 'm_semester.id_semester', 'm_mata_kuliah_aktif.id_semester')
-        ->join('m_mata_kuliah', 'm_mata_kuliah.id_matkul', 'm_mata_kuliah_aktif.id_matkul')
-        ->where('nim', Auth::user()->mahasiswa->nim)
-        ->where('id_tahun_ajaran',$tahun_ajaran)
-        ->select('t_krs.*', 'm_semester.id_tahun_ajaran', 'm_mata_kuliah.sks_mata_kuliah')
-        ->sum('m_mata_kuliah.sks_mata_kuliah');
+        $key = [
+            'id_kelas_kuliah' => $id_kelas_kuliah,
+            'id_registrasi_mahasiswa' => $id_registrasi_mahasiswa
+        ];
         
+        $result = DeleteDataFeeder('DeletePesertaKelasKuliah', $key, 'GetPesertaKelasKuliah');
 
-        DB::beginTransaction();
-
-        try{
-            
-            $semester_siswa = t_semester_mahasiswa::where('id_mahasiswa', Auth::user()->mahasiswa->id_mahasiswa)
-                                ->where('id_tahun_ajaran', $tahun_ajaran)
-                                ->where('status', 'Aktif')
-                                ->first();
-
-            $semester_siswa->update([
-                'sks' => $total_sks,
-                'status_krs' => 'Mengajukan'
-            ]);
-
-            DB::commit();
-
-            Session::flash('success_msg', 'Berhasil Diajukan');
-            return redirect()->back();
-
-        }catch(\Exception $e){
-
-            DB::rollback();
-
-            Session::flash('error_msg', 'Terjadi kesalahan pada server');
-            return dd($e);
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
         }
+       
+        Session::flash('success_msg', 'Berhasil Dihapus');
+        return redirect()->back();
     }
 
 }
