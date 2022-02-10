@@ -15,7 +15,7 @@
         </div>
         <div class="form-group col-lg-3">
             <label for="semester">Semester</label>
-            {!! Form::select('semester', $semester, null, ['class' => 'form-control', 'id' => 'semester']) !!}
+            {!! Form::select('semester', $semester, $semester_id, ['class' => 'form-control', 'id' => 'semester']) !!}
         </div>
     </div>
 </x-card>
