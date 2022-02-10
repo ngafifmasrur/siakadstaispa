@@ -8,11 +8,12 @@ use App\Models\{
     t_riwayat_pendidikan_mahasiswa,
     t_riwayat_nilai_mahasiswa,
     m_global_konfigurasi,
-    m_semester
+    m_semester,
+    m_mahasiswa
 };
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
-use Session, DB;
+use Session, DB, PDF;
 
 class HistoriNilaiController extends Controller
 {
@@ -94,5 +95,29 @@ class HistoriNilaiController extends Controller
                 'style' => 'text-align: center',
             ])
             ->toJson();
+    }
+
+    public function cetak(Request $request)
+    { 
+        $periode = $request->periode;
+        $user = Auth::user();
+        $mahasiswa = m_mahasiswa::setFilter([
+            'filter' => "id_mahasiswa='$user->id_mahasiswa'"
+        ])->first();
+
+        $riwayat_pendidikan = t_riwayat_pendidikan_mahasiswa::setFilter([
+            'filter' => "id_mahasiswa='$user->id_mahasiswa' AND id_periode_masuk='$periode'"
+        ])->first() ?? null;
+
+        if(isset($riwayat_pendidikan)) {
+            $nilai = t_riwayat_nilai_mahasiswa::setFilter([
+                'filter' => "id_registasi_mahasiswa='$riwayat_pendidikan->id_registasi_mahasiswa'"
+            ])->get();
+        } else {
+            $nilai = null;
+        }
+        
+        $pdf = PDF::loadView('mahasiswa.histori_nilai.cetak', compact('riwayat_pendidikan', 'mahasiswa', 'nilai', 'periode'))->setPaper('a4', 'landscape');
+        return $pdf->stream('Histori_-_Nilai-_-'.$mahasiswa->nama_mahasiswa.'.pdf');    
     }
 }

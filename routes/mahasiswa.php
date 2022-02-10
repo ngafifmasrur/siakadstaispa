@@ -71,6 +71,7 @@ Route::group(
 
         Route::get('histori_nilai/data_index', [HistoriNilaiController::class, 'data_index'])->name('histori_nilai.data_index');
         Route::resource('histori_nilai', HistoriNilaiController::class);
+        Route::post('histori_nilai/cetak', [HistoriNilaiController::class, 'cetak'])->name('histori_nilai.cetak');
 
         Route::get('transkrip/data_index', [TranskripController::class, 'data_index'])->name('transkrip.data_index');
         Route::resource('transkrip', TranskripController::class);

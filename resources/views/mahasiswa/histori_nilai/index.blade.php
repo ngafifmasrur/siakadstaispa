@@ -8,16 +8,22 @@
 </x-header>
 
 <x-card>
-    <div class="row">
-        <div class="form-group col-lg-3">
-            <label for="periode">Periode</label>
-            {!! Form::select('periode', $periode, $semester_id, ['class' => 'form-control', 'id' => 'periode']) !!}
+    <form action="{{ route('mahasiswa.histori_nilai.cetak') }}" method="post" id="form_cetak">
+        @csrf
+        <div class="row">
+            <div class="form-group col-lg-3">
+                <label for="periode">Periode</label>
+                {!! Form::select('periode', $periode, $semester_id, ['class' => 'form-control', 'id' => 'periode']) !!}
+            </div>
         </div>
-    </div>
+    </form>
 </x-card>
 
 <x-card-table>
     <x-slot name="title">Data Histori Nilai</x-slot>
+    <x-slot name="button">
+        <button type="button" class="btn btn-app btn-sm btn-primary" onclick="document.getElementById('form_cetak').submit();"><i class="fa fa-print mr-2"></i>Cetak</button>
+    </x-slot>
 
     <x-datatable 
     :route="route('mahasiswa.histori_pendidikan.data_index')" 
