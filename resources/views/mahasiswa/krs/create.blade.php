@@ -14,13 +14,16 @@
     </x-slot>
 
     @if (Session::get('results'))
-    <div class="alert alert-danger" role="alert">
+    <div class="alert alert" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <strong>Error, Periksa Ulang data input...</strong>
         <hr class="message-inner-separator">
         <ul>
             @foreach(Session::get('results') as $key => $item)
-                <li>{{ $item['error_code'].' - '.$item['error_desc'] }}</li>
+                @if ($item['error_code'] !== 0)
+                <li class="text-danger">{{ $item['error_code'].' - '.$item['error_desc'] }}</li>
+                @else
+                <li class="text-success">{{ $item['error_code'].' - '.$item['error_desc'] }}</li>
+                @endif
             @endforeach 
         </ul>
     </div>

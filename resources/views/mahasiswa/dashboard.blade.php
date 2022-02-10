@@ -33,7 +33,7 @@
         <div class="card border-0">
             <div class="card-header custom-header pb-0">
                 <div>
-                    <h3 class="card-title">Jadwal Kuliah Hari Ini</h3>
+                    <h3 class="card-title">Jadwal Kuliah</h3>
                     <h6 class="card-subtitle">{{ now()->isoFormat('dddd, M Y')}}</h6>
                 </div>
             </div>
