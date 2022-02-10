@@ -40,13 +40,18 @@ class KRSController extends Controller
 
     public function data_index(Request $request)
     {
+
         $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
+        $id_registrasi_mahasiswa = t_riwayat_pendidikan_mahasiswa::setFilter([
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."' AND id_periode_masuk='$semester_aktif'"
+        ])->first()->id_registrasi_mahasiswa;
+
         $kelasKuliah = t_peserta_kelas_kuliah::setFilter([
             'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
         ])->pluck('id_kelas_kuliah')->toArray();
         
         $query = m_kelas_kuliah::setFilter([
-            'filter' => "id_semester='".Auth::user()->id_mahasiswa."'"
+            'filter' => "id_semester='$semester_aktif'"
         ])->whereIn('id_kelas_kuliah', $kelasKuliah)->get();
 
         return datatables()->of($query)
@@ -61,7 +66,7 @@ class KRSController extends Controller
             ->addColumn('ruangan',function ($data) {
                 return '-';
             })
-            ->addColumn('action',function ($data) {
+            ->addColumn('action',function ($data) use ($id_registrasi_mahasiswa) {
            
                 $button = '<div class="btn-group" role="group" aria-label="Basic example">';
     
@@ -73,7 +78,7 @@ class KRSController extends Controller
                     'attribute' => [
                         'data-text' => 'Anda yakin ingin menghapus data ini ?',
                     ],
-                    "route" => route('mahasiswa.krs.destroy', [$data->id_kelas_kuliah, $data->id_registrasi_mahasiswa]),
+                    "route" => route('mahasiswa.krs.destroy', [$data->id_kelas_kuliah, $id_registrasi_mahasiswa]),
                 ]);
 
     
@@ -110,7 +115,7 @@ class KRSController extends Controller
 
         $query->map(function ($item) use ($id_registrasi_mahasiswa) {
             $check = t_peserta_kelas_kuliah::setFilter([
-                'filter' => "id_kelas_kuliah='$item->id_kelas_kuliah' AND id_registrasi_mahasiswa='$id_registrasi_mahasiswa'"
+                'filter' => "id_kelas_kuliah='$item->id_kelas_kuliah' AND id_mahasiswa='".Auth::user()->id_mahasiswa."'"
             ])->count();
 
             if($check > 0){

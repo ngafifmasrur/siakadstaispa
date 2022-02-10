@@ -46,7 +46,7 @@ Route::group(
         Route::get('/krs/data_index', [KRSController::class,'data_index',])->name('krs.data_index');
         Route::get('/krs', [ KRSController::class,'index',])->name('krs.index');
         Route::get('/krs/create', [ KRSController::class,'create',])->name('krs.create');
-        Route::delete('/krs/{id_kelas_kuliah}/{id_registrasi_mahasiswa}', [KRSController::class,'data_index',])->name('krs.destory');
+        Route::delete('/krs/{id_kelas_kuliah}/{id_registrasi_mahasiswa}', [KRSController::class,'destroy',])->name('krs.destroy');
         Route::post('/krs', [ KRSController::class,'store',])->name('krs.store');
         Route::get('/krs/list_kelas_kuliah', [KRSController::class,'list_kelas_kuliah',])->name('krs.list_kelas_kuliah');
 
