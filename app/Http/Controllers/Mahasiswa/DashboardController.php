@@ -13,9 +13,13 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $pesertaKelasKuliah = t_peserta_kelas_kuliah::where('id_mahasiswa', Auth::user()->id_mahasiswa)->get();
-        $kelasKuliah = m_kelas_kuliah::where('id_mahasiswa', Auth::user()->id_mahasiswa)->get();
-
+        $pesertaKelasKuliah = t_peserta_kelas_kuliah::setFilter([
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
+        ])->get();
+        $kelasKuliah = m_kelas_kuliah::setFilter([
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
+        ])->get();
+        
         return view('mahasiswa.dashboard', compact('kelasKuliah', 'pesertaKelasKuliah'));
     }
 }

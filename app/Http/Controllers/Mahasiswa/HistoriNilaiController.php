@@ -39,7 +39,7 @@ class HistoriNilaiController extends Controller
                 'filter' => "id_registrasi_mahasiswa='$riwayat_pendidikan->id_registrasi_mahasiswa'"
             ])->get();
         } else {
-            $query = null;
+            $query = [];
         }
 
         return datatables()->of($query)
