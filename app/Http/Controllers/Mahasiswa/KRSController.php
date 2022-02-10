@@ -12,7 +12,8 @@ use App\Models\{
     m_tahun_ajaran,
     m_jadwal,
     m_kelas_kuliah,
-    t_riwayat_pendidikan_mahasiswa
+    t_riwayat_pendidikan_mahasiswa,
+    m_mahasiswa
 };
 use Session, DB, Auth;
 
@@ -51,7 +52,8 @@ class KRSController extends Controller
         return datatables()->of($query)
             ->addIndexColumn()
             ->addColumn('sks_mata_kuliah',function ($data) {
-                return $data->mata_kuliah->sks_mata_kuliah;
+                // return $data->mata_kuliah->sks_mata_kuliah;
+                return '-';
             })
             ->addColumn('nama_dosen',function ($data) {
                 return '-';
@@ -93,13 +95,17 @@ class KRSController extends Controller
 
     public function list_kelas_kuliah()
     {
+        $mahasiswa = m_mahasiswa::setFilter([
+            'filer' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
+        ])->first();
+
         $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
         $id_registrasi_mahasiswa = t_riwayat_pendidikan_mahasiswa::setFilter([
             'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."' AND id_periode_masuk='$semester_aktif'"
         ])->first()->id_registrasi_mahasiswa;
 
         $query = m_kelas_kuliah::setFilter([
-            'filter' => "id_semester_aktif='$semester_aktif' AND id_prodi='".Auth::user()->mahasiswa->id_prodi."'"
+            'filter' => "id_semester='$semester_aktif' AND id_prodi='$mahasiswa->id_prodi'"
         ])->get();
 
         $query->map(function ($item) use ($id_registrasi_mahasiswa) {
@@ -125,12 +131,16 @@ class KRSController extends Controller
                 }
             })
             ->addColumn('sks_mata_kuliah',function ($data) {
-                return $data->mata_kuliah->sks_mata_kuliah;
+                // return $data->mata_kuliah->sks_mata_kuliah;
+                return '-';
             })
             ->addColumn('nama_dosen',function ($data) {
                 return '-';
             })
             ->addColumn('ruangan',function ($data) {
+                return '-';
+            })
+            ->addColumn('kapasitas',function ($data) {
                 return '-';
             })
             ->rawColumns(['select_all'])

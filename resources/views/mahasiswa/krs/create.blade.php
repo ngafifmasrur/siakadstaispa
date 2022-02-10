@@ -10,7 +10,7 @@
 <x-card-table>
     <x-slot name="title">Pilih Kelas Kuliah</x-slot>
     <x-slot name="button">
-        <button onclick="massCreateAccount('{{ route('mahasiswa.krs.store') }}')" class="btn btn-success btn-xs btn-flat"><i class="fa fa-check"></i> Simpan</button>
+        <button onclick="massCreateAccount()" class="btn btn-success btn-xs btn-flat"><i class="fa fa-check"></i> Simpan</button>
     </x-slot>
 
     @if (Session::get('results'))
@@ -26,7 +26,7 @@
     </div>
     @endif
     
-    <form action="" method="post" id="kelas-form" class="kelas-form">
+    <form action="{{ route('mahasiswa.krs.store') }}" method="post" id="kelas_form" class="kelas-form">
         @csrf @method('post')
         <x-datatable 
         :route="route('mahasiswa.krs.list_kelas_kuliah')" 
@@ -47,18 +47,10 @@
 
 @push('js')
 <script>
-    function massCreateAccount(url) {
+    function massCreateAccount() {
         if ($('input:checked').length > 0) {
-            if (confirm('Simpan '+$('input:checked').length+1+' kelas kuliah?')) {
-                $.post(url, $('.kelas-form').serialize())
-                    .done((response) => {
-                        $.growl.notice({ duration: 3000, title: "Berhasil!",message: 'Kelas Kuliah terpilih berhasil disimpan!' });
-                        table.ajax.reload();
-                    })
-                    .fail((errors) => {
-                        $.growl.error({ duration: 3000, title: "Gagal!",message: 'Kelas Kuliah terpilih berhasil disimpan!' });
-                        return;
-                    });
+            if (confirm('Simpan '+$('input:checked').length+' kelas kuliah?')) {
+                document.getElementById('kelas_form').submit();
             }
         } else {
             $.growl.error({ duration: 3000, title: "Gagal!",message: 'Pilih kelas kuliah terlebih dahulu!' });
