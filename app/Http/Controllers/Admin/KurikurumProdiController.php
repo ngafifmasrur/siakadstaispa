@@ -120,9 +120,15 @@ class KurikurumProdiController extends Controller
 
         ];
         
-        $result = DeleteDataFeeder('DeleteMatkulKurikulum', $key);
+        $result = DeleteDataFeeder('DeleteMatkulKurikulum', $key, 'GetListKurikulum');
 
-        return $result;
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
+        }
+        
+        Session::flash('success_msg', 'Berhasil Ditambah');
+        return redirect()->back();
     }
 
     public function kurikulum_by_prodi(Request $request)

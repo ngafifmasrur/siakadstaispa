@@ -61,7 +61,7 @@
                             @endif
                         @endforeach
                     @endif
-                    d.semester = 1;
+                    d.semester = {{$data}};
                 }
             },
             columns: [
