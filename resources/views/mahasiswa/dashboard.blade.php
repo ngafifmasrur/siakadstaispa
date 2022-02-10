@@ -45,13 +45,13 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-4 col-md-12">
-                                        <small class="block">{{ $item->jam_mulai.' - '.$item->jam_akhir }}</small>
-                                        <strong  class="block">{{ $item->kelas->nama_mata_kuliah }}</strong>
+                                        {{-- <small class="block">{{ $item->tanggal_mulai_efektif.' - '.$item->tanggal_akhir_efektif }}</small> --}}
+                                        <strong  class="block">{{ $item->nama_mata_kuliah }}</strong>
                                     </div>
                                     <div class="col-lg-5 col-md-12">
-                                        <span class="block mb-1"><i class="fa fa-calendar mr-1"></i> {{ $item->kelas->nama_semester }}</span>
-                                        <span class="block mb-1"><i class="fa fa-bank mr-1"></i> {{ $item->ruangan->nama_ruangan }}</span>
-                                        <span class="block mb-1"><i class="fa fa-book mr-1"></i> {{ $item->kelas->nama_program_studi }}</span>
+                                        <span class="block mb-1"><i class="fa fa-calendar mr-1"></i> {{ $item->nama_semester }}</span>
+                                        <span class="block mb-1"><i class="fa fa-bank mr-1"></i>Kelas {{ $item->nama_kelas_kuliah }}</span>
+                                        <span class="block mb-1"><i class="fa fa-book mr-1"></i> {{ $item->nama_program_studi }}</span>
 
                                     </div>
                                     <div class="col-lg-3 col-md-12">
