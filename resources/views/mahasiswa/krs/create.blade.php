@@ -19,10 +19,10 @@
         <hr class="message-inner-separator">
         <ul>
             @foreach(Session::get('results') as $key => $item)
-                @if ($item['error_code'] !== 0)
+                @if ($item['error_code'] !== '0')
                 <li class="text-danger">{{ $item['error_code'].' - '.$item['error_desc'] }}</li>
                 @else
-                <li class="text-success">{{ $item['error_code'].' - '.$item['error_desc'] }}</li>
+                <li class="text-success" style="color:#00C851!important">Berhasil Disimpan!</li>
                 @endif
             @endforeach 
         </ul>

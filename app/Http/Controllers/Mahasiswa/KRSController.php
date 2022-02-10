@@ -100,25 +100,31 @@ class KRSController extends Controller
 
     public function list_kelas_kuliah()
     {
-        $mahasiswa = m_mahasiswa::setFilter([
-            'filer' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
-        ])->first();
 
         $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
+
         $id_registrasi_mahasiswa = t_riwayat_pendidikan_mahasiswa::setFilter([
             'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."' AND id_periode_masuk='$semester_aktif'"
         ])->first()->id_registrasi_mahasiswa;
 
+        // Peserta Kelas
+        $pesertaKelas = t_peserta_kelas_kuliah::setFilter([
+            'filter' => "id_registrasi_mahasiswa='$id_registrasi_mahasiswa'"
+        ])->pluck('id_kelas_kuliah')->toArray();
+
+        // Mahasiswa
+        $mahasiswa = m_mahasiswa::setFilter([
+            'filer' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
+        ])->first();
+
+        // List Kelas Kuliah
         $query = m_kelas_kuliah::setFilter([
             'filter' => "id_semester='$semester_aktif' AND id_prodi='$mahasiswa->id_prodi'"
         ])->get();
 
-        $query->map(function ($item) use ($id_registrasi_mahasiswa) {
-            $check = t_peserta_kelas_kuliah::setFilter([
-                'filter' => "id_kelas_kuliah='$item->id_kelas_kuliah' AND id_mahasiswa='".Auth::user()->id_mahasiswa."'"
-            ])->count();
-
-            if($check > 0){
+        // Check Jika MHS Sudah Memiliki KRS Matkul Tsb
+        $query->map(function ($item) use ($pesertaKelas) {
+            if(in_array($item->id_kelas_kuliah, $pesertaKelas)){
                 $item['checked'] = 1;
             } else {
                 $item['checked'] = 0;
