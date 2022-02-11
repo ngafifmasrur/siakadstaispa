@@ -30,8 +30,9 @@ class PrestasiMahasiswaController extends Controller
 
     public function data_index(Request $request)
     {
-        $query = m_prestasi_mahasiswa::with('jenis_prestasi')
-            ->where('id_mahasiswa', Auth::user()->id_mahasiswa);
+        $query = m_prestasi_mahasiswa::setFilter([
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
+        ])->get();
 
         return datatables()->of($query)
             ->addIndexColumn()
@@ -70,12 +71,6 @@ class PrestasiMahasiswaController extends Controller
     
                 return $button;
             })
-            ->addColumn('jenis_prestasi', function ($data) {
-                return $data->jenis_prestasi->nama_jenis_prestasi;
-            })
-            ->addColumn('tingkat_prestasi', function ($data) {
-                return $data->tingkat_prestasi->nama_tingkat_prestasi;
-            })
             ->rawColumns(['action'])
             ->setRowAttr([
                 'style' => 'text-align: center',
@@ -97,23 +92,35 @@ class PrestasiMahasiswaController extends Controller
 
     public function store(Request $request)
     {
-        $records = $request->all();
+        $records = $request->except('_token', '_method');
         $records['id_mahasiswa'] = Auth::user()->id_mahasiswa;
-        $result = InsertDataFeeder('InsertPrestasiMahasiswa', $records);
+        $result = InsertDataFeeder('InsertPrestasiMahasiswa', $records, 'GetListPrestasiMahasiswa');
 
-        return $result;
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
+        }
+       
+        Session::flash('success_msg', 'Berhasil Ditambah');
+        return redirect()->back();
     }
 
     public function update(Request $request, $prestasi_mahasiswa)
     {
-        $records = $request->all();
+        $records = $request->except('_token', '_method');
         $key = [
             'id_prestasi' => $prestasi_mahasiswa
         ];
 
-        $result = UpdateDataFeeder('UpdatePrestasiMahasiswa', $key, $records);
+        $result = UpdateDataFeeder('UpdatePrestasiMahasiswa', $key, $records, 'GetListPrestasiMahasiswa');
 
-        return $result;
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
+        }
+       
+        Session::flash('success_msg', 'Berhasil Diupdate');
+        return redirect()->back();
     }
 
     public function destroy(Request $request, $prestasi_mahasiswa)
@@ -122,8 +129,14 @@ class PrestasiMahasiswaController extends Controller
             'id_prestasi' => $prestasi_mahasiswa
         ];
         
-        $result = DeleteDataFeeder('DeletePrestasiMahasiswa', $key);
+        $result = DeleteDataFeeder('DeletePrestasiMahasiswa', $key, 'GetListPrestasiMahasiswa');
 
-        return $result;
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
+        }
+       
+        Session::flash('success_msg', 'Berhasil Diupdate');
+        return redirect()->back();
     }
 }

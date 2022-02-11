@@ -10,15 +10,15 @@
 <x-card-table>
     <x-slot name="title">Data Prestasi</x-slot>
     <x-slot name="button">
-        <a class="float-right btn btn-sm btn-outline-primary add-form" data-url="#" href="#"><i data-feather="plus" class="mr-2"></i>Tambah</a>
+        <a class="float-right btn btn-sm btn-primary add-form" data-url="#" href="#"><i data-feather="plus" class="mr-2"></i>Tambah</a>
     </x-slot>
 
     <x-datatable 
     :route="route('mahasiswa.prestasi_mahasiswa.data_index')" 
     :table="[
         ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],                            
-        ['title' => 'Jenis Prestasi', 'data' => 'jenis_prestasi', 'name' => 'jenis_prestasi'],
-        ['title' => 'Tingkat Prestasi', 'data' => 'tingkat_prestasi', 'name' => 'tingkat_prestasi', 'classname' => 'text-left'],
+        ['title' => 'Jenis Prestasi', 'data' => 'nama_jenis_prestasi', 'name' => 'nama_jenis_prestasi'],
+        ['title' => 'Tingkat Prestasi', 'data' => 'nama_tingkat_prestasi', 'name' => 'nama_tingkat_prestasi', 'classname' => 'text-left'],
         ['title' => 'Nama Prestasi', 'data' => 'nama_prestasi', 'name' => 'nama_prestasi'],
         ['title' => 'Tahun', 'data' => 'tahun_prestasi', 'name' => 'tahun_prestasi', 'classname' => 'text-left'],
         ['title' => 'Penyelenggara', 'data' => 'penyelenggara', 'name' => 'penyelenggara', 'classname' => 'text-left'],
@@ -44,18 +44,18 @@
     @method('post')
     <div class="row">
         <div class="form-group col-lg-6">
-            <label for="jenis_prestasi">Jenis Prestasi</label>
-            {!! Form::select('jenis_prestasi', $jenisPrestasi, null, ['class' => 'form-control '.($errors->has('jenis_prestasi') ? 'is-invalid' : ''), 'id' => 'jenis_prestasi']) !!}
-            @error('jenis_prestasi')
+            <label for="id_jenis_prestasi">Jenis Prestasi</label>
+            {!! Form::select('id_jenis_prestasi', $jenisPrestasi, null, ['class' => 'form-control '.($errors->has('id_jenis_prestasi') ? 'is-invalid' : ''), 'id' => 'id_jenis_prestasi']) !!}
+            @error('id_jenis_prestasi')
             <div class="invalid-feedback">
                 {{ $message }}
             </div>
             @enderror
         </div>
         <div class="form-group col-lg-6">
-            <label for="tingkat_prestasi">Tingkat Prestasi</label>
-            {!! Form::select('tingkat_prestasi', $tingkatPrestasi, null, ['class' => 'form-control '.($errors->has('tingkat_prestasi') ? 'is-invalid' : ''), 'id' => 'tingkat_prestasi']) !!}
-            @error('tingkat_prestasi')
+            <label for="id_tingkat_prestasi">Tingkat Prestasi</label>
+            {!! Form::select('id_tingkat_prestasi', $tingkatPrestasi, null, ['class' => 'form-control '.($errors->has('id_tingkat_prestasi') ? 'is-invalid' : ''), 'id' => 'id_tingkat_prestasi']) !!}
+            @error('id_tingkat_prestasi')
             <div class="invalid-feedback">
                 {{ $message }}
             </div>
@@ -77,9 +77,9 @@
 
     <div class="row">
         <div class="form-group col-lg-6">
-            <label for="tahun">Tahun</label>
-            {!! Form::select('tahun', $years, date('Y'), ['class' => 'form-control '.($errors->has('tahun') ? 'is-invalid' : ''), 'id' => 'tahun']) !!}
-            @error('tahun')
+            <label for="tahun_prestasi">Tahun</label>
+            {!! Form::select('tahun_prestasi', $years, date('Y'), ['class' => 'form-control '.($errors->has('tahun_prestasi') ? 'is-invalid' : ''), 'id' => 'tahun_prestasi']) !!}
+            @error('tahun_prestasi')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
