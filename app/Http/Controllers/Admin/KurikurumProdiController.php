@@ -75,7 +75,7 @@ class KurikurumProdiController extends Controller
     {
         $table_semester = t_matkul_kurikulum::setFilter([
             'filter' => "id_kurikulum='$id_kurikulum->id_kurikulum' AND id_prodi='$id_prodi->id_prodi'"
-        ])->pluck('semester', 'semester');
+        ])->orderBy('semester', 'ASC')->pluck('semester', 'semester');
 
         $matkul = m_mata_kuliah::setFilter([
             'filter' => "id_prodi='$id_prodi->id_prodi'"

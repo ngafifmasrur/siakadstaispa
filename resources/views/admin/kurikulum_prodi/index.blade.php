@@ -36,7 +36,7 @@
                 url: "{{ route('admin.kurikulum_prodi.kurikulum_by_prodi') }}?id_prodi=" + $(this).val(),
                 method: 'GET',
                 success: function(data) {
-                    $('#kurikulum').html('');
+                    $('#kurikulum').html('<option value="">Pilih Kurikulum</option>');
                     $.each(data, function(index, value) {
                         $('#kurikulum').append('<option value="' + value.id_kurikulum+ '">' + value.nama_kurikulum+ '</option>');
                     });
