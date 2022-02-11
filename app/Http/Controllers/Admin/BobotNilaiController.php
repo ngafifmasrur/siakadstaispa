@@ -18,13 +18,15 @@ class BobotNilaiController extends Controller
      */
     public function index()
     {
-        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi')->prepend('Pilih Program Studi', NULL);
+        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi');
         return view('admin.bobot_nilai.index', compact('prodi'));
     }
 
     public function data_index(Request $request)
     {
-        $query = m_skala_nilai_prodi::all();
+        $query = m_skala_nilai_prodi::setFilter([
+            'filter' => "id_prodi='$request->id_prodi'"
+        ])->get();
 
         return datatables()->of($query)
             ->addIndexColumn()
@@ -44,9 +46,9 @@ class BobotNilaiController extends Controller
                         'data-bobot_minimum' => $data->bobot_minimum,
                         'data-bobot_maksimum' => $data->bobot_maksimum,
                         'data-tanggal_mulai' => $data->tanggal_mulai_efektif,
-                        'data-tanggal_selesai' => $data->tanggal_selesai_efektif,
+                        'data-tanggal_selesai' => $data->tanggal_akhir_efektif,
                     ],
-                    "route" => route('admin.bobot_nilai.update',['bobot_nilai' => $data->id]),
+                    "route" => route('admin.bobot_nilai.update',['bobot_nilai' => $data->id_bobot_nilai]),
                 ]);
     
                 $button .= view("components.button.default", [
@@ -57,7 +59,7 @@ class BobotNilaiController extends Controller
                     'attribute' => [
                         'data-text' => 'Anda yakin ingin menghapus data ini ?',
                     ],
-                    "route" => route('admin.bobot_nilai.destroy',['bobot_nilai' => $data->id]),
+                    "route" => route('admin.bobot_nilai.destroy',['bobot_nilai' => $data->id_bobot_nilai]),
                 ]);
     
                 $button .= '</div>';
@@ -65,7 +67,7 @@ class BobotNilaiController extends Controller
                 return $button;
             })
             ->addColumn('prodi', function ($data) {
-                return $data->prodi->nama_program_studi;
+                return $data->nama_program_studi;
             })
             ->rawColumns(['action'])
             ->setRowAttr([
@@ -90,48 +92,18 @@ class BobotNilaiController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(BobotNilaiRequest $request)
+    public function store(Request $request)
     {
+        $records = $request->except('_token', '_method');
+        $result = InsertDataFeeder('InsertSkalaNilaiProdi', $records, 'GetListSkalaNilaiProdi');
 
-        DB::beginTransaction();
-
-        try{
-            
-            $data = m_skala_nilai_prodi::create($request->all());
-            DB::commit();
-
-            Session::flash('success_msg', 'Berhasil Ditambah');
-            return redirect()->route('admin.bobot_nilai.index');
-
-        }catch(\Exception $e){
-
-            DB::rollback();
-
-            Session::flash('error_msg', 'Terjadi kesalahan pada server');
-            return redirect()->back()->withInput();
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+       
+        Session::flash('success_msg', 'Berhasil Ditambah');
+        return redirect()->back();
     }
 
     /**
@@ -141,25 +113,22 @@ class BobotNilaiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(BobotNilaiRequest $request,m_skala_nilai_prodi $bobot_nilai)
+    public function update(Request $request, $bobot_nilai)
     {
-        DB::beginTransaction();
+        $records = $request->except('_token', '_method');
+        $key = [
+            'id_bobot_nilai' => $bobot_nilai
+        ];
 
-        try{
-            
-            $bobot_nilai->update($request->all());
-            DB::commit();
+        $result = UpdateDataFeeder('UpdateSkalaNilaiProdi', $key, $records, 'GetListSkalaNilaiProdi');
 
-            Session::flash('success_msg', 'Berhasil Dibah');
-            return redirect()->route('admin.bobot_nilai.index');
-
-        }catch(\Exception $e){
-
-            DB::rollback();
-
-            Session::flash('error_msg', 'Terjadi kesalahan pada server');
-            return redirect()->back()->withInput();
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
         }
+       
+        Session::flash('success_msg', 'Berhasil Diupdate');
+        return redirect()->back();
     }
 
     /**
@@ -168,15 +137,20 @@ class BobotNilaiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(m_skala_nilai_prodi $bobot_nilai)
+    public function destroy($bobot_nilai)
     {
-        if(is_null($bobot_nilai)){
-            abort(404);
+        $key = [
+            'id_bobot_nilai' => $bobot_nilai
+        ];
+        
+        $result = DeleteDataFeeder('DeleteSkalaNilaiProdi', $key, 'GetListSkalaNilaiProdi');
+
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
         }
-
-        $bobot_nilai->delete();
-
+       
         Session::flash('success_msg', 'Berhasil Dihapus');
-        return back();
+        return redirect()->back();
     }
 }

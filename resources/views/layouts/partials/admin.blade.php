@@ -32,7 +32,7 @@
                 <li aria-haspopup="true"><a href="{{ route('admin.kelas_kuliah.index') }}">Kelas Perkuliahan</a></li>
                 <li aria-haspopup="true"><a href="{{ route('admin.registrasi_mahasiswa.index') }}">Registrasi Mahasiswa</a></li>
                 <li aria-haspopup="true"><a href="{{ route('admin.perkuliahan_mahasiswa.index') }}">Perkuliahan Mahasiswa</a></li>
-                {{-- <li aria-haspopup="true"><a href="{{ route('admin.bobot_nilai.index') }}">Bobot Nilai</a></li> --}}
+                <li aria-haspopup="true"><a href="{{ route('admin.bobot_nilai.index') }}">Bobot Nilai</a></li>
                 {{-- <li aria-haspopup="true"><a href="{{ route('admin.ruang_kelas.index') }}">Ruang Kelas</a></li>
                 <li aria-haspopup="true"><a href="{{ route('admin.jadwal.index') }}">Jadwal Kuliah</a></li> --}}
             </ul>

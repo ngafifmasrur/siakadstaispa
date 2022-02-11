@@ -6,6 +6,15 @@
     Bobot Nilai
 </x-header>
 
+<x-card>
+    <div class="row">
+        <div class="form-group col-lg-3">
+            <label for="prodi">Program Studi</label>
+            {!! Form::select('prodi', $prodi, null, ['class' => 'form-control', 'id' => 'prodi']) !!}
+        </div>
+    </div>
+</x-card>
+
 <x-card-table>
     <x-slot name="title">Data Bobot Nilai</x-slot>
     <x-slot name="button">
@@ -22,8 +31,11 @@
         ['title' => 'Bobot Minimum', 'data' => 'bobot_minimum', 'name' => 'bobot_minimum'],
         ['title' => 'Bobot Maksimum', 'data' => 'bobot_maksimum', 'name' => 'bobot_maksimum'],
         ['title' => 'Tanggal Mulai Efektif', 'data' => 'tanggal_mulai_efektif', 'name' => 'tanggal_mulai_efektif'],
-        ['title' => 'Tanggal Selsai Efektif', 'data' => 'tanggal_selesai_efektif', 'name' => 'tanggal_selesai_efektif'],
+        ['title' => 'Tanggal Akhir Efektif', 'data' => 'tanggal_akhir_efektif', 'name' => 'tanggal_akhir_efektif'],
         ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
+    ]"
+    :filter="[
+        ['data' => 'id_prodi', 'value' => '$(`#prodi`).val()']
     ]"
     />
 </x-card-table>
@@ -104,9 +116,9 @@
     </div>
     <div class="form-group row">
         <div class="form-group col-lg-12">
-            <label for="tanggal_selesai_efektif">Tanggal Selesai Efektif</label>
-            {!! Form::date('tanggal_selesai_efektif', null, ['class' => 'form-control '.($errors->has('tanggal_selesai_efektif') ? 'is-invalid' : ''), 'id' => 'tanggal_selesai_efektif']) !!}
-            @error('tanggal_selesai_efektif')
+            <label for="tanggal_akhir_efektif">Tanggal Akhir Efektif</label>
+            {!! Form::date('tanggal_akhir_efektif', null, ['class' => 'form-control '.($errors->has('tanggal_akhir_efektif') ? 'is-invalid' : ''), 'id' => 'tanggal_akhir_efektif']) !!}
+            @error('tanggal_akhir_efektif')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
@@ -119,63 +131,16 @@
     </x-slot>
 </x-modal>
 
-<x-modal class="edit-form" id="modal-form">
-    <x-slot name="title">Mata Kuliah</x-slot>
-    <x-slot name="modalPosition">modal-dialog-centered</x-slot>
-    @csrf
-    @method('put')
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="id_prodi">Program Studi</label>
-            {!! Form::select('id_prodi', $prodi, null, ['class' => 'form-control', 'id' => 'id_prodi']) !!}
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="nilai_huruf">Nilai Huruf</label>
-            {!! Form::text('nilai_huruf', null, ['class' => 'form-control', 'id' => 'nilai_huruf']) !!}
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="nilai_indeks">Nilai Indeks</label>
-            {!! Form::number('nilai_indeks', null, ['class' => 'form-control', 'id' => 'nilai_indeks']) !!}
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="bobot_minimum">Bobot Minimum</label>
-            {!! Form::number('bobot_minimum', null, ['class' => 'form-control', 'id' => 'bobot_minimum']) !!}
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="bobot_maksimum">Bobot Maksimum</label>
-            {!! Form::number('bobot_maksimum', null, ['class' => 'form-control', 'id' => 'bobot_maksimum']) !!}
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="tanggal_mulai_efektif">Tanggal Mulai Efektif</label>
-            {!! Form::date('tanggal_mulai_efektif', null, ['class' => 'form-control', 'id' => 'tanggal_mulai_efektif']) !!}
-        </div>
-    </div>
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="tanggal_selesai_efektif">Tanggal Selesai Efektif</label>
-            {!! Form::date('tanggal_selesai_efektif', null, ['class' => 'form-control', 'id' => 'tanggal_selesai_efektif']) !!}
-        </div>
-    </div>
-
-    <x-slot name="footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-        <button type="submit" class="btn btn-primary">Simpan</button>
-    </x-slot>
-</x-modal>
 @endsection
 
 @push('js')
     <script>
+        $( document ).ready(function() {
+            $(document).on('change','#prodi',function(){
+                table.ajax.reload();
+            });
+        });
+
         $('.add-form').on('click', function () {
             $('.modal-form').modal('show');
             $('.modal-form form')[0].reset();
@@ -202,7 +167,7 @@
             $('[name=bobot_minimum]').val(bobot_minimum);
             $('[name=bobot_maksimum]').val(bobot_maksimum);
             $('[name=tanggal_mulai_efektif]').val(tanggal_mulai);
-            $('[name=tanggal_selesai_efektif]').val(tanggal_selesai);
+            $('[name=tanggal_akhir_efektif]').val(tanggal_selesai);
 
         });
     </script>
