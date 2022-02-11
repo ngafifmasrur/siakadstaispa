@@ -49,8 +49,8 @@
         <thead>
             <tr>
                 <th rowspan="2" align="center" width="5%">No</th>
-                <th rowspan="2" align="center" width="10%">Kode MK</th>
-                <th rowspan="2" align="center" width="10%">Nama MK</th>
+                <th rowspan="2" align="center" width="12%">Kode MK</th>
+                <th rowspan="2" align="center">Nama MK</th>
                 <th rowspan="2" align="center" width="10%">Bobot MK (sks)</th>
                 <th colspan="3" align="center" width="10%">Nilai</th>
                 <th rowspan="2" align="center" width="10%">SKS * Indeks</th>
@@ -65,16 +65,13 @@
             @forelse ($nilai ?? [] as $item)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    {{-- <td>{{ $item->matkul->kode_mata_kuliah ?? '-' }}</td> --}}
-                    <td>-</td>
+                    <td align="center">{{ $item->kode_mata_kuliah ?? '-' }}</td>
                     <td>{{ $item->nama_mata_kuliah }}</td>
-                    {{-- <td>{{ $item->matkul->sks_mata_kuliah ?? '-' }}</td> --}}
-                    <td>-</td>
-                    <td>{{ $item->nilai_angka }}</td>
-                    <td>{{ $item->nilai_huruf }}</td>
-                    <td>{{ $item->nilai_indeks }}</td>
-                    <td>-</td>
-                    {{-- <td>{{ $item->matkul->sks_mata_kuliah+$item->nilai_indeks }}</td> --}}
+                    <td align="center">{{ $item->sks_mata_kuliah ?? '-' }}</td>
+                    <td align="center">{{ $item->nilai_angka ?? '-'  }}</td>
+                    <td align="center">{{ $item->nilai_huruf ?? '-'  }}</td>
+                    <td align="center">{{ $item->nilai_indeks ?? '-'  }}</td>
+                    <td align="center">{{ $item->total_nilai }}</td>
                 </tr>
             @empty
                 <tr>
@@ -85,7 +82,7 @@
         <tfoot>
             <tr>
                 <th colspan="7">IPS (Indeks Prestasi Semester)</th>
-                <th>{{ $nilai ? $nilai->sum('sks_mata_kuliah') : 0 }}</th>
+                <th align="center">{{ $nilai ? $nilai->sum('total_nilai') : 0 }}</th>
             </tr>
         </tfoot>
     </table>

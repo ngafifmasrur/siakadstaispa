@@ -13,7 +13,8 @@ use App\Models\{
     m_jadwal,
     m_kelas_kuliah,
     t_riwayat_pendidikan_mahasiswa,
-    m_mahasiswa
+    m_mahasiswa,
+    m_mata_kuliah
 };
 use Session, DB, Auth;
 
@@ -54,11 +55,19 @@ class KRSController extends Controller
             'filter' => "id_semester='$semester_aktif'"
         ])->whereIn('id_kelas_kuliah', $kelasKuliah)->get();
 
+        $query->map(function ($item){
+            $matkul = m_mata_kuliah::setFilter([
+                'filter' => "id_matkul='$item->id_matkul'"
+            ])->first();
+            $item['sks_mata_kuliah'] = $matkul->sks_mata_kuliah;
+
+            return $item;
+        });
+
         return datatables()->of($query)
             ->addIndexColumn()
             ->addColumn('sks_mata_kuliah',function ($data) {
-                // return $data->mata_kuliah->sks_mata_kuliah;
-                return '-';
+                return $data->sks_mata_kuliah;
             })
             ->addColumn('nama_dosen',function ($data) {
                 return '-';

@@ -9,7 +9,8 @@ use App\Models\{
     t_riwayat_nilai_mahasiswa,
     m_global_konfigurasi,
     m_semester,
-    m_mahasiswa
+    m_mahasiswa,
+    m_mata_kuliah
 };
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -38,6 +39,17 @@ class HistoriNilaiController extends Controller
             $query = t_riwayat_nilai_mahasiswa::setFilter([
                 'filter' => "id_registrasi_mahasiswa='$riwayat_pendidikan->id_registrasi_mahasiswa'"
             ])->get();
+
+            $query->map(function ($item){
+                $matkul = m_mata_kuliah::setFilter([
+                    'filter' => "id_matkul='$item->id_matkul'"
+                ])->first();
+                $item['kode_mata_kuliah'] = $matkul->kode_mata_kuliah;
+                $item['sks_mata_kuliah'] = $matkul->sks_mata_kuliah;
+                $item['total_nilai'] = $matkul->sks_mata_kuliah*$item->nilai_indeks;
+
+                return $item;
+            });
         } else {
             $query = [];
         }
@@ -45,16 +57,13 @@ class HistoriNilaiController extends Controller
         return datatables()->of($query)
             ->addIndexColumn()
            ->addColumn('kode_mk',function ($data) {
-                // return $data->matkul->kode_mata_kuliah;
-                return '-';
+                return $data->kode_mata_kuliah;
             })
             ->addColumn('sks_mata_kuliah',function ($data) {
-                // return $data->matkul->sks_mata_kuliah;
-                return '-';
+                return $data->sks_mata_kuliah;
             })
             ->addColumn('total_nilai',function ($data) {
-                // return $data->matkul->sks_mata_kuliah*$data->nilai_indeks;
-                return '-';
+                return $data->total_nilai;
             })
             // ->addColumn('action',function ($data) {
            
@@ -115,6 +124,18 @@ class HistoriNilaiController extends Controller
             $nilai = t_riwayat_nilai_mahasiswa::setFilter([
                 'filter' => "id_registrasi_mahasiswa='$riwayat_pendidikan->id_registrasi_mahasiswa'"
             ])->get();
+            
+            $nilai->map(function ($item){
+                $matkul = m_mata_kuliah::setFilter([
+                    'filter' => "id_matkul='$item->id_matkul'"
+                ])->first();
+                $item['kode_mata_kuliah'] = $matkul->kode_mata_kuliah;
+                $item['sks_mata_kuliah'] = $matkul->sks_mata_kuliah;
+                $item['total_nilai'] = $matkul->sks_mata_kuliah*$item->nilai_indeks;
+
+                return $item;
+            });
+
         } else {
             $nilai = null;
         }
