@@ -125,7 +125,7 @@ class NilaiController extends Controller
 
                 // Update Nilai
                 $records = [
-                    "nilai_angka" => $hasil_nilai->nilai_angka,
+                    "nilai_angka" => $nilai,
                     "nilai_indeks" => $hasil_nilai->nilai_indeks,
                     "nilai_huruf" => $hasil_nilai->nilai_huruf
                 ];
