@@ -13,15 +13,19 @@
     </x-slot>
 
     @if (Session::get('results'))
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
             <strong>Error, Periksa Ulang data input...</strong>
             <hr class="message-inner-separator">
             <ul>
                 @foreach(Session::get('results') as $key => $item)
-                    <li>{{ $item['error_code'].' - '.$item['error_desc'] }}</li>
-                @endforeach 
-            </ul>
+                @if ($item['error_code'] !== '0')
+                <li class="text-danger">{{ $item['error_code'].' - '.$item['error_desc'] }}</li>
+                @else
+                <li class="text-success" style="color:#00C851!important">Berhasil Disimpan!</li>
+                @endif
+            @endforeach 
+            </ul> 
         </div>
     @endif
 
@@ -44,7 +48,7 @@
                 <td class="text-center">{{ $loop->iteration }}</td>
                 <td>{{ $item->nim }}</td>
                 <td>{{ $item->nama_mahasiswa }}</td>
-                <td  class="text-center"><input class="form-control text-center" type="number" name="{{ $item->id_registrasi_mahasiswa }}" value="{{ $item->nilai_indeks }}" min="0" max="100" required></td>
+                <td  class="text-center"><input class="form-control text-center" type="number" name="{{ $item->id_registrasi_mahasiswa }}" value="{{ $item->nilai_angka }}" min="0" max="100" required></td>
             </tr>
         @endforeach
         </form>

@@ -115,8 +115,9 @@ class NilaiController extends Controller
                     return redirect()->back()->withInput();
                 }
 
-                $hasil_nilai =  m_skala_nilai_prodi::where('id_prodi', $request->id_prodi)
-                                ->whereRaw('? between bobot_minimum and bobot_maksimum', [$nilai])->first();
+                $hasil_nilai =  m_skala_nilai_prodi::setFilter([
+                                    'filter' => "id_prodi='$request->id_prodi'"
+                                ])->whereRaw('? between bobot_minimum and bobot_maksimum', [$nilai])->first();
 
                 if(!$hasil_nilai){
                     Session::flash('error_msg', 'Skala Nilai tidak ditemukan.');
