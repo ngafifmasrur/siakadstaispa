@@ -51,15 +51,15 @@ class RegistrasiMahasiswaController extends Controller
            
                 $button = '<div class="btn-group" role="group" aria-label="Basic example">';
     
-                $button .= view("components.button.default", [
-                    'type' => 'button',
-                    'tooltip' => 'Ubah',
-                    'class' => 'btn btn-outline-primary btn-sm btn_edit',
-                    "icon" => "fa fa-edit",
-                    'attribute' => [
-                        'onclick' => 'editForm(`'. route('admin.registrasi_mahasiswa.update', $data->id_registrasi_mahasiswa) .'`, `Edit`, `#modal-form`)'
-                    ],
-                ]);
+                // $button .= view("components.button.default", [
+                //     'type' => 'button',
+                //     'tooltip' => 'Ubah',
+                //     'class' => 'btn btn-outline-primary btn-sm btn_edit',
+                //     "icon" => "fa fa-edit",
+                //     'attribute' => [
+                //         'onclick' => 'editForm(`'. route('admin.registrasi_mahasiswa.update', $data->id_registrasi_mahasiswa) .'`, `Edit`, `#modal-form`)'
+                //     ],
+                // ]);
     
                 $button .= view("components.button.default", [
                     'type' => 'button',
