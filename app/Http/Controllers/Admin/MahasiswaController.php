@@ -30,8 +30,8 @@ class MahasiswaController extends Controller
      */
     public function index()
     {
-        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi')->prepend('Pilih Program Studi', NULL);
-        $periode = m_semester::orderBy('nama_semester', 'desc')->pluck('nama_semester', 'id_semester')->prepend('Pilih Periode Masuk', NULL);
+        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi');
+        $periode = m_semester::orderBy('nama_semester', 'desc')->pluck('nama_semester', 'id_semester');
         $agama = ref_agama::pluck('nama_agama', 'id_agama');
         $status_mahasiswa = $this->status_mahasiswa;
 
@@ -41,25 +41,18 @@ class MahasiswaController extends Controller
     public function data_index(Request $request)
     {
         $query = m_mahasiswa::setFilter([
-            'limit' => $request->start+$request->length
-        ])
-        ->when($request->prodi, function($q) use ($request){
-            $q->where('id_prodi', $request->prodi);
-        })
-        ->when($request->periode, function($q) use ($request){
-            $q->where('id_periode', $request->periode);
-        })
-        ->get();
+            'filter' => "id_prodi='$request->prodi' AND id_periode='$request->periode'"
+        ])->get();
 
-        $count_total = m_mahasiswa::count_total();
+        $count_total = count(GetDataFeeder('GetListMahasiswa'));
         $count_filter = m_mahasiswa::count_total([
-            'limit' => $request->start+$request->length
+            'filter' => "id_prodi='$request->prodi' AND id_periode='$request->periode'"
         ]);
 
         return datatables()->of($query)
             ->with([
                 "recordsTotal"    => intval($count_total),
-                "recordsFiltered" => $count_filter,
+                "recordsFiltered" => intval($count_filter),
             ])
             ->addIndexColumn()
             ->addColumn('select_all', function ($data) {
@@ -111,9 +104,6 @@ class MahasiswaController extends Controller
                 $button .= '</div>';
     
                 return $button;
-            })
-            ->addColumn('agama', function ($data) {
-                return $data->agama->nama_agama;
             })
             ->rawColumns(['action', 'select_all'])
             ->setRowAttr([

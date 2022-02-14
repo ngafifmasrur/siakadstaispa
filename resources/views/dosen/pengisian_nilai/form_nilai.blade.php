@@ -15,7 +15,6 @@
     @if (Session::get('results'))
         <div class="alert alert" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-            <strong>Error, Periksa Ulang data input...</strong>
             <hr class="message-inner-separator">
             <ul>
                 @foreach(Session::get('results') as $key => $item)

@@ -90,6 +90,15 @@
 				height: 400px;
 				overflow-y: scroll;
 			}
+
+			.horizontal-main {
+				border-top: 0px!important;
+				margin-top: 63px!important;
+			}
+
+			.content-area {
+				margin-top: 141px!important;
+			}
 		</style>
         @stack('css')
 	</head>

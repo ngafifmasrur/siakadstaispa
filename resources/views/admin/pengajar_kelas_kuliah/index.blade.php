@@ -7,6 +7,32 @@
     Dosen Pengajar Kelas Kuliah
 </x-header>
 
+<x-card-info>
+    <x-slot name="title">Kelas: {{ $kelas_kuliah->nama_kelas_kuliah }}</x-slot>
+    <table cellpadding="4" cellspacing="2">
+        <tr>
+            <td class="font-weight-bold">Kode Mata Kuliah</td>
+            <td>:</td>
+            <td>{{ $kelas_kuliah->kode_mata_kuliah }}</td>
+        </tr>
+        <tr>
+            <td class="font-weight-bold">Nama Mata Kuliah</td>
+            <td>:</td>
+            <td>{{ $kelas_kuliah->nama_mata_kuliah }}</td>
+        </tr>
+        <tr>
+            <td class="font-weight-bold">Program Studi</td>
+            <td>:</td>
+            <td>{{ $kelas_kuliah->nama_program_studi }}</td>
+        </tr>
+        <tr>
+            <td class="font-weight-bold">Semester</td>
+            <td>:</td>
+            <td>{{ $kelas_kuliah->nama_semester }}</td>
+        </tr>
+    </table>
+</x-card-info>
+
 <x-card-table>
     <x-slot name="title">Data Dosen Pengajar Kelas Kuliah</x-slot>
     <x-slot name="button">
@@ -21,8 +47,6 @@
         ['title' => 'NIDN', 'data' => 'nidn', 'name' => 'nidn', 'classname' => 'text-left'],
         ['title' => 'Kelas Kuliah', 'data' => 'nama_kelas_kuliah', 'name' => 'nama_kelas_kuliah', 'classname' => 'text-left'],
         ['title' => 'SKS Substansi Total', 'data' => 'sks_substansi_total', 'name' => 'sks_substansi_total', 'classname' => 'text-center'],
-        ['title' => 'Rencana Tatap Muka', 'data' => 'rencana_tatap_muka', 'name' => 'rencana_tatap_muka'],
-        ['title' => 'Realisasi Tatap Muka', 'data' => 'realisasi_tatap_muka', 'name' => 'realisasi_tatap_muka'],
         ['title' => 'Jenis Evaluasi', 'data' => 'nama_jenis_evaluasi', 'name' => 'nama_jenis_evaluasi', 'classname' => 'text-left'],
         ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
     ]"
@@ -42,6 +66,17 @@
             <label for="id_registrasi_dosen">Dosen</label>
             {!! Form::select('id_registrasi_dosen', $dosen, null, ['class' => 'form-control '.($errors->has('id_registrasi_dosen') ? 'is-invalid' : ''), 'id' => 'id_registrasi_dosen']) !!}
             @error('id_registrasi_dosen')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-lg-12">
+            <label for="id_substansi">Substansi</label>
+            {!! Form::select('id_substansi', $substansi_kuliah, null, ['class' => 'form-control '.($errors->has('id_substansi') ? 'is-invalid' : ''), 'id' => 'id_substansi']) !!}
+            @error('id_substansi')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>

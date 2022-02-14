@@ -87,14 +87,13 @@ class ManajemenUserController extends Controller
     {
         $query = m_mahasiswa::setFilter([
             'limit' => $request->start+$request->length
-        ])
+        ])->distinct('nim')
         ->when($request->id_prodi, function($q) use ($request){
             $q->where('id_prodi', $request->id_prodi);
         })
         ->when($request->id_periode, function($q) use ($request){
             $q->where('id_periode', $request->id_periode);
-        })
-        ->get();
+        })->get();
 
         $count_total = m_mahasiswa::count_total();
         $count_filter = m_mahasiswa::count_total([

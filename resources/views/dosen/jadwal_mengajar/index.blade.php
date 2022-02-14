@@ -25,10 +25,7 @@
         ['title' => 'Semester', 'data' => 'nama_semester', 'name' => 'nama_semester', 'classname' => 'text-left'],
         ['title' => 'Program Studi', 'data' => 'nama_program_studi', 'name' => 'nama_program_studi'],
         ['title' => 'Mata Kuliah', 'data' => 'nama_mata_kuliah', 'name' => 'nama_mata_kuliah', 'classname' => 'text-left'],
-        ['title' => 'Kelas', 'data' => 'nama_kelas_kuliah', 'name' => 'nama_kelas_kuliah', 'classname' => 'text-left'],
-        ['title' => 'Ruang', 'data' => 'ruang', 'name' => 'ruang', 'classname' => 'text-left'],
-        ['title' => 'Waktu', 'data' => 'waktu', 'name' => 'waktu'],
-        ['title' => 'Jml Mahasiswa', 'data' => 'jumlah_mahasiswa', 'name' => 'jumlah_mahasiswa']
+        ['title' => 'Kelas', 'data' => 'nama_kelas_kuliah', 'name' => 'nama_kelas_kuliah', 'classname' => 'text-left']
     ]"
     :filter="[
         ['data' => 'prodi', 'value' => '$(`#prodi`).val()']

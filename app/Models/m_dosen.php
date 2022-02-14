@@ -14,7 +14,7 @@ class m_dosen extends SushiModel
         'id_agama' => 'integer',
         'tanggal_lahir' => 'date',
         'id_status_aktif' => 'boolean',
-        'nama_status_aktif' => 'string',
+        'nama_status_aktif' => 'string'
     ];
 
     public function getRows()

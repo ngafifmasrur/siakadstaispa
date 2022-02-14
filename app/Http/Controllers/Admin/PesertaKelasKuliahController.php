@@ -22,13 +22,14 @@ class PesertaKelasKuliahController extends Controller
     public function index($id_kelas_kuliah)
     {
         $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
-        $kelas_kuliah = m_kelas_kuliah::where('id_kelas_kuliah', $id_kelas_kuliah)->first();
-        $angkatan = $kelas_kuliah->semester->tahun_ajaran;
+        $kelas_kuliah = m_kelas_kuliah::setFilter([
+            'filter' => "id_kelas_kuliah='$id_kelas_kuliah'"
+        ])->first();
         $mahasiswa = t_riwayat_pendidikan_mahasiswa::setFilter([
             'filter' => "id_prodi='$kelas_kuliah->id_prodi' AND id_periode_masuk='$semester_aktif'",
         ])->pluck('nama_mahasiswa', 'id_registrasi_mahasiswa')->prepend('Pilih Mahasiswa');
         
-        return view('admin.peserta_kelas_kuliah.index', compact('id_kelas_kuliah', 'mahasiswa'));
+        return view('admin.peserta_kelas_kuliah.index', compact('id_kelas_kuliah', 'mahasiswa', 'kelas_kuliah'));
     }
 
     public function data_index(Request $request, $id_kelas_kuliah)

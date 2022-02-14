@@ -15,7 +15,7 @@
         </div>
         <div class="form-group col-lg-3">
             <label for="periode">Periode Masuk</label>
-            {!! Form::select('periode', $periode, null, ['class' => 'form-control', 'id' => 'periode']) !!}
+            {!! Form::select('periode', $periode, $semester_id, ['class' => 'form-control', 'id' => 'periode']) !!}
         </div>
     </div>
 </x-card>
@@ -36,7 +36,7 @@
             ['title' => 'Nama Mahasiswa', 'data' => 'nama_mahasiswa', 'name' => 'nama_mahasiswa', 'classname' => 'text-left'],
             ['title' => 'Jenis Kelamin', 'data' => 'jenis_kelamin', 'name' => 'jenis_kelamin'],
             ['title' => 'Tanggal Lahir', 'data' => 'tanggal_lahir', 'name' => 'tanggal_lahir'],
-            ['title' => 'Agama', 'data' => 'agama', 'name' => 'agama'],
+            ['title' => 'Agama', 'data' => 'nama_agama', 'name' => 'nama_agama'],
             ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
         ]"
         :filter="[

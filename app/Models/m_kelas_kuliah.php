@@ -56,12 +56,12 @@ class m_kelas_kuliah extends SushiModel
 
     public function jadwal()
     {
-        return $this->hasOne('App\Models\m_jadwal', 'id_kelas_kuliah', 'id_kelas_kuliah');
+        return $this->belongsTo('App\Models\m_jadwal', 'id_kelas_kuliah');
     }
 
     public function dosen()
     {
-        return $this->hasMany(t_dosen_pengajar_kelas_kuliah::class, 'id_kelas_kuliah');
+        return $this->hasMany(t_dosen_pengajar_kelas_kuliah::class, 'id_kelas_kuliah', 'id_kelas_kuliah');
     }
 
     public function mahasiswa()

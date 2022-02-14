@@ -1,4 +1,4 @@
-<div class="container bg-white news-ticker">
+{{-- <div class="container bg-white news-ticker">
     <div class="bg-white">
         <div class="best-ticker" id="newsticker">
             <div class="bn-news">
@@ -22,4 +22,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}

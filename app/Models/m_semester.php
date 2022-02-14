@@ -7,7 +7,7 @@ class m_semester extends SushiModel
     protected $primaryKey = 'id_semester';
     protected $schema = [
         'id_semester' => 'integer',
-        'id_tahun_ajaran' => 'string',
+        'id_tahun_ajaran' => 'integer',
         'nama_semester' => 'string',
         'semester' => 'integer',
         'a_periode_aktif' => 'boolean',

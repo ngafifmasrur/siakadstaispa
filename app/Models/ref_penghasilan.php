@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-
-class ref_penghasilan extends Model
+class ref_penghasilan extends SushiModel
 {
-    use HasFactory;
-
-    protected $table = 'ref_penghasilan';
-    protected $guarded = [];
     protected $primaryKey = 'id_penghasilan';
+    protected $schema = [
+        'id_penghasilan' => 'string',
+        'nama_penghasilan' => 'string',
+    ];
+    
+    public function getRows()
+    {
+        return GetDataFeeder('GetPenghasilan', self::$filter);
+    }
 }

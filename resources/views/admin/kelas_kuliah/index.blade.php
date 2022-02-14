@@ -34,6 +34,7 @@
         ['title' => 'Semester', 'data' => 'nama_semester', 'name' => 'nama_semester', 'classname' => 'text-left'],
         ['title' => 'Kode Matkul', 'data' => 'kode_mata_kuliah', 'name' => 'kode_mata_kuliah'],
         ['title' => 'Nama Matkul', 'data' => 'nama_mata_kuliah', 'name' => 'nama_mata_kuliah', 'classname' => 'text-left'],
+        ['title' => 'Nama Dosen', 'data' => 'nama_dosen', 'name' => 'nama_dosen', 'classname' => 'text-left'],
         ['title' => 'Nama Kelas Kuliah', 'data' => 'nama_kelas_kuliah', 'name' => 'nama_kelas_kuliah', 'classname' => 'text-center'],
         ['title' => 'Dosen', 'data' => 'dosen', 'name' => 'dosen'],
         ['title' => 'Mahasiswa', 'data' => 'mahasiswa', 'name' => 'mahasiswa'],
@@ -66,7 +67,7 @@
         </div>
         <div class="form-group col-lg-12">
             <label for="id_semester">Semester</label>
-            {!! Form::select('id_semester', $semester, null, ['class' => 'form-control '.($errors->has('id_semester') ? 'is-invalid' : ''), 'id' => 'id_semester']) !!}
+            {!! Form::select('id_semester', $semester, $semester_id, ['class' => 'form-control '.($errors->has('id_semester') ? 'is-invalid' : ''), 'id' => 'id_semester']) !!}
             @error('id_semester')
                 <div class="invalid-feedback">
                     {{ $message }}
@@ -107,6 +108,37 @@
     </div>
     <div class="form-group row">
         <div class="form-group col-lg-12">
+            <label for="hari">Hari</label>
+            {!! Form::select('hari', $hari, null, ['class' => 'form-control '.($errors->has('hari') ? 'is-invalid' : ''), 'id' => 'hari']) !!}
+            @error('hari')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="form-group col-lg-6">
+            <label for="jam_mulai">Jam Mulai</label>
+            {!! Form::time('jam_mulai', null, ['class' => 'form-control '.($errors->has('jam_mulai') ? 'is-invalid' : ''), 'id' => 'jam_mulai']) !!}
+            @error('jam_mulai')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+        <div class="form-group col-lg-6">
+            <label for="jam_akhir">Jam Selesai</label>
+            {!! Form::time('jam_akhir', null, ['class' => 'form-control '.($errors->has('jam_akhir') ? 'is-invalid' : ''), 'id' => 'jam_akhir']) !!}
+            @error('jam_akhir')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="form-group col-lg-6">
             <label for="tanggal_mulai_efektif">Tanggal Mulai Efektif</label>
             {!! Form::date('tanggal_mulai_efektif', null, ['class' => 'form-control '.($errors->has('tanggal_mulai_efektif') ? 'is-invalid' : ''), 'id' => 'tanggal_mulai_efektif']) !!}
             @error('tanggal_mulai_efektif')
@@ -115,7 +147,7 @@
                 </div>
             @enderror
         </div>
-        <div class="form-group col-lg-12">
+        <div class="form-group col-lg-6">
             <label for="tanggal_akhir_efektif">Tanggal Akhir Efektif</label>
             {!! Form::date('tanggal_akhir_efektif', null, ['class' => 'form-control '.($errors->has('tanggal_selesai_efektif') ? 'is-invalid' : ''), 'id' => 'tanggal_akhir_efektif']) !!}
             @error('tanggal_akhir_efektif')
@@ -133,6 +165,14 @@
 
 
 @endsection
+
+@push('css')
+    <style>
+        .row {
+            display: flex!important;
+        }
+    </style>
+@endpush
 
 @push('js')
     <script>

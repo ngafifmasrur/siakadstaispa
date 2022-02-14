@@ -25,17 +25,14 @@ class KelasKuliahRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            // 'id_semester' => 'required|integer',
-            // 'id_matkul' => 'required|integer',
-            'nama_kelas_kuliah' => 'required|string',
-            'bahasan' => 'nullable|string',
-            // 'tanggal_mulai_efektif' => 'nullable|date',
-            // 'tanggal_akhir_efektif' => 'nullable|date',
+            'hari' => 'required|string',
+            'jam_mulai' => 'required|date_format:H:i',
+            'jam_akhir' => 'required|date_format:H:i|after:jam_mulai',
         ];
 
-        if(Auth::user()->role->name != 'admin_prodi'){
-            $rules['id_prodi'] = 'required';
-        }
+        // if(Auth::user()->role->name != 'admin_prodi'){
+        //     $rules['id_prodi'] = 'required';
+        // }
 
         return $rules;
     }
