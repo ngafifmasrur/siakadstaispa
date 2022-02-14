@@ -88,6 +88,8 @@ class DosenPengajarKelasKuliahController extends Controller
         $records['id_substansi'] = $request->id_substansi;
         $records['sks_substansi_total'] = $request->sks_substansi_total;
         $records['id_jenis_evaluasi'] = $request->id_jenis_evaluasi;
+        $records['rencana_minggu_pertemuan'] = $request->rencana_minggu_pertemuan;
+        $records['realisasi_minggu_pertemuan'] = $request->realisasi_minggu_pertemuan;
 
         $result = InsertDataFeeder('InsertDosenPengajarKelasKuliah', $records, 'GetDosenPengajarKelasKuliah');
 
@@ -107,6 +109,8 @@ class DosenPengajarKelasKuliahController extends Controller
         $records['id_substansi'] = $request->id_substansi;
         $records['sks_substansi_total'] = $request->sks_substansi_total;
         $records['id_jenis_evaluasi'] = $request->id_jenis_evaluasi;
+        $records['rencana_minggu_pertemuan'] = $request->rencana_minggu_pertemuan;
+        $records['realisasi_minggu_pertemuan'] = $request->realisasi_minggu_pertemuan;
 
         $key = [
             'id_aktivitas_mengajar' => $id_aktivitas_mengajar,

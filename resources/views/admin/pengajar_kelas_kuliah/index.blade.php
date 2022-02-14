@@ -85,7 +85,7 @@
     </div>
     <div class="row">
         <div class="form-group col-lg-12">
-            <label for="sks_substansi_total">SKS Substansi Total</label>
+            <label for="sks_substansi_total">SKS Substansi Total (wajib)</label>
             {!! Form::number('sks_substansi_total', null, ['class' => 'form-control '.($errors->has('sks_substansi_total') ? 'is-invalid' : ''), 'id' => 'sks_substansi_total']) !!}
             @error('sks_substansi_total')
                 <div class="invalid-feedback">
@@ -94,11 +94,11 @@
             @enderror
         </div>
     </div>
-    {{-- <div class="row">
+    <div class="row">
         <div class="form-group col-lg-12">
-            <label for="rencana_tatap_muka">Rencana Tatap Muka</label>
-            {!! Form::number('rencana_tatap_muka', null, ['class' => 'form-control '.($errors->has('rencana_tatap_muka') ? 'is-invalid' : ''), 'id' => 'rencana_tatap_muka']) !!}
-            @error('rencana_tatap_muka')
+            <label for="rencana_minggu_pertemuan">Rencana Minggu Pertemuan (wajib) </label>
+            {!! Form::number('rencana_minggu_pertemuan', null, ['class' => 'form-control '.($errors->has('rencana_minggu_pertemuan') ? 'is-invalid' : ''), 'id' => 'rencana_minggu_pertemuan']) !!}
+            @error('rencana_minggu_pertemuan')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
@@ -107,18 +107,18 @@
     </div>
     <div class="row">
         <div class="form-group col-lg-12">
-            <label for="realisasi_tatap_muka">Realisasi Tatap Muka</label>
-            {!! Form::number('realisasi_tatap_muka', null, ['class' => 'form-control '.($errors->has('realisasi_tatap_muka') ? 'is-invalid' : ''), 'id' => 'realisasi_tatap_muka']) !!}
-            @error('realisasi_tatap_muka')
+            <label for="realisasi_minggu_pertemuan">Realisasi Minggu Pertemuan</label>
+            {!! Form::number('realisasi_minggu_pertemuan', null, ['class' => 'form-control '.($errors->has('realisasi_minggu_pertemuan') ? 'is-invalid' : ''), 'id' => 'realisasi_minggu_pertemuan']) !!}
+            @error('realisasi_minggu_pertemuan')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>
             @enderror
         </div>
-    </div> --}}
+    </div>
     <div class="row">
         <div class="form-group col-lg-12">
-            <label for="id_jenis_evaluasi">Jenis Evaluasi</label>
+            <label for="id_jenis_evaluasi">Jenis Evaluasi (wajib)</label>
             {!! Form::select('id_jenis_evaluasi', $jenis_evaluasi, null, ['class' => 'form-control '.($errors->has('id_jenis_evaluasi') ? 'is-invalid' : ''), 'id' => 'id_jenis_evaluasi']) !!}
             @error('id_jenis_evaluasi')
                 <div class="invalid-feedback">
