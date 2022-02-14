@@ -16,7 +16,7 @@ use App\Models\{
     m_mahasiswa,
     m_mata_kuliah
 };
-use Session, DB, Auth;
+use Session, DB, Auth, PDF;
 
 class KRSController extends Controller
 {
@@ -29,7 +29,7 @@ class KRSController extends Controller
     {
         $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
         $id_registrasi_mahasiswa = t_riwayat_pendidikan_mahasiswa::setFilter([
-            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."' AND id_periode_masuk='$semester_aktif'"
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
         ])->first();
         
         if(!isset($id_registrasi_mahasiswa)){
@@ -44,7 +44,7 @@ class KRSController extends Controller
 
         $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
         $id_registrasi_mahasiswa = t_riwayat_pendidikan_mahasiswa::setFilter([
-            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."' AND id_periode_masuk='$semester_aktif'"
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
         ])->first()->id_registrasi_mahasiswa;
 
         $kelasKuliah = t_peserta_kelas_kuliah::setFilter([
@@ -113,8 +113,12 @@ class KRSController extends Controller
         $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
 
         $id_registrasi_mahasiswa = t_riwayat_pendidikan_mahasiswa::setFilter([
-            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."' AND id_periode_masuk='$semester_aktif'"
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
         ])->first()->id_registrasi_mahasiswa;
+
+        $id_prodi = t_riwayat_pendidikan_mahasiswa::setFilter([
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
+        ])->first()->id_prodi;
 
         // Peserta Kelas
         $pesertaKelas = t_peserta_kelas_kuliah::setFilter([
@@ -128,7 +132,7 @@ class KRSController extends Controller
 
         // List Kelas Kuliah
         $query = m_kelas_kuliah::setFilter([
-            'filter' => "id_semester='$semester_aktif' AND id_prodi='$mahasiswa->id_prodi'"
+            'filter' => "id_semester='$semester_aktif' AND id_prodi='$id_prodi'"
         ])->get();
 
         // Check Jika MHS Sudah Memiliki KRS Matkul Tsb
@@ -174,7 +178,7 @@ class KRSController extends Controller
     {
         $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
         $id_registrasi_mahasiswa = t_riwayat_pendidikan_mahasiswa::setFilter([
-            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."' AND id_periode_masuk='$semester_aktif'"
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
         ])->first()->id_registrasi_mahasiswa;
 
         $kelas_kuliah = $request->except('_token', '_method');
@@ -214,6 +218,35 @@ class KRSController extends Controller
        
         Session::flash('success_msg', 'Berhasil Dihapus');
         return redirect()->back();
+    }
+
+    public function cetak(Request $request)
+    { 
+        $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
+        $nama_semester_aktif = m_global_konfigurasi::first()->nama_semester_aktif;
+
+        $riwayat_pendidikan = t_riwayat_pendidikan_mahasiswa::setFilter([
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
+        ])->first();
+
+        $kelasKuliah = t_peserta_kelas_kuliah::setFilter([
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
+        ])->pluck('id_kelas_kuliah')->toArray();
+        
+        $krs = m_kelas_kuliah::setFilter([
+            'filter' => "id_semester='$semester_aktif'"
+        ])->whereIn('id_kelas_kuliah', $kelasKuliah)->get();
+
+        $krs->map(function ($item){
+            $matkul = m_mata_kuliah::setFilter([
+                'filter' => "id_matkul='$item->id_matkul'"
+            ])->first();
+            $item['sks_mata_kuliah'] = $matkul->sks_mata_kuliah;
+            return $item;
+        });
+        
+        $pdf = PDF::loadView('mahasiswa.krs.cetak', compact('riwayat_pendidikan', 'krs', 'nama_semester_aktif'))->setPaper('a4', 'landscape');
+        return $pdf->stream('KRS_Online-_-'.$riwayat_pendidikan->nama_mahasiswa.'.pdf');    
     }
 
 }
