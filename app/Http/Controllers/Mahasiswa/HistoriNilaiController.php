@@ -32,7 +32,7 @@ class HistoriNilaiController extends Controller
     public function data_index(Request $request)
     {
         $riwayat_pendidikan = t_riwayat_pendidikan_mahasiswa::setFilter([
-            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."' AND id_periode_masuk='$request->periode'"
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
         ])->first() ?? null;
 
         if(isset($riwayat_pendidikan)) {
@@ -117,7 +117,7 @@ class HistoriNilaiController extends Controller
         ])->first();
 
         $riwayat_pendidikan = t_riwayat_pendidikan_mahasiswa::setFilter([
-            'filter' => "id_mahasiswa='$user->id_mahasiswa' AND id_periode_masuk='$periode'"
+            'filter' => "id_mahasiswa='$user->id_mahasiswa'"
         ])->first() ?? null;
 
         if(isset($riwayat_pendidikan)) {
