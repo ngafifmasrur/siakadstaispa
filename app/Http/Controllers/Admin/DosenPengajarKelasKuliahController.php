@@ -40,7 +40,7 @@ class DosenPengajarKelasKuliahController extends Controller
         // Cari Dosen By Prodi kelas kuliah & Semester Aktif
         $dosen = t_penugasan_dosen::setFilter([
             'filter' => "id_prodi='$kelas_kuliah->id_prodi' AND id_tahun_ajaran='$tahun_ajaran'",
-        ])->pluck('nama_dosen', 'id_dosen')->prepend('Pilih Dosen', NULL);
+        ])->pluck('nama_dosen', 'id_registrasi_dosen')->prepend('Pilih Dosen', NULL);
 
         return view('admin.pengajar_kelas_kuliah.index', compact('id_kelas_kuliah', 'jenis_evaluasi', 'dosen', 'kelas_kuliah', 'substansi_kuliah'));
     }
@@ -82,7 +82,8 @@ class DosenPengajarKelasKuliahController extends Controller
     public function store(Request $request, $id_kelas_kuliah)
     {
         // $records = $request->except('_token', '_method');
-        $records['id_registrasi_dosen'] = $request->id_kelas_kuliah;
+        
+        $records['id_registrasi_dosen'] = $request->id_registrasi_dosen;
         $records['id_kelas_kuliah'] = $id_kelas_kuliah;
         $records['id_substansi'] = $request->id_substansi;
         $records['sks_substansi_total'] = $request->sks_substansi_total;
@@ -101,7 +102,7 @@ class DosenPengajarKelasKuliahController extends Controller
 
     public function update(Request $request, $id_aktivitas_mengajar)
     {
-        $records['id_registrasi_dosen'] = $request->id_kelas_kuliah;
+        $records['id_registrasi_dosen'] = $request->id_registrasi_dosen;
         $records['id_kelas_kuliah'] = $id_kelas_kuliah;
         $records['id_substansi'] = $request->id_substansi;
         $records['sks_substansi_total'] = $request->sks_substansi_total;

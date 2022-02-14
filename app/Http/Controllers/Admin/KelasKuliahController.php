@@ -39,7 +39,9 @@ class KelasKuliahController extends Controller
 
     public function data_index(Request $request)
     {
-        $query = m_kelas_kuliah::query()
+        $query = m_kelas_kuliah::setFilter([
+                    'filter' => "id_semester='$request->id_semester'",
+                ])
                 ->when($request->id_prodi, function ($q) use ($request) {
                     $q->where('id_prodi', $request->id_prodi);
                 })

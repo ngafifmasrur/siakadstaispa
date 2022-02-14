@@ -44,7 +44,7 @@ class MahasiswaController extends Controller
             'filter' => "id_prodi='$request->prodi' AND id_periode='$request->periode'"
         ])->get();
 
-        $count_total = count(GetDataFeeder('GetListMahasiswa'));
+        $count_total = $query->count() ; //count(GetDataFeeder('GetListMahasiswa'));
         $count_filter = m_mahasiswa::count_total([
             'filter' => "id_prodi='$request->prodi' AND id_periode='$request->periode'"
         ]);
