@@ -1,0 +1,162 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Http\Requests\DosenRequest;
+use App\Models\{
+    m_dosen_belum_nidn,
+    ref_agama
+};
+use DB, Auth, Session, Str;
+
+
+class DosenBelumNIDNController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $agama = ref_agama::pluck('nama_agama', 'id_agama');
+        return view('admin.dosen_belum_nidn.index', compact('agama'));
+    }
+
+    public function data_index(Request $request)
+    {
+        $query = m_dosen_belum_nidn::all();
+
+        return datatables()->of($query)
+            ->addIndexColumn()
+            ->addColumn('action', function ($data) {
+
+                $button = '<div class="btn-group" role="group" aria-label="Basic example">';
+
+                $button .= view("components.button.default", [
+                    'type' => 'button',
+                    'tooltip' => 'Ubah',
+                    'class' => 'btn btn-outline-primary btn-sm btn_edit',
+                    "icon" => "fa fa-edit",
+                    'attribute' => [
+                        'data-nama_dosen' => $data->nama_dosen,
+                        'data-nip' => $data->nip,
+                        'data-tanggal_lahir' => $data->tanggal_lahir,
+                        'data-id_agama' => $data->id_agama,
+                        'data-id_status_aktif' => $data->id_status_aktif,
+                        'data-jenis_kelamin' => $data->jenis_kelamin,
+                    ],
+                    "route" => route('admin.dosen_belum_nidn.update', $data->id_dosen),
+                ]);
+
+                $button .= view("components.button.default", [
+                    'type' => 'button',
+                    'tooltip' => 'Hapus',
+                    'class' => 'btn btn-outline-danger btn-sm btn_delete',
+                    "icon" => "fa fa-trash",
+                    'attribute' => [
+                        'data-text' => 'Anda yakin ingin menghapus data ini ?',
+                    ],
+                    "route" => route('admin.dosen_belum_nidn.destroy', $data->id_dosen),
+                ]);
+
+                $button .= '</div>';
+
+                return $button;
+            })
+            ->addColumn('status', function ($data) {
+                return $data->id_status_aktif ? 'Aktif' : 'Tidak Aktif';
+            })
+            ->rawColumns(['action'])
+            ->setRowAttr([
+                'style' => 'text-align: center',
+            ])
+            ->toJson();
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(DosenRequest $request)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            $nama_agama = ref_agama::where('id_agama', $request->id_agama)->first()->nama_agama;
+            $request->merge([
+                'id_dosen' => Str::uuid(),
+                'nama_agama' => $nama_agama,
+                'id_status_aktif' =>$request->id_status_aktif ?? 0,
+                'nama_status_aktif' =>$request->id_status_aktif ? 'Aktif' : 'Tidak Aktif'
+            ]);
+            $data = m_dosen_belum_nidn::create($request->except('updated_at', 'created_at'));
+            DB::commit();
+
+            Session::flash('success_msg', 'Berhasil Ditambah');
+            return redirect()->route('admin.dosen_belum_nidn.index');
+        } catch (\Exception $e) {
+
+            DB::rollback();
+            dd($e);
+            Session::flash('error_msg', 'Terjadi kesalahan pada server');
+            return redirect()->back()->withInput();
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(DosenRequest $request, m_dosen_belum_nidn $dosen_belum_nidn)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            $nama_agama = ref_agama::where('id_agama', $request->id_agama)->first()->nama_agama;
+            $request->merge([
+                'nama_agama' => $nama_agama,
+                'id_status_aktif' =>$request->id_status_aktif ?? 0,
+                'nama_status_aktif' =>$request->id_status_aktif ? 'Aktif' : 'Tidak Aktif'
+            ]);
+            $dosen_belum_nidn->update($request->except('updated_at', 'created_at'));
+            DB::commit();
+
+            Session::flash('success_msg', 'Berhasil Dibah');
+            return redirect()->route('admin.dosen_belum_nidn.index');
+        } catch (\Exception $e) {
+
+            DB::rollback();
+
+            Session::flash('error_msg', 'Terjadi kesalahan pada server');
+            return redirect()->back()->withInput();
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(m_dosen_belum_nidn $dosen_belum_nidn)
+    {
+        if (is_null($dosen_belum_nidn)) {
+            abort(404);
+        }
+
+        $dosen_belum_nidn->delete();
+
+        Session::flash('success_msg', 'Berhasil Dihapus');
+        return back();
+    }
+}
