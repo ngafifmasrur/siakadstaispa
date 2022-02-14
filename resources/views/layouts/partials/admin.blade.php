@@ -7,9 +7,10 @@
                 <li aria-haspopup="true"><a href="{{ route('admin.program_studi.index') }}">Program Studi</a></li>
             </ul>
         </li>
-        <li aria-haspopup="true"><a href="#" class="sub-icon {{ set_active(['admin/dosen*', 'admin/mahasiswa*']) }}"><i class="fa fa-graduation-cap"></i> Civitas <i class="fa fa-angle-down horizontal-icon"></i></a>
+        <li aria-haspopup="true"><a href="#" class="sub-icon {{ set_active(['admin/dosen*', 'admin/mahasiswa*','admin/dosen_belum_nidn*']) }}"><i class="fa fa-graduation-cap"></i> Civitas <i class="fa fa-angle-down horizontal-icon"></i></a>
             <ul class="sub-menu">
                 <li aria-haspopup="true"><a href="{{ route('admin.dosen.index') }}">Data Dosen</a></li>
+                <li aria-haspopup="true"><a href="{{ route('admin.dosen_belum_nidn.index') }}">Data Dosen Belum NIDN</a></li>
                 <li aria-haspopup="true"><a href="{{ route('admin.mahasiswa.index') }}">Data Mahasiswa</a></li>
             </ul>
         </li>

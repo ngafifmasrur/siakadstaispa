@@ -32,7 +32,8 @@ use App\Http\Controllers\Admin\{
     PesertaKelasKuliahController,
     DosenPengajarKelasKuliahController,
     KurikurumProdiController,
-    KonfigurasiGlobalController
+    KonfigurasiGlobalController,
+    DosenBelumNIDNController
 };
 
 /*
@@ -286,6 +287,10 @@ Route::group(
         Route::get('konfigurasi_global', [KonfigurasiGlobalController::class, 'index'])->name('konfigurasi_global.index');
         Route::get('konfigurasi_global/edit', [KonfigurasiGlobalController::class, 'edit'])->name('konfigurasi_global.edit');
         Route::post('konfigurasi_global', [KonfigurasiGlobalController::class, 'update'])->name('konfigurasi_global.update');
+
+        // Dosen Belum NIDN
+        Route::get('/dosen_belum_nidn/data_index', [DosenBelumNIDNController::class,'data_index',])->name('dosen_belum_nidn.data_index');
+        Route::resource('/dosen_belum_nidn', DosenBelumNIDNController::class)->except(['show']);
 
     }
 );

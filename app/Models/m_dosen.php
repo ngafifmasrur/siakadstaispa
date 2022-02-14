@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use App\Models\m_dosen_belum_nidn;
 
 class m_dosen extends SushiModel
 {
@@ -19,12 +20,14 @@ class m_dosen extends SushiModel
 
     public function getRows()
     {
-        return GetDataFeeder('GetListDosen', self::$filter);
+        $dosen_belum_nidn = m_dosen_belum_nidn::all()->toArray();
+        $data = array_merge(GetDataFeeder('GetListDosen', self::$filter), $dosen_belum_nidn);
+        return $data;
     }
 
     public static function count_total()
     {
-        return GetDataFeeder('GetCountDosen', self::$filter);
+        return count(GetDataFeeder('GetListDosen', self::$filter));
     }
 
     public function user()

@@ -7,9 +7,16 @@
     Kartu Rencana Studi (KRS)
 </x-header>
 
+<form action="{{ route('mahasiswa.krs.cetak') }}" method="post" id="form_cetak">
+    @csrf
+
+    </div>
+</form>
+
 <x-card-table>
     <x-slot name="title">Kartu Rencana Studi (KRS)</x-slot>
     <x-slot name="button">
+        <button type="button" class="btn btn-app btn-sm btn-primary" onclick="document.getElementById('form_cetak').submit();"><i class="fa fa-print mr-2"></i>Cetak</button>
         <a class="btn btn-app btn-sm btn-primary add-form" href="{{ route('mahasiswa.krs.create') }}"><i class="fa fa-plus mr-2"></i>Tambah</a>
     </x-slot>
 

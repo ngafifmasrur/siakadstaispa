@@ -5,8 +5,8 @@
 
         <li aria-haspopup="true"><a href="#" class="sub-icon {{ set_active(['mahasiswa/krs*', 'mahasiswa/aktivitas_perkuliahan*', 'mahasiswa/transkrip*', 'mahasiswa/histori_pendidikan*', 'mahasiswa/krs*', 'mahasiswa/histori_nilai*', 'mahasiswa/prestasi_mahasiswa*']) }}"><i class="fa fa-university"></i> Perkuliahan <i class="fa fa-angle-down horizontal-icon"></i></a>
             <ul class="sub-menu">
+                <li aria-haspopup="true"><a href="{{ route('mahasiswa.krs.index') }}">KRS Online</a></li>
                 <li aria-haspopup="true"><a href="{{ route('mahasiswa.histori_pendidikan.index' )}}">Histori Pendidikan</a></li>
-                <li aria-haspopup="true"><a href="{{ route('mahasiswa.krs.index') }}">KRS</a></li>
                 <li aria-haspopup="true"><a href="{{ route('mahasiswa.histori_nilai.index' )}}">Histori Nilai</a></li>
                 <li aria-haspopup="true"><a href="{{ route('mahasiswa.aktivitas_perkuliahan.index' )}}">Aktivitas Perkuliahan</a></li>
                 <li aria-haspopup="true"><a href="{{ route('mahasiswa.prestasi_mahasiswa.index') }}">Prestasi</a></li>
