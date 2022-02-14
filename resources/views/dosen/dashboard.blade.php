@@ -33,55 +33,25 @@
         <div class="card border-0">
             <div class="card-header custom-header pb-0">
                 <div>
-                    <h3 class="card-title">Jadwal Mengajar Hari Ini</h3>
+                    <h3 class="card-title">Jadwal Kuliah</h3>
                     <h6 class="card-subtitle">{{ Carbon\Carbon::now()->isoFormat('dddd, M Y')}}</h6>
                 </div>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    {{-- <table class="table table-bordered text-nowrap mb-0">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Nama Mata Kuliah</th>
-                                <th>Kode MK</th>
-                                <th>Ruang</th>
-                                <th>Waktu</th>
-                                <th>Jumlah Peserta</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($jadwal_mengajar as $item)
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->nama_mata_kuliah }}</td>
-                                    <td>{{ $item->kode_mata_kuliah }}</td>
-                                    <td>{{ $item->ruangan->nama_ruangan }}</td>
-                                    <td>{{ $item->jam_mulai.' - '.$item->jam_akhir }}</td>
-                                    <td><span class="badge badge-success">{{ $item->krs_count }}</span></td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="6">
-                                        <p class="text-center">Tidak ada jadwal hari ini</p>
-                                    </td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table> --}}
-                    @foreach ($jadwal_mengajar as $item)
+                    @foreach ($kelasKuliah as $item)
                         <div class="card">
                             <div class="card-status card-status-left bg-primary br-bl-7 br-tl-7"></div>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-4 col-md-12">
-                                        <small class="block">{{ $item->jam_mulai.' - '.$item->jam_akhir }}</small>
-                                        <strong  class="block">{{ $item->kelas->nama_mata_kuliah }}</strong>
+                                        {{-- <small class="block">{{ $item->tanggal_mulai_efektif.' - '.$item->tanggal_akhir_efektif }}</small> --}}
+                                        <strong  class="block">{{ $item->nama_mata_kuliah }}</strong>
                                     </div>
                                     <div class="col-lg-5 col-md-12">
-                                        <span class="block mb-1"><i class="fa fa-calendar mr-1"></i> {{ $item->kelas->nama_semester }}</span>
-                                        <span class="block mb-1"><i class="fa fa-bank mr-1"></i> {{ $item->ruangan->nama_ruangan }}</span>
-                                        <span class="block mb-1"><i class="fa fa-book mr-1"></i> {{ $item->kelas->nama_program_studi }}</span>
+                                        <span class="block mb-1"><i class="fa fa-calendar mr-1"></i> {{ $item->nama_semester }}</span>
+                                        <span class="block mb-1"><i class="fa fa-bank mr-1"></i>Kelas {{ $item->nama_kelas_kuliah }}</span>
+                                        <span class="block mb-1"><i class="fa fa-book mr-1"></i> {{ $item->nama_program_studi }}</span>
 
                                     </div>
                                     <div class="col-lg-3 col-md-12">

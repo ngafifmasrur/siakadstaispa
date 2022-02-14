@@ -29,6 +29,6 @@ class t_riwayat_nilai_mahasiswa extends SushiModel
 
     public function matkul()
     {
-        return $this->belongsTo(m_mata_kuliah::class, 'id_matkul', 'id_matkul');
+        return $this->belongsTo(m_mata_kuliah::class, 'id_matkul') ?? null;
     }
 }

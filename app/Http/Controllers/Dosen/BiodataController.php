@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Dosen;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\m_dosen;
-use App\Models\ref_agama;
+use App\Models\ref_detail_dosen;
 use App\Models\ref_wilayah;
+use App\Models\ref_agama;
 use App\Models\Role;
 use App\Models\User;
 use App\Http\Requests\DosenRequest;
@@ -18,7 +19,9 @@ class BiodataController extends Controller
     {
         $agama = ref_agama::pluck('nama_agama', 'id_agama');
         $wilayah = ref_wilayah::pluck('nama_wilayah', 'id_wilayah');
-        $dosen = Auth::user()->dosen;
+        $dosen = ref_detail_dosen::setFilter([
+            'filter' => "id_dosen='".Auth::user()->id_dosen."'"
+        ])->first();
         return view('dosen.biodata.index', compact('agama', 'wilayah', 'dosen'));
     }
 

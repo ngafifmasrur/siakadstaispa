@@ -39,7 +39,7 @@ class NilaiController extends Controller
     {
         $semester_nilai = m_global_konfigurasi::first()->id_semester_nilai;
         $query = t_dosen_pengajar_kelas_kuliah::setFilter([
-                    'filter' => "id_semester='$semester_nilai'",
+                    'filter' => "id_semester='$semester_nilai'"
                 ])
                 ->where('id_dosen', Auth::user()->id_dosen)
                 ->when($request->prodi, function($q) use ($request){

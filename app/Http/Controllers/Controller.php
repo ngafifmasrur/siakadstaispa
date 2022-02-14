@@ -11,6 +11,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+
     public $jenjang_pendidikan = [
         '22' => 'D3',
         '23' => 'D4',

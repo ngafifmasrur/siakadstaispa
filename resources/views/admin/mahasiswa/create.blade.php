@@ -207,7 +207,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="id_wilayah" class="col-sm-2 col-form-label">Kecamatan <span class="text-danger">*</span></label>
+                        <label for="id_wilayah" class="col-sm-2 col-form-label">Wilayah <span class="text-danger">*</span></label>
                         <div class="col-sm-10">
                             {!! Form::select('id_wilayah', $wilayah, NULL, ['class' => 'form-control '.($errors->has('id_wilayah') ? 'is-invalid' : ''), 'id' => 'id_wilayah']) !!}
                             @error('id_wilayah')

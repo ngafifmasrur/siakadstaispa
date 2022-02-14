@@ -28,7 +28,7 @@ class m_mahasiswa extends SushiModel
 
     public static function count_total()
     {
-        return GetDataFeeder('GetCountMahasiswa', self::$filter);
+        return count(GetDataFeeder('GetListMahasiswa', self::$filter));
     }
     
     public function prodi()
