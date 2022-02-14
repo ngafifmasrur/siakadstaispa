@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use App\Models\t_penugasan_dosen_belum_nidn;
 
 class t_penugasan_dosen extends SushiModel
 {
@@ -22,6 +23,8 @@ class t_penugasan_dosen extends SushiModel
     
     public function getRows()
     {
-        return GetDataFeeder('GetListPenugasanDosen', self::$filter);
+        $dosen_belum_nidn = t_penugasan_dosen_belum_nidn::all()->toArray();
+        $data = array_merge(GetDataFeeder('GetListPenugasanDosen', self::$filter), $dosen_belum_nidn);
+        return $data;
     }
 }

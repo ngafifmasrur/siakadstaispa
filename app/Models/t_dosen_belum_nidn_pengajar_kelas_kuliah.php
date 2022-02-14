@@ -1,10 +1,14 @@
 <?php
 
 namespace App\Models;
-use App\Models\t_dosen_belum_nidn_pengajar_kelas_kuliah;
 
-class t_dosen_pengajar_kelas_kuliah extends SushiModel
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class t_dosen_belum_nidn_pengajar_kelas_kuliah extends Model
 {
+    use HasFactory;
+
     protected $primaryKey = 'id_aktivitas_mengajar';
     protected $schema = [
         'id_aktivitas_mengajar' => 'uuid',
@@ -22,16 +26,10 @@ class t_dosen_pengajar_kelas_kuliah extends SushiModel
         'id_prodi' => 'uuid',
         'id_semester' => 'integer',
     ];
-
-    public function getRows()
-    {
-        $dosen_belum_nidn = t_dosen_belum_nidn_pengajar_kelas_kuliah::all()->toArray();
-        $data = array_merge(GetDataFeeder('GetDosenPengajarKelasKuliah', self::$filter), $dosen_belum_nidn);
-        return $data;
-    }
-
-    public function kelas_kuliah()
-    {
-        return $this->belongsTo(m_kelas_kuliah::class, 'id_kelas_kuliah');
-    }
+    public $incrementing = false;
+    protected $keyType = 'string';
+    protected $table = "t_dosen_belum_nidn_pengajar_kelas_kuliah";
+    protected $guarded = [];
+    protected $hidden = ['created_at', 'updated_at'];
+    public $timestamps = false;
 }
