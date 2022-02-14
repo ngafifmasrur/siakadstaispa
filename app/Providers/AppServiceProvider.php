@@ -31,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
 
         view()->composer('*', function ($view) {
             $view->with('semester_id', m_global_konfigurasi::first()->id_semester_aktif);
+            $view->with('tahun_ajaran_id', m_global_konfigurasi::first()->id_tahun_ajaran);
         });
     }
 }

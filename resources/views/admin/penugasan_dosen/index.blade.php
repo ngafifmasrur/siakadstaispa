@@ -15,7 +15,7 @@
         </div>
         <div class="form-group col-lg-3">
             <label for="tahun_ajaran">Tahun Ajaran</label>
-            {!! Form::select('tahun_ajaran', $tahun_ajaran, null, ['class' => 'form-control', 'id' => 'tahun_ajaran']) !!}
+            {!! Form::select('tahun_ajaran', $tahun_ajaran, $tahun_ajaran_id, ['class' => 'form-control', 'id' => 'tahun_ajaran']) !!}
         </div>
     </div>
 </x-card>
@@ -23,7 +23,7 @@
 <x-card-table>
     <x-slot name="title">Data Penugasan Dosen</x-slot>
     <x-slot name="button">
-        <a class="float-right btn btn-sm btn-outline-blue add-form" data-url="#" href="#"><i data-feather="plus" class="mr-2"></i>Tambah</a>
+        <a class="btn btn-app btn-sm btn-primary add-form" data-url="{{ route('admin.penugasan_dosen.store')}}" href="#"><i class="fa fa-plus mr-2"></i>Tambah</a>
     </x-slot>
 
     <x-datatable 
@@ -48,6 +48,56 @@
 
 <x-modal.delete/>
 
+
+<x-modal class="modal-form" id="modal-form">
+    <x-slot name="title">Penugasan Dosen</x-slot>
+    <x-slot name="modalPosition">modal-dialog-centered</x-slot>
+    
+    @csrf 
+    @method('post')
+    <div class="form-group row">
+        <div class="form-group col-lg-12">
+            <label for="id_dosen">Dosen</label>
+            {!! Form::select('id_dosen', $dosen, null, ['class' => 'form-control', 'id' => 'id_dosen']) !!}
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="form-group col-lg-12">
+            <label for="id_tahun_ajaran">Tahun Ajaran</label>
+            {!! Form::select('id_tahun_ajaran', $tahun_ajaran, $tahun_ajaran_id, ['class' => 'form-control', 'id' => 'id_tahun_ajaran']) !!}
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="form-group col-lg-12">
+            <label for="id_prodi">Program Studi</label>
+            {!! Form::select('id_prodi', $prodi, null, ['class' => 'form-control', 'id' => 'id_prodi']) !!}
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="form-group col-lg-12">
+            <label for="nomor_surat_tugas">Nomor Surat Tugas</label>
+            {!! Form::text('nomor_surat_tugas', null, ['class' => 'form-control', 'id' => 'nomor_surat_tugas']) !!}
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="form-group col-lg-12">
+            <label for="tanggal_surat_tugas">Tanggal Surat Tugas</label>
+            {!! Form::date('tanggal_surat_tugas', null, ['class' => 'form-control', 'id' => 'sks_praktanggal_surat_tugastek']) !!}
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="form-group col-lg-12">
+            <label for="mulai_surat_tugas">Mulai Surat Tugas</label>
+            {!! Form::date('mulai_surat_tugas', null, ['class' => 'form-control', 'id' => 'mulai_surat_tugas']) !!}
+        </div>
+    </div>
+
+    <x-slot name="footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+        <button type="submit" class="btn btn-primary">Simpan</button>
+    </x-slot>
+</x-modal>
+
 @endsection
 
 @push('js')
@@ -71,26 +121,21 @@
             $('.modal-form form')[0].reset();
             $('.modal-form form').attr('action',  $(this).data('route'));
             $('[name=_method]').val('put');
-            var nim = $(this).data('nim');
-            var id_jenis_daftar = $(this).data('id_jenis_daftar');
-            var id_jalur_daftar = $(this).data('id_jalur_daftar');
-            var id_periode_masuk = $(this).data('nama');
-            var id_perguruan_tinggi = $(this).data('id_perguruan_tinggi');
+            var id_dosen = $(this).data('id_dosen');
+            var id_tahun_ajaran = $(this).data('id_tahun_ajaran');
             var id_prodi = $(this).data('id_prodi');
-            var id_perguruan_tinggi_asal = $(this).data('id_perguruan_tinggi_asal');
-            var id_prodi_asal = $(this).data('id_prodi_asal');
-            var id_pembiayaan = $(this).data('id_pembiayaan');
-            var sks_diakui = $(this).data('sks_diakui');
+            var nomor_surat_tugas = $(this).data('nomor_surat_tugas');
+            var tanggal_surat_tugas = $(this).data('tanggal_surat_tugas');
+            var mulai_surat_tugas = $(this).data('mulai_surat_tugas');
 
-            $('[name=nim]').val(nim);
-            $('[name=id_periode]').val(id_periode);
-            $('[name=id_jenis_daftar]').val(id_jenis_daftar);
-            $('[name=id_periode_masuk]').val(id_periode_masuk);
-            $('[name=id_perguruan_tinggi]').val(id_perguruan_tinggi);
-            $('[name=id_perguruan_tinggi_asal]').val(id_perguruan_tinggi_asal);
-            $('[name=id_prodi_asal]').val(id_prodi_asal);
-            $('[name=id_pembiayaan]').val(id_pembiayaan);
-            $('[name=sks_diakui]').val(sks_diakui);
+            $('[name=id_dosen]').val(id_dosen);
+            $('[name=id_tahun_ajaran]').val(id_tahun_ajaran);
+            $('[name=id_prodi]').val(id_prodi);
+            $('[name=nomor_surat_tugas]').val(nomor_surat_tugas);
+            $('[name=tanggal_surat_tugas]').val(tanggal_surat_tugas);
+            $('[name=mulai_surat_tugas]').val(mulai_surat_tugas);
+            $('select').selectpicker('refresh');
+
         });
     </script>
 @endpush
