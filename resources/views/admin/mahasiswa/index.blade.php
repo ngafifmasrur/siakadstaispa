@@ -37,7 +37,6 @@
             ['title' => 'Jenis Kelamin', 'data' => 'jenis_kelamin', 'name' => 'jenis_kelamin'],
             ['title' => 'Tanggal Lahir', 'data' => 'tanggal_lahir', 'name' => 'tanggal_lahir'],
             ['title' => 'Agama', 'data' => 'nama_agama', 'name' => 'nama_agama'],
-            ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
         ]"
         :filter="[
             ['data' => 'prodi', 'value' => '$(`#prodi`).val()'],

@@ -16,7 +16,7 @@
     :route="route('dosen.jurnal_perkuliahan.jurnal_data_index', $jadwal->id_kelas_kuliah)" 
     :table="[
         ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],
-        ['title' => 'Program Studi', 'data' => 'prodi', 'name' => 'prodi', 'classname' => 'text-left'],
+        ['title' => 'Program Studi', 'data' => 'nama_program_studi', 'name' => 'nama_program_studi', 'classname' => 'text-left'],
         ['title' => 'Tgl Pelaksanaan', 'data' => 'tanggal_pelaksanaan', 'name' => 'tanggal_pelaksanaan', 'classname' => 'text-left'],
         ['title' => 'Topik', 'data' => 'topik', 'name' => 'topik', 'classname' => 'text-left'],
         ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],

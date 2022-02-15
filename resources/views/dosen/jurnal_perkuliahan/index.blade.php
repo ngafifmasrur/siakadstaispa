@@ -30,8 +30,7 @@
         ['title' => 'Program Studi', 'data' => 'nama_program_studi', 'name' => 'nama_program_studi'],
         ['title' => 'Mata Kuliah', 'data' => 'nama_mata_kuliah', 'name' => 'nama_mata_kuliah', 'classname' => 'text-left'],
         ['title' => 'Kelas', 'data' => 'nama_kelas_kuliah', 'name' => 'nama_kelas_kuliah', 'classname' => 'text-left'],
-        ['title' => 'Ruang', 'data' => 'ruang', 'name' => 'ruang', 'classname' => 'text-left'],
-        ['title' => 'Waktu', 'data' => 'waktu', 'name' => 'waktu'],
+        ['title' => 'Jadwal', 'data' => 'jadwal', 'name' => 'jadwal', 'classname' => 'text-left'],
         ['title' => 'Jml Mahasiswa', 'data' => 'jumlah_mahasiswa', 'name' => 'jumlah_mahasiswa'],
         ['title' => 'Ket.', 'data' => 'action', 'name' => 'action']
     ]"

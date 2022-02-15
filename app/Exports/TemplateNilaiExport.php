@@ -33,21 +33,23 @@ class TemplateNilaiExport implements FromQuery, WithHeadings, WithColumnWidths, 
 
         $peserta = t_detail_nilai_perkuliahan_kelas::setFilter([
             'filter' => "id_kelas_kuliah='$id_kelas_kuliah'",
-        ])->select('id_registrasi_mahasiswa', 'nilai_angka')->orderBy('nama_mahasiswa', 'DESC');
+        ])->select('id_registrasi_mahasiswa', 'nim', 'nama_mahasiswa', 'nilai_angka')->orderBy('nama_mahasiswa', 'DESC');
 
         return $peserta;
     }
 
     public function headings(): array
     {
-        return ["ID Registrasi", "Nilai"];
+        return ["ID Registrasi", "Nim", "Nama Mahasiswa", "Nilai"];
     }
 
     public function columnWidths(): array
     {
         return [
             'A' => 20,
-            'B' => 10,          
+            'B' => 20, 
+            'C' => 25,          
+            'D' => 10,          
         ];
     }
 
