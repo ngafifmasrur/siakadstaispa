@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dosen;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\m_jadwal;
+use App\Models\m_mata_kuliah;
 use App\Models\t_dosen_pengajar_kelas_kuliah;
 use App\Models\m_semester;
 use App\Models\m_program_studi;
@@ -44,21 +45,29 @@ class JadwalMengajarController extends Controller
                     $q->where('id_prodi', $request->prodi);
                 })->get();
 
+        $query->map(function ($item){
+            $matkul = m_mata_kuliah::setFilter([
+                'filter' => "id_matkul='$item->id_matkul'"
+            ])->first();
+            $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kulaih)->first();
+            $item['hari'] = $item->hari;
+            $item['jam_mulai'] = $item->jam_mulai;
+            $item['jam_akhir'] = $item->jam_akhir;
+            $item['sks_mata_kuliah'] = $matkul->sks_mata_kuliah;
+
+            return $item;
+        });
+
         return datatables()->of($query)
             ->addIndexColumn()
-            ->addColumn('hari', function ($data) {
-                return '-';
-            })
-            ->addColumn('ruang', function ($data) {
-                return  '-';
-            })
-            ->addColumn('hari', function ($data) {
-                return  '-';
-            })
-            ->addColumn('waktu', function ($data) {
-                return '-';
-            })
             ->addColumn('jumlah_mahasiswa', function ($data) {
+                return '-';
+            })
+            ->addColumn('jadwal',function ($data) {
+                if($data->hari && $data->jam_mulai && $data->jam_akhir) {
+                    return $data->hari.', '.$data->jam_mulai.'-'.$data->jam_akhir;
+                }
+
                 return '-';
             })
             ->setRowAttr([

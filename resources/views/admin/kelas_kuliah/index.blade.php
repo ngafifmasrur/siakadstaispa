@@ -201,6 +201,9 @@
             var bahasan = $(this).data('bahasan');
             var tanggal_mulai = $(this).data('tanggal_mulai');
             var tanggal_akhir = $(this).data('tanggal_akhir');
+            var hari = $(this).data('hari');
+            var jam_mulai = $(this).data('jam_mulai');
+            var jam_akhir = $(this).data('jam_akhir');
 
             $('[name=id_prodi]').val(id_prodi);
             $('[name=id_matkul]').val(id_matkul);
@@ -209,6 +212,10 @@
             $('[name=bahasan]').val(bahasan);
             $('[name=tanggal_mulai_efektif]').val(tanggal_mulai);
             $('[name=tanggal_akhir_efektif]').val(tanggal_akhir);
+            $('[name=hari]').val(hari);
+            $('[name=jam_mulai]').val(jam_mulai);
+            $('[name=jam_akhir]').val(jam_akhir);
+            $('select').selectpicker('refresh');
 
         });
     </script>

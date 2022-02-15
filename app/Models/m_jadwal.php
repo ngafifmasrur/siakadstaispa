@@ -12,6 +12,8 @@ class m_jadwal extends Model
 
 	protected $table = 'm_jadwal';
 	protected $guarded = [];
+	public $incrementing = false;
+    protected $keyType = 'string';
 
 	public function dosen()
 	{
