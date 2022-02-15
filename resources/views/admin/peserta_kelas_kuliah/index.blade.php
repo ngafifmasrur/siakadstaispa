@@ -9,6 +9,10 @@
 
 <x-card-info>
     <x-slot name="title">Kelas: {{ $kelas_kuliah->nama_kelas_kuliah }}</x-slot>
+    <x-slot name="button">
+        <a class="btn btn-app btn-sm btn-danger" href="{{ route('admin.kelas_kuliah.index')}}"><i class="fa fa-arrow-left mr-2"></i>Kembali</a>
+    </x-slot>
+
     <table cellpadding="4" cellspacing="2">
         <tr>
             <td class="font-weight-bold">Kode Mata Kuliah</td>

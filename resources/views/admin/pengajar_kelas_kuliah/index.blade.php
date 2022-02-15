@@ -9,6 +9,11 @@
 
 <x-card-info>
     <x-slot name="title">Kelas: {{ $kelas_kuliah->nama_kelas_kuliah }}</x-slot>
+    <x-slot name="button">
+        <a class="btn btn-app btn-sm btn-danger" href="{{ route('admin.kelas_kuliah.index')}}"><i class="fa fa-arrow-left mr-2"></i>Kembali</a>
+    </x-slot>
+
+
     <table cellpadding="4" cellspacing="2">
         <tr>
             <td class="font-weight-bold">Kode Mata Kuliah</td>
@@ -108,7 +113,7 @@
     <div class="row">
         <div class="form-group col-lg-12">
             <label for="realisasi_minggu_pertemuan">Realisasi Minggu Pertemuan</label>
-            {!! Form::number('realisasi_minggu_pertemuan', null, ['class' => 'form-control '.($errors->has('realisasi_minggu_pertemuan') ? 'is-invalid' : ''), 'id' => 'realisasi_minggu_pertemuan']) !!}
+            {!! Form::number('realisasi_minggu_pertemuan', 0, ['class' => 'form-control '.($errors->has('realisasi_minggu_pertemuan') ? 'is-invalid' : ''), 'id' => 'realisasi_minggu_pertemuan', 'min'=>0]) !!}
             @error('realisasi_minggu_pertemuan')
                 <div class="invalid-feedback">
                     {{ $message }}
