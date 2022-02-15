@@ -10,7 +10,7 @@
 <x-card-table>
     <x-slot name="title">Data Dosen Belum NIDN</x-slot>
     <x-slot name="button">
-        <a class="btn btn-app btn-sm btn-primary add-form" data-url="{{ route('admin.dosen_belum_nidn.store') }}" href="#"><i class="fa fa-plus mr-2"></i>Tambah</a>
+        <a class="btn btn-app btn-sm btn-primary" href="{{ route('admin.dosen_belum_nidn.create') }}"><i class="fa fa-plus mr-2"></i>Tambah</a>
         {{-- <button onclick="massCreateAccount('{{ route('admin.dosen.buat_akun') }}')" class="btn btn-success btn-xs btn-flat"><i class="fa fa-check"></i> Buat Akun</button> --}}
 
     </x-slot>

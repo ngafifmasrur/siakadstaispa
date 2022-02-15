@@ -20,7 +20,7 @@ class m_dosen extends SushiModel
 
     public function getRows()
     {
-        $dosen_belum_nidn = m_dosen_belum_nidn::all()->toArray();
+        $dosen_belum_nidn = m_dosen_belum_nidn::select('id_dosen', 'nama_dosen', 'nidn', 'nip', 'jenis_kelamin', 'id_agama', 'nama_agama', 'tanggal_lahir', 'id_status_aktif', 'nama_status_aktif')->get()->toArray();
         $data = array_merge(GetDataFeeder('GetListDosen', self::$filter), $dosen_belum_nidn);
         return $data;
     }

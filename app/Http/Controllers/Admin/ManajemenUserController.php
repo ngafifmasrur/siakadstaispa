@@ -95,7 +95,7 @@ class ManajemenUserController extends Controller
             $q->where('id_periode', $request->id_periode);
         })->get();
 
-        $count_total = m_mahasiswa::count_total();
+        $count_total = count(GetDataFeeder('GetListMahasiswa'));
         $count_filter = m_mahasiswa::count_total([
             'limit' => $request->start+$request->length
         ]);
@@ -103,7 +103,7 @@ class ManajemenUserController extends Controller
         return datatables()->of($query)
             ->with([
                 "recordsTotal"    => intval($count_total),
-                "recordsFiltered" => $count_filter,
+                "recordsFiltered" => intval($count_filter),
             ])
             ->addIndexColumn()
             ->addColumn('select_all', function ($data) {
@@ -181,7 +181,7 @@ class ManajemenUserController extends Controller
         foreach ($request->dosen_id as $id) {
             $dosen = m_dosen::find($id);
             $user = new User();
-            $user->email = $dosen->nidn;
+            $user->email = $dosen->nidn ?? $dosen->nik;
             $user->name = $dosen->nama_dosen;
             $user->password = bcrypt(str_replace("-", "",$dosen->tanggal_lahir));
             $user->role_id = $role_dosen->id;
