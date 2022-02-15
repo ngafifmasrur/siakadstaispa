@@ -46,6 +46,7 @@
                 <li aria-haspopup="true"><a href="{{ route('admin.semester.index') }}">Semester</a></li>
                 <li aria-haspopup="true"><a href="{{ route('admin.konfigurasi.index') }}">Konfigurasi</a></li>
                 <li aria-haspopup="true"><a href="{{ route('admin.konfigurasi_global.index') }}">Konfigurasi Global</a></li>
+                <li aria-haspopup="true"><a href="{{ route('admin.berita.index') }}">Berita</a></li>
                 <li aria-haspopup="true"><a href="#" class="sub-icon {{ set_active([
                     'admin/manajemen_user/mahasiswa',
                     'admin/manajemen_user/dosen',

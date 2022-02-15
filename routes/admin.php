@@ -33,7 +33,8 @@ use App\Http\Controllers\Admin\{
     DosenPengajarKelasKuliahController,
     KurikurumProdiController,
     KonfigurasiGlobalController,
-    DosenBelumNIDNController
+    DosenBelumNIDNController,
+    BeritaController
 };
 
 /*
@@ -209,6 +210,7 @@ Route::group(
         Route::resource('/konfigurasi', KonfigurasiController::class)->except([
             'show',
         ]);
+        
 
         Route::get('/data_pokok/{master}', [
             DataPokokController::class,
@@ -292,5 +294,14 @@ Route::group(
         Route::get('/dosen_belum_nidn/data_index', [DosenBelumNIDNController::class,'data_index',])->name('dosen_belum_nidn.data_index');
         Route::resource('/dosen_belum_nidn', DosenBelumNIDNController::class)->except(['show']);
 
+        // Berita
+        Route::get('/berita/data_index', [
+            BeritaController::class,
+            'data_index',
+        ])->name('berita.data_index');
+        Route::delete('berita/{berita}', [BeritaController::class, 'destroy'])->name('berita.destroy');
+        Route::put('berita/{berita}', [BeritaController::class, 'update'])->name('berita.update');
+        Route::get('berita', [BeritaController::class, 'index'])->name('berita.index');
+        Route::post('berita', [BeritaController::class, 'store'])->name('berita.store');
     }
 );

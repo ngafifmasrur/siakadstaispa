@@ -140,7 +140,7 @@ if (! function_exists('GetTokenFeeder')) {
      */
     function GetTokenFeeder()
     {
-        $endpoint = \config('app.url_feeder');
+        $endpoint = \config('app.');
 
         $response = Http::post($endpoint, [
             'act' => 'GetToken',
