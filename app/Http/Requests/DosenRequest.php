@@ -69,6 +69,7 @@ class DosenRequest extends FormRequest
             'jenis_kelamin' => 'required|in:L,P',
             'id_status_aktif' => 'required|integer',
             'id_agama' => 'required|integer',
+            'nik' => 'required|digits:16',
         ];
 
 

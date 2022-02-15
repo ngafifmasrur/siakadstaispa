@@ -13,6 +13,18 @@
     <form action="{{ route('admin.dosen_belum_nidn.store') }}" method="POST">
         @csrf
         <div class="form-group row">
+            <label for="nik" class="col-sm-2 col-form-label">NIK (16 digit) <span class="text-danger">*</span></label>
+            <div class="col-sm-10">
+                {!! Form::text('nik', NULL, ['class' => 'form-control '.($errors->has('nik') ? 'is-invalid' : ''), 'id' => 'nik']) !!}
+                @error('nik')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+        </div>
+
+        <!-- <div class="form-group row">
             <label for="nidn" class="col-sm-2 col-form-label">NIDN</label>
             <div class="col-sm-10">
                 {!! Form::text('nidn', NULL, ['class' => 'form-control '.($errors->has('nidn') ? 'is-invalid' : ''), 'id' => 'nidn']) !!}
@@ -22,7 +34,7 @@
                     </div>
                 @enderror
             </div>
-        </div>
+        </div> -->
         <div class="form-group row">
             <label for="nama_dosen" class="col-sm-2 col-form-label">Nama <span class="text-danger">*</span></label>
             <div class="col-sm-10">
@@ -65,7 +77,7 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="tanggal_lahir" class="col-sm-2 col-form-label">Tanggal Lahir</label>
+            <label for="tanggal_lahir" class="col-sm-2 col-form-label">Tanggal Lahir<span class="text-danger">*</span></label>
             <div class="col-sm-10">
                 {!! Form::date('tanggal_lahir', NULL, ['class' => 'form-control '.($errors->has('tanggal_lahir') ? 'is-invalid' : ''), 'id' => 'tanggal_lahir']) !!}
                 @error('tanggal_lahir')
@@ -113,17 +125,7 @@
         <div class="card-body">
             <div class="tab-content" id="cardTabContent">
                 <div class="tab-pane fade show active" id="alamat" role="tabpanel" aria-labelledby="alamat-tab">
-                    <div class="form-group row">
-                        <label for="nik" class="col-sm-2 col-form-label">NIK <span class="text-danger">*</span></label>
-                        <div class="col-sm-10">
-                            {!! Form::text('nik', NULL, ['class' => 'form-control '.($errors->has('nik') ? 'is-invalid' : ''), 'id' => 'nik']) !!}
-                            @error('nik')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
+                    
                     <div class="form-group row">
                         <label for="nip" class="col-sm-2 col-form-label">NIP</label>
                         <div class="col-sm-10">
@@ -202,7 +204,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="id_wilayah" class="col-sm-2 col-form-label">Kecamatan <span class="text-danger">*</span></label>
+                        <label for="id_wilayah" class="col-sm-2 col-form-label">Kecamatan </label>
                         <div class="col-sm-10">
                             {!! Form::select('id_wilayah', $wilayah, NULL, ['class' => 'form-control '.($errors->has('id_wilayah') ? 'is-invalid' : ''), 'id' => 'id_wilayah']) !!}
                             @error('id_wilayah')
@@ -224,7 +226,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label for="telepon" class="col-sm-2 col-form-label">Telepon <span class="text-danger">*</span></label>
+                        <label for="telepon" class="col-sm-2 col-form-label">Telepon </label>
                         <div class="col-sm-10">
                             {!! Form::text('telepon', NULL, ['class' => 'form-control '.($errors->has('telepon') ? 'is-invalid' : ''), 'id' => 'telepon']) !!}
                             @error('telepon')
