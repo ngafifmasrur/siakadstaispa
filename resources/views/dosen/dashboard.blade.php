@@ -45,8 +45,9 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-4 col-md-12">
-                                        {{-- <small class="block">{{ $item->tanggal_mulai_efektif.' - '.$item->tanggal_akhir_efektif }}</small> --}}
-                                        <strong  class="block">{{ $item->nama_mata_kuliah }}</strong>
+                                        @if ($item->jam_mulai && $item->jam_akhir)
+                                            <small class="block">{{ $item->jam_mulai.' - '.$item->jam_akhir }}</small>
+                                        @endif                                        <strong  class="block">{{ $item->nama_mata_kuliah }}</strong>
                                     </div>
                                     <div class="col-lg-5 col-md-12">
                                         <span class="block mb-1"><i class="fa fa-calendar mr-1"></i> {{ $item->nama_semester }}</span>
