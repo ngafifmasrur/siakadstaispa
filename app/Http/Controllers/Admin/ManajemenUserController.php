@@ -175,7 +175,7 @@ class ManajemenUserController extends Controller
         foreach ($request->dosen_id as $id) {
             $dosen = m_dosen::find($id);
             $user = new User();
-            $user->email = $dosen->nidn ?? $dosen->nik;
+            $user->email = $dosen->nidn;
             $user->name = $dosen->nama_dosen;
             $user->password = bcrypt(str_replace("-", "",$dosen->tanggal_lahir));
             $user->role_id = $role_dosen->id;

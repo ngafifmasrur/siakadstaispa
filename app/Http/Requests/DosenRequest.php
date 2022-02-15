@@ -81,9 +81,9 @@ class DosenRequest extends FormRequest
         //     }
         // }
 
-        // if (in_array($this->method(), ['POST'])) {
-        //     $rules['nidn'] = 'required|string|unique:users,email';
-        // }
+        if (in_array($this->method(), ['POST'])) {
+            $rules['nik'] = 'required|digits:16|string|unique:m_dosen_belum_nidn,nik';
+        }
 
         return $rules;
 

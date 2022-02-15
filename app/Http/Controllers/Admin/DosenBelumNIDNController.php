@@ -121,6 +121,7 @@ class DosenBelumNIDNController extends Controller
 
             $request->merge([
                 'id_dosen' => Str::uuid(),
+                'nidn' => $request->nik,
                 'nama_agama' => $nama_agama,
                 'nama_jenis_sdm' => $ikatan_sdm,
                 'id_status_aktif' =>$request->id_status_aktif ?? 0,
@@ -157,6 +158,7 @@ class DosenBelumNIDNController extends Controller
             $ikatan_sdm = ref_jenis_sdm::where('id_ikatan_kerja', $request->id_jenis_sdm)->first()->nama_ikatan_kerja;
 
             $request->merge([
+                'nidn' => $request->nik,
                 'nama_agama' => $nama_agama,
                 'nama_jenis_sdm' => $ikatan_sdm,
                 'id_status_aktif' =>$request->id_status_aktif ?? 0,
