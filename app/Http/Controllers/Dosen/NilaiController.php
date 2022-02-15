@@ -19,6 +19,13 @@ use App\Models\t_peserta_kelas_kuliah;
 use App\Models\t_detail_nilai_perkuliahan_kelas;
 use App\Models\m_global_konfigurasi;
 use App\Http\Requests\JadwalRequest;
+use App\Exports\NilaiExport;
+use App\Exports\TemplateNilaiExport;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Reader\Exception;
+use PhpOffice\PhpSpreadsheet\Writer\Xls;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Session, DB, Auth;
 
 class NilaiController extends Controller
@@ -153,4 +160,79 @@ class NilaiController extends Controller
             return dd($e);
         }
     }
+
+    public function export($id_kelas_kuliah) 
+    {
+        
+        $kelas_kuliah = m_kelas_kuliah::setFilter([
+            'filter' => "id_kelas_kuliah='$id_kelas_kuliah'",
+        ])->first();
+
+        $file_name = 'Nilai_-'.$kelas_kuliah->nama_mata_kuliah.'-_Kelas_'.$kelas_kuliah->nama_kelas_kuliah.'';
+
+        return Excel::download(new NilaiExport($id_kelas_kuliah), ''.$file_name.'.xlsx');
+    }
+
+    public function template_import($id_kelas_kuliah) 
+    {
+        
+        $kelas_kuliah = m_kelas_kuliah::setFilter([
+            'filter' => "id_kelas_kuliah='$id_kelas_kuliah'",
+        ])->first();
+
+        $file_name = 'Template_Import_Nilai_-'.$kelas_kuliah->nama_mata_kuliah.'-_Kelas_'.$kelas_kuliah->nama_kelas_kuliah.'';
+
+        return Excel::download(new TemplateNilaiExport($id_kelas_kuliah), ''.$file_name.'.xlsx');
+    }
+
+
+    function import(Request $request)
+    {
+        $this->validate($request, [
+            'import_file' => 'required|file|mimes:xls,xlsx'
+        ]);
+
+        $the_file = $request->file('import_file');
+        $spreadsheet = IOFactory::load($the_file->getRealPath());
+        $sheet        = $spreadsheet->getActiveSheet();
+        $row_limit    = $sheet->getHighestDataRow();
+        $column_limit = $sheet->getHighestDataColumn();
+        $row_range    = range( 2, $row_limit );
+        $column_range = range( 'F', $column_limit );
+        $startcount = 2;
+        $data = array();
+
+            foreach ( $row_range as $row ) {
+                $nilai = $sheet->getCell( 'B' . $row )->getValue();
+
+                if($nilai > 100 || $nilai < 0){
+                    Session::flash('error_msg', 'Nilai tidak boleh lebih dari 100.');
+                    return redirect()->back()->withInput();
+                }
+
+                $hasil_nilai =  m_skala_nilai_prodi::whereRaw('? between bobot_minimum and bobot_maksimum', [$nilai])->first();
+
+                if(!$hasil_nilai){
+                    Session::flash('error_msg', 'Skala Nilai tidak ditemukan.');
+                    return redirect()->back()->withInput();
+                }
+
+                // Update Nilai
+                $records = [
+                    "nilai_angka" => $nilai,
+                    "nilai_indeks" => $hasil_nilai->nilai_indeks,
+                    "nilai_huruf" => $hasil_nilai->nilai_huruf
+                ];
+            
+                $key = [
+                    'id_registrasi_mahasiswa' => $sheet->getCell( 'A' . $row )->getValue(),
+                    'id_kelas_kuliah' => $request->id_kelas_kuliah
+                ];
+            
+                $results[] = UpdateDataFeeder('UpdateNilaiPerkuliahanKelas', $key, $records, 'GetDetailNilaiPerkuliahanKelas');
+            }
+
+        return redirect()->back()->with('results', $results);
+    }
+    
 }

@@ -4,7 +4,7 @@
 @section('content')
 
 <x-header>
-    Penugasan Dosen
+    Penugasan Dosen Belum NIDN
 </x-header>
 
 <x-card>
@@ -21,7 +21,7 @@
 </x-card>
 
 <x-card-table>
-    <x-slot name="title">Data Penugasan Dosen</x-slot>
+    <x-slot name="title">Data Penugasan Dosen Belum NIDN</x-slot>
     <x-slot name="button">
         <a class="btn btn-app btn-sm btn-primary add-form" data-url="{{ route('admin.penugasan_dosen.store')}}" href="#"><i class="fa fa-plus mr-2"></i>Tambah</a>
     </x-slot>
@@ -50,7 +50,7 @@
 
 
 <x-modal class="modal-form" id="modal-form">
-    <x-slot name="title">Penugasan Dosen</x-slot>
+    <x-slot name="title">Penugasan Dosen Belum NIDN</x-slot>
     <x-slot name="modalPosition">modal-dialog-centered</x-slot>
     
     @csrf 

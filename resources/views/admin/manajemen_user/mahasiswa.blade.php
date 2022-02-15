@@ -23,7 +23,7 @@
         </div>
         <div class="form-group col-lg-3">
             <label for="tahun_ajaran">Angkatan</label>
-            {!! Form::select('id_periode', $semester, null, ['class' => 'form-control', 'id' => 'periode']) !!}
+            {!! Form::select('id_periode', $semester, $semester_id, ['class' => 'form-control', 'id' => 'periode']) !!}
         </div>
     </div>
 </x-card>
