@@ -18,7 +18,7 @@ class CacheControll
     {
         $response = $next($request);
 
-        $response->header('Cache-Control', 'max_age=31536000');
+        // $response->header('Cache-Control', 'max_age=31536000');
 
         return $response;
     }

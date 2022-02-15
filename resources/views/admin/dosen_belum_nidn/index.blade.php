@@ -10,7 +10,7 @@
 <x-card-table>
     <x-slot name="title">Data Dosen Belum NIDN</x-slot>
     <x-slot name="button">
-        <a class="btn btn-app btn-sm btn-primary add-form" data-url="{{ route('admin.dosen_belum_nidn.store') }}" href="#"><i class="fa fa-plus mr-2"></i>Tambah</a>
+        <a class="btn btn-app btn-sm btn-primary" href="{{ route('admin.dosen_belum_nidn.create') }}"><i class="fa fa-plus mr-2"></i>Tambah</a>
         {{-- <button onclick="massCreateAccount('{{ route('admin.dosen.buat_akun') }}')" class="btn btn-success btn-xs btn-flat"><i class="fa fa-check"></i> Buat Akun</button> --}}
 
     </x-slot>
@@ -20,7 +20,7 @@
         :table="[
             ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],
             ['title' => 'Nama', 'data' => 'nama_dosen', 'name' => 'nama_dosen', 'classname' => 'text-left'],
-            ['title' => 'NIP', 'data' => 'nip', 'name' => 'nip', 'classname' => 'text-left'],
+            ['title' => 'NIK', 'data' => 'nik', 'name' => 'nik', 'classname' => 'text-left'],
             ['title' => 'Jenis Kelamin', 'data' => 'jenis_kelamin', 'name' => 'jenis_kelamin', 'classname' => 'text-left'],
             ['title' => 'Status Aktif', 'data' => 'status', 'name' => 'status', 'classname' => 'text-center'],
             ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false']

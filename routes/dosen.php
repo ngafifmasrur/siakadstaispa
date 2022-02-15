@@ -156,5 +156,9 @@ Route::group(
         Route::get('/pengisian_nilai/data_index', [NilaiController::class, 'data_index'])->name('pengisian_nilai.data_index');
         Route::get('/pengisian_nilai/{id_kelas_kuliah}/form_nilai', [NilaiController::class, 'form_nilai'])->name('pengisian_nilai.form_nilai');
         Route::post('/pengisian_nilai/store_nilai', [NilaiController::class, 'store_nilai'])->name('pengisian_nilai.store_nilai');
+        Route::get('pengisian_nilai/export/{id_kelas_kuliah}', [NilaiController::class, 'export'])->name('pengisian_nilai.export');
+        Route::get('pengisian_nilai/template_import/{id_kelas_kuliah}', [NilaiController::class, 'template_import'])->name('pengisian_nilai.template_import');
+        Route::post('pengisian_nilai/import', [NilaiController::class, 'import'])->name('pengisian_nilai.import');
+
     }
 );

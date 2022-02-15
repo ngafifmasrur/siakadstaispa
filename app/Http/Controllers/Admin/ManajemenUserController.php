@@ -78,32 +78,26 @@ class ManajemenUserController extends Controller
 
     public function mahasiswa()
     {
-        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi')->prepend('Pilih Program Studi', NULL);
-        $semester = m_semester::orderBy('nama_semester', 'desc')->pluck('nama_semester', 'id_semester')->prepend('Pilih Angkatan', NULL);
+        $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi');
+        $semester = m_semester::orderBy('nama_semester', 'desc')->pluck('nama_semester', 'id_semester');
         return view('admin.manajemen_user.mahasiswa', compact('prodi', 'semester'));
     }
 
     public function mahasiswa_index(Request $request)
     {
         $query = m_mahasiswa::setFilter([
-            'limit' => $request->start+$request->length
-        ])->distinct('nim')
-        ->when($request->id_prodi, function($q) use ($request){
-            $q->where('id_prodi', $request->id_prodi);
-        })
-        ->when($request->id_periode, function($q) use ($request){
-            $q->where('id_periode', $request->id_periode);
-        })->get();
+            'filter' => "id_prodi='$request->id_prodi' AND id_periode='$request->id_periode'"
+        ])->get();
 
-        $count_total = m_mahasiswa::count_total();
+        $count_total = $query->count() ; //count(GetDataFeeder('GetListMahasiswa'));
         $count_filter = m_mahasiswa::count_total([
-            'limit' => $request->start+$request->length
+            'filter' => "id_prodi='$request->id_prodi' AND id_periode='$request->id_periode'"
         ]);
 
         return datatables()->of($query)
             ->with([
                 "recordsTotal"    => intval($count_total),
-                "recordsFiltered" => $count_filter,
+                "recordsFiltered" => intval($count_filter),
             ])
             ->addIndexColumn()
             ->addColumn('select_all', function ($data) {

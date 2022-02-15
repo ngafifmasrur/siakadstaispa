@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\{
     m_global_konfigurasi,
     m_kelas_kuliah,
-    t_dosen_pengajar_kelas_kuliah
+    t_dosen_pengajar_kelas_kuliah,
+    m_jadwal
 };
 use Carbon\Carbon, Auth;
 
@@ -24,6 +25,14 @@ class DashboardController extends Controller
         $kelasKuliah = m_kelas_kuliah::setFilter([
             'filter' => "id_semester='$semester_aktif'"
         ])->whereIn('id_kelas_kuliah', $pengajaraKelasKuliah)->get();
+        
+        $kelasKuliah->map(function ($item){
+            $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kulaih)->first();
+            $item['hari'] = $item->hari;
+            $item['jam_mulai'] = $item->jam_mulai;
+            $item['jam_akhir'] = $item->jam_akhir;
+            return $item;
+        });
 
         return view('dosen.dashboard', compact('kelasKuliah'));
     }

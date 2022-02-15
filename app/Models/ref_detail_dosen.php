@@ -56,7 +56,10 @@ class ref_detail_dosen extends SushiModel
 
     public function getRows()
     {
-        return GetDataFeeder('DetailBiodataDosen', self::$filter);
+
+        $dosen_belum_nidn = m_dosen_belum_nidn::all()->toArray();
+        $data = array_merge(GetDataFeeder('DetailBiodataDosen', self::$filter), $dosen_belum_nidn);
+        return $data;
     }
 }
 

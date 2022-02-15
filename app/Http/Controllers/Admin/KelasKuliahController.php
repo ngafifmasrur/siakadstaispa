@@ -47,7 +47,16 @@ class KelasKuliahController extends Controller
                 })
                 ->when($request->id_semester, function ($q) use ($request) {
                     $q->where('id_semester', $request->id_semester);
-                });
+                })->get();
+
+        $query->map(function ($item){
+            $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kulaih)->first();
+            $item['hari'] = $item->hari  ?? null;
+            $item['jam_mulai'] = $item->jam_mulai  ?? null;
+            $item['jam_akhir'] = $item->jam_akhir  ?? null;
+
+            return $item;
+        });
 
         return datatables()->of($query)
             ->addIndexColumn()
@@ -55,13 +64,25 @@ class KelasKuliahController extends Controller
            
                 $button = '<div class="btn-group" role="group" aria-label="Basic example">';
     
-                // $button .= view("components.button.default", [
-                //     'type' => 'button',
-                //     'tooltip' => 'Ubah',
-                //     'class' => 'btn btn-outline-primary btn-sm btn_edit',
-                //     "icon" => "fa fa-edit",
-                //     "route" => route('admin.kelas_kuliah.update',['kelas_kuliah' => $data->id_kelas_kuliah]),
-                // ]);
+                $button .= view("components.button.default", [
+                    'type' => 'button',
+                    'tooltip' => 'Ubah',
+                    'class' => 'btn btn-outline-primary btn-sm btn_edit',
+                    "icon" => "fa fa-edit",
+                    "attribute" => [
+                        'data-nama' => $data->nama_kelas_kuliah,
+                        'data-prodi' => $data->id_prodi,
+                        'data-semester' => $data->id_semester,
+                        'data-matkul' => $data->id_matkul,
+                        'data-bahasan' => $data->bahasan,
+                        'data-hari' => $data->hari,
+                        'data-jam_mulai' => $data->jam_mulai,
+                        'data-jam_akhir' => $data->jam_akhir,
+                        'data-tanggal_mulai' => $data->tanggal_mulai_efektif,
+                        'data-tanggal_akhir' => $data->tanggal_akhir_efektif,
+                    ],
+                    "route" => route('admin.kelas_kuliah.update',['kelas_kuliah' => $data->id_kelas_kuliah]),
+                ]);
     
                 $button .= view("components.button.default", [
                     'type' => 'button',
@@ -84,15 +105,6 @@ class KelasKuliahController extends Controller
                     'tooltip' => 'Daftar Dosen',
                     'class' => 'btn btn-primary btn-sm',
                     "icon" => "fa fa-users",
-                    "attribute" => [
-                        'data-nama' => $data->nama_kelas_kuliah,
-                        'data-prodi' => $data->id_prodi,
-                        'data-semester' => $data->id_semester,
-                        'data-matkul' => $data->id_matkul,
-                        'data-bahasan' => $data->bahasan,
-                        'data-tanggal_mulai' => $data->tanggal_mulai_efektif,
-                        'data-tanggal_akhir' => $data->tanggal_akhir_efektif,
-                    ],
                     "route" => route('admin.pengajar_kelas_kuliah.index',['id_kelas_kuliah' => $data->id_kelas_kuliah]),
                 ]);
                 return $button;
@@ -143,12 +155,12 @@ class KelasKuliahController extends Controller
                 return back()->withInput();
             }
 
-            // $jadwal = m_jadwal::create([
-            //     'id_kelas_kuliah' => $result['data'],
-            //     'hari' => $request->hari,
-            //     'jam_mulai' => $request->jam_mulai,
-            //     'jam_akhir' => $request->jam_selesai
-            // ]);
+            $jadwal = m_jadwal::create([
+                'id_kelas_kuliah' => $result['data']['id_kelas_kuliah'],
+                'hari' => $request->hari,
+                'jam_mulai' => $request->jam_mulai,
+                'jam_akhir' => $request->jam_selesai
+            ]);
 
             DB::commit();
            
@@ -183,13 +195,22 @@ class KelasKuliahController extends Controller
                 return back()->withInput();
             }
 
-            // $jadwal = m_jadwal::where('id_kelas_kuliah', $kelas_kuliah)->first();
-            // $jadwal->update([
-            //     'hari' => $request->hari,
-            //     'jam_mulai' => $request->jam_mulai,
-            //     'jam_akhir' => $request->jam_selesai
-            // ]);
+            $jadwal = m_jadwal::where('id_kelas_kuliah', $kelas_kuliah)->first();
 
+            if(isset($jadwal)) {
+                $jadwal->update([
+                    'hari' => $request->hari,
+                    'jam_mulai' => $request->jam_mulai,
+                    'jam_akhir' => $request->jam_selesai
+                ]);
+            } else {
+                $jadwal = m_jadwal::create([
+                    'id_kelas_kuliah' => $kelas_kuliah,
+                    'hari' => $request->hari,
+                    'jam_mulai' => $request->jam_mulai,
+                    'jam_akhir' => $request->jam_selesai
+                ]);
+            }
 
         try{
             
@@ -224,8 +245,8 @@ class KelasKuliahController extends Controller
                 return back()->withInput();
             }
 
-            // $jadwal = m_jadwal::where('id_kelas_kuliah', $kelas_kuliah)->first();
-            // $jadwal->delete();
+            $jadwal = m_jadwal::where('id_kelas_kuliah', $kelas_kuliah)->first();
+            $jadwal->delete();
 
         try{
 

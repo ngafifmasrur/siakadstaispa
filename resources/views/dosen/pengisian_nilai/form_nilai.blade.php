@@ -9,6 +9,8 @@
 <x-card-table>
     <x-slot name="title">Daftar Peserta</x-slot>
     <x-slot name="button">
+        <a class="btn btn-app btn-sm btn-success" href="{{ route('dosen.pengisian_nilai.export', $kelas_kuliah->id_kelas_kuliah)}}"><i class="fa fa-print mr-2"></i>Export</a>
+        <a class="btn btn-app btn-sm btn-primary add-form" data-url="{{ route('dosen.pengisian_nilai.import') }}" href="#"><i class="fa fa-upload mr-2"></i>Import</a>
         <button class="btn btn-app btn-sm btn-primary" onclick="document.getElementById('nilai-form').submit();"><i class="fa fa-save mr-2"></i>Simpan</button>
     </x-slot>
 
@@ -54,4 +56,40 @@
     </x-table>
 </x-card-table>
 
+<x-modal class="modal-form" id="modal-form">
+    <x-slot name="title">Import Nilai</x-slot>
+    <x-slot name="modalPosition">modal-dialog-centered</x-slot>
+    @csrf 
+    @method('post')
+    <div class="form-group row">
+        <input type="hidden" name="id_kelas_kuliah" value="{{ $kelas_kuliah->id_kelas_kuliah }}">
+        <input type="hidden" name="id_prodi" value="{{ $kelas_kuliah->id_prodi }}">
+        <div class="form-group col-lg-12">
+            <a class="btn btn-app btn-sm btn-success" href="{{ route('dosen.pengisian_nilai.template_import', $kelas_kuliah->id_kelas_kuliah)}}"><i class="fa fa-download mr-2"></i>Template Import</a> <br> <br>
+            <label for="import_file">File Import* ( xlsx, xls )</label>
+            {!! Form::file('import_file', null, ['class' => 'form-control '.($errors->has('import_file') ? 'is-invalid' : ''), 'id' => 'import_file']) !!}
+            @error('import_file')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+    </div>
+    <x-slot name="footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+        <button type="submit" class="btn btn-primary">Import</button>
+    </x-slot>
+</x-modal>
+
 @endsection
+
+@push('js')
+    <script>
+        $('.add-form').on('click', function () {
+            $('.modal-form').modal('show');
+            $('.modal-form form')[0].reset();
+            $('[name=_method]').val('post');
+            $('.modal-form form').attr('action', $(this).data('url'));
+        });
+    </script>
+@endpush

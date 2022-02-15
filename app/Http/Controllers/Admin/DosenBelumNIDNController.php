@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests\DosenRequest;
 use App\Models\{
     m_dosen_belum_nidn,
-    ref_agama
+    ref_agama,
+    ref_wilayah,
+    ref_jenis_sdm
 };
 use DB, Auth, Session, Str;
 
@@ -36,9 +38,9 @@ class DosenBelumNIDNController extends Controller
                 $button = '<div class="btn-group" role="group" aria-label="Basic example">';
 
                 $button .= view("components.button.default", [
-                    'type' => 'button',
+                    'type' => 'link',
                     'tooltip' => 'Ubah',
-                    'class' => 'btn btn-outline-primary btn-sm btn_edit',
+                    'class' => 'btn btn-outline-primary btn-sm',
                     "icon" => "fa fa-edit",
                     'attribute' => [
                         'data-nama_dosen' => $data->nama_dosen,
@@ -48,7 +50,7 @@ class DosenBelumNIDNController extends Controller
                         'data-id_status_aktif' => $data->id_status_aktif,
                         'data-jenis_kelamin' => $data->jenis_kelamin,
                     ],
-                    "route" => route('admin.dosen_belum_nidn.update', $data->id_dosen),
+                    "route" => route('admin.dosen_belum_nidn.edit', $data->id_dosen),
                 ]);
 
                 $button .= view("components.button.default", [
@@ -77,6 +79,32 @@ class DosenBelumNIDNController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $agama = ref_agama::pluck('nama_agama', 'id_agama');
+        $wilayah = ref_wilayah::pluck('nama_wilayah', 'id_wilayah');
+        $ikatan_sdm = ref_jenis_sdm::pluck('nama_ikatan_kerja', 'id_ikatan_kerja');
+        return view('admin.dosen_belum_nidn.create', compact('agama', 'wilayah', 'ikatan_sdm'));
+    }
+
+        /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(m_dosen_belum_nidn $dosen_belum_nidn)
+    {
+        $agama = ref_agama::pluck('nama_agama', 'id_agama');
+        $wilayah = ref_wilayah::pluck('nama_wilayah', 'id_wilayah');
+        $ikatan_sdm = ref_jenis_sdm::pluck('nama_ikatan_kerja', 'id_ikatan_kerja');
+        return view('admin.dosen_belum_nidn.edit', compact('agama', 'wilayah', 'ikatan_sdm', 'dosen_belum_nidn'));
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -89,9 +117,13 @@ class DosenBelumNIDNController extends Controller
         try {
 
             $nama_agama = ref_agama::where('id_agama', $request->id_agama)->first()->nama_agama;
+            $ikatan_sdm = ref_jenis_sdm::where('id_ikatan_kerja', $request->id_jenis_sdm)->first()->nama_ikatan_kerja;
+
             $request->merge([
                 'id_dosen' => Str::uuid(),
+                'nidn' => $request->nik,
                 'nama_agama' => $nama_agama,
+                'nama_jenis_sdm' => $ikatan_sdm,
                 'id_status_aktif' =>$request->id_status_aktif ?? 0,
                 'nama_status_aktif' =>$request->id_status_aktif ? 'Aktif' : 'Tidak Aktif'
             ]);
@@ -123,20 +155,24 @@ class DosenBelumNIDNController extends Controller
         try {
 
             $nama_agama = ref_agama::where('id_agama', $request->id_agama)->first()->nama_agama;
+            $ikatan_sdm = ref_jenis_sdm::where('id_ikatan_kerja', $request->id_jenis_sdm)->first()->nama_ikatan_kerja;
+
             $request->merge([
+                'nidn' => $request->nik,
                 'nama_agama' => $nama_agama,
+                'nama_jenis_sdm' => $ikatan_sdm,
                 'id_status_aktif' =>$request->id_status_aktif ?? 0,
                 'nama_status_aktif' =>$request->id_status_aktif ? 'Aktif' : 'Tidak Aktif'
             ]);
             $dosen_belum_nidn->update($request->except('updated_at', 'created_at'));
             DB::commit();
 
-            Session::flash('success_msg', 'Berhasil Dibah');
+            Session::flash('success_msg', 'Berhasil Ditambah');
             return redirect()->route('admin.dosen_belum_nidn.index');
         } catch (\Exception $e) {
 
             DB::rollback();
-
+            dd($e);
             Session::flash('error_msg', 'Terjadi kesalahan pada server');
             return redirect()->back()->withInput();
         }
