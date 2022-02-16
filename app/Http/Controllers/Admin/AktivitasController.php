@@ -32,7 +32,7 @@ class AktivitasController extends Controller
 
     public function data_index(Request $request)
     {
-        $query = m_aktivitas::with('jenis_aktivitas', 'semester', 'prodi', 'anggota');
+        $query = m_aktivitas::all();
 
         return datatables()->of($query)
             ->addIndexColumn()
@@ -72,71 +72,68 @@ class AktivitasController extends Controller
     
                 return $button;
             })
-            ->addColumn('jenis_aktivitas', function ($data) {
-                return $data->jenis_aktivitas->nama_jenis_aktivitas_mahasiswa ?? '';
-            })
-            ->addColumn('prodi', function ($data) {
-                return $data->prodi->nama_program_studi;
-            })
-            ->addColumn('semester', function ($data) {
-                return $data->semester->nama_semester;
-            })
-            ->addColumn('anggota', function ($data) {
-                return view("components.button.default", [
-                    'type' => 'link',
-                    'tooltip' => 'Lihat',
-                    'class' => 'btn btn-primary btn-sm',
-                    'label' => $data->anggota->where('id_aktivitas', $data->id_aktivitas)->count(),
-                    "route" => route('admin.anggota_aktivitas.index', $data->id_aktivitas),
-                ]);
-            })
-            ->rawColumns(['action'])
+            // ->addColumn('anggota', function ($data) {
+            //     return view("components.button.default", [
+            //         'type' => 'link',
+            //         'tooltip' => 'Lihat',
+            //         'class' => 'btn btn-primary btn-sm',
+            //         'label' => $data->anggota->where('id_aktivitas', $data->id_aktivitas)->count(),
+            //         "route" => route('admin.anggota_aktivitas.index', $data->id_aktivitas),
+            //     ]);
+            // })
+            // ->rawColumns(['action'])
             ->setRowAttr([
                 'style' => 'text-align: center',
             ])
             ->toJson();
     }
 
-    public function show(m_aktivitas $aktivitas)
-    {
-
-        abort_if(! $aktivitas, 404);
-
-        return response()->json([
-			'code'    => 200,
-			'message' => 'success',
-			'data'    => $aktivitas
-		], 200);
-    }
-
     public function store(Request $request)
     {
-        $records = $request->all();
-        $result = InsertDataFeeder('InsertAktivitasMahasiswa', $records);
+        $records = $request->except('_token', '_method');
+        $result = InsertDataFeeder('InsertAktivitasMahasiswa', $records, 'GetListAktivitasMahasiswa');
 
-        return $result;
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
+        }
+       
+        Session::flash('success_msg', 'Berhasil Ditambah');
+        return redirect()->back();
     }
 
-    public function update(Request $request, $aktivitas)
+    public function update(Request $request, $aktivitas_mahasiswa)
     {
-        $records = $request->all();
+        $records = $request->except('_token', '_method');
         $key = [
-            'id_aktivitas' => $aktivitas
+            'id_aktivitas' => $aktivitas_mahasiswa
         ];
 
-        $result = UpdateDataFeeder('UpdateAktivitasMahasiswa', $key, $records);
+        $result = UpdateDataFeeder('UpdateAktivitasMahasiswa', $key, $records, 'GetListAktivitasMahasiswa');
 
-        return $result;
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
+        }
+       
+        Session::flash('success_msg', 'Berhasil Diupdate');
+        return redirect()->back();
     }
 
-    public function destroy(Request $request, $aktivitas)
+    public function destroy(Request $request, $aktivitas_mahasiswa)
     {
         $key = [
-            'id_aktivitas' => $aktivitas
+            'id_aktivitas' => $aktivitas_mahasiswa
         ];
         
-        $result = DeleteDataFeeder('DeleteAktivitasMahasiswa', $key);
+        $result = DeleteDataFeeder('DeleteAktivitasMahasiswa', $key, 'GetListAktivitasMahasiswa');
 
-        return $result;
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
+        }
+       
+        Session::flash('success_msg', 'Berhasil Dihapus');
+        return redirect()->back();
     }
 }
