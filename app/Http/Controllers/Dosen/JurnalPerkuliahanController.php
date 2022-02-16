@@ -47,7 +47,16 @@ class JurnalPerkuliahanController extends Controller
                 })
                 ->when($request->semester, function($q) use ($request){
                     $q->where('id_semester', $request->semester);
-                });
+                })->get();
+                
+        $query->map(function ($item){
+            $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kuliah)->first();
+            $item['hari'] = $jadwal->hari ?? null;
+            $item['jam_mulai'] = $jadwal->jam_mulai ?? null;
+            $item['jam_akhir'] = $jadwal->jam_akhir ?? null;
+
+            return $item;
+        });
 
         return datatables()->of($query)
             ->addIndexColumn()
@@ -63,14 +72,12 @@ class JurnalPerkuliahanController extends Controller
             ->addColumn('nama_kelas_kuliah', function ($data) {
                 return $data->kelas_kuliah->nama_kelas_kuliah;
             })
-            ->addColumn('ruang', function ($data) {
-                return  $data->kelas_kuliah->ruangan ?? '-';
-            })
-            ->addColumn('hari', function ($data) {
-                return $data->kelas_kuliah->hari ?? '-';
-            })
-            ->addColumn('waktu', function ($data) {
-                return $data->kelas_kuliah->jam_mulai ?? ''.' - '.$data->kelas_kuliah->jam_akhir ?? '';
+            ->addColumn('jadwal',function ($data) {
+                if($data->hari && $data->jam_mulai && $data->jam_akhir) {
+                    return $data->hari.', '.$data->jam_mulai.'-'.$data->jam_akhir;
+                }
+
+                return '-';
             })
             ->addColumn('jumlah_mahasiswa', function ($data) {
                 return $data->kelas_kuliah->jumlah_mahasiswa;
@@ -119,7 +126,16 @@ class JurnalPerkuliahanController extends Controller
     {
         $query = t_jurnal_kuliah::query()
                 ->where('id_kelas_kuliah', $id_kelas_kuliah)
-                ->where('id_dosen', Auth::user()->id_dosen);
+                ->where('id_dosen', Auth::user()->id_dosen)->get();
+
+        $query->map(function ($item){
+            $prodi = m_program_studi::setFilter([
+                'filter' => "id_prodi='$item->id_prodi'"
+            ])->first();
+            $item['nama_program_studi'] = $prodi->nama_program_studi ?? null;
+
+            return $item;
+        });
 
         return datatables()->of($query)
             ->addIndexColumn()
@@ -149,9 +165,6 @@ class JurnalPerkuliahanController extends Controller
                 $button .= '</div>';
     
                 return $button;
-            })
-            ->addColumn('prodi', function ($data) {
-                return $data->prodi->nama_program_studi;
             })
             ->addColumn('jadwal', function ($data) {
                 return $data->kelas->hari.', '.$data->kelas->jam_mulai.' - '.$data->kelas->jam_akhir;

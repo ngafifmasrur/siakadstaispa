@@ -203,14 +203,15 @@ class NilaiController extends Controller
         $data = array();
 
             foreach ( $row_range as $row ) {
-                $nilai = $sheet->getCell( 'B' . $row )->getValue();
+                $nilai = $sheet->getCell( 'D' . $row )->getValue();
 
                 if($nilai > 100 || $nilai < 0){
                     Session::flash('error_msg', 'Nilai tidak boleh lebih dari 100.');
                     return redirect()->back()->withInput();
                 }
 
-                $hasil_nilai =  m_skala_nilai_prodi::whereRaw('? between bobot_minimum and bobot_maksimum', [$nilai])->first();
+                $hasil_nilai =  m_skala_nilai_prodi::where('id_prodi', $request->id_prodi)
+                ->whereRaw('? between bobot_minimum and bobot_maksimum', [$nilai])->first();
 
                 if(!$hasil_nilai){
                     Session::flash('error_msg', 'Skala Nilai tidak ditemukan.');

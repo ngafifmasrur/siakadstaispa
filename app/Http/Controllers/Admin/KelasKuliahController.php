@@ -50,10 +50,10 @@ class KelasKuliahController extends Controller
                 })->get();
 
         $query->map(function ($item){
-            $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kulaih)->first();
-            $item['hari'] = $item->hari  ?? null;
-            $item['jam_mulai'] = $item->jam_mulai  ?? null;
-            $item['jam_akhir'] = $item->jam_akhir  ?? null;
+            $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kuliah)->first();
+            $item['hari'] = $jadwal->hari ?? null;
+            $item['jam_mulai'] = $jadwal->jam_mulai ?? null;
+            $item['jam_akhir'] = $jadwal->jam_akhir ?? null;
 
             return $item;
         });
@@ -159,7 +159,7 @@ class KelasKuliahController extends Controller
                 'id_kelas_kuliah' => $result['data']['id_kelas_kuliah'],
                 'hari' => $request->hari,
                 'jam_mulai' => $request->jam_mulai,
-                'jam_akhir' => $request->jam_selesai
+                'jam_akhir' => $request->jam_akhir
             ]);
 
             DB::commit();
@@ -183,17 +183,17 @@ class KelasKuliahController extends Controller
         DB::beginTransaction();
 
             // Update Data Feeder
-            $records = $request->except('_token', '_method', 'hari', 'jam_mulai', 'jam_akhir');
-            $key = [
-                'id_kelas_kuliah' => $kelas_kuliah
-            ];
+            // $records = $request->except('_token', '_method', 'hari', 'jam_mulai', 'jam_akhir');
+            // $key = [
+            //     'id_kelas_kuliah' => $kelas_kuliah
+            // ];
 
-            $result = UpdateDataFeeder('UpdateKelasKuliah', $key, $records, 'GetListKelasKuliah');
+            // $result = UpdateDataFeeder('UpdateKelasKuliah', $key, $records, 'GetListKelasKuliah');
 
-            if($result['error_code'] !== '0') {
-                Session::flash('error_msg', $result['error_desc']);
-                return back()->withInput();
-            }
+            // if($result['error_code'] !== '0') {
+            //     Session::flash('error_msg', $result['error_desc']);
+            //     return back()->withInput();
+            // }
 
             $jadwal = m_jadwal::where('id_kelas_kuliah', $kelas_kuliah)->first();
 
@@ -201,14 +201,14 @@ class KelasKuliahController extends Controller
                 $jadwal->update([
                     'hari' => $request->hari,
                     'jam_mulai' => $request->jam_mulai,
-                    'jam_akhir' => $request->jam_selesai
+                    'jam_akhir' => $request->jam_akhir
                 ]);
             } else {
                 $jadwal = m_jadwal::create([
                     'id_kelas_kuliah' => $kelas_kuliah,
                     'hari' => $request->hari,
                     'jam_mulai' => $request->jam_mulai,
-                    'jam_akhir' => $request->jam_selesai
+                    'jam_akhir' => $request->jam_akhir
                 ]);
             }
 
