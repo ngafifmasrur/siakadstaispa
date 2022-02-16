@@ -14,7 +14,10 @@ use App\Models\{
     m_kelas_kuliah,
     t_riwayat_pendidikan_mahasiswa,
     m_mahasiswa,
-    m_mata_kuliah
+    m_mata_kuliah,
+    t_krs_mahasiswa,
+    t_dosen_wali_mahasiswa,
+    m_global_konfigurasi_prodi
 };
 use Session, DB, Auth, PDF;
 
@@ -36,11 +39,31 @@ class KRSController extends Controller
             Session::flash('error_msg', 'Mahasiswa tidak memiliki semester aktif');
             return view('mahasiswa.krs.index2');
         }
-        return view('mahasiswa.krs.index');
+
+        $status_krs = t_krs_mahasiswa::where('id_registrasi_mahasiswa', $id_registrasi_mahasiswa->id_registrasi_mahasiswa)->first();
+        $status_krs_prodi = m_global_konfigurasi_prodi::where('id_prodi', $id_registrasi_mahasiswa->id_prodi)->first()->buka_krs;
+
+        return view('mahasiswa.krs.index', compact('status_krs', 'status_krs_prodi', 'id_registrasi_mahasiswa'));
     }
 
     public function data_index(Request $request)
     {
+
+        // Check Pengajuan KRS 
+        $mahasiswa = t_riwayat_pendidikan_mahasiswa::setFilter([
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
+        ])->first();
+
+        $status_krs = t_krs_mahasiswa::where('id_registrasi_mahasiswa', $mahasiswa->id_registrasi_mahasiswa)->first();
+        $status_krs_prodi = m_global_konfigurasi_prodi::where('id_prodi', $mahasiswa->id_prodi)->first()->buka_krs;
+
+        if(isset($status_krs) || $status_krs_prodi == false) {
+            $check_status_krs = 'disabled';
+        } else {
+            $check_status_krs = 'enabled';
+        }
+
+        // END Check Pengajuan KRS 
 
         $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
         $id_registrasi_mahasiswa = t_riwayat_pendidikan_mahasiswa::setFilter([
@@ -55,11 +78,14 @@ class KRSController extends Controller
             'filter' => "id_semester='$semester_aktif'"
         ])->whereIn('id_kelas_kuliah', $kelasKuliah)->get();
 
-        $query->map(function ($item){
+        $query->map(function ($item) use ($id_registrasi_mahasiswa){
+            // Mata Kuliah
             $matkul = m_mata_kuliah::setFilter([
                 'filter' => "id_matkul='$item->id_matkul'"
             ])->first();
-            $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kulaih)->first();
+            // Jadwal
+            $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kuliah)->first();
+
             $item['hari'] = $item->hari;
             $item['jam_mulai'] = $item->jam_mulai;
             $item['jam_akhir'] = $item->jam_akhir;
@@ -74,9 +100,6 @@ class KRSController extends Controller
                 return $data->sks_mata_kuliah;
             })
             ->addColumn('nama_dosen', function ($data) {
-                // return $data->dosen->map(function($q) {
-                //     return ($q->nama_dosen);
-                // })->implode('<br>');
                 return '-';
             })
             ->addColumn('jadwal',function ($data) {
@@ -86,7 +109,7 @@ class KRSController extends Controller
 
                 return '-';
             })
-            ->addColumn('action',function ($data) use ($id_registrasi_mahasiswa) {
+            ->addColumn('action',function ($data) use ($id_registrasi_mahasiswa, $check_status_krs) {
            
                 $button = '<div class="btn-group" role="group" aria-label="Basic example">';
     
@@ -96,17 +119,25 @@ class KRSController extends Controller
                     'class' => 'btn btn-outline-danger btn-sm btn_delete',
                     "icon" => "fa fa-trash",
                     'attribute' => [
-                        'data-text' => 'Anda yakin ingin menghapus data ini ?',
+                        'data-text' => $check_status_krs,
+                        ''.$check_status_krs == 'disabled' ? 'disabled' : 'enabled'.'' => $check_status_krs,
+
                     ],
                     "route" => route('mahasiswa.krs.destroy', [$data->id_kelas_kuliah, $id_registrasi_mahasiswa]),
                 ]);
-
     
                 $button .= '</div>';
     
                 return $button;
             })
-            ->rawColumns(['action'])
+            ->addColumn('jadwal',function ($data) {
+                if($data->hari && $data->jam_mulai && $data->jam_akhir) {
+                    return $data->hari.', '.$data->jam_mulai.'-'.$data->jam_akhir;
+                }
+
+                return '-';
+            })
+            ->rawColumns(['action', 'ajukan'])
             ->setRowAttr([
                 'style' => 'text-align: center',
             ])
@@ -115,6 +146,25 @@ class KRSController extends Controller
 
     public function create()
     {
+        // Check Pengajuan KRS 
+        $mahasiswa = t_riwayat_pendidikan_mahasiswa::setFilter([
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
+        ])->first();
+
+        $status_krs = t_krs_mahasiswa::where('id_registrasi_mahasiswa', $mahasiswa->id_registrasi_mahasiswa)->first();
+        $status_krs_prodi = m_global_konfigurasi_prodi::where('id_prodi', $mahasiswa->id_prodi)->first()->buka_krs;
+
+        if($status_krs->status == 'Ditolak' || $status_krs->status == 'Diverifikasi') {
+            Session::flash('error_msg', 'Sudah pernah mengajukan KRS, Tidak dapat mengubah KRS');
+            return redirect()->route('mahasiswa.krs.index')->withInput();
+        }
+
+        if($status_krs_prodi == false) {
+            Session::flash('error_msg', 'KRS untuk program studi ini belum dibuka');
+            return redirect()->route('mahasiswa.krs.index')->withInput();
+        }
+        // END Check Pengajuan KRS 
+
         return view('mahasiswa.krs.create');
     }
 
@@ -187,6 +237,7 @@ class KRSController extends Controller
 
     public function store(Request $request)
     {
+
         $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
         $id_registrasi_mahasiswa = t_riwayat_pendidikan_mahasiswa::setFilter([
             'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
@@ -262,6 +313,50 @@ class KRSController extends Controller
         
         $pdf = PDF::loadView('mahasiswa.krs.cetak', compact('riwayat_pendidikan', 'krs', 'nama_semester_aktif'))->setPaper('a4', 'landscape');
         return $pdf->stream('KRS_Online-_-'.$riwayat_pendidikan->nama_mahasiswa.'.pdf');    
+    }
+
+    public function ajukan($id_registrasi_mahasiswa)
+    {
+
+        $mahasiswa = t_riwayat_pendidikan_mahasiswa::setFilter([
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
+        ])->first();
+
+        $status_krs = t_krs_mahasiswa::where('id_registrasi_mahasiswa', $mahasiswa->id_registrasi_mahasiswa)->first();
+        $status_krs_prodi = m_global_konfigurasi_prodi::where('id_prodi', $mahasiswa->id_prodi)->first()->buka_krs;
+
+        DB::beginTransaction();
+
+        try{
+
+            if(isset($status_krs)) {
+                Session::flash('error_msg', 'Sudah pernah mengajukan');
+                return redirect()->route('mahasiswa.krs.index')->withInput();
+            }
+
+            if($status_krs_prodi == false) {
+                Session::flash('error_msg', 'KRS untuk program studi ini belum dibuka');
+                return redirect()->route('mahasiswa.krs.index')->withInput();
+            }
+
+            t_krs_mahasiswa::create([
+                'id_registrasi_mahasiswa' => $mahasiswa->id_registrasi_mahasiswa,
+                'status' => 'Diajukan',
+            ]);
+            
+            DB::commit();
+
+            Session::flash('success_msg', 'Berhasil Diajukan');
+            return redirect()->route('mahasiswa.krs.index');
+
+        }catch(\Exception $e){
+
+            dd($e);
+            DB::rollback();
+
+            Session::flash('error_msg', 'Terjadi kesalahan pada server');
+            return back()->withInput();
+        }
     }
 
 }

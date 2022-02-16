@@ -35,7 +35,8 @@ use App\Http\Controllers\Admin\{
     KonfigurasiGlobalController,
     DosenBelumNIDNController,
     BeritaController,
-    DosenPembimbingController
+    DosenPembimbingController,
+    DosenWaliController
 };
 
 /*
@@ -308,5 +309,10 @@ Route::group(
         // Dosen Pembimbing
         Route::get('/dosen_pembimbing/data_index', [DosenPembimbingController::class,'data_index',])->name('dosen_pembimbing.data_index');
         Route::resource('/dosen_pembimbing', DosenPembimbingController::class)->except(['show']);
+
+        // Dosen Wali
+        Route::get('/dosen_wali/data_index', [DosenWaliController::class,'data_index',])->name('dosen_wali.data_index');
+        Route::resource('/dosen_wali', DosenWaliController::class)->except(['show']);
+        Route::get('/dosen_wali/mahasiswa_data_index', [DosenWaliController::class, 'list_mahasiswa'])->name('dosen_wali.mahasiswa_data_index');
     }
 );

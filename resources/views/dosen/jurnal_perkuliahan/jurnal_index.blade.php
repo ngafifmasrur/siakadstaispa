@@ -6,6 +6,37 @@
     Jurnal Perkuliahan
 </x-header>
 
+<x-card-info>
+    <x-slot name="title">Kelas: {{ $kelas_kuliah->nama_kelas_kuliah }}</x-slot>
+    <x-slot name="button">
+        <a class="btn btn-app btn-sm btn-danger" href="{{ route('dosen.jurnal_perkuliahan.index')}}"><i class="fa fa-arrow-left mr-2"></i>Kembali</a>
+    </x-slot>
+
+
+    <table cellpadding="4" cellspacing="2">
+        <tr>
+            <td class="font-weight-bold">Kode Mata Kuliah</td>
+            <td>:</td>
+            <td>{{ $kelas_kuliah->kode_mata_kuliah }}</td>
+        </tr>
+        <tr>
+            <td class="font-weight-bold">Nama Mata Kuliah</td>
+            <td>:</td>
+            <td>{{ $kelas_kuliah->nama_mata_kuliah }}</td>
+        </tr>
+        <tr>
+            <td class="font-weight-bold">Program Studi</td>
+            <td>:</td>
+            <td>{{ $kelas_kuliah->nama_program_studi }}</td>
+        </tr>
+        <tr>
+            <td class="font-weight-bold">Semester</td>
+            <td>:</td>
+            <td>{{ $kelas_kuliah->nama_semester }}</td>
+        </tr>
+    </table>
+</x-card-info>
+
 <x-card-table>
     <x-slot name="title">Jurnal Perkuliahan</x-slot>
     <x-slot name="button">

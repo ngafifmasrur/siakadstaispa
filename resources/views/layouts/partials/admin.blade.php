@@ -23,13 +23,14 @@
                 <li aria-haspopup="true"><a href="{{ route('admin.aktivitas.index') }}" class="">Kegiatan Mahasiswa</a></li>
             </ul>
         </li> --}}
-        <li aria-haspopup="true"><a href="#" class="sub-icon {{ set_active(['admin/penugasan_dosen*', 'admin/perkuliahan_mahasiswa*', 'admin/kurikulum_prodi*', 'admin/mata_kuliah*', 'admin/bobot_nilai*', 'admin/kelas_kuliah*','admin/jadwal*', 'admin/ruang_kelas*']) }}"><i class="fa fa-university"></i> Perkuliahan <i class="fa fa-angle-down horizontal-icon"></i></a>
+        <li aria-haspopup="true"><a href="#" class="sub-icon {{ set_active(['admin/dosen_wali*','admin/penugasan_dosen*', 'admin/perkuliahan_mahasiswa*', 'admin/kurikulum_prodi*', 'admin/mata_kuliah*', 'admin/bobot_nilai*', 'admin/kelas_kuliah*','admin/jadwal*', 'admin/ruang_kelas*']) }}"><i class="fa fa-university"></i> Perkuliahan <i class="fa fa-angle-down horizontal-icon"></i></a>
             <ul class="sub-menu">
                 <li aria-haspopup="true"><a href="{{ route('admin.periode_perkuliahan.index') }}">Periode Perkuliahan</a></li>
                 <li aria-haspopup="true"><a href="{{ route('admin.mata_kuliah.index') }}">Mata Kuliah</a></li>
                 <li aria-haspopup="true"><a href="{{ route('admin.substansi_mata_kuliah.index') }}">Substansi Mata Kuliah</a></li>
                 <li aria-haspopup="true"><a href="{{ route('admin.kurikulum.index') }}">Kurikulum</a></li>
                 <li aria-haspopup="true"><a href="{{ route('admin.kurikulum_prodi.index') }}">Kurikulum Prodi</a></li>
+                <li aria-haspopup="true"><a href="{{ route('admin.dosen_wali.index') }}">Perwalian Dosen</a></li>
                 <li aria-haspopup="true"><a href="{{ route('admin.penugasan_dosen.index') }}">Penugasan Dosen</a></li>
                 <li aria-haspopup="true"><a href="{{ route('admin.kelas_kuliah.index') }}">Kelas Perkuliahan</a></li>
                 <li aria-haspopup="true"><a href="{{ route('admin.registrasi_mahasiswa.index') }}">Registrasi Mahasiswa</a></li>

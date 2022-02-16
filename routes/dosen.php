@@ -42,14 +42,6 @@ Route::group(
             'update',
         ])->name('biodata.update');
 
-        Route::get('/verval_krs', [VervalKRSController::class, 'index'])->name(
-            'verval_krs.index'
-        );
-        Route::get('/verval_krs/data_index', [
-            VervalKRSController::class,
-            'data_index',
-        ])->name('verval_krs.data_index');
-
         Route::get('/krs/{id_mahasiswa}/{id_semester}', [
             VerifikasiKRSController::class,
             'index',
@@ -159,6 +151,13 @@ Route::group(
         Route::get('pengisian_nilai/export/{id_kelas_kuliah}', [NilaiController::class, 'export'])->name('pengisian_nilai.export');
         Route::get('pengisian_nilai/template_import/{id_kelas_kuliah}', [NilaiController::class, 'template_import'])->name('pengisian_nilai.template_import');
         Route::post('pengisian_nilai/import', [NilaiController::class, 'import'])->name('pengisian_nilai.import');
+
+        // Verval KRS
+        Route::get('/verval_krs', [VervalKRSController::class, 'index'])->name('verval_krs.index');
+        Route::get('/verval_krs/data_index', [VervalKRSController::class,'data_index',])->name('verval_krs.data_index');
+        Route::get('/verval_krs/verifikasi/{id_registrasi_mahasiswa}', [VervalKRSController::class, 'verifikasi'])->name('verval_krs.verifikasi');
+        Route::get('/verval_krs/verifikasi_data_index/{id_registrasi_mahasiswa}', [VervalKRSController::class, 'verifikasi_data_index'])->name('verval_krs.verifikasi_data_index');
+        Route::post('/verval_krs/{id}/update_status', [VervalKRSController::class, 'update_status'])->name('verval_krs.update_status');
 
     }
 );

@@ -118,8 +118,13 @@ class JurnalPerkuliahanController extends Controller
 
     public function jurnal_index($id_kelas_kuliah)
     {
+
         $jadwal = t_dosen_pengajar_kelas_kuliah::where('id_kelas_kuliah', $id_kelas_kuliah)->first();
-        return view('dosen.jurnal_perkuliahan.jurnal_index', compact('jadwal'));
+        $kelas_kuliah = m_kelas_kuliah::setFilter([
+            'filter' => "id_kelas_kuliah='$id_kelas_kuliah'"
+        ])->first();
+
+        return view('dosen.jurnal_perkuliahan.jurnal_index', compact('jadwal', 'kelas_kuliah'));
     }
 
     public function jurnal_data_index($id_kelas_kuliah)
