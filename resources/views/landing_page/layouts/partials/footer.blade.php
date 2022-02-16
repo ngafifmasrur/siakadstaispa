@@ -29,7 +29,7 @@
                             <p class="text-uppercase text-white footer-title mb-4">List Berita Terbaru</p>
                             <ul class="list-unstyled footer-sub-menu">
                                 @foreach($berita_terbaru as $key)
-                                <li class="f-14"><a href="#" class="text-white">{{$key->judul}}</a></li>
+                                <li class="f-14"><a href="{{ url('berita/'.$key->id) }}" class="text-white">{{$key->judul}}</a></li>
                                 @endforeach
                             </ul>
                         </div>

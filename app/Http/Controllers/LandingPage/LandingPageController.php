@@ -23,7 +23,7 @@ class LandingPageController extends Controller {
         return view('landing_page.index', compact('nav','berita_terbaru'));
     }
 
-    public function berita(Request $request)
+    public function berita(Request $request , $id = null)
     {
         $search = $request->search;
         $nav = "berita";
@@ -31,12 +31,23 @@ class LandingPageController extends Controller {
                           ->where('publish',1)
                           ->limit(5)
                           ->get();
-        $berita = m_berita::where('publish',1)
-                            ->when(!is_null($search), function($query) use($search){
-                                $query->where('judul','like',"%".$search."%");
-                            })
-                            ->paginate(5);
-        return view('landing_page.berita' , compact('nav','berita_terbaru','berita'));
+        
+        if($id==null){
+            $berita = m_berita::where('publish',1)
+            ->when(!is_null($search), function($query) use($search){
+                $query->where('judul','like',"%".$search."%");
+            })
+            ->paginate(5);
+            return view('landing_page.berita' , compact('nav','berita_terbaru','berita'));
+        }else{
+            $berita = m_berita::where('publish',1)
+                            ->where('id',$id)
+                            ->first();
+            $berita->hits = $berita->hits+1;
+            $berita->update();
+            return view('landing_page.detail_berita' , compact('nav','berita_terbaru','berita'));
+        }
+       
     }
 
     public function kontak()

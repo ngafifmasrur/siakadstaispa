@@ -58,6 +58,7 @@
         <div class="form-group col-lg-12">
             <label for="publish">Gambar</label><br>
             <input type="file" name="gambar" class="form-controll">
+            <small id="emailHelp" class="form-text text-muted">tipe : jpg , jpeg , png | max size : 5MB</small>
         </div>
     </div>
 
