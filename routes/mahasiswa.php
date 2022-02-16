@@ -10,7 +10,8 @@ use App\Http\Controllers\Mahasiswa\{
     AktivitasPerkuliahanController,
     HistoriPendidikanController,
     HistoriNilaiController,
-    TranskripController
+    TranskripController,
+    AktivitasMahasiswaController
 };
 
 /*
@@ -66,5 +67,8 @@ Route::group(
 
         Route::get('transkrip/data_index', [TranskripController::class, 'data_index'])->name('transkrip.data_index');
         Route::resource('transkrip', TranskripController::class);
+
+        Route::get('aktivitas_mahasiswa/data_index', [AktivitasMahasiswaController::class, 'data_index'])->name('aktivitas_mahasiswa.data_index');
+        Route::resource('aktivitas_mahasiswa', AktivitasMahasiswaController::class);
     }
 );

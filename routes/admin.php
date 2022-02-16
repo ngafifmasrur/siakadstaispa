@@ -34,7 +34,8 @@ use App\Http\Controllers\Admin\{
     KurikurumProdiController,
     KonfigurasiGlobalController,
     DosenBelumNIDNController,
-    BeritaController
+    BeritaController,
+    DosenPembimbingController
 };
 
 /*
@@ -303,5 +304,9 @@ Route::group(
         Route::put('berita/{berita}', [BeritaController::class, 'update'])->name('berita.update');
         Route::get('berita', [BeritaController::class, 'index'])->name('berita.index');
         Route::post('berita', [BeritaController::class, 'store'])->name('berita.store');
+
+        // Dosen Pembimbing
+        Route::get('/dosen_pembimbing/data_index', [DosenPembimbingController::class,'data_index',])->name('dosen_pembimbing.data_index');
+        Route::resource('/dosen_pembimbing', DosenPembimbingController::class)->except(['show']);
     }
 );
