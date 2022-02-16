@@ -40,8 +40,8 @@
                     </div>
                     <h1 class="fw-normal" style="font-size: 1.5rem"><a href="#" class="text-dark">Satu Akun Untuk Semua</a></h1>
                     <img src="{{ asset('landing_page/images/line.webp') }}" alt="" width="120" class=" mx-auto d-block">
-                    <p class="text-muted f-14 mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis amet
-                        elementum vitae.</p>
+                    <!-- <p class="text-muted f-14 mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis amet
+                        elementum vitae.</p> -->
                 </div>
             </div>
             <!-- col end -->
@@ -54,8 +54,8 @@
                     </div>
                     <h1 class="fw-normal" style="font-size: 1.5rem"><a href="#" class="text-dark">Akses dari mana saja</a></h1>
                     <img src="{{ asset('landing_page/images/line.webp') }}" alt="" width="120" class=" mx-auto d-block">
-                    <p class="text-muted f-14 mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis amet
-                        elementum vitae.</p>
+                    <!-- <p class="text-muted f-14 mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis amet
+                        elementum vitae.</p> -->
                 </div>
             </div>
             <!-- col end -->
@@ -68,8 +68,8 @@
                     </div>
                     <h1 class="fw-normal" style="font-size: 1.5rem"><a href="#" class="text-dark">Kemudahan</a></h1>
                     <img src="{{ asset('landing_page/images/line.webp') }}" alt="" width="120" class=" mx-auto d-block">
-                    <p class="text-muted f-14 mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis amet
-                        elementum vitae.</p>
+                    <!-- <p class="text-muted f-14 mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis amet
+                        elementum vitae.</p> -->
                 </div>
             </div>
             <!-- col end -->
@@ -101,8 +101,8 @@
                         </div>
                     </div>
                     <div class="services-desc">
-                        <p class="text-white mb-3 f-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis
-                            amet elementum vitae.</p>
+                        <!-- <p class="text-white mb-3 f-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis
+                            amet elementum vitae.</p> -->
                     </div>
                 </div>
             </div>
@@ -120,8 +120,8 @@
                         </div>
                     </div>
                     <div class="services-desc">
-                        <p class="text-white mb-3 f-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis
-                            amet elementum vitae.</p>
+                        <!-- <p class="text-white mb-3 f-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis
+                            amet elementum vitae.</p> -->
                     </div>
                 </div>
             </div>
@@ -139,8 +139,8 @@
                         </div>
                     </div>
                     <div class="services-desc">
-                        <p class="text-white mb-3 f-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis
-                            amet elementum vitae.</p>
+                        <!-- <p class="text-white mb-3 f-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis
+                            amet elementum vitae.</p> -->
                     </div>
                 </div>
             </div>
@@ -158,8 +158,8 @@
                         </div>
                     </div>
                     <div class="services-desc">
-                        <p class="text-white mb-3 f-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis
-                            amet elementum vitae.</p>
+                        <!-- <p class="text-white mb-3 f-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis
+                            amet elementum vitae.</p> -->
                     </div>
                 </div>
             </div>
@@ -177,8 +177,8 @@
                         </div>
                     </div>
                     <div class="services-desc">
-                        <p class="text-white mb-3 f-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis
-                            amet elementum vitae.</p>
+                        <!-- <p class="text-white mb-3 f-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis
+                            amet elementum vitae.</p> -->
                     </div>
                 </div>
             </div>
@@ -196,8 +196,8 @@
                         </div>
                     </div>
                     <div class="services-desc">
-                        <p class="text-white mb-3 f-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis
-                            amet elementum vitae.</p>
+                        <!-- <p class="text-white mb-3 f-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis
+                            amet elementum vitae.</p> -->
                     </div>
                 </div>
             </div>
