@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
+use App\Models\m_konfigurasi;
 
 class RoleMiddleware
 {
@@ -20,7 +21,6 @@ class RoleMiddleware
             if (Auth::user()->hasRole($role)) {
                 return $next($request);
             }
-
             abort(403);
         } else {
             return redirect('/login');

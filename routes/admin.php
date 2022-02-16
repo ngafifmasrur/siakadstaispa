@@ -52,13 +52,13 @@ Route::group(
     ['middleware' => ['Role:admin'], 'as' => 'admin.'],
     function () {
         Route::get('/', fn () => redirect()->route('admin.dashboard'));
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name(
+        Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('checkfeeder')->name(
             'dashboard'
         );
         Route::get('/perguruan_tinggi', [
             PerguruanTinggiController::class,
             'index',
-        ])->name('perguruan_tinggi.index');
+        ])->middleware('checkfeeder')->name('perguruan_tinggi.index');
         Route::post('/perguruan_tinggi/update', [
             PerguruanTinggiController::class,
             'update',
@@ -67,7 +67,7 @@ Route::group(
         Route::resource(
             '/program_studi',
             ProgramStudiController::class
-        )->except(['show']);
+        )->middleware('checkfeeder')->except(['show']);
         Route::get('/program_studi/data_index', [
             ProgramStudiController::class,
             'data_index',
@@ -79,7 +79,7 @@ Route::group(
         Route::get('/kurikulum/data_index', [
             KurikulumController::class,
             'data_index',
-        ])->name('kurikulum.data_index');
+        ])->middleware('checkfeeder')->name('kurikulum.data_index');
 
         Route::resource('/mata_kuliah', MataKuliahController::class)->except([
             'show',
