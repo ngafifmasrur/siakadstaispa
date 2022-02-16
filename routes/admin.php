@@ -33,7 +33,8 @@ use App\Http\Controllers\Admin\{
     DosenPengajarKelasKuliahController,
     KurikurumProdiController,
     KonfigurasiGlobalController,
-    DosenBelumNIDNController
+    DosenBelumNIDNController,
+    BeritaController
 };
 
 /*
@@ -51,13 +52,13 @@ Route::group(
     ['middleware' => ['Role:admin'], 'as' => 'admin.'],
     function () {
         Route::get('/', fn () => redirect()->route('admin.dashboard'));
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name(
+        Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('checkfeeder')->name(
             'dashboard'
         );
         Route::get('/perguruan_tinggi', [
             PerguruanTinggiController::class,
             'index',
-        ])->name('perguruan_tinggi.index');
+        ])->middleware('checkfeeder')->name('perguruan_tinggi.index');
         Route::post('/perguruan_tinggi/update', [
             PerguruanTinggiController::class,
             'update',
@@ -66,7 +67,7 @@ Route::group(
         Route::resource(
             '/program_studi',
             ProgramStudiController::class
-        )->except(['show']);
+        )->middleware('checkfeeder')->except(['show']);
         Route::get('/program_studi/data_index', [
             ProgramStudiController::class,
             'data_index',
@@ -78,7 +79,7 @@ Route::group(
         Route::get('/kurikulum/data_index', [
             KurikulumController::class,
             'data_index',
-        ])->name('kurikulum.data_index');
+        ])->middleware('checkfeeder')->name('kurikulum.data_index');
 
         Route::resource('/mata_kuliah', MataKuliahController::class)->except([
             'show',
@@ -209,6 +210,7 @@ Route::group(
         Route::resource('/konfigurasi', KonfigurasiController::class)->except([
             'show',
         ]);
+        
 
         Route::get('/data_pokok/{master}', [
             DataPokokController::class,
@@ -292,5 +294,14 @@ Route::group(
         Route::get('/dosen_belum_nidn/data_index', [DosenBelumNIDNController::class,'data_index',])->name('dosen_belum_nidn.data_index');
         Route::resource('/dosen_belum_nidn', DosenBelumNIDNController::class)->except(['show']);
 
+        // Berita
+        Route::get('/berita/data_index', [
+            BeritaController::class,
+            'data_index',
+        ])->name('berita.data_index');
+        Route::delete('berita/{berita}', [BeritaController::class, 'destroy'])->name('berita.destroy');
+        Route::put('berita/{berita}', [BeritaController::class, 'update'])->name('berita.update');
+        Route::get('berita', [BeritaController::class, 'index'])->name('berita.index');
+        Route::post('berita', [BeritaController::class, 'store'])->name('berita.store');
     }
 );

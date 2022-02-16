@@ -141,11 +141,14 @@ if (! function_exists('GetTokenFeeder')) {
     function GetTokenFeeder()
     {
         $endpoint = \config('app.url_feeder');
+        $endpoint_fromdb = m_konfigurasi::where('variable','url_feeder_pd_dikti')->first()->value;
+        $username_fromdb = m_konfigurasi::where('variable','username_feeder_pd_dikti')->first()->value;
+        $password_fromdb = m_konfigurasi::where('variable','password_feeder_pd_dikti')->first()->value;
 
-        $response = Http::post($endpoint, [
+        $response = Http::post($endpoint_fromdb, [
             'act' => 'GetToken',
-            'username' => '213191',
-            'password' => '59652749',
+            'username' => $username_fromdb,
+            'password' => $password_fromdb,
         ]);
         
         $result = $response->getBody()->getContents();
@@ -168,8 +171,9 @@ if (! function_exists('dataFeeder')) {
         $token = GetTokenFeeder();
             
         $endpoint = \config('app.url_feeder');
+        $endpoint_fromdb = m_konfigurasi::where('variable','url_feeder_pd_dikti')->first()->value;
 
-        $res = Http::post($endpoint, [
+        $res = Http::post($endpoint_fromdb, [
             'act' => $act,
             'token' => $token,
             'limit' => 500
@@ -206,8 +210,9 @@ if (! function_exists('GetDataFeeder')) {
 
         $token = GetTokenFeeder();
         $endpoint = \config('app.url_feeder');
+        $endpoint_fromdb = m_konfigurasi::where('variable','url_feeder_pd_dikti')->first()->value;
 
-        $res = Http::post($endpoint, [
+        $res = Http::post($endpoint_fromdb, [
             'act' => $act,
             'token' => $token,
             'filter' => $filter['filter'] ?? null,
@@ -238,7 +243,9 @@ if (! function_exists('InsertDataFeeder')) {
             
         $token = GetTokenFeeder();
         $endpoint = \config('app.url_feeder');
-        $res = Http::post($endpoint, [
+        $endpoint_fromdb = m_konfigurasi::where('variable','url_feeder_pd_dikti')->first()->value;
+
+        $res = Http::post($endpoint_fromdb, [
             'act' => $act,
             'token' => $token,
             'record' => $records
@@ -269,7 +276,9 @@ if (! function_exists('UpdateDataFeeder')) {
         
         $token = GetTokenFeeder();
         $endpoint = \config('app.url_feeder');
-        $res = Http::post($endpoint, [
+        $endpoint_fromdb = m_konfigurasi::where('variable','url_feeder_pd_dikti')->first()->value;
+
+        $res = Http::post($endpoint_fromdb, [
             'act' => $act,
             'token' => $token,
             'key' => $key,
@@ -299,7 +308,10 @@ if (! function_exists('DeleteDataFeeder')) {
     {
         $token = GetTokenFeeder();
         $endpoint = \config('app.url_feeder');
-        $res = Http::post($endpoint, [
+        $endpoint_fromdb = m_konfigurasi::where('variable','url_feeder_pd_dikti')->first()->value;
+
+
+        $res = Http::post($endpoint_fromdb, [
             'act' => $act,
             'token' => $token,
             'key' => $key

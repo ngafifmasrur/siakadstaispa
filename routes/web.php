@@ -32,7 +32,7 @@ Route::impersonate();
 Route::get('/home', [LandingPageController::class, 'index'])
     ->name('landing_page.index')
     ->middleware('cacheable:10');
-Route::get('/berita', [LandingPageController::class, 'berita'])->name(
+Route::get('/berita/{id?}', [LandingPageController::class, 'berita'])->name(
     'landing_page.berita'
 );
 Route::get('/kontak', [LandingPageController::class, 'kontak'])->name(
