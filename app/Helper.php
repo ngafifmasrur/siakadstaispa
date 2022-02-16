@@ -142,11 +142,13 @@ if (! function_exists('GetTokenFeeder')) {
     {
         $endpoint = \config('app.url_feeder');
         $endpoint_fromdb = m_konfigurasi::where('variable','url_feeder_pd_dikti')->first()->value;
+        $username_fromdb = m_konfigurasi::where('variable','username_feeder_pd_dikti')->first()->value;
+        $password_fromdb = m_konfigurasi::where('variable','password_feeder_pd_dikti')->first()->value;
 
         $response = Http::post($endpoint_fromdb, [
             'act' => 'GetToken',
-            'username' => '213191',
-            'password' => '59652749',
+            'username' => $username_fromdb,
+            'password' => $password_fromdb,
         ]);
         
         $result = $response->getBody()->getContents();

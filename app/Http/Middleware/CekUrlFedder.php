@@ -17,8 +17,10 @@ class CekUrlFedder
      */
     public function handle(Request $request, Closure $next)
     { 
-        $endpoint_fromdb = m_konfigurasi::where('variable','url_feeder_pd_dikti')->count();
-        if(($endpoint_fromdb==0)){
+        $endpoint_fromdb_url = m_konfigurasi::where('variable','url_feeder_pd_dikti')->count();
+        $endpoint_fromdb_username = m_konfigurasi::where('variable','username_feeder_pd_dikti')->count();
+        $endpoint_fromdb_password = m_konfigurasi::where('variable','password_feeder_pd_dikti')->count();
+        if($endpoint_fromdb_url==0&&$endpoint_fromdb_username==0&&$endpoint_fromdb_password==0){
             return redirect()->route('admin.konfigurasi.index');
         }else{
             return $next($request);
