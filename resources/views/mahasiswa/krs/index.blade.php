@@ -8,9 +8,11 @@
 </x-header>
 
 <x-card-info>
-    <x-slot name="title">Status KRS: <strong>{{ $status_krs->status ?? 'Belum Mengajukan' }}</strong></x-slot>
-    @if($status_krs->status == 'Ditolak')
-    <strong>Alasan Penolakan</strong> : {{ $status_krs->alasan_penolakan }}
+    <x-slot name="title">Status KRS: <strong>{{ isset($status_krs) ? $status_krs->status : 'Belum Mengajukan' }}</strong></x-slot>
+    @if (isset($status_krs))
+        @if($status_krs->status == 'Ditolak')
+        <strong>Alasan Penolakan</strong> : {{ $status_krs->alasan_penolakan }}
+        @endif
     @endif
 </x-card-info>
 
@@ -21,12 +23,19 @@
             <button type="button" class="btn btn-app btn-sm btn-info" disabled><i class="fa fa-info mr-2"></i>{{ $status_krs->status }}</button>
         @elseif($status_krs_prodi == false)
             <button type="button" class="btn btn-app btn-sm btn-danger" disabled></i>KRS Prodi Tutup</button>
+        @elseif($jumlah_kelas == 0)
+            <button type="button" class="btn btn-app btn-sm btn-danger" disabled></i>Pilih Kelas Untuk Mengajukan</button>
         @else
             <button type="button" class="btn btn-app btn-sm btn-primary" onclick="document.getElementById('form_pengajuan').submit();"></i>Ajukan</button>
         @endif
 
-        <button type="button" class="btn btn-app btn-sm btn-primary" onclick="document.getElementById('form_cetak').submit();"><i class="fa fa-print mr-2"></i>Cetak</button>
-        <a class="btn btn-app btn-sm btn-primary add-form" href="{{ route('mahasiswa.krs.create') }}"><i class="fa fa-plus mr-2"></i>Tambah</a>
+
+         <button type="button" class="btn btn-app btn-sm btn-primary" onclick="document.getElementById('form_cetak').submit();"><i class="fa fa-print mr-2"></i>Cetak</button>
+        @if (isset($status_krs) || ($status_krs_prodi == false))
+            <button class="btn btn-app btn-sm btn-primary add-form" disabled><i class="fa fa-plus mr-2"></i>Tambah</button>
+        @else
+            <a class="btn btn-app btn-sm btn-primary add-form" href="{{ route('mahasiswa.krs.create') }}"><i class="fa fa-plus mr-2"></i>Tambah</a>
+        @endif
     </x-slot>
 
     <x-krs-table 

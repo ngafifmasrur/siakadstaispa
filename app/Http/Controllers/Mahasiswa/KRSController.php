@@ -40,10 +40,19 @@ class KRSController extends Controller
             return view('mahasiswa.krs.index2');
         }
 
+        $kelasKuliah = t_peserta_kelas_kuliah::setFilter([
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
+        ])->pluck('id_kelas_kuliah')->toArray();
+        
+        $jumlah_kelas = m_kelas_kuliah::setFilter([
+            'filter' => "id_semester='$semester_aktif'"
+        ])->whereIn('id_kelas_kuliah', $kelasKuliah)->count();
+
+
         $status_krs = t_krs_mahasiswa::where('id_registrasi_mahasiswa', $id_registrasi_mahasiswa->id_registrasi_mahasiswa)->first();
         $status_krs_prodi = m_global_konfigurasi_prodi::where('id_prodi', $id_registrasi_mahasiswa->id_prodi)->first()->buka_krs;
 
-        return view('mahasiswa.krs.index', compact('status_krs', 'status_krs_prodi', 'id_registrasi_mahasiswa'));
+        return view('mahasiswa.krs.index', compact('status_krs', 'status_krs_prodi', 'id_registrasi_mahasiswa', 'jumlah_kelas'));
     }
 
     public function data_index(Request $request)
@@ -119,7 +128,7 @@ class KRSController extends Controller
                     'class' => 'btn btn-outline-danger btn-sm btn_delete',
                     "icon" => "fa fa-trash",
                     'attribute' => [
-                        'data-text' => $check_status_krs,
+                        'data-text' => 'Anda yakin ingin menghapus data ini ?',
                         ''.$check_status_krs == 'disabled' ? 'disabled' : 'enabled'.'' => $check_status_krs,
 
                     ],
@@ -154,9 +163,11 @@ class KRSController extends Controller
         $status_krs = t_krs_mahasiswa::where('id_registrasi_mahasiswa', $mahasiswa->id_registrasi_mahasiswa)->first();
         $status_krs_prodi = m_global_konfigurasi_prodi::where('id_prodi', $mahasiswa->id_prodi)->first()->buka_krs;
 
-        if($status_krs->status == 'Ditolak' || $status_krs->status == 'Diverifikasi') {
-            Session::flash('error_msg', 'Sudah pernah mengajukan KRS, Tidak dapat mengubah KRS');
-            return redirect()->route('mahasiswa.krs.index')->withInput();
+        if(isset($status_krs)){
+            if($status_krs->status == 'Ditolak' || $status_krs->status == 'Diverifikasi') {
+                Session::flash('error_msg', 'Sudah pernah mengajukan KRS, Tidak dapat mengubah KRS');
+                return redirect()->route('mahasiswa.krs.index')->withInput();
+            }
         }
 
         if($status_krs_prodi == false) {
@@ -351,7 +362,6 @@ class KRSController extends Controller
 
         }catch(\Exception $e){
 
-            dd($e);
             DB::rollback();
 
             Session::flash('error_msg', 'Terjadi kesalahan pada server');

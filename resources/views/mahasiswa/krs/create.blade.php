@@ -10,6 +10,7 @@
 <x-card-table>
     <x-slot name="title">Pilih Kelas Kuliah</x-slot>
     <x-slot name="button">
+        <a class="btn btn-app btn-sm btn-danger" href="{{ route('mahasiswa.krs.index') }}"><i class="fa fa-arrow-left mr-2"></i>Kembali</a>
         <button onclick="massCreateAccount()" class="btn btn-success btn-xs btn-flat"><i class="fa fa-check"></i> Simpan</button>
     </x-slot>
 
