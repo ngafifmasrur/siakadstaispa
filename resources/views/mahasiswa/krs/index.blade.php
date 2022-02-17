@@ -8,9 +8,9 @@
 </x-header>
 
 <x-card-info>
-    <x-slot name="title">Status KRS: {{ $status_krs->status ?? 'Belum Mengajukan' }}</x-slot>
-    @if($status_krs == 'Ditolak')
-    Alasan Penolakan : {{ $status_krs->alasan_penolakan }}
+    <x-slot name="title">Status KRS: <strong>{{ $status_krs->status ?? 'Belum Mengajukan' }}</strong></x-slot>
+    @if($status_krs->status == 'Ditolak')
+    <strong>Alasan Penolakan</strong> : {{ $status_krs->alasan_penolakan }}
     @endif
 </x-card-info>
 
@@ -18,7 +18,7 @@
     <x-slot name="title">Kartu Rencana Studi (KRS)</x-slot>
     <x-slot name="button">
         @if (isset($status_krs))
-            <button type="button" class="btn btn-app btn-sm btn-warning" disabled>{{ $status_krs->status }}</button>
+            <button type="button" class="btn btn-app btn-sm btn-info" disabled><i class="fa fa-info mr-2"></i>{{ $status_krs->status }}</button>
         @elseif($status_krs_prodi == false)
             <button type="button" class="btn btn-app btn-sm btn-danger" disabled></i>KRS Prodi Tutup</button>
         @else
