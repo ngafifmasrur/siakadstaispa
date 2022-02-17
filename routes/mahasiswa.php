@@ -67,5 +67,7 @@ Route::group(
 
         Route::get('transkrip/data_index', [TranskripController::class, 'data_index'])->name('transkrip.data_index');
         Route::resource('transkrip', TranskripController::class);
+        Route::post('transkrip/cetak', [TranskripController::class, 'cetak'])->name('transkrip.cetak');
+
     }
 );
