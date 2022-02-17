@@ -10,9 +10,9 @@ use App\Models\{
     t_dosen_wali_mahasiswa,
     t_riwayat_pendidikan_mahasiswa,
     m_program_studi,
-    m_semester
+    m_semester,
 };
-use DB, Session;
+use DB, Session, Response;
 
 class DosenWaliController extends Controller
 {
@@ -30,7 +30,7 @@ class DosenWaliController extends Controller
             ->addColumn('action',function ($data) {
            
                 $button = '<div class="btn-group" role="group" aria-label="Basic example">';
-    
+
                 $button .= view("components.button.default", [
                     'type' => 'link',
                     'tooltip' => 'Ubah',
@@ -46,6 +46,7 @@ class DosenWaliController extends Controller
                     "icon" => "fa fa-trash",
                     'attribute' => [
                         'data-text' => 'Anda yakin ingin menghapus data ini ?',
+                        ''.$data->mahasiswa->count() > 0 ? 'disabled' : 'enabled'.'' => '',
                     ],
                     "route" => route('admin.dosen_wali.destroy', $data->id),
                 ]);
@@ -54,13 +55,25 @@ class DosenWaliController extends Controller
     
                 return $button;
             })
+            ->addColumn('mahasiswa',function ($data) {
+
+                $button = view("components.button.default", [
+                    'type' => 'link',
+                    'tooltip' => 'Detail Mahasiswa',
+                    "icon" => "fa fa-users",
+                    "label" => $data->mahasiswa->count(),
+                    "route" => route('admin.dosen_wali.show', $data->id),
+                ]);
+
+                return $button;
+            })
+            ->addColumn('nidn',function ($data) {
+                return $data->dosen->nidn;
+            })
             ->addColumn('nama_dosen',function ($data) {
                 return $data->dosen->nama_dosen;
             })
-            ->addColumn('jumlah_mahasiswa',function ($data) {
-                return $data->mahasiswa->count();
-            })
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'mahasiswa'])
             ->setRowAttr([
                 'style' => 'text-align: center',
             ])
@@ -112,6 +125,56 @@ class DosenWaliController extends Controller
             ->toJson();
     }
 
+    public function mahasiswa_wali_index(Request $request, $dosen_wali)
+    {
+
+        $query = t_dosen_wali_mahasiswa::where('id_dosen', $dosen_wali)->with('mahasiswa')->get();
+
+        return datatables()->of($query)
+            ->addIndexColumn()
+            ->addColumn('select_all', function ($data) {
+                return '<input type="checkbox"' .' name="id_registrasi_mahasiswa[]" value="'. $data->id_registrasi_mahasiswa .'">';
+            })
+            ->addColumn('action',function ($data) {
+
+                $button = view("components.button.default", [
+                    'type' => 'button',
+                    'tooltip' => 'Copot',
+                    'class' => 'btn btn-outline-danger btn-sm btn_delete',
+                    "icon" => "fa fa-trash",
+                    "label" => 'Copot',
+                    'attribute' => [
+                        'data-text' => 'Anda yakin ingin mencopot mahasiswa ini ?',
+                    ],
+                    "route" => route('admin.dosen_wali.copot', $data->id_registrasi_mahasiswa),
+                ]);
+
+                return $button;
+            })
+            ->addColumn('nama_mahasiswa', function ($data) {
+                return $data->mahasiswa->nama_mahasiswa;
+            })
+            ->addColumn('nim', function ($data) {
+                return $data->mahasiswa->nim;
+            })
+            ->addColumn('jenis_kelamin', function ($data) {
+                return $data->mahasiswa->jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan';
+            })
+            ->addColumn('nama_program_studi', function ($data) {
+                return $data->mahasiswa->nama_program_studi;
+            })
+            ->rawColumns(['action', 'select_all'])
+            ->setRowAttr([
+                'style' => 'text-align: center',
+            ])
+        ->toJson();
+    }
+
+    public function show(m_dosen_wali $dosen_wali)
+    {
+        return view('admin.dosen_wali.show', compact('dosen_wali'));
+    }
+
     public function create()
     {
         $dosen_wali_aktif = t_dosen_wali_mahasiswa::pluck('id_dosen')->toArray();
@@ -126,12 +189,12 @@ class DosenWaliController extends Controller
     public function edit(m_dosen_wali $dosen_wali)
     {
         $dosen_wali_aktif = t_dosen_wali_mahasiswa::pluck('id_dosen')->except($dosen_wali->id_dosen)->toArray();
-        $dosen = m_dosen::whereNotIn('id_dosen', $dosen_wali)->pluck('nama_dosen', 'id_dosen')->prepend('Pilih Dosen', NULL);
+        $dosen = m_dosen::whereNotIn('id_dosen', $dosen_wali_aktif)->pluck('nama_dosen', 'id_dosen')->prepend('Pilih Dosen', NULL);
         $prodi = m_program_studi::pluck('nama_program_studi', 'id_prodi');
         $periode = m_semester::orderBy('nama_semester', 'desc')->pluck('nama_semester', 'id_semester');
         $mahasiswa = t_riwayat_pendidikan_mahasiswa::pluck('nama_mahasiswa', 'id_registrasi_mahasiswa');
         
-        return view('admin.dosen_wali.create', compact('dosen', 'mahasiswa', 'prodi', 'periode'));
+        return view('admin.dosen_wali.edit', compact('dosen', 'mahasiswa', 'prodi', 'periode', 'dosen_wali'));
     }
 
     public function store(Request $request)
@@ -167,7 +230,7 @@ class DosenWaliController extends Controller
             DB::rollback();
 
             Session::flash('error_msg', 'Terjadi kesalahan pada server');
-            return dd($e);
+            return redirect()->back()->withInput();
         }
     }
 
@@ -184,10 +247,12 @@ class DosenWaliController extends Controller
             
             t_dosen_wali_mahasiswa::where('id_dosen', $dosen_wali->id_dosen)->delete();
 
-            $dosen_wali->update($request->id_dosen);
+            $dosen_wali->update([
+                'id_dosen' => $request->id_dosen
+            ]);
             foreach ($request->mahasiswa_id as $id) {
                 $mahasiswa[] = [
-                    'id_dosen_wali' => $dosen_wali->id,
+                    'id_dosen' => $dosen_wali->id_dosen,
                     'id_registrasi_mahasiswa' => $id
                 ];
             }
@@ -204,7 +269,7 @@ class DosenWaliController extends Controller
             DB::rollback();
 
             Session::flash('error_msg', 'Terjadi kesalahan pada server');
-            return dd($e);
+            return redirect()->back()->withInput();
         }
     }
 
@@ -214,7 +279,6 @@ class DosenWaliController extends Controller
 
         try{
             
-            t_dosen_wali_mahasiswa::where('id_dosen', $dosen_wali->id_dosen)->delete();
             $dosen_wali->delete();
 
             DB::commit();
@@ -227,7 +291,41 @@ class DosenWaliController extends Controller
             DB::rollback();
 
             Session::flash('error_msg', 'Terjadi kesalahan pada server');
-            return dd($e);
+            return redirect()->back()->withInput();
         }
+    }
+
+    public function copot($id_registrasi_mahasiswa)
+    {
+        DB::beginTransaction();
+
+        try{
+            
+            t_dosen_wali_mahasiswa::where('id_registrasi_mahasiswa', $id_registrasi_mahasiswa)->delete();
+
+            DB::commit();
+
+            Session::flash('success_msg', 'Berhasil Dihapus');
+            return redirect()->back();
+
+        }catch(\Exception $e){
+
+            DB::rollback();
+
+            Session::flash('error_msg', 'Terjadi kesalahan pada server');
+            return redirect()->back()->withInput();
+        }
+    }
+
+    public function copot_pilihan(Request $request)
+    {
+        foreach ($request->id_registrasi_mahasiswa as $id) {
+            $mahasiswa = t_dosen_wali_mahasiswa::where('id_registrasi_mahasiswa', $id)->first();
+            if(isset($mahasiswa)) {
+                $mahasiswa->delete();
+            }
+        }
+
+        return Response::json(['success' => 'Akun dosen terpilih berhasil dibuat!'], 200);
     }
 }
