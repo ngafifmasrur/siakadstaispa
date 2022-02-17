@@ -42,7 +42,7 @@ class DosenPengajarKelasKuliahController extends Controller
 
         // Cari Dosen By Prodi kelas kuliah & Semester Aktif
         $dosen = t_penugasan_dosen::setFilter([
-            'filter' => "id_prodi='$kelas_kuliah->id_prodi' AND id_tahun_ajaran='$tahun_ajaran'",
+            'filter' => "id_tahun_ajaran='$tahun_ajaran'",
         ])->pluck('nama_dosen', 'id_registrasi_dosen')->prepend('Pilih Dosen', NULL);
 
         return view('admin.pengajar_kelas_kuliah.index', compact('id_kelas_kuliah', 'jenis_evaluasi', 'dosen', 'kelas_kuliah', 'substansi_kuliah'));
