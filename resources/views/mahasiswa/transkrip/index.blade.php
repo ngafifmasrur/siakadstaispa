@@ -18,6 +18,9 @@
 
 <x-card-table>
     <x-slot name="title">Data Transkrip</x-slot>
+    <x-slot name="button">
+        <button type="button" class="btn btn-app btn-sm btn-primary" onclick="document.getElementById('form_cetak').submit();"><i class="fa fa-print mr-2"></i>Cetak</button>
+    </x-slot>
 
     <x-datatable 
     :route="route('mahasiswa.transkrip.data_index')" 
@@ -37,6 +40,10 @@
     />
 
 </x-card-table>
+
+<form action="{{ route('mahasiswa.transkrip.cetak') }}" method="post" id="form_cetak">
+    @csrf
+</form>
 
 @endsection
 

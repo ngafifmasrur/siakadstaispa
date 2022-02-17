@@ -8,11 +8,13 @@ use App\Models\{
     t_riwayat_pendidikan_mahasiswa,
     t_transkrip_mahasiswa,
     m_global_konfigurasi,
-    m_semester
+    m_semester,
+    m_mata_kuliah,
+    m_mahasiswa_lulus_do
 };
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
-use Session, DB;
+use Session, DB, PDF;
 
 class TranskripController extends Controller
 {
@@ -31,67 +33,68 @@ class TranskripController extends Controller
     {
 
         $id_registrasi_mahasiswa = t_riwayat_pendidikan_mahasiswa::setFilter([
-            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."' AND id_periode_masuk='$request->periode'"
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
         ])->first()->id_registrasi_mahasiswa;
 
         if(!isset($riwayat_pendidikan)) {
             $query = t_transkrip_mahasiswa::setFilter([
                 'filter' => "id_registrasi_mahasiswa='$id_registrasi_mahasiswa'"
             ])->get();
+
+            $query->map(function ($item){
+                $matkul = m_mata_kuliah::setFilter([
+                    'filter' => "id_matkul='$item->id_matkul'"
+                ])->first();
+                $item['kode_mata_kuliah'] = $matkul->kode_mata_kuliah;
+                $item['sks_mata_kuliah'] = $matkul->sks_mata_kuliah;
+                $item['total_nilai'] = $matkul->sks_mata_kuliah*$item->nilai_indeks;
+
+                return $item;
+            });
+
         } else {
             $query = null;
         }
 
         return datatables()->of($query)
             ->addIndexColumn()
-            ->addColumn('total_nilai',function ($data) {
-                // return $data->sks_mata_kuliah*$data->nilai_indeks;
-                return '-';
-            })
-            ->addColumn('kode_mata_kuliah',function ($data) {
-                // return $data->sks_mata_kuliah*$data->nilai_indeks;
-                return '-';
-            })
-            // ->addColumn('action',function ($data) {
-           
-            //     $button = '<div class="btn-group" role="group" aria-label="Basic example">';
-    
-            //     $button .= view("components.button.default", [
-            //         'type' => 'button',
-            //         'tooltip' => 'Ubah',
-            //         'class' => 'btn btn-outline-primary btn-sm btn_edit',
-            //         "icon" => "fa fa-edit",
-            //         'attribute' => [
-            //             'data-id_jenis_aktivitas' => $data->id_jenis_aktivitas,
-            //             'data-id_prodi' => $data->id_prodi,
-            //             'data-id_semester' => $data->id_semester,
-            //             'data-judul' => $data->judul,
-            //             'data-keterangan' => $data->keterangan,
-            //             'data-lokasi' => $data->lokasi,
-            //             'data-sk_tugas' => $data->sk_tugas,
-            //         ],
-            //         "route" => route('admin.aktivitas.update', $data->id_aktivitas),
-            //     ]);
-    
-            //     $button .= view("components.button.default", [
-            //         'type' => 'button',
-            //         'tooltip' => 'Hapus',
-            //         'class' => 'btn btn-outline-danger btn-sm btn_delete',
-            //         "icon" => "fa fa-trash",
-            //         'attribute' => [
-            //             'data-text' => 'Anda yakin ingin menghapus data ini ?',
-            //         ],
-            //         "route" => route('admin.aktivitas.destroy', $data->id_aktivitas),
-            //     ]);
-    
-            //     $button .= '</div>';
-    
-            //     return $button;
-            // })
-            // ->rawColumns(['action'])
             ->setRowAttr([
                 'style' => 'text-align: center',
             ])
+
             ->toJson();
+    }
+
+    public function cetak(Request $request)
+    { 
+        $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
+        $nama_semester_aktif = m_global_konfigurasi::first()->nama_semester_aktif;
+
+        $riwayat_pendidikan = t_riwayat_pendidikan_mahasiswa::setFilter([
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
+        ])->first();
+
+        $mahasiswa_lulus = m_mahasiswa_lulus_do::setFilter([
+            'filter' => "id_registrasi_mahasiswa='$riwayat_pendidikan->id_registrasi_mahasiswa'"
+        ])->first();
+
+        $transkrip = t_transkrip_mahasiswa::setFilter([
+            'filter' => "id_registrasi_mahasiswa='$riwayat_pendidikan->id_registrasi_mahasiswa'"
+        ])->get();
+
+        $transkrip->map(function ($item){
+            $matkul = m_mata_kuliah::setFilter([
+                'filter' => "id_matkul='$item->id_matkul'"
+            ])->first();
+            $item['kode_mata_kuliah'] = $matkul->kode_mata_kuliah;
+            $item['sks_mata_kuliah'] = $matkul->sks_mata_kuliah;
+            $item['total_nilai'] = $matkul->sks_mata_kuliah*$item->nilai_indeks;
+
+            return $item;
+        });
+
+        
+        $pdf = PDF::loadView('mahasiswa.transkrip.cetak', compact('riwayat_pendidikan', 'transkrip', 'nama_semester_aktif', 'mahasiswa_lulus'))->setPaper('a4');
+        return $pdf->stream('Transkrip-_-'.$riwayat_pendidikan->nama_mahasiswa.'.pdf');    
     }
 }

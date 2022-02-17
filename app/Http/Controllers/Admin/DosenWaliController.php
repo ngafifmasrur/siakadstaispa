@@ -74,6 +74,13 @@ class DosenWaliController extends Controller
             'filter' => "id_prodi='$request->prodi' AND id_periode_masuk='$request->periode'"
         ])->get();
 
+        $query->map(function ($item){
+            $check = t_dosen_wali_mahasiswa::where('id_registrasi_mahasiswa', $item->id_registrasi_mahasiswa)->first();
+            $item['punya_wali'] = isset($check);
+
+            return $item;
+        });
+
         $count_total = $query->count() ; //count(GetDataFeeder('GetListMahasiswa'));
         $count_filter = t_riwayat_pendidikan_mahasiswa::count_total([
             'filter' => "id_prodi='$request->prodi' AND id_periode_masuk='$request->periode'"
@@ -86,7 +93,11 @@ class DosenWaliController extends Controller
             ])
             ->addIndexColumn()
             ->addColumn('select_all', function ($data) {
-                return '<input type="checkbox"' .' name="mahasiswa_id[]" value="'. $data->id_registrasi_mahasiswa .'">';
+                if($data->punya_wali == true) {
+                    return '';
+                } else {
+                    return '<input type="checkbox"' .' name="mahasiswa_id[]" value="'. $data->id_registrasi_mahasiswa .'">';
+                }
             })
             ->addColumn('mahasiswa', function ($data) {
                 return $data->nama_mahasiswa;
@@ -125,6 +136,10 @@ class DosenWaliController extends Controller
 
     public function store(Request $request)
     {
+        $rules = [];
+        $rules['id_dosen'] = ['required'];
+        $this->validate($request, $rules);
+
         DB::beginTransaction();
 
         try{
@@ -158,6 +173,11 @@ class DosenWaliController extends Controller
 
     public function update(Request $request, m_dosen_wali $dosen_wali)
     {
+
+        $rules = [];
+        $rules['id_dosen'] = ['required'];
+        $this->validate($request, $rules);
+
         DB::beginTransaction();
 
         try{

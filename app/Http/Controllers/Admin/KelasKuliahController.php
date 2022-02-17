@@ -128,9 +128,16 @@ class KelasKuliahController extends Controller
             ->addColumn('nama_semester', function ($data) {
                 return $data->nama_semester;
             })
+            ->addColumn('jadwal',function ($data) {
+                if($data->hari && $data->jam_mulai && $data->jam_akhir) {
+                    return $data->hari.', '.$data->jam_mulai.'-'.$data->jam_akhir;
+                }
+
+                return '-';
+            })
             ->addColumn('nama_dosen', function ($data) {
                 return $data->dosen->map(function($q) {
-                    return ($q->nama_dosen);
+                    return ('- '.$q->nama_dosen);
                 })->implode('<br>');
             })
             ->rawColumns(['action', 'dosen', 'mahasiswa', 'nama_dosen'])

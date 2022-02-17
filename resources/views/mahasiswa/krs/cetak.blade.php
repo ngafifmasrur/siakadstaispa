@@ -9,20 +9,17 @@
     <header>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <img src="https://pbs.twimg.com/profile_images/686406118306791424/dgoQvPm3_400x400.jpg" style="float: left;
-        height: 110px;">
-        {{-- <img src="{{public_path('/img/logo-mts.jpeg')}}" style="float: right;
-        height: 80px;"> --}}
+        height: 85px;margin-top:20px;">
         
-        <div style="text-align:left;">
-            <span style="font-size:25px;font-weight:bold;align-items:center;"> KEMENTERIAN AGAMA REPUBLIK INDONESIA </span><br>
-            <span style="font-size:25px;font-weight:bold;align-items:center;"> STAI Sunan Pandanaran Yogyakarta </span><br>
-            <span style="font-size:16px;font-weight:bold"> Alamat: Jl. Kaliurang Km. 12,5, Candi, Sardonoharjo, Ngaglik. </span>  <br>
-            <span style="font-size:16px;font-weight:bold">Telp (0274) 7496585, 8808. Faxmile (0274) 880857</span>
+        <div style="text-align:center;">
+            <h3 style="align-items:center;"> SEKOLAH TINGGI AGAMA ISLAM SUNAN PANDANARAN (STAISPA) </h3>
+            <span style="font-size:13px;align-items:center;"> Kl. Kaliurang Km. 12,5 Candi, Sardonoharjo, Ngaglik, Sleman, Yogyakarta, 55581 </span><br>
+            <span style="font-size:13px;align-items:center;"> Website: www.staispa.ac.id., Email: staispayogyakarta@gmail.com, Telp. (0274) 4543912 / 4543913 </span>
         </div>
     </header>
     <hr style="margin-top:20px;">
-    <h2 align="center">KARTU RENCANA STUDI ( KRS )</h2> <br>
-    <div style="width:100%:margin-top:20xp;">
+    <h3 align="center">KARTU RENCANA STUDI ( KRS )</h3> <br>
+    <div style="width:100%:margin-top:20xp;font-weight:bold">
         <table cellpadding='3'>
             <tr>
                 <td>Nama Mahasiswa</td>
@@ -45,7 +42,7 @@
         </table>
     </div>
 
-    <table border="1" cellpadding="6" cellspacing="0" width="100%" style="margin-top:10">
+    <table border="1" cellpadding="6" cellspacing="0" width="100%" style="margin-top:10;font-size:13px">
         <thead>
             <tr>
                 <th align="center" width="5%">No</th>
