@@ -26,8 +26,8 @@ class KelasKuliahRequest extends FormRequest
     {
         $rules = [
             'hari' => 'required|string',
-            'jam_mulai' => 'required|date_format:H:i',
-            'jam_akhir' => 'required|date_format:H:i|after:jam_mulai',
+            'jam_mulai' => 'required',
+            'jam_akhir' => 'required|after:jam_mulai',
         ];
 
         // if(Auth::user()->role->name != 'admin_prodi'){
