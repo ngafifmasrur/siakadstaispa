@@ -50,6 +50,7 @@ Route::group(
         Route::post('/krs', [ KRSController::class,'store',])->name('krs.store');
         Route::get('/krs/list_kelas_kuliah', [KRSController::class,'list_kelas_kuliah',])->name('krs.list_kelas_kuliah');
         Route::post('krs/cetak', [KRSController::class, 'cetak'])->name('krs.cetak');
+        Route::post('krs/ajukan/{id}', [KRSController::class, 'ajukan'])->name('krs.ajukan');
 
         Route::get('prestasi_mahasiswa/data_index', [PrestasiMahasiswaController::class, 'data_index'])->name('prestasi_mahasiswa.data_index');
         Route::resource('prestasi_mahasiswa', PrestasiMahasiswaController::class);

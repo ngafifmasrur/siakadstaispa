@@ -17,17 +17,14 @@
     :route="route('dosen.verval_krs.data_index')" 
     :table="[
         ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],                            
-        {{-- ['title' => 'Program Studi', 'data' => 'prodi', 'name' => 'prodi', 'classname' => 'text-left'], --}}
-        ['title' => 'NIM Mahasiswa', 'data' => 'nim_mahasiswa', 'name' => 'nim_mahasiswa', 'classname' => 'text-left'],
+        ['title' => 'NIM Mahasiswa', 'data' => 'nim_mahasiswa', 'name' => 'nim_mahasiswa', 'classname' => 'text-center'],
         ['title' => 'Nama Mahasiswa', 'data' => 'mahasiswa', 'name' => 'mahasiswa', 'classname' => 'text-left'],
-        ['title' => 'Program Studi', 'data' => 'prodi', 'name' => 'prodi','classname' => 'text-left'],
-        ['title' => 'SKS', 'data' => 'sks', 'name' => 'sks'],
-        ['title' => 'Verval', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
+        ['title' => 'Program Studi', 'data' => 'nama_program_studi', 'name' => 'nama_program_studi', 'classname' => 'text-left'],
+        ['title' => 'Status', 'data' => 'status', 'name' => 'status'],
+        ['title' => 'Aksi', 'data' => 'action', 'name' => 'action'],
     ]"
     />
 
 </x-card-table>
-
-<x-modal.approve/>
 
 @endsection

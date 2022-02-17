@@ -9,7 +9,8 @@ use App\Models\{
     m_dosen_belum_nidn,
     ref_agama,
     ref_wilayah,
-    ref_jenis_sdm
+    ref_jenis_sdm,
+    t_penugasan_dosen_belum_nidn
 };
 use DB, Auth, Session, Str;
 
@@ -30,7 +31,11 @@ class DosenBelumNIDNController extends Controller
     public function data_index(Request $request)
     {
         $query = m_dosen_belum_nidn::all();
-
+        $query->map(function ($item){
+            $check = t_penugasan_dosen_belum_nidn::where('id_dosen', $item->id_dosen)->first();
+            $item['penugasan_dosen'] = isset($check);
+            return $item;
+        });
         return datatables()->of($query)
             ->addIndexColumn()
             ->addColumn('action', function ($data) {
@@ -60,6 +65,7 @@ class DosenBelumNIDNController extends Controller
                     "icon" => "fa fa-trash",
                     'attribute' => [
                         'data-text' => 'Anda yakin ingin menghapus data ini ?',
+                        ''.$data->penugasan_dosen ? 'disabled' : 'enabled'.'' => $data->penugasan_dosen,
                     ],
                     "route" => route('admin.dosen_belum_nidn.destroy', $data->id_dosen),
                 ]);
@@ -188,6 +194,12 @@ class DosenBelumNIDNController extends Controller
     {
         if (is_null($dosen_belum_nidn)) {
             abort(404);
+        }
+
+        $check = t_penugasan_dosen_belum_nidn::where('id_dosen', $dosen_belum_nidn->id_dosen)->first();
+        if(isset($chech)) {
+            Session::flash('error_msg', 'Tidak dapat dihapus, Dosen sudah memilik penugasan dosen!');
+            return redirect()->back()->withInput();
         }
 
         $dosen_belum_nidn->delete();

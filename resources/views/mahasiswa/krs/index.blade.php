@@ -7,15 +7,24 @@
     Kartu Rencana Studi (KRS)
 </x-header>
 
-<form action="{{ route('mahasiswa.krs.cetak') }}" method="post" id="form_cetak">
-    @csrf
-
-    </div>
-</form>
+<x-card-info>
+    <x-slot name="title">Status KRS: {{ $status_krs->status ?? 'Belum Mengajukan' }}</x-slot>
+    @if($status_krs == 'Ditolak')
+    Alasan Penolakan : {{ $status_krs->alasan_penolakan }}
+    @endif
+</x-card-info>
 
 <x-card-table>
     <x-slot name="title">Kartu Rencana Studi (KRS)</x-slot>
     <x-slot name="button">
+        @if (isset($status_krs))
+            <button type="button" class="btn btn-app btn-sm btn-warning" disabled>{{ $status_krs->status }}</button>
+        @elseif($status_krs_prodi == false)
+            <button type="button" class="btn btn-app btn-sm btn-danger" disabled></i>KRS Prodi Tutup</button>
+        @else
+            <button type="button" class="btn btn-app btn-sm btn-primary" onclick="document.getElementById('form_pengajuan').submit();"></i>Ajukan</button>
+        @endif
+
         <button type="button" class="btn btn-app btn-sm btn-primary" onclick="document.getElementById('form_cetak').submit();"><i class="fa fa-print mr-2"></i>Cetak</button>
         <a class="btn btn-app btn-sm btn-primary add-form" href="{{ route('mahasiswa.krs.create') }}"><i class="fa fa-plus mr-2"></i>Tambah</a>
     </x-slot>
@@ -34,6 +43,15 @@
     />
 
 </x-card-table>
+
+<form action="{{ route('mahasiswa.krs.cetak') }}" method="post" id="form_cetak">
+    @csrf
+    </div>
+</form>
+<form action="{{ route('mahasiswa.krs.ajukan', $id_registrasi_mahasiswa->id_registrasi_mahasiswa) }}" method="post" id="form_pengajuan">
+    @csrf
+    </div>
+</form>
 
 <x-modal.delete/>
 

@@ -17,15 +17,11 @@
     :route="route('admin.aktivitas.data_index')" 
     :table="[
         ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],                            
-        ['title' => 'Jenis Aktivitas', 'data' => 'jenis_aktivitas', 'name' => 'jenis_aktivitas'],
-        ['title' => 'Prodi', 'data' => 'prodi', 'name' => 'prodi', 'classname' => 'text-left'],
-        ['title' => 'Semester', 'data' => 'semester', 'name' => 'semester'],
+        ['title' => 'Jenis Aktivitas', 'data' => 'nama_jenis_aktivitas', 'name' => 'nama_jenis_aktivitas'],
+        ['title' => 'Prodi', 'data' => 'nama_prodi', 'name' => 'nama_prodi', 'classname' => 'text-left'],
+        ['title' => 'Semester', 'data' => 'nama_semester', 'name' => 'nama_semester'],
         ['title' => 'Judul', 'data' => 'judul', 'name' => 'judul', 'classname' => 'text-left'],
-        ['title' => 'Keterangan', 'data' => 'keterangan', 'name' => 'keterangan', 'classname' => 'text-left'],
-        ['title' => 'Lokasi', 'data' => 'lokasi', 'name' => 'lokasi', 'classname' => 'text-left'],
-        ['title' => 'SK Tugas', 'data' => 'sk_tugas', 'name' => 'sk_tugas', 'classname' => 'text-left'],
-        ['title' => 'Tgl SK Tugas', 'data' => 'tanggal_sk_tugas', 'name' => 'tanggal_sk_tugas', 'classname' => 'text-left'],
-        ['title' => 'Anggota', 'data' => 'anggota', 'name' => 'anggota', 'classname' => 'text-center'],
+        {{-- ['title' => 'Anggota', 'data' => 'anggota', 'name' => 'anggota', 'classname' => 'text-center'], --}}
         ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
     ]"
     />
@@ -82,7 +78,7 @@
         </div>
     </div>
 
-    <div class="row">
+    {{-- <div class="row">
         <div class="form-group col-lg-6">
             <label for="keterangan">Keterangan</label>
             {!! Form::text('keterangan', null, ['class' => 'form-control '.($errors->has('keterangan') ? 'is-invalid' : ''), 'id' => 'keterangan']) !!}
@@ -113,7 +109,7 @@
                 </div>
             @enderror
         </div>
-    </div>
+    </div> --}}
 
     <x-slot name="footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>

@@ -11,9 +11,9 @@
                     <div class="col-lg-5">
                         <div class="mt-5 home-2-content">
                             <h1 class="text-white fw-normal home-2-title  mb-0">Sistem Informasi Akademik STAISPA</h1>
-                            <p class="text-white-70 mt-4 f-15 mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing
+                            <!-- <p class="text-white-70 mt-4 f-15 mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing
                                 elit. Sit nibh non ultrices placerat sit felis turpis elit. Mollis ut sed nunc
-                                suspendisse.</p>
+                                suspendisse.</p> -->
                         </div>
                     </div>
                     <!-- col end -->
@@ -40,8 +40,8 @@
                     </div>
                     <h1 class="fw-normal" style="font-size: 1.5rem"><a href="#" class="text-dark">Satu Akun Untuk Semua</a></h1>
                     <img src="{{ asset('landing_page/images/line.webp') }}" alt="" width="120" class=" mx-auto d-block">
-                    <p class="text-muted f-14 mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis amet
-                        elementum vitae.</p>
+                    <!-- <p class="text-muted f-14 mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis amet
+                        elementum vitae.</p> -->
                 </div>
             </div>
             <!-- col end -->
@@ -54,8 +54,8 @@
                     </div>
                     <h1 class="fw-normal" style="font-size: 1.5rem"><a href="#" class="text-dark">Akses dari mana saja</a></h1>
                     <img src="{{ asset('landing_page/images/line.webp') }}" alt="" width="120" class=" mx-auto d-block">
-                    <p class="text-muted f-14 mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis amet
-                        elementum vitae.</p>
+                    <!-- <p class="text-muted f-14 mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis amet
+                        elementum vitae.</p> -->
                 </div>
             </div>
             <!-- col end -->
@@ -68,8 +68,8 @@
                     </div>
                     <h1 class="fw-normal" style="font-size: 1.5rem"><a href="#" class="text-dark">Kemudahan</a></h1>
                     <img src="{{ asset('landing_page/images/line.webp') }}" alt="" width="120" class=" mx-auto d-block">
-                    <p class="text-muted f-14 mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis amet
-                        elementum vitae.</p>
+                    <!-- <p class="text-muted f-14 mt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis amet
+                        elementum vitae.</p> -->
                 </div>
             </div>
             <!-- col end -->
@@ -101,8 +101,8 @@
                         </div>
                     </div>
                     <div class="services-desc">
-                        <p class="text-white mb-3 f-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis
-                            amet elementum vitae.</p>
+                        <!-- <p class="text-white mb-3 f-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis
+                            amet elementum vitae.</p> -->
                     </div>
                 </div>
             </div>
@@ -120,8 +120,8 @@
                         </div>
                     </div>
                     <div class="services-desc">
-                        <p class="text-white mb-3 f-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis
-                            amet elementum vitae.</p>
+                        <!-- <p class="text-white mb-3 f-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis
+                            amet elementum vitae.</p> -->
                     </div>
                 </div>
             </div>
@@ -139,8 +139,8 @@
                         </div>
                     </div>
                     <div class="services-desc">
-                        <p class="text-white mb-3 f-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis
-                            amet elementum vitae.</p>
+                        <!-- <p class="text-white mb-3 f-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis
+                            amet elementum vitae.</p> -->
                     </div>
                 </div>
             </div>
@@ -158,8 +158,8 @@
                         </div>
                     </div>
                     <div class="services-desc">
-                        <p class="text-white mb-3 f-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis
-                            amet elementum vitae.</p>
+                        <!-- <p class="text-white mb-3 f-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis
+                            amet elementum vitae.</p> -->
                     </div>
                 </div>
             </div>
@@ -177,8 +177,8 @@
                         </div>
                     </div>
                     <div class="services-desc">
-                        <p class="text-white mb-3 f-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis
-                            amet elementum vitae.</p>
+                        <!-- <p class="text-white mb-3 f-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis
+                            amet elementum vitae.</p> -->
                     </div>
                 </div>
             </div>
@@ -196,8 +196,8 @@
                         </div>
                     </div>
                     <div class="services-desc">
-                        <p class="text-white mb-3 f-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis
-                            amet elementum vitae.</p>
+                        <!-- <p class="text-white mb-3 f-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mattis
+                            amet elementum vitae.</p> -->
                     </div>
                 </div>
             </div>
@@ -217,7 +217,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="title-heading mb-5">
-                    <h1 style="font-size: 1.75rem" class="text-dark mb-1 fw-normal ">Blog Terbaru</h1>
+                    <h1 style="font-size: 1.75rem" class="text-dark mb-1 fw-normal ">Berita Terbaru</h1>
                     <img src="{{ asset('landing_page/images/line.webp') }}" alt="" width="150" class="  d-block">
                 </div>
             </div>
@@ -226,57 +226,25 @@
         <!-- row end -->
 
         <div class="row">
-            <div class="col-lg-12 mb-4">
-                <div class="blog">
-                    <div class="blog-content bg-white p-4">
-                        <div class="row">
-                            <div class="col-lg-1">
-                                <img src="{{ asset('landing_page/images/imp_logo.webp') }}" alt="" width="80"
-                                    class="  d-block">
-                            </div>
-                            <div class="col-lg-9 ml-2">
-                                <h1 class="fw-normal" style="font-size: 1.5rem"><a href="#" class="text-dark">Lorem isum dolor sit amet</a></h1>
-                                <p class="f-13 mb-2 text-muted"> September 1, 2020&emsp;|&emsp;Posted by: Admin</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-9">
-                                <p class="text-muted f-14">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit nibh non ultrices
-                                    placerat sit felis turpis elit. Mollis ut sed nunc suspendisse faucibus adipiscing
-                                    sed ac amet. Blandit morbi posuere elit mi fermentum dignissim porta. Volutpat est
-                                    id et ut nunc mattis pretium sit donec.......................
-                                </p>
-                            </div>
-                            <div class="col-lg-3">
-                                <a href="#" class="btn btn-custom me-4">Read More</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- col end -->
 
+            @foreach($berita_terbaru as $key)
             <div class="col-lg-12 mb-4">
                 <div class="blog">
                     <div class="blog-content bg-white p-4">
                         <div class="row">
                             <div class="col-lg-1">
-                                <img src="{{ asset('landing_page/images/imp_logo.webp') }}" alt="" width="80"
+                                <img src="{{ url('upload/berita_img/'.$key->gambar) }}" alt="" width="80"
                                     class="  d-block">
                             </div>
                             <div class="col-lg-9 ml-2">
-                                <h1 class="fw-normal" style="font-size: 1.5rem"><a href="#" class="text-dark">Lorem isum dolor sit amet</a></h1>
-                                <p class="f-13 mb-2 text-muted"> September 1, 2020&emsp;|&emsp;Posted by: Admin</p>
+                                <h1 class="fw-normal" style="font-size: 1.5rem"><a href="#" class="text-dark">{{ $key->judul }}</a></h1>
+                                <p class="f-13 mb-2 text-muted"> {{ date_format($key->created_at,'d M Y - h:i a') }}&emsp;|&emsp;Posted by: Admin</p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-lg-9">
                                 <p class="text-muted f-14">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit nibh non ultrices
-                                    placerat sit felis turpis elit. Mollis ut sed nunc suspendisse faucibus adipiscing
-                                    sed ac amet. Blandit morbi posuere elit mi fermentum dignissim porta. Volutpat est
-                                    id et ut nunc mattis pretium sit donec.......................
+                                  <?= substr($key->isi,0,200); ?>...
                                 </p>
                             </div>
                             <div class="col-lg-3">
@@ -286,38 +254,8 @@
                     </div>
                 </div>
             </div>
-            <!-- col end -->
+            @endforeach
 
-            <div class="col-lg-12 mb-4">
-                <div class="blog">
-                    <div class="blog-content bg-white p-4">
-                        <div class="row">
-                            <div class="col-lg-1">
-                                <img src="{{ asset('landing_page/images/imp_logo.webp') }}" alt="" width="80"
-                                    class="  d-block">
-                            </div>
-                            <div class="col-lg-9 ml-2">
-                                <h1 class="fw-normal" style="font-size: 1.5rem"><a href="#" class="text-dark">Lorem isum dolor sit amet</a></h1>
-                                <p class="f-13 mb-2 text-muted"> September 1, 2020&emsp;|&emsp;Posted by: Admin</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-9">
-                                <p class="text-muted f-14">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sit nibh non ultrices
-                                    placerat sit felis turpis elit. Mollis ut sed nunc suspendisse faucibus adipiscing
-                                    sed ac amet. Blandit morbi posuere elit mi fermentum dignissim porta. Volutpat est
-                                    id et ut nunc mattis pretium sit donec.......................
-                                </p>
-                            </div>
-                            <div class="col-lg-3">
-                                <a href="#" class="btn btn-custom me-4">Read More</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- col end -->
         </div>
         <!-- row end -->
     </div>

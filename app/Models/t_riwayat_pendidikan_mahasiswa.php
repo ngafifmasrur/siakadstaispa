@@ -43,6 +43,11 @@ class t_riwayat_pendidikan_mahasiswa extends SushiModel
         return GetDataFeeder('GetListRiwayatPendidikanMahasiswa', self::$filter);
     }
 
+    public static function count_total()
+    {
+        return count(GetDataFeeder('GetListRiwayatPendidikanMahasiswa', self::$filter));
+    }
+
     public function prodi()
     {
         return $this->belongsTo('App\Models\m_program_studi', 'id_prodi');

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\LandingPage;
 
 use App\Http\Controllers\Controller;
+use App\Models\m_berita;
+use Illuminate\Http\Request;
 
 class LandingPageController extends Controller {
 
@@ -14,19 +16,48 @@ class LandingPageController extends Controller {
     public function index()
     {
         $nav = "home";
-        return view('landing_page.index', compact('nav'));
+        $berita_terbaru = m_berita::latest('created_at')
+                          ->where('publish',1)
+                          ->limit(5)
+                          ->get();
+        return view('landing_page.index', compact('nav','berita_terbaru'));
     }
 
-    public function berita()
+    public function berita(Request $request , $id = null)
     {
+        $search = $request->search;
         $nav = "berita";
-        return view('landing_page.berita' , compact('nav'));
+        $berita_terbaru = m_berita::latest('created_at')
+                          ->where('publish',1)
+                          ->limit(5)
+                          ->get();
+        
+        if($id==null){
+            $berita = m_berita::where('publish',1)
+            ->when(!is_null($search), function($query) use($search){
+                $query->where('judul','like',"%".$search."%");
+            })
+            ->paginate(5);
+            return view('landing_page.berita' , compact('nav','berita_terbaru','berita'));
+        }else{
+            $berita = m_berita::where('publish',1)
+                            ->where('id',$id)
+                            ->first();
+            $berita->hits = $berita->hits+1;
+            $berita->update();
+            return view('landing_page.detail_berita' , compact('nav','berita_terbaru','berita'));
+        }
+       
     }
 
     public function kontak()
     {
         $nav = "kontak";
-        return view('landing_page.kontak' , compact('nav'));
+        $berita_terbaru = m_berita::latest('created_at')
+                          ->where('publish',1)
+                          ->limit(5)
+                          ->get();
+        return view('landing_page.kontak' , compact('nav','berita_terbaru'));
     }
 
 

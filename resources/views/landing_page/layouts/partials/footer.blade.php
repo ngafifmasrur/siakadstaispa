@@ -5,7 +5,7 @@
             <div class="col-lg-3">
                 <div class="mb-5">
                     <img src="{{ asset('landing_page/images/logo_text.png') }}" alt="" height="40">
-                    <p class="text-white mt-1 f-14">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <p class="text-white mt-1 f-14">Pendidikan tinggi di pesantren yang unggul , mandiri , dan peduli dalam mensinergikan keilmuan dan kemasyarakatan.</p>
                 </div>
             </div>
             <!-- col end -->
@@ -24,30 +24,18 @@
                     </div>
                     <!-- col end -->
 
-                    <div class="col-lg-3">
+                    <div class="col-lg-6">
                         <div class="mb-5">
-                            <p class="text-uppercase text-white footer-title mb-4">BLOG</p>
+                            <p class="text-uppercase text-white footer-title mb-4">List Berita Terbaru</p>
                             <ul class="list-unstyled footer-sub-menu">
-                                <li class="f-14"><a href="#" class="text-white">Lorem Ipsum</a></li>
-                                <li class="f-14"><a href="#" class="text-white">Lorem Ipsum</a></li>
-                                <li class="f-14"><a href="#" class="text-white">Lorem Ipsum</a></li>
-                                <li class="f-14"><a href="#" class="text-white">Lorem Ipsum</a></li>
+                                @foreach($berita_terbaru as $key)
+                                <li class="f-14"><a href="{{ url('berita/'.$key->id) }}" class="text-white">{{$key->judul}}</a></li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>
                     <!-- col end -->
 
-                    <div class="col-lg-3">
-                        <div class="mb-5">
-                            <p class="text-uppercase text-white footer-title mb-4">BLOG</p>
-                            <ul class="list-unstyled footer-sub-menu">
-                                <li class="f-14"><a href="#" class="text-white">Lorem Ipsum</a></li>
-                                <li class="f-14"><a href="#" class="text-white">Lorem Ipsum</a></li>
-                                <li class="f-14"><a href="#" class="text-white">Lorem Ipsum</a></li>
-                                <li class="f-14"><a href="#" class="text-white">Lorem Ipsum</a></li>
-                            </ul>
-                        </div>
-                    </div>
 
                     <div class="col-lg-3">
                         <div class="mb-5">

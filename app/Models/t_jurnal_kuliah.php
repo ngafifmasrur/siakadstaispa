@@ -19,7 +19,7 @@ class t_jurnal_kuliah extends Model
 
     public function prodi()
     {
-        return $this->belongsTo('App\Models\m_program_studi', 'id_prodi');
+        return $this->belongsTo(m_program_studi::class, 'id_prodi', 'id_prodi');
     }
 
     public function absensi()

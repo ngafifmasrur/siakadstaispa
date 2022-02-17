@@ -9,8 +9,8 @@
 <x-card-table>
     <x-slot name="title">Daftar Peserta</x-slot>
     <x-slot name="button">
-        <a class="btn btn-app btn-sm btn-success" href="{{ route('dosen.pengisian_nilai.export', $kelas_kuliah->id_kelas_kuliah)}}"><i class="fa fa-print mr-2"></i>Export</a>
-        <a class="btn btn-app btn-sm btn-primary add-form" data-url="{{ route('dosen.pengisian_nilai.import') }}" href="#"><i class="fa fa-upload mr-2"></i>Import</a>
+        <a class="btn btn-app btn-sm btn-success" href="{{ route('dosen.pengisian_nilai.export', $kelas_kuliah->id_kelas_kuliah)}}"><i class="fa fa-print mr-2"></i>Unduh Nilai</a>
+        <a class="btn btn-app btn-sm btn-primary add-form" data-url="{{ route('dosen.pengisian_nilai.import') }}" href="#"><i class="fa fa-upload mr-2"></i>Impor</a>
         <button class="btn btn-app btn-sm btn-primary" onclick="document.getElementById('nilai-form').submit();"><i class="fa fa-save mr-2"></i>Simpan</button>
     </x-slot>
 
@@ -57,7 +57,7 @@
 </x-card-table>
 
 <x-modal class="modal-form" id="modal-form">
-    <x-slot name="title">Import Nilai</x-slot>
+    <x-slot name="title">Impor Nilai</x-slot>
     <x-slot name="modalPosition">modal-dialog-centered</x-slot>
     @csrf 
     @method('post')
