@@ -7,11 +7,20 @@
     Tambah Kartu Rencana Studi
 </x-header>
 
+<x-card>
+    <div class="row">
+        <div class="form-group col-lg-3">
+            <label for="semester">Pilih Semester</label>
+            {!! Form::select('semester', $semester, null, ['class' => 'form-control', 'id' => 'semester']) !!}
+        </div>
+    </div>
+</x-card>
+
 <x-card-table>
     <x-slot name="title">Pilih Kelas Kuliah</x-slot>
     <x-slot name="button">
         <a class="btn btn-app btn-sm btn-danger" href="{{ route('mahasiswa.krs.index') }}"><i class="fa fa-arrow-left mr-2"></i>Kembali</a>
-        <button onclick="massCreateAccount()" class="btn btn-success btn-xs btn-flat"><i class="fa fa-check"></i> Simpan</button>
+        <button onclick="massCreateAccount()" class="btn btn-app btn-success btn-sm"><i class="fa fa-check"></i> Simpan</button>
     </x-slot>
 
     @if (Session::get('results'))
@@ -39,9 +48,11 @@
             ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],                            
             ['title' => 'Nama Mata Kuliah', 'data' => 'nama_mata_kuliah', 'name' => 'nama_mata_kuliah','classname' => 'text-left'],
             ['title' => 'Kelas', 'data' => 'nama_kelas_kuliah', 'name' => 'nama_kelas_kuliah','classname' => 'text-left'],
-            ['title' => 'Dosen Pengajar', 'data' => 'nama_dosen', 'name' => 'nama_dosen', 'classname' => 'text-left'],
-            ['title' => 'Ruangan', 'data' => 'ruangan', 'name' => 'ruangan','classname' => 'text-left'],
-            ['title' => 'Kapasitas Kelas', 'data' => 'kapasitas', 'name' => 'kapasitas'],
+            ['title' => 'Jadwal', 'data' => 'jadwal', 'name' => 'jadwal','classname' => 'text-left'],
+            ['title' => 'SKS', 'data' => 'sks_mata_kuliah', 'name' => 'sks_mata_kuliah'],
+        ]"
+        :filter="[
+            ['data' => 'semester', 'value' => '$(`#semester`).val()']
         ]"
         />
     </form>
@@ -51,6 +62,12 @@
 
 @push('js')
 <script>
+    $( document ).ready(function() {
+        $(document).on('change','#semester',function(){
+            table.ajax.reload();
+        });
+    });
+
     function massCreateAccount() {
         if ($('input:checked').length > 0) {
             if (confirm('Simpan '+$('input:checked').length+' kelas kuliah?')) {

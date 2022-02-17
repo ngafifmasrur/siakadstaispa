@@ -312,7 +312,11 @@ Route::group(
 
         // Dosen Wali
         Route::get('/dosen_wali/data_index', [DosenWaliController::class,'data_index',])->name('dosen_wali.data_index');
-        Route::resource('/dosen_wali', DosenWaliController::class)->except(['show']);
         Route::get('/dosen_wali/mahasiswa_data_index', [DosenWaliController::class, 'list_mahasiswa'])->name('dosen_wali.mahasiswa_data_index');
+        Route::get('/dosen_wali/mahasiswa_wali_index/{dosen_wali}', [DosenWaliController::class, 'mahasiswa_wali_index'])->name('dosen_wali.mahasiswa_wali_index');
+        Route::delete('/dosen_wali/copot/{id_registrasi_mahasiswa}', [DosenWaliController::class, 'copot'])->name('dosen_wali.copot');
+        Route::post('/dosen_wali/copot_pilihan', [DosenWaliController::class, 'copot_pilihan'])->name('dosen_wali.copot_pilihan');
+        Route::resource('/dosen_wali', DosenWaliController::class);
+
     }
 );

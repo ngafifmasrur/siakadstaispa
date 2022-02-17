@@ -17,7 +17,8 @@ use App\Models\{
     m_mata_kuliah,
     t_krs_mahasiswa,
     t_dosen_wali_mahasiswa,
-    m_global_konfigurasi_prodi
+    m_global_konfigurasi_prodi,
+    t_matkul_kurikulum
 };
 use Session, DB, Auth, PDF;
 
@@ -174,27 +175,29 @@ class KRSController extends Controller
             Session::flash('error_msg', 'KRS untuk program studi ini belum dibuka');
             return redirect()->route('mahasiswa.krs.index')->withInput();
         }
-        // END Check Pengajuan KRS 
+        // END Check Pengajuan KRS
 
-        return view('mahasiswa.krs.create');
+        // List Semester
+        $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
+        $semester = t_matkul_kurikulum::setFilter([
+            'filter' => "id_semester='$semester_aktif' AND id_prodi='$mahasiswa->id_prodi'"
+        ])->distinct('semester')->pluck('semester', 'semester');
+        
+        return view('mahasiswa.krs.create', compact('semester'));
     }
 
-    public function list_kelas_kuliah()
+    public function list_kelas_kuliah(Request $request)
     {
 
         $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
 
-        $id_registrasi_mahasiswa = t_riwayat_pendidikan_mahasiswa::setFilter([
+        $riwayat_pendidikan = t_riwayat_pendidikan_mahasiswa::setFilter([
             'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
-        ])->first()->id_registrasi_mahasiswa;
-
-        $id_prodi = t_riwayat_pendidikan_mahasiswa::setFilter([
-            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
-        ])->first()->id_prodi;
+        ])->first();
 
         // Peserta Kelas
         $pesertaKelas = t_peserta_kelas_kuliah::setFilter([
-            'filter' => "id_registrasi_mahasiswa='$id_registrasi_mahasiswa'"
+            'filter' => "id_registrasi_mahasiswa='$riwayat_pendidikan->id_registrasi_mahasiswa'"
         ])->pluck('id_kelas_kuliah')->toArray();
 
         // Mahasiswa
@@ -203,9 +206,13 @@ class KRSController extends Controller
         ])->first();
 
         // List Kelas Kuliah
+        $matkul_kurikulum = t_matkul_kurikulum::setFilter([
+            'filter' => "id_semester='$semester_aktif' AND id_prodi='$riwayat_pendidikan->id_prodi' AND semester='$request->semester'"
+        ])->pluck('id_matkul')->toArray();
+
         $query = m_kelas_kuliah::setFilter([
-            'filter' => "id_semester='$semester_aktif' AND id_prodi='$id_prodi'"
-        ])->get();
+            'filter' => "id_semester='$semester_aktif'"
+        ])->whereIn('id_matkul', $matkul_kurikulum)->get();
 
         // Check Jika MHS Sudah Memiliki KRS Matkul Tsb
         $query->map(function ($item) use ($pesertaKelas) {
@@ -214,6 +221,12 @@ class KRSController extends Controller
             } else {
                 $item['checked'] = 0;
             }
+
+            // Jadwal Kelas
+            $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kuliah)->first();
+            $item['hari'] = $jadwal->hari ?? null;
+            $item['jam_mulai'] = $jadwal->jam_mulai ?? null;
+            $item['jam_akhir'] = $jadwal->jam_akhir ?? null;
             return $item;
         });
 
@@ -226,17 +239,16 @@ class KRSController extends Controller
                     return '<input type="checkbox"' .' name="kelas_kuliah[]" value="'. $data->id_kelas_kuliah .'">';
                 }
             })
-            ->addColumn('sks_mata_kuliah',function ($data) {
-                // return $data->mata_kuliah->sks_mata_kuliah;
-                return '-';
-            })
             ->addColumn('nama_dosen',function ($data) {
-                return '-';
+                return $data->dosen->map(function($q) {
+                    return ('- '.$q->nama_dosen);
+                })->implode('<br>');
             })
-            ->addColumn('ruangan',function ($data) {
-                return '-';
-            })
-            ->addColumn('kapasitas',function ($data) {
+            ->addColumn('jadwal',function ($data) {
+                if($data->hari && $data->jam_mulai && $data->jam_akhir) {
+                    return $data->hari.', '.$data->jam_mulai.'-'.$data->jam_akhir;
+                }
+
                 return '-';
             })
             ->rawColumns(['select_all'])
