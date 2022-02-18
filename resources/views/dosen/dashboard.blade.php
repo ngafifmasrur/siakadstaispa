@@ -18,7 +18,7 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-3 col-md-12">
+    <div class="col-lg-3 col-md-12 d-none d-lg-block">
         <div class="row">
             <div class="col-xl-12 col-lg-12">
                 <div class="card overflow-hidden">
@@ -148,7 +148,6 @@
 
         p, ul, ol {
             list-style-type: none!important;
-            margin: 0!important;
             padding: 0!important;
         }
 
@@ -167,6 +166,8 @@
         $('#cal').calendar({
             monthArray: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
             weekArray: ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
+           // set current date
+            date: new Date(),
         });
     </script>
 @endpush
