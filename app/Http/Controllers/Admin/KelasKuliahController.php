@@ -270,4 +270,17 @@ class KelasKuliahController extends Controller
             return back()->withInput();
         }
     }
+
+    public function mata_kuliah_by_prodi(Request $request)
+    {
+        if (!$request->id_prodi) {
+            $matkul = null;
+        } else {
+            $matkul = m_mata_kuliah::setFilter([
+                'filter' => "id_prodi='$request->id_prodi'"
+            ])->get();
+        }
+
+        return response()->json($matkul);
+    }
 }

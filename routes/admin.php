@@ -99,13 +99,9 @@ Route::group(
             'data_index',
         ])->name('bobot_nilai.data_index');
 
-        Route::resource('/kelas_kuliah', KelasKuliahController::class)->except([
-            'show',
-        ]);
-        Route::get('/kelas_kuliah/data_index', [
-            KelasKuliahController::class,
-            'data_index',
-        ])->name('kelas_kuliah.data_index');
+        Route::resource('/kelas_kuliah', KelasKuliahController::class)->except(['show']);
+        Route::get('/kelas_kuliah/data_index', [KelasKuliahController::class,'data_index',])->name('kelas_kuliah.data_index');
+        Route::get('/kelas_kuliah/mata_kuliah_by_prodi', [KelasKuliahController::class,'mata_kuliah_by_prodi',])->name('kelas_kuliah.mata_kuliah_by_prodi');
 
         Route::resource('/ruang_kelas', RuangKelasController::class)->except([
             'show',

@@ -79,7 +79,9 @@
     <div class="form-group row">
         <div class="form-group col-lg-12">
             <label for="id_matkul">Mata Kuliah</label>
-            {!! Form::select('id_matkul', $mata_kuliah, null, ['class' => 'form-control '.($errors->has('nilai_huruf') ? 'is-invalid' : ''), 'id' => 'id_matkul']) !!}
+            <select name="id_matkul" id="id_matkul" class="form-control">
+                <option value="">Pilih Program Studi Dahulu</option>
+            </select>
             @error('id_matkul')
                 <div class="invalid-feedback">
                     {{ $message }}
@@ -177,6 +179,20 @@
 
 @push('js')
     <script>
+        $("#id_prodi").change(function(){
+            $.ajax({
+                url: "{{ route('admin.kelas_kuliah.mata_kuliah_by_prodi') }}?id_prodi=" + $(this).val(),
+                method: 'GET',
+                success: function(data) {
+                    $('#id_matkul').html('<option value="">Pilih Mata Kuliah</option>');
+                    $.each(data, function(index, value) {
+                        $('#id_matkul').append('<option value="' + value.id_matkul+ '">' + value.matkul_kode+ '</option>');
+                    });
+                    $('select').selectpicker('refresh');
+                }
+            });
+        });
+
         $( document ).ready(function() {
             $(document).on('change','#prodi, #semester',function(){
                 table.ajax.reload();
@@ -207,7 +223,6 @@
             var jam_akhir = $(this).data('jam_akhir');
 
             $('[name=id_prodi]').val(id_prodi);
-            $('[name=id_matkul]').val(id_matkul);
             $('[name=id_semester]').val(id_semester);
             $('[name=nama_kelas_kuliah]').val(nama_kelas_kuliah);
             $('[name=bahasan]').val(bahasan);
@@ -216,6 +231,20 @@
             $('[name=hari]').val(hari);
             $('[name=jam_mulai]').val(jam_mulai);
             $('[name=jam_akhir]').val(jam_akhir);
+
+            $.ajax({
+                url: "{{ route('admin.kelas_kuliah.mata_kuliah_by_prodi') }}?id_prodi=" + id_prodi,
+                method: 'GET',
+                success: function(data) {
+                    $('#id_matkul').html('<option value="">Pilih Mata Kuliah</option>');
+                    $.each(data, function(index, value) {
+                        $('#id_matkul').append('<option value="' + value.id_matkul+ '" ' +'selected'+ '>' + value.matkul_kode+ '</option>');
+                    });
+                    $('select').selectpicker('refresh');
+                }
+            });
+
+            $('[name=id_matkul]').val(id_matkul);
             $('select').selectpicker('refresh');
 
         });

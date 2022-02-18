@@ -7,15 +7,6 @@
     Transkrip
 </x-header>
 
-<x-card>
-    <div class="row">
-        <div class="form-group col-lg-3">
-            <label for="periode">Periode</label>
-            {!! Form::select('periode', $periode, $semester_id, ['class' => 'form-control', 'id' => 'periode']) !!}
-        </div>
-    </div>
-</x-card>
-
 <x-card-table>
     <x-slot name="title">Data Transkrip</x-slot>
     <x-slot name="button">
@@ -34,9 +25,6 @@
         ['title' => 'Nilai Indeks', 'data' => 'nilai_indeks', 'name' => 'nilai_indeks'],
         ['title' => 'SKS*N.Indeks', 'data' => 'total_nilai', 'name' => 'total_nilai'],
     ]"
-    :filter="[
-        ['data' => 'periode', 'value' => '$(`#periode`).val()']
-    ]"
     />
 
 </x-card-table>
@@ -46,14 +34,3 @@
 </form>
 
 @endsection
-
-
-@push('js')
-<script>
-        $( document ).ready(function() {
-            $(document).on('change','#periode',function(){
-                table.ajax.reload();
-            });
-        });
-</script>
-@endpush
