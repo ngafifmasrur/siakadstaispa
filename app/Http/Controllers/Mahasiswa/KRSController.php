@@ -93,6 +93,9 @@ class KRSController extends Controller
             $matkul = m_mata_kuliah::setFilter([
                 'filter' => "id_matkul='$item->id_matkul'"
             ])->first();
+            $matkul_kurikulum = t_matkul_kurikulum::setFilter([
+                'filter' => "id_matkul='$item->id_matkul'"
+            ])->first();
             // Jadwal
             $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kuliah)->first();
 
@@ -100,6 +103,7 @@ class KRSController extends Controller
             $item['jam_mulai'] = $item->jam_mulai;
             $item['jam_akhir'] = $item->jam_akhir;
             $item['sks_mata_kuliah'] = $matkul->sks_mata_kuliah;
+            $item['smt'] = $matkul_kurikulum->semester;
 
             return $item;
         });
