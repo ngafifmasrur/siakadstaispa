@@ -18,7 +18,7 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-3 col-md-12">
+    <div class="col-lg-3 col-md-12 d-none d-lg-block">
         <div class="row">
             <div class="col-xl-12 col-lg-12">
                 <div class="card overflow-hidden">
@@ -73,6 +73,10 @@
     <div class="col-lg-3 col-md-12">
         <div class="row">
             <div class="col-xl-12 col-lg-12">
+                <x-card-info>
+                    <x-slot name="title">Dosen Wali: {{ $dosen }}</x-slot>
+
+                </x-card-info>
                 <div class="card">
                     <div class="card-header pb-0">
                         <h3 class="card-title">Informasi Terbaru</h3>
@@ -134,6 +138,8 @@
         </div>
     </div>
 </div>
+
+
 @endsection
 
 @push('css')
@@ -149,7 +155,6 @@
 
         p, ul, ol {
             list-style-type: none!important;
-            margin: 0!important;
             padding: 0!important;
         }
 
@@ -166,8 +171,11 @@
     <script src="{{ asset('sparic/js/calendar.js') }}"></script>
     <script>
         $('#cal').calendar({
+            startWeek: 0,
             monthArray: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
             weekArray: ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'],
+            date: new Date(),
+
         });
     </script>
 @endpush

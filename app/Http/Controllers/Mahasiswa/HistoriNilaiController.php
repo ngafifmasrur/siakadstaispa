@@ -87,18 +87,17 @@ class HistoriNilaiController extends Controller
             $nilai = t_riwayat_nilai_mahasiswa::setFilter([
                 'filter' => "id_registrasi_mahasiswa='$riwayat_pendidikan->id_registrasi_mahasiswa' AND id_periode='$request->periode'"
             ])->get();
-            
-            $nilai->map(function ($item){
+            $nama_semester = m_semester::setFilter([
+                'filter' => "id_semester='$request->periode'"
+            ])->first()->nama_semester;
+
+            $nilai->map(function ($item) {
                 $matkul = m_mata_kuliah::setFilter([
                     'filter' => "id_matkul='$item->id_matkul'"
-                ])->first();
-                $semester = m_semester::setFilter([
-                    'filter' => "id_semester='$item->id_periode'"
                 ])->first();
                 $item['kode_mata_kuliah'] = $matkul->kode_mata_kuliah;
                 $item['sks_mata_kuliah'] = $matkul->sks_mata_kuliah;
                 $item['total_nilai'] = $matkul->sks_mata_kuliah*$item->nilai_indeks;
-                $item['semester'] = $semester->semester;
 
                 return $item;
             });
@@ -107,7 +106,7 @@ class HistoriNilaiController extends Controller
             $nilai = null;
         }
         
-        $pdf = PDF::loadView('mahasiswa.histori_nilai.cetak', compact('riwayat_pendidikan', 'mahasiswa', 'nilai', 'periode'))->setPaper('a4');
+        $pdf = PDF::loadView('mahasiswa.histori_nilai.cetak', compact('riwayat_pendidikan', 'mahasiswa', 'nilai', 'periode', 'nama_semester'))->setPaper('a4');
         return $pdf->stream('Histori_-_Nilai-_-'.$mahasiswa->nama_mahasiswa.'.pdf');    
     }
 }

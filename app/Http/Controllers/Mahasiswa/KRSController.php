@@ -93,6 +93,9 @@ class KRSController extends Controller
             $matkul = m_mata_kuliah::setFilter([
                 'filter' => "id_matkul='$item->id_matkul'"
             ])->first();
+            $matkul_kurikulum = t_matkul_kurikulum::setFilter([
+                'filter' => "id_matkul='$item->id_matkul'"
+            ])->first();
             // Jadwal
             $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kuliah)->first();
 
@@ -100,6 +103,7 @@ class KRSController extends Controller
             $item['jam_mulai'] = $item->jam_mulai;
             $item['jam_akhir'] = $item->jam_akhir;
             $item['sks_mata_kuliah'] = $matkul->sks_mata_kuliah;
+            $item['smt'] = $matkul_kurikulum->semester;
 
             return $item;
         });
@@ -179,10 +183,11 @@ class KRSController extends Controller
 
         // List Semester
         $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
-        $semester = t_matkul_kurikulum::setFilter([
-            'filter' => "id_semester='$semester_aktif' AND id_prodi='$mahasiswa->id_prodi'"
-        ])->distinct('semester')->pluck('semester', 'semester');
-        
+        $semester = [];
+        for ($smt=1; $smt <= 8; $smt++) {
+            $semester[$smt] = 'Semester '.$smt;
+        }
+ 
         return view('mahasiswa.krs.create', compact('semester'));
     }
 
@@ -210,23 +215,26 @@ class KRSController extends Controller
             'filter' => "id_semester='$semester_aktif' AND id_prodi='$riwayat_pendidikan->id_prodi' AND semester='$request->semester'"
         ])->pluck('id_matkul')->toArray();
 
+        $matkul = t_matkul_kurikulum::setFilter([
+            'filter' => "id_semester='$semester_aktif' AND id_prodi='$riwayat_pendidikan->id_prodi' AND semester='$request->semester'"
+        ])->select('id_matkul', 'semester');
+
         $query = m_kelas_kuliah::setFilter([
             'filter' => "id_semester='$semester_aktif'"
         ])->whereIn('id_matkul', $matkul_kurikulum)->get();
 
         // Check Jika MHS Sudah Memiliki KRS Matkul Tsb
-        $query->map(function ($item) use ($pesertaKelas) {
+        $query->map(function ($item) use ($pesertaKelas, $matkul) {
             if(in_array($item->id_kelas_kuliah, $pesertaKelas)){
                 $item['checked'] = 1;
             } else {
                 $item['checked'] = 0;
             }
-
-            // Jadwal Kelas
             $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kuliah)->first();
             $item['hari'] = $jadwal->hari ?? null;
             $item['jam_mulai'] = $jadwal->jam_mulai ?? null;
             $item['jam_akhir'] = $jadwal->jam_akhir ?? null;
+            $item['smt'] = $matkul->where('id_matkul', $item->id_matkul)->first()->semester;
             return $item;
         });
 

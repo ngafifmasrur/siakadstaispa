@@ -47,7 +47,7 @@
             <tr>
                 <td>Semester/Tahun</td>
                 <td align="right">  :</td>
-                <td>{{ $periode }}</td>
+                <td>{{ $nama_semester }}</td>
             </tr>
         </table>
     </div>
