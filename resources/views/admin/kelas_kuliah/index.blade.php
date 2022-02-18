@@ -238,7 +238,7 @@
                 success: function(data) {
                     $('#id_matkul').html('<option value="">Pilih Mata Kuliah</option>');
                     $.each(data, function(index, value) {
-                        $('#id_matkul').append('<option value="' + value.id_matkul+ '" ' +'selected'+ '>' + value.matkul_kode+ '</option>');
+                        $('#id_matkul').append('<option value="' + value.id_matkul+ '">' + value.matkul_kode+ '</option>');
                     });
                     $('select').selectpicker('refresh');
                 }
