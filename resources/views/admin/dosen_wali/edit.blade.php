@@ -11,7 +11,8 @@
     <x-slot name="title">Form Ubah Dosen Wali</x-slot>
 
     <form action="{{ route('admin.dosen_wali.update', $dosen_wali->id) }}" method="POST">
-        @csrf
+        @csrf @method('PUT')
+
         <div class="form-group row">
             <label for="id_dosen" class="col-sm-2 col-form-label">Dosen</label>
             <div class="col-sm-10">

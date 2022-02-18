@@ -16,8 +16,9 @@
     :route="route('admin.dosen_wali.data_index')" 
     :table="[
         ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],
+        ['title' => 'NIDN', 'data' => 'nidn', 'name' => 'nidn', 'classname' => 'text-left'],
         ['title' => 'Nama Dosen', 'data' => 'nama_dosen', 'name' => 'nama_dosen', 'classname' => 'text-left'],
-        ['title' => 'Jumlah Mahasiswa', 'data' => 'jumlah_mahasiswa', 'name' => 'jumlah_mahasiswa'],
+        ['title' => 'Mahasiswa', 'data' => 'mahasiswa', 'name' => 'mahasiswa', 'width' => '40'],
         ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
     ]"
     />
