@@ -19,19 +19,21 @@
 <x-card-table>
     <x-slot name="title">Kartu Rencana Studi (KRS)</x-slot>
     <x-slot name="button">
-        @if (isset($status_krs))
+        @if((isset($status_krs) && ($status_krs->status == 'Diajukan' || $status_krs->status == 'Diverifikasi')))
             <button type="button" class="btn btn-app btn-sm btn-info" disabled><i class="fa fa-info mr-2"></i>{{ $status_krs->status }}</button>
         @elseif($status_krs_prodi == false)
             <button type="button" class="btn btn-app btn-sm btn-danger" disabled></i>KRS Prodi Tutup</button>
         @elseif($jumlah_kelas == 0)
             <button type="button" class="btn btn-app btn-sm btn-danger" disabled></i>Pilih Kelas Untuk Mengajukan</button>
+        @elseif(isset($status_krs) &&  $status_krs->status == 'Ditolak')
+            <button type="button" class="btn btn-app btn-sm btn-primary" onclick="document.getElementById('form_pengajuan').submit();"></i>Ajukan Ulang</button>
         @else
             <button type="button" class="btn btn-app btn-sm btn-primary" onclick="document.getElementById('form_pengajuan').submit();"></i>Ajukan</button>
         @endif
 
 
          <button type="button" class="btn btn-app btn-sm btn-primary" onclick="document.getElementById('form_cetak').submit();"><i class="fa fa-print mr-2"></i>Cetak</button>
-        @if (isset($status_krs) || ($status_krs_prodi == false))
+        @if((isset($status_krs) && ($status_krs->status == 'Diajukan' || $status_krs->status == 'Diverifikasi')) || $status_krs_prodi == false)
             <button class="btn btn-app btn-sm btn-primary add-form" disabled><i class="fa fa-plus mr-2"></i>Tambah</button>
         @else
             <a class="btn btn-app btn-sm btn-primary add-form" href="{{ route('mahasiswa.krs.create') }}"><i class="fa fa-plus mr-2"></i>Tambah</a>

@@ -61,7 +61,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-3 col-lg-6">
+        {{-- <div class="col-xl-3 col-lg-6">
             <div class="card overflow-hidden">
                 <div class="card-body pb-0">
                     <div class="d-flex">
@@ -86,7 +86,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 </div>
 @endsection
