@@ -1,6 +1,14 @@
 @extends('layouts.app')
 @section('title', 'Periode Perkuliahan')
 
+@push('css')
+    <style>
+        .row {
+            display: flex!important;
+        }
+    </style>
+@endpush
+
 @section('content')
 
 <x-header>
@@ -34,7 +42,7 @@
         ['title' => 'Semester', 'data' => 'nama_semester', 'name' => 'nama_semester', 'classname' => 'text-left'],
         ['title' => 'Jumlah Target Mahasiswa', 'data' => 'jumlah_target_mahasiswa_baru', 'name' => 'jumlah_target_mahasiswa_baru'],
         ['title' => 'Tgl Awal Perkuliahan', 'data' => 'tanggal_awal_perkuliahan', 'name' => 'tanggal_awal_perkuliahan'],
-        ['title' => 'Tgl akhir Perkuliahan', 'data' => 'tanggal_awal_perkuliahan', 'name' => 'tanggal_awal_perkuliahan'],
+        ['title' => 'Tgl akhir Perkuliahan', 'data' => 'tanggal_akhir_perkuliahan', 'name' => 'tanggal_akhir_perkuliahan'],
         ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
     ]"
     :filter="[
@@ -48,7 +56,7 @@
 <x-modal.delete/>
 
 <x-modal class="modal-form" id="modal-form">
-    <x-slot name="title">Kurikulum</x-slot>
+    <x-slot name="title">Periode Perkuliahan</x-slot>
     <x-slot name="modalPosition">modal-dialog-centered</x-slot>
     
     @csrf 
@@ -66,43 +74,41 @@
         </div>
     </div>
     <div class="form-group row">
-        <div class="form-group col-lg-12">
+        <div class="form-group col-lg-6">
             <label for="jumlah_target_mahasiswa_baru">Jumlah Target Mahasiswa</label>
             {!! Form::number('jumlah_target_mahasiswa_baru', null, ['class' => 'form-control', 'id' => 'jumlah_target_mahasiswa_baru']) !!}
         </div>
-    </div>
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
+        <div class="form-group col-lg-6">
             <label for="jumlah_pendaftar_ikut_seleksi">Jumlah Pendaftar Ikut Seleksi</label>
             {!! Form::number('jumlah_pendaftar_ikut_seleksi', null, ['class' => 'form-control', 'id' => 'jumlah_pendaftar_ikut_seleksi']) !!}
         </div>
     </div>
     <div class="form-group row">
-        <div class="form-group col-lg-12">
+        <div class="form-group col-lg-6">
             <label for="jumlah_pendaftar_lulus_seleksi">Jumlah Pendaftar Lulus Seleksi</label>
             {!! Form::number('jumlah_pendaftar_lulus_seleksi', null, ['class' => 'form-control', 'id' => 'jumlah_pendaftar_lulus_seleksi']) !!}
         </div>
-    </div>
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
+        <div class="form-group col-lg-6">
             <label for="jumlah_daftar_ulang">Jumlah Daftar Ulang</label>
             {!! Form::number('jumlah_daftar_ulang', null, ['class' => 'form-control', 'id' => 'jumlah_daftar_ulang']) !!}
         </div>
     </div>
     <div class="form-group row">
-        <div class="form-group col-lg-12">
+        <div class="form-group col-lg-6">
             <label for="jumlah_mengundurkan_diri">Jumlah Mengundurkan Diri</label>
             {!! Form::number('jumlah_mengundurkan_diri', null, ['class' => 'form-control', 'id' => 'jumlah_mengundurkan_diri']) !!}
         </div>
-    </div>
-    <div class="form-group row">
-        <div class="form-group col-lg-12">
-            <label for="tanggal_awal_perkuliahan">Tanggal Awal Perkuliahan</label>
-            {!! Form::date('tanggal_awal_perkuliahan', null, ['class' => 'form-control', 'id' => 'tanggal_awal_perkuliahan']) !!}
+        <div class="form-group col-lg-6">
+            <label for="jumlah_minggu_pertemuan">Jumlah Minggu Pertemuan</label>
+            {!! Form::number('jumlah_minggu_pertemuan', null, ['class' => 'form-control', 'id' => 'jumlah_minggu_pertemuan']) !!}
         </div>
     </div>
     <div class="form-group row">
-        <div class="form-group col-lg-12">
+        <div class="form-group col-lg-6">
+            <label for="tanggal_awal_perkuliahan">Tanggal Awal Perkuliahan</label>
+            {!! Form::date('tanggal_awal_perkuliahan', null, ['class' => 'form-control', 'id' => 'tanggal_awal_perkuliahan']) !!}
+        </div>
+        <div class="form-group col-lg-6">
             <label for="tanggal_akhir_perkuliahan">Tanggal Akhir Perkuliahan</label>
             {!! Form::date('tanggal_akhir_perkuliahan', null, ['class' => 'form-control', 'id' => 'tanggal_akhir_perkuliahan']) !!}
         </div>
@@ -137,26 +143,19 @@
             $('.modal-form form')[0].reset();
             $('.modal-form form').attr('action',  $(this).data('route'));
             $('[name=_method]').val('put');
-            var nim = $(this).data('nim');
-            var id_jenis_daftar = $(this).data('id_jenis_daftar');
-            var id_jalur_daftar = $(this).data('id_jalur_daftar');
-            var id_periode_masuk = $(this).data('nama');
-            var id_perguruan_tinggi = $(this).data('id_perguruan_tinggi');
             var id_prodi = $(this).data('id_prodi');
-            var id_perguruan_tinggi_asal = $(this).data('id_perguruan_tinggi_asal');
-            var id_prodi_asal = $(this).data('id_prodi_asal');
-            var id_pembiayaan = $(this).data('id_pembiayaan');
-            var sks_diakui = $(this).data('sks_diakui');
+            var id_semester = $(this).data('id_semester');
+            var jumlah_target_mahasiswa_baru = $(this).data('jumlah_target_mahasiswa_baru');
+            var tanggal_awal_perkuliahan = $(this).data('tanggal_awal_perkuliahan');
+            var tanggal_akhir_perkuliahan = $(this).data('tanggal_akhir_perkuliahan');
 
-            $('[name=nim]').val(nim);
-            $('[name=id_periode]').val(id_periode);
-            $('[name=id_jenis_daftar]').val(id_jenis_daftar);
-            $('[name=id_periode_masuk]').val(id_periode_masuk);
-            $('[name=id_perguruan_tinggi]').val(id_perguruan_tinggi);
-            $('[name=id_perguruan_tinggi_asal]').val(id_perguruan_tinggi_asal);
-            $('[name=id_prodi_asal]').val(id_prodi_asal);
-            $('[name=id_pembiayaan]').val(id_pembiayaan);
-            $('[name=sks_diakui]').val(sks_diakui);
+            $('[name=id_prodi]').val(id_prodi);
+            $('[name=id_semester]').val(id_semester);
+            $('[name=jumlah_target_mahasiswa_baru]').val(jumlah_target_mahasiswa_baru);
+            $('[name=tanggal_awal_perkuliahan]').val(tanggal_awal_perkuliahan);
+            $('[name=tanggal_akhir_perkuliahan]').val(tanggal_akhir_perkuliahan);
+            $('select').selectpicker('refresh');
+
         });
     </script>
 @endpush

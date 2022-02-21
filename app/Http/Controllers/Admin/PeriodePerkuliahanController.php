@@ -46,9 +46,15 @@ class PeriodePerkuliahanController extends Controller
                     'tooltip' => 'Ubah',
                     'class' => 'btn btn-outline-primary btn-sm btn_edit',
                     "icon" => "fa fa-edit",
+                    'attribute' => [
+                        'data-id_prodi' => $data->id_prodi,
+                        'data-id_semester' => $data->id_semester,
+                        'data-jumlah_target_mahasiswa_baru' => $data->jumlah_target_mahasiswa_baru,
+                        'data-tanggal_awal_perkuliahan' => $data->tanggal_awal_perkuliahan,
+                        'data-tanggal_akhir_perkuliahan' => $data->tanggal_akhir_perkuliahan,
+                    ],
                     "route" => route('admin.periode_perkuliahan.update', [$data->id_prodi, $data->id_semester]),
                 ]);
-    
                 $button .= view("components.button.default", [
                     'type' => 'button',
                     'tooltip' => 'Hapus',
@@ -74,7 +80,6 @@ class PeriodePerkuliahanController extends Controller
     public function store(Request $request)
     {
         $records = $request->except('_token', '_method');
-        $records = $request->except('_token', '_method', 'paket');
         $result = InsertDataFeeder('InsertPeriodePerkuliahan', $records, 'GetListPeriodePerkuliahan');
 
         if($result['error_code'] !== '0') {
@@ -90,7 +95,7 @@ class PeriodePerkuliahanController extends Controller
     {
         $records = $request->except('_token', '_method');
         $key = [
-            'id_semester' => $id_semester,
+            'id_semester' => intval($id_semester),
             'id_prodi' => $id_prodi
         ];
 
@@ -108,7 +113,7 @@ class PeriodePerkuliahanController extends Controller
     public function destroy(Request $request, $id_prodi, $id_semester)
     {
         $key = [
-            'id_semester' => $id_semester,
+            'id_semester' => intval($id_semester),
             'id_prodi' => $id_prodi
         ];
         
