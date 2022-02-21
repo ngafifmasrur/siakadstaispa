@@ -81,7 +81,7 @@
             <tr>
                 <td>Semester - Tahun Akademik</td>
                 <td align="right">  :</td>
-                <td>{{ $nama_semester }}</td>
+                <td>{{ $semester_aktif->nama_semester_aktif }}</td>
             </tr>
         </table>
     </div>
@@ -109,7 +109,7 @@
                     <td align="center">{{ $loop->iteration }}</td>
                     <td align="center">{{ $item->kode_mata_kuliah ?? '-' }}</td>
                     <td>{{ $item->nama_mata_kuliah }}</td>
-                    <td align="center">{{ $item->semester ?? '-' }}</td>
+                    <td align="center">{{ $item->smt ?? '-' }}</td>
                     <td align="center">{{ $item->sks_mata_kuliah ?? '-' }}</td>
                     <td align="center">{{ $item->nilai_huruf ?? '-'  }}</td>
                     <td align="center">{{ $item->nilai_indeks ?? '-'  }}</td>
@@ -135,17 +135,17 @@
         <tr>
             <td>IP Semester saat ini</td>
             <td align="right">  :</td>
-            <td>-</td>
+        <td>{{ $perkuliahan->ips ?? '-' }}</td>
         </tr>
         <tr>
             <td>IP Kumulatif (IPK)</td>
             <td align="right">  :</td>
-            <td>-</td>
+        <td>{{ $perkuliahan->ipk ?? '-'}}</td>
         </tr>
         <tr>
-            <td>Maksimal SKS semester selanjutnya</td>
+            <td>SKS semester</td>
             <td align="right">  :</td>
-            <td>-</td>
+            <td>{{ $perkuliahan->sks_semester ?? '-' }}</td>
         </tr>
     </table>
 
@@ -158,7 +158,7 @@
         <br>
         <br>
         <br>
-        <span style="font-weight: bold;">TONI PRANSISKA, M.Pd.</span>
+        <span style="font-weight: bold;">{{ $dosen }}</span>
     </div>
 
     <footer>
