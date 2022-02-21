@@ -299,6 +299,7 @@
             $('[name=ada_diktat]').val(ada_diktat);            
             $('[name=tanggal_mulai_efektif]').val(tanggal_mulai_efektif);
             $('[name=tanggal_akhir_efektif]').val(tanggal_selesai_efektif);
+            $('select').selectpicker('refresh');
 
         });
     </script>
