@@ -30,7 +30,7 @@ class HistoriPendidikanController extends Controller
         $semester = m_global_konfigurasi::first()->value('id_semester_aktif');
 
         $query = t_riwayat_pendidikan_mahasiswa::setFilter([
-            'filter' => "id_mahasiswa='$user->id_mahasiswa' AND id_periode_masuk='$semester'"
+            'filter' => "id_mahasiswa='$user->id_mahasiswa'"
         ])->get();
 
         return datatables()->of($query)
