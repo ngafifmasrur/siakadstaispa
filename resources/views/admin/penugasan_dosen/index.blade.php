@@ -31,11 +31,10 @@
     :table="[
         ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],                            
         ['title' => 'Nama Dosen', 'data' => 'nama_dosen', 'name' => 'nama_dosen'],
-        ['title' => 'NIDN', 'data' => 'nidn', 'name' => 'nidn', 'classname' => 'text-left'],
-        ['title' => 'Tahun Ajaran', 'data' => 'nama_tahun_ajaran', 'name' => 'nama_tahun_ajaran', 'classname' => 'text-left'],
+        ['title' => 'Tahun Ajaran', 'data' => 'nama_tahun_ajaran', 'name' => 'nama_tahun_ajaran'],
         ['title' => 'Program Studi', 'data' => 'nama_program_studi', 'name' => 'nama_program_studi', 'classname' => 'text-left'],
-        ['title' => 'Tgl Surat Tugas', 'data' => 'tanggal_surat_tugas', 'name' => 'tanggal_surat_tugas', 'classname' => 'text-left'],
-        ['title' => 'Mulai Surat Tugas', 'data' => 'mulai_surat_tugas', 'name' => 'mulai_surat_tugas', 'classname' => 'text-left'],
+        ['title' => 'Tgl Surat Tugas', 'data' => 'tanggal_surat_tugas', 'name' => 'tanggal_surat_tugas'],
+        ['title' => 'Mulai Surat Tugas', 'data' => 'mulai_surat_tugas', 'name' => 'mulai_surat_tugas'],
         ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
     ]"
     :filter="[
