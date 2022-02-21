@@ -3,41 +3,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>KARTU HASIL STUDI ( KHS )</title>
+    <title>KARTU HASIL STUDI</title>
     <style>
+        header {
+            margin-bottom: 20px;
+        }
+        header h4 {
+            margin-bottom: 10px!important;
+            margin-top: 0px!important;
+        }
+
+        header img {
+            float: left;
+            height: 40px;
+        }
+
+        .title {
+            margin-bottom: 10px!important;
+            margin-top: 0px!important;
+            text-align: center;
+            text-decoration: underline;
+        }
+
+        .description {
+            width:100%;
+            margin-top:20px;
+            font-size:14px
+        }
+
         footer {
-            position: fixed; 
-            bottom: 0px; 
+            font-size: 12px;
+        }
+
+        footer .left {
+            position: fixed;
+            bottom: 0px;
             left: 0px; 
+        }
+
+        footer .right {
+            position: fixed;
+            bottom: 0px;
             right: 0px;
         }
+        .titimangsa {
+            position: fixed;
+            right: 0px;
+        }
+        
     </style>
 </head>
 <body>
     <header>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <img src="https://pbs.twimg.com/profile_images/686406118306791424/dgoQvPm3_400x400.jpg" style="float: left;
-        height: 78px">
-        
-        <div style="text-align:center;">
-            <h4 style="margin-bottom: 10px!important;margin-top: 0px!important">SEKOLAH TINGGI AGAMA ISLAM SUNAN PANDANARAN (STAISPA)</h4>
-            <span style="font-size:13px;"> Kl. Kaliurang Km. 12,5 Candi, Sardonoharjo, Ngaglik, Sleman, Yogyakarta, 55581 </span><br>
-            <span style="font-size:13px;"> Website: www.staispa.ac.id., Email: staispayogyakarta@gmail.com, Telp. (0274) 4543912 / 4543913 </span>
-        </div>
+        <img src="https://pbs.twimg.com/profile_images/686406118306791424/dgoQvPm3_400x400.jpg">
+        <h4>SEKOLAH TINGGI AGAMA ISLAM <br> SUNAN PANDANARAN</h4>
     </header>
-    <hr style="margin-top:10px;">
-    <h4 align="center" style="margin-bottom: 10px!important;margin-top: 0px!important">KARTU HASIL STUDI SEMESTER</h4>
-    <div style="width:100%:margin-top:20xp;font-weight:bold;font-size:13px">
+
+    <h3 class="title">KARTU HASIL STUDI</h3>
+    <div class="description">
         <table cellpadding='1'>
-            <tr>
-                <td>NIM</td>
-                <td align="right">  :</td>
-                <td>{{ $riwayat_pendidikan->nim }}</td>
-            </tr>
             <tr>
                 <td>Nama Mahasiswa</td>
                 <td align="right">  :</td>
                 <td>{{ $riwayat_pendidikan->nama_mahasiswa }}</td>
+            </tr>
+            <tr>
+                <td>NIM</td>
+                <td align="right">  :</td>
+                <td>{{ $riwayat_pendidikan->nim }}</td>
             </tr>
             <tr>
                 <td>Program Studi</td>
@@ -45,7 +79,7 @@
                 <td>{{ $riwayat_pendidikan->nama_program_studi }}</td>
             </tr>
             <tr>
-                <td>Semester/Tahun</td>
+                <td>Semester - Tahun Akademik</td>
                 <td align="right">  :</td>
                 <td>{{ $nama_semester }}</td>
             </tr>
@@ -56,7 +90,7 @@
         <thead>
             <tr>
                 <th rowspan="2" align="center" width="5%">No</th>
-                <th rowspan="2" align="center" width="12%">Kode MK</th>
+                <th rowspan="2" align="center" width="12%">Kode</th>
                 <th rowspan="2" align="center">Mata Kuliah</th>
                 <th rowspan="2" align="center" width="10%">SMT</th>
 
@@ -97,61 +131,43 @@
         </tfoot>
     </table>
     <br>
-    IP Semester saat ini: -
+    <table cellpadding='1'>
+        <tr>
+            <td>IP Semester saat ini</td>
+            <td align="right">  :</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td>IP Kumulatif (IPK)</td>
+            <td align="right">  :</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td>Maksimal SKS semester selanjutnya</td>
+            <td align="right">  :</td>
+            <td>-</td>
+        </tr>
+    </table>
+
+    <div style="clear: both;"></div>
+    <div class="titimangsa">
+        <span>Yogyakarta, {{ Carbon\Carbon::now()->isoFormat('D MMMM YYYY')}}</span> <br>
+        <span>Dosen Pembimbing Akademik</span>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <span style="font-weight: bold;">TONI PRANSISKA, M.Pd.</span>
+    </div>
 
     <footer>
-        <table style="width: 100%;font-size:14px;">
-            <tbody>
-                <tr>
-                    <td>
-                        <br>
-                        <div style="margin-right:200px;">
-                            <span style="margin-left:20px;">Mengetahui,</span>
-                            <br>
-                            an. Kepala Sekolah Tinggi.
-                            <br><span style="margin-left:20px;">Pembantu Ketua</span>
-                            <br><span style="margin-left:20px;">Bidang Akademik, Kemahasiswaan,</span>
-                            <br><span style="margin-left:20px;">dan Administrasi</span>
-    
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <p style="margin-left:20px;">
-                                <strong><u>-</u></strong>
-                                <br>
-                                NIK. 
-                            </p>
-                        </div>
-    
-                    </td>
-    
-                    <td>
-                        <br>
-                        <div style="margin-left:-200px;">
-                            <span style="margin-left:20px;">Yogyakarta, {{ Carbon\Carbon::now()->isoFormat('D MMMM YYYY')}}</span>
-                            <br>
-                            <br>
-                            an. Ketua Program Studi.
-                            <br><span style="margin-left:20px;">Sekertaris Program Studi.</span>
-    
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <p style="margin-left:20px;">
-                                <strong><u>-</u></strong>
-                                <br>
-                                NIK. 
-                            </p>
-                        </div>
-    
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="left">
+            Dokumen ini dicetak pada  {{ Carbon\Carbon::now()->isoFormat('D MMMM YYYY')}} pukul {{ Carbon\Carbon::now()->isoFormat('h:mm')}} WIB
+        </div>
+        <div class="right">
+            <i>STAI Sunan Pandanaran</i>
+        </div>
     </footer>
 
 </body>
