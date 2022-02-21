@@ -15,7 +15,8 @@ use App\Models\ref_pekerjaan;
 use App\Models\ref_penghasilan;
 use App\Models\ref_alat_transportasi;
 use App\Models\ref_wilayah;
-
+use App\Models\ref_detail_mahasiswa;
+use App\Models\ref_negara;
 use App\Models\User;
 use App\Models\Role;
 use App\Http\Requests\MahasiswaRequest;
@@ -25,7 +26,8 @@ class BiodataController extends Controller
 {
     public function index()
     {
-        $mahasiswa = Auth::user()->mahasiswa;
+        $mahasiswa = ref_detail_mahasiswa::where('id_mahasiswa', Auth::user()->id_mahasiswa)->first();
+        
         $agama = ref_agama::pluck('nama_agama', 'id_agama');
         $jenis_tinggal = ref_jenis_tinggal::pluck('nama_jenis_tinggal', 'id_jenis_tinggal');
         $jenjang_pendidikan = ref_jenjang_pendidikan::pluck('nama_jenjang_didik', 'id_jenjang_didik');
@@ -34,39 +36,24 @@ class BiodataController extends Controller
         $penghasilan = ref_penghasilan::pluck('nama_penghasilan', 'id_penghasilan');
         $alat_transportasi = ref_alat_transportasi::pluck('nama_alat_transportasi', 'id_alat_transportasi');
         $wilayah = ref_wilayah::pluck('nama_wilayah', 'id_wilayah');
+        $negara = ref_negara::pluck('nama_negara', 'id_negara');
 
-        return view('mahasiswa.biodata.index', compact('agama', 'jenis_tinggal', 'jenjang_pendidikan', 'kebutuhan_khusus', 'pekerjaan', 'penghasilan', 'alat_transportasi', 'wilayah', 'mahasiswa'));
+        return view('mahasiswa.biodata.index', compact('negara', 'agama', 'jenis_tinggal', 'jenjang_pendidikan', 'kebutuhan_khusus', 'pekerjaan', 'penghasilan', 'alat_transportasi', 'wilayah', 'mahasiswa'));
     }
 
-    public function update(MahasiswaRequest $request)
+    public function update(Request $request)
     {
-        DB::beginTransaction();
 
-        $mahasiswa = Auth::user()->mahasiswa;
+        $records = $request->except('_token', '_method');
+        $key['id_mahasiswa'] = Auth::user()->id_mahasiswa;
+        $result = UpdateDataFeeder('UpdateBiodataMahasiswa', $key, $records, 'GetBiodataMahasiswa');
 
-        try{
-            $role_mahasiswa  = Role::where('name', 'mahasiswa')->first();
-
-            $user = User::where('email', $mahasiswa->nim)->first();
-            $user->email = $request->nim;
-            $user->name = $request->nama_mahasiswa;
-            if($request->password){
-                $user->password = bcrypt($request->password);
-            }
-            $user->update();
-
-            $mahasiswa->update($request->validated());
-            DB::commit();
-
-            Session::flash('success_msg', 'Berhasil Dibah');
-            return redirect()->back();
-
-        }catch(\Exception $e){
-
-            DB::rollback();
-
-            Session::flash('error_msg', 'Terjadi kesalahan pada server');
-            return redirect()->back()->withInput();
+        if($result['error_code'] !== '0') {
+            Session::flash('error_msg', $result['error_desc']);
+            return back()->withInput();
         }
+       
+        Session::flash('success_msg', 'Update Berhasil');
+        return redirect()->back();
     }
 }
