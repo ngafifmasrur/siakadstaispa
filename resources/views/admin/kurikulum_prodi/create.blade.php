@@ -37,7 +37,7 @@
             </div>
             <div class="form-group col-lg-2">
                 <label for="semester" class="font-weight-bold">Semester</label>
-                {!! Form::number('semester', null, ['class' => 'form-control '.($errors->has('semester') ? 'is-invalid' : ''), 'id' => 'semester']) !!}
+                {!! Form::number('semester', null, ['class' => 'form-control '.($errors->has('semester') ? 'is-invalid' : ''), 'id' => 'semester', 'min' => 1, 'max' => 8]) !!}
                 @error('semester')
                 <div class="invalid-feedback">
                     {{ $message }}
