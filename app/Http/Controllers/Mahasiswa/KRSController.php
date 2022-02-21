@@ -99,9 +99,9 @@ class KRSController extends Controller
             // Jadwal
             $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kuliah)->first();
 
-            $item['hari'] = $item->hari;
-            $item['jam_mulai'] = $item->jam_mulai;
-            $item['jam_akhir'] = $item->jam_akhir;
+            $item['hari'] = $jadwal->hari;
+            $item['jam_mulai'] = $jadwal->jam_mulai;
+            $item['jam_akhir'] = $jadwal->jam_akhir;
             $item['sks_mata_kuliah'] = $matkul->sks_mata_kuliah;
             $item['smt'] = $matkul_kurikulum->semester;
 

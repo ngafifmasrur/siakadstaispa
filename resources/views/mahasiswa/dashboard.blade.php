@@ -52,8 +52,8 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-4 col-md-12">
-                                        @if ($item->jam_mulai && $item->jam_akhir)
-                                            <small class="block">{{ $item->jam_mulai.' - '.$item->jam_akhir }}</small>
+                                        @if ($item->hari && $item->jam_mulai && $item->jam_akhir)
+                                            <small class="block">{{ $item->hari.', '.$item->jam_mulai.' - '.$item->jam_akhir }} WIB</small>
                                         @endif
                                         <strong  class="block">{{ $item->nama_mata_kuliah }}</strong>
                                     </div>
