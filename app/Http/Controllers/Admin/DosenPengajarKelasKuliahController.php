@@ -40,19 +40,24 @@ class DosenPengajarKelasKuliahController extends Controller
             'filter' => "id_prodi='$kelas_kuliah->id_prodi'"
         ])->pluck('nama_substansi', 'id_substansi')->prepend('Pilih Substansi', NULL);
 
+        $dosenPengajar = t_dosen_pengajar_kelas_kuliah::where('id_kelas_kuliah', $id_kelas_kuliah)->pluck('id_registrasi_dosen')->toArray();
         // Cari Dosen By Prodi kelas kuliah & Semester Aktif
         $dosen = t_penugasan_dosen::setFilter([
             'filter' => "id_tahun_ajaran='$tahun_ajaran'",
-        ])->pluck('nama_dosen', 'id_registrasi_dosen')->prepend('Pilih Dosen', NULL);
+        ])->whereNotIn('id_registrasi_dosen', $dosenPengajar)->pluck('nama_dosen', 'id_registrasi_dosen')->prepend('Pilih Dosen', NULL);
 
         return view('admin.pengajar_kelas_kuliah.index', compact('id_kelas_kuliah', 'jenis_evaluasi', 'dosen', 'kelas_kuliah', 'substansi_kuliah'));
     }
 
     public function data_index(Request $request, $id_kelas_kuliah)
     {
+        $kelas_kuliah = m_kelas_kuliah::setFilter([
+            'filter' => "id_kelas_kuliah='$id_kelas_kuliah'"
+        ])->first();
+
         $query = t_dosen_pengajar_kelas_kuliah::setFilter([
-            'filter' => "id_kelas_kuliah='$id_kelas_kuliah'",
-        ])->get();
+            'filter' => "id_semester='$kelas_kuliah->id_semester'",
+        ])->where('id_kelas_kuliah', $id_kelas_kuliah)->get();
 
         return datatables()->of($query)
             ->addIndexColumn()
@@ -161,9 +166,7 @@ class DosenPengajarKelasKuliahController extends Controller
     public function destroy(Request $request, $id_aktivitas_mengajar)
     {
        
-        $pengajar_kelas_kuliah = t_dosen_pengajar_kelas_kuliah::setFilter([
-            'filter' => "id_aktivitas_mengajar='$id_aktivitas_mengajar'"
-        ])->first();
+        $pengajar_kelas_kuliah = t_dosen_pengajar_kelas_kuliah::where('id_aktivitas_mengajar', $id_aktivitas_mengajar)->first();
         $check_nidn = t_penugasan_dosen::where('id_registrasi_dosen', $pengajar_kelas_kuliah->id_registrasi_dosen)->first();
 
         if(isset($check_nidn->nidn)){
@@ -181,7 +184,7 @@ class DosenPengajarKelasKuliahController extends Controller
 
         } else {
 
-            $pengajar_kelas_kuliah->delete();
+            t_dosen_belum_nidn_pengajar_kelas_kuliah::where('id_aktivitas_mengajar', $id_aktivitas_mengajar)->delete();
 
         }
 
