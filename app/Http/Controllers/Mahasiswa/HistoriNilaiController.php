@@ -10,7 +10,11 @@ use App\Models\{
     m_global_konfigurasi,
     m_semester,
     m_mahasiswa,
-    m_mata_kuliah
+    m_mata_kuliah,
+    t_matkul_kurikulum,
+    t_dosen_wali_mahasiswa,
+    m_dosen,
+    t_perkuliahan_mahasiswa
 };
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -25,28 +29,43 @@ class HistoriNilaiController extends Controller
      */
     public function index()
     {
-        $periode = m_semester::orderBy('nama_semester', 'desc')->pluck('nama_semester', 'id_semester');
-        return view('mahasiswa.histori_nilai.index', compact('periode'));
+        $semester = [];
+        for ($smt=1; $smt <= 8; $smt++) {
+            $semester[$smt] = 'Semester '.$smt;
+        }
+
+        return view('mahasiswa.histori_nilai.index', compact('semester'));
     }
 
     public function data_index(Request $request)
     {
+        $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
+
         $riwayat_pendidikan = t_riwayat_pendidikan_mahasiswa::setFilter([
             'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
         ])->first() ?? null;
 
+        $matkul_kurikulum = t_matkul_kurikulum::setFilter([
+            'filter' => "id_semester='$semester_aktif' AND id_prodi='$riwayat_pendidikan->id_prodi' AND semester='$request->semester'"
+        ])->pluck('id_matkul')->toArray();
+
+        $matkul_semester = t_matkul_kurikulum::setFilter([
+            'filter' => "id_semester='$semester_aktif' AND id_prodi='$riwayat_pendidikan->id_prodi' AND semester='$request->semester'"
+        ])->select('id_matkul', 'semester');
+
         if(isset($riwayat_pendidikan)) {
             $query = t_riwayat_nilai_mahasiswa::setFilter([
-                'filter' => "id_registrasi_mahasiswa='$riwayat_pendidikan->id_registrasi_mahasiswa' AND id_periode='$request->periode'"
-            ])->get();
+                'filter' => "id_registrasi_mahasiswa='$riwayat_pendidikan->id_registrasi_mahasiswa' AND id_periode='$semester_aktif'"
+            ])->whereIn('id_matkul', $matkul_kurikulum)->get();
 
-            $query->map(function ($item){
+            $query->map(function ($item) use ($matkul_semester) {
                 $matkul = m_mata_kuliah::setFilter([
                     'filter' => "id_matkul='$item->id_matkul'"
                 ])->first();
                 $item['kode_mata_kuliah'] = $matkul->kode_mata_kuliah;
                 $item['sks_mata_kuliah'] = $matkul->sks_mata_kuliah;
                 $item['total_nilai'] = $matkul->sks_mata_kuliah*$item->nilai_indeks;
+                $item['smt'] = $matkul_semester->where('id_matkul', $item->id_matkul)->first()->semester;
 
                 return $item;
             });
@@ -56,15 +75,6 @@ class HistoriNilaiController extends Controller
 
         return datatables()->of($query)
             ->addIndexColumn()
-           ->addColumn('kode_mk',function ($data) {
-                return $data->kode_mata_kuliah;
-            })
-            ->addColumn('sks_mata_kuliah',function ($data) {
-                return $data->sks_mata_kuliah;
-            })
-            ->addColumn('total_nilai',function ($data) {
-                return $data->total_nilai;
-            })
             ->setRowAttr([
                 'style' => 'text-align: center',
             ])
@@ -73,31 +83,32 @@ class HistoriNilaiController extends Controller
 
     public function cetak(Request $request)
     { 
-        $periode = $request->periode;
-        $user = Auth::user();
-        $mahasiswa = m_mahasiswa::setFilter([
-            'filter' => "id_mahasiswa='$user->id_mahasiswa'"
-        ])->first();
-
+        $semester_aktif = m_global_konfigurasi::first();
         $riwayat_pendidikan = t_riwayat_pendidikan_mahasiswa::setFilter([
-            'filter' => "id_mahasiswa='$user->id_mahasiswa'"
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
         ])->first() ?? null;
+    
+        $matkul_kurikulum = t_matkul_kurikulum::setFilter([
+            'filter' => "id_semester='$semester_aktif->id_semester_aktif' AND id_prodi='$riwayat_pendidikan->id_prodi' AND semester='$request->semester'"
+        ])->pluck('id_matkul')->toArray();
+
+        $matkul_semester = t_matkul_kurikulum::setFilter([
+            'filter' => "id_semester='$semester_aktif->id_semester_aktif' AND id_prodi='$riwayat_pendidikan->id_prodi' AND semester='$request->semester'"
+        ])->select('id_matkul', 'semester');
 
         if(isset($riwayat_pendidikan)) {
             $nilai = t_riwayat_nilai_mahasiswa::setFilter([
-                'filter' => "id_registrasi_mahasiswa='$riwayat_pendidikan->id_registrasi_mahasiswa' AND id_periode='$request->periode'"
-            ])->get();
-            $nama_semester = m_semester::setFilter([
-                'filter' => "id_semester='$request->periode'"
-            ])->first()->nama_semester;
+                'filter' => "id_registrasi_mahasiswa='$riwayat_pendidikan->id_registrasi_mahasiswa' AND id_periode='$semester_aktif->id_semester_aktif'"
+            ])->whereIn('id_matkul', $matkul_kurikulum)->get();
 
-            $nilai->map(function ($item) {
+            $nilai->map(function ($item) use ($matkul_semester) {
                 $matkul = m_mata_kuliah::setFilter([
                     'filter' => "id_matkul='$item->id_matkul'"
                 ])->first();
                 $item['kode_mata_kuliah'] = $matkul->kode_mata_kuliah;
                 $item['sks_mata_kuliah'] = $matkul->sks_mata_kuliah;
                 $item['total_nilai'] = $matkul->sks_mata_kuliah*$item->nilai_indeks;
+                $item['smt'] = $matkul_semester->where('id_matkul', $item->id_matkul)->first()->semester;
 
                 return $item;
             });
@@ -105,8 +116,22 @@ class HistoriNilaiController extends Controller
         } else {
             $nilai = null;
         }
+
+        $perkuliahan = t_perkuliahan_mahasiswa::setFilter([
+            'filter' => "id_registrasi_mahasiswa='$riwayat_pendidikan->id_registrasi_mahasiswa' AND id_semester='$semester_aktif->id_semester_aktif'"
+        ])->first();
+
+        // Dosen Pembimbing
+        $dosen_wali = t_dosen_wali_mahasiswa::where('id_registrasi_mahasiswa', $riwayat_pendidikan->id_registrasi_mahasiswa)->first();
+        if(isset($dosen_wali)) {
+            $dosen = m_dosen::setFilter([
+                'filter' => "id_dosen='$dosen_wali->id_dosen'"
+            ])->first()->nama_dosen;
+        } else {
+            $dosen = '-';
+        }
         
-        $pdf = PDF::loadView('mahasiswa.histori_nilai.cetak', compact('riwayat_pendidikan', 'mahasiswa', 'nilai', 'periode', 'nama_semester'))->setPaper('a4');
-        return $pdf->stream('Histori_-_Nilai-_-'.$mahasiswa->nama_mahasiswa.'.pdf');    
+        $pdf = PDF::loadView('mahasiswa.histori_nilai.cetak', compact('riwayat_pendidikan', 'nilai', 'semester_aktif', 'dosen', 'perkuliahan'))->setPaper('a4');
+        return $pdf->stream('Histori_-_Nilai-_-'.$riwayat_pendidikan->nama_mahasiswa.'.pdf');    
     }
 }

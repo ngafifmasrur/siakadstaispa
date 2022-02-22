@@ -67,7 +67,7 @@ class KRSController extends Controller
         $status_krs = t_krs_mahasiswa::where('id_registrasi_mahasiswa', $mahasiswa->id_registrasi_mahasiswa)->first();
         $status_krs_prodi = m_global_konfigurasi_prodi::where('id_prodi', $mahasiswa->id_prodi)->first()->buka_krs;
 
-        if(isset($status_krs) || $status_krs_prodi == false) {
+        if((isset($status_krs) && ($status_krs->status == 'Diajukan' || $status_krs->status == 'Diverifikasi')) || $status_krs_prodi == false) {
             $check_status_krs = 'disabled';
         } else {
             $check_status_krs = 'enabled';
@@ -99,9 +99,9 @@ class KRSController extends Controller
             // Jadwal
             $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kuliah)->first();
 
-            $item['hari'] = $item->hari;
-            $item['jam_mulai'] = $item->jam_mulai;
-            $item['jam_akhir'] = $item->jam_akhir;
+            $item['hari'] = $jadwal->hari;
+            $item['jam_mulai'] = $jadwal->jam_mulai;
+            $item['jam_akhir'] = $jadwal->jam_akhir;
             $item['sks_mata_kuliah'] = $matkul->sks_mata_kuliah;
             $item['smt'] = $matkul_kurikulum->semester;
 
@@ -169,7 +169,7 @@ class KRSController extends Controller
         $status_krs_prodi = m_global_konfigurasi_prodi::where('id_prodi', $mahasiswa->id_prodi)->first()->buka_krs;
 
         if(isset($status_krs)){
-            if($status_krs->status == 'Ditolak' || $status_krs->status == 'Diverifikasi') {
+            if($status_krs->status == 'Diverifikasi') {
                 Session::flash('error_msg', 'Sudah pernah mengajukan KRS, Tidak dapat mengubah KRS');
                 return redirect()->route('mahasiswa.krs.index')->withInput();
             }
@@ -360,7 +360,7 @@ class KRSController extends Controller
 
         try{
 
-            if(isset($status_krs)) {
+            if(isset($status_krs) && ($status_krs->status == 'Diajukan' || $status_krs->status == 'Diverifikasi')) {
                 Session::flash('error_msg', 'Sudah pernah mengajukan');
                 return redirect()->route('mahasiswa.krs.index')->withInput();
             }
@@ -370,10 +370,18 @@ class KRSController extends Controller
                 return redirect()->route('mahasiswa.krs.index')->withInput();
             }
 
-            t_krs_mahasiswa::create([
-                'id_registrasi_mahasiswa' => $mahasiswa->id_registrasi_mahasiswa,
-                'status' => 'Diajukan',
-            ]);
+            $check = t_krs_mahasiswa::where('id_registrasi_mahasiswa', $id_registrasi_mahasiswa)->first();
+            if(isset($check)) {
+                $check->update([
+                    'status' => 'Diajukan',
+                ]);
+            } else {
+                t_krs_mahasiswa::create([
+                    'id_registrasi_mahasiswa' => $mahasiswa->id_registrasi_mahasiswa,
+                    'status' => 'Diajukan',
+                ]);
+            }
+
             
             DB::commit();
 

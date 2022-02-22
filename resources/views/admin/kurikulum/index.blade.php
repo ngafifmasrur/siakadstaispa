@@ -14,7 +14,7 @@
         </div>
         <div class="form-group col-lg-3">
             <label for="semester">Semester</label>
-            {!! Form::select('semester', $semester, null, ['class' => 'form-control', 'id' => 'semester']) !!}
+            {!! Form::select('semester', $semester, $semester_id, ['class' => 'form-control', 'id' => 'semester']) !!}
         </div>
     </div>
 </x-card>
@@ -133,6 +133,7 @@
             $('[name=jumlah_sks_lulus]').val(jumlah_sks_lulus);
             $('[name=jumlah_sks_wajib]').val(jumlah_sks_wajib);
             $('[name=jumlah_sks_pilihan]').val(jumlah_sks_pilihan);
+            $('select').selectpicker('refresh');
 
         });
     </script>

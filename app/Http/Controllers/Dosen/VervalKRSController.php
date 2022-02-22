@@ -12,7 +12,8 @@ use App\Models\{
     m_mata_kuliah,
     m_jadwal,
     t_riwayat_pendidikan_mahasiswa,
-    m_kelas_kuliah
+    m_kelas_kuliah,
+    t_matkul_kurikulum
 };
 
 use Session, DB, Auth;
@@ -112,8 +113,11 @@ class VervalKRSController extends Controller
     {
         $krs_mahasiswa = t_krs_mahasiswa::findOrFail($id);
         $id_registrasi_mahasiswa = $krs_mahasiswa->id_registrasi_mahasiswa;
+        $mahasiswa = t_riwayat_pendidikan_mahasiswa::setFilter([
+            'filter' => "id_registrasi_mahasiswa='$id_registrasi_mahasiswa'"
+        ])->first();
 
-        return view('dosen.verval_krs.verifikasi', compact('id_registrasi_mahasiswa', 'krs_mahasiswa'));
+        return view('dosen.verval_krs.verifikasi', compact('id_registrasi_mahasiswa', 'krs_mahasiswa', 'mahasiswa'));
     }
 
     public function verifikasi_data_index($id_registrasi_mahasiswa)
@@ -137,6 +141,9 @@ class VervalKRSController extends Controller
             $matkul = m_mata_kuliah::setFilter([
                 'filter' => "id_matkul='$item->id_matkul'"
             ])->first();
+            $matkul_kurikulum = t_matkul_kurikulum::setFilter([
+                'filter' => "id_matkul='$item->id_matkul'"
+            ])->first();
             // Jadwal
             $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kuliah)->first();
 
@@ -144,6 +151,7 @@ class VervalKRSController extends Controller
             $item['jam_mulai'] = $item->jam_mulai;
             $item['jam_akhir'] = $item->jam_akhir;
             $item['sks_mata_kuliah'] = $matkul->sks_mata_kuliah;
+            $item['smt'] = $matkul_kurikulum->semester;
 
             return $item;
         });

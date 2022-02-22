@@ -18,10 +18,17 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-3 col-md-12 d-none d-lg-block">
+    <div class="col-lg-3 col-md-12">
         <div class="row">
             <div class="col-xl-12 col-lg-12">
-                <div class="card overflow-hidden">
+                <div class="card">
+                    <div class="card-status card-status-left bg-primary br-bl-7 br-tl-7"></div>
+                    <div class="card-body">
+                        <span class="font-weight-bold">Dosen Wali: {{ $dosen }}</span>
+                    </div>
+                </div>
+
+                <div class="card overflow-hidden d-none d-lg-block">
                     <div class="card-body pb-0">
                         <div id="cal" class="mb-2"></div>
                     </div>
@@ -45,8 +52,8 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-4 col-md-12">
-                                        @if ($item->jam_mulai && $item->jam_akhir)
-                                            <small class="block">{{ $item->jam_mulai.' - '.$item->jam_akhir }}</small>
+                                        @if ($item->hari && $item->jam_mulai && $item->jam_akhir)
+                                            <small class="block">{{ $item->hari.', '.$item->jam_mulai.' - '.$item->jam_akhir }} WIB</small>
                                         @endif
                                         <strong  class="block">{{ $item->nama_mata_kuliah }}</strong>
                                     </div>
@@ -73,10 +80,6 @@
     <div class="col-lg-3 col-md-12">
         <div class="row">
             <div class="col-xl-12 col-lg-12">
-                <x-card-info>
-                    <x-slot name="title">Dosen Wali: {{ $dosen }}</x-slot>
-
-                </x-card-info>
                 <div class="card">
                     <div class="card-header pb-0">
                         <h3 class="card-title">Informasi Terbaru</h3>

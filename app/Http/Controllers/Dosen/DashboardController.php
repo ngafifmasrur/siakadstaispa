@@ -27,10 +27,10 @@ class DashboardController extends Controller
         ])->whereIn('id_kelas_kuliah', $pengajaraKelasKuliah)->get();
         
         $kelasKuliah->map(function ($item){
-            $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kulaih)->first();
-            $item['hari'] = $item->hari;
-            $item['jam_mulai'] = $item->jam_mulai;
-            $item['jam_akhir'] = $item->jam_akhir;
+            $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kuliah)->first();
+            $item['hari'] = $jadwal->hari ?? null;
+            $item['jam_mulai'] = $jadwal->jam_mulai ?? null;
+            $item['jam_akhir'] = $jadwal->jam_akhir ?? null;
             return $item;
         });
 
