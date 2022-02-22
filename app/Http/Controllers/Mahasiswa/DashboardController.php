@@ -11,7 +11,8 @@ use App\Models\{
     m_jadwal,
     t_dosen_wali_mahasiswa,
     t_riwayat_pendidikan_mahasiswa,
-    m_dosen
+    m_dosen,
+    m_informasi
 };
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -50,6 +51,8 @@ class DashboardController extends Controller
             $dosen = 'Belum memiliki dosen wali';
         }
 
-        return view('mahasiswa.dashboard', compact('kelasKuliah', 'dosen'));
+        $informasi = m_informasi::where('status', 1)->get();
+
+        return view('mahasiswa.dashboard', compact('kelasKuliah', 'dosen', 'informasi'));
     }
 }

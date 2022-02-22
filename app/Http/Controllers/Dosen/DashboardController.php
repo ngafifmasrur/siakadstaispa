@@ -8,7 +8,8 @@ use App\Models\{
     m_global_konfigurasi,
     m_kelas_kuliah,
     t_dosen_pengajar_kelas_kuliah,
-    m_jadwal
+    m_jadwal,
+    m_informasi
 };
 use Carbon\Carbon, Auth;
 
@@ -36,6 +37,8 @@ class DashboardController extends Controller
             return $item;
         });
 
-        return view('dosen.dashboard', compact('kelasKuliah'));
+        $informasi = m_informasi::where('status', 1)->get();
+
+        return view('dosen.dashboard', compact('kelasKuliah', 'informasi'));
     }
 }
