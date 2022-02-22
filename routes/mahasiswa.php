@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\MainController;
 use App\Http\Controllers\Mahasiswa\{
     DashboardController,
     BiodataController,
@@ -69,5 +69,8 @@ Route::group(
         Route::resource('transkrip', TranskripController::class);
         Route::post('transkrip/cetak', [TranskripController::class, 'cetak'])->name('transkrip.cetak');
 
+        // Pengaturan
+        Route::get('/pengaturan_akun', [MainController::class, 'pengaturan_akun'])->name('pengaturan_akun');
+        Route::post('/pengaturan_akun', [MainController::class, 'ganti_password'])->name('ganti_password');
     }
 );

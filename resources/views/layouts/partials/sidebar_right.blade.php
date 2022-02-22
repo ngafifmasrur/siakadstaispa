@@ -19,7 +19,7 @@
                         <div class="dropdown-item text-center font-weight-semibold user h3 mb-0">{{ Auth::user()->name }}</div>
                         <small>{{ Auth::user()->role->name }}</small>
                     </div>
-                    <a class="dropdown-item  border-top" href="#">
+                    <a class="dropdown-item  border-top" href="{{ route(Auth::user()->role->name.'.'.'pengaturan_akun')}}">
                         <i class="dropdown-icon mdi mdi-account-outline "></i> Pengaturan Akun
                     </a>
                     <div class="card-body border-top">
