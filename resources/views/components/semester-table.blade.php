@@ -11,7 +11,7 @@
             <div class="card-title">{{ isset($title) ? $title : 'Data' }}</div>
         </div>
         <div class="card-body">
-            <div class="table-responsive">
+            <div class="table-responsive" style="font-size: 12px;">
                 <table id="{{ isset($id) ? $id : 'dataTables' }}" class="table table-striped table-bordered text-nowrap w-100">
                     <thead>
                         <tr>
