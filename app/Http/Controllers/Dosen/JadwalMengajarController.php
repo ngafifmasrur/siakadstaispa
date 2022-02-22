@@ -32,9 +32,9 @@ class JadwalMengajarController extends Controller
     {
         $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
         $kelasKuliah = t_dosen_pengajar_kelas_kuliah::setFilter([
-                            'filter' => "id_dosen='".Auth::user()->id_dosen."'",
+                            'filter' => "id_semester='$semester_aktif'"
                         ])
-                        ->where('id_semester', $semester_aktif)
+                        ->where('id_dosen', Auth::user()->id_dosen)
                         ->pluck('id_kelas_kuliah')->toArray();
 
         $query = m_kelas_kuliah::setFilter([

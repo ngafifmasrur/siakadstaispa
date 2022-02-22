@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\MainController;
 use App\Http\Controllers\Dosen\{
     BiodataController as BiodataDosenController,
     KRSController as VerifikasiKRSController,
@@ -159,5 +159,8 @@ Route::group(
         Route::get('/verval_krs/verifikasi_data_index/{id_registrasi_mahasiswa}', [VervalKRSController::class, 'verifikasi_data_index'])->name('verval_krs.verifikasi_data_index');
         Route::post('/verval_krs/{id}/update_status', [VervalKRSController::class, 'update_status'])->name('verval_krs.update_status');
 
+        // Pengaturan
+        Route::get('/pengaturan_akun', [MainController::class, 'pengaturan_akun'])->name('pengaturan_akun');
+        Route::post('/pengaturan_akun', [MainController::class, 'ganti_password'])->name('ganti_password');
     }
 );

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\MainController;
 use App\Http\Controllers\Admin\{
     AktivitasController,
     AnggotaAktivitasController,
@@ -314,5 +314,8 @@ Route::group(
         Route::post('/dosen_wali/copot_pilihan', [DosenWaliController::class, 'copot_pilihan'])->name('dosen_wali.copot_pilihan');
         Route::resource('/dosen_wali', DosenWaliController::class);
 
+        // Pengaturan
+        Route::get('/pengaturan_akun', [MainController::class, 'pengaturan_akun'])->name('pengaturan_akun');
+        Route::post('/pengaturan_akun', [MainController::class, 'ganti_password'])->name('ganti_password');
     }
 );
