@@ -36,7 +36,8 @@ use App\Http\Controllers\Admin\{
     DosenBelumNIDNController,
     BeritaController,
     DosenPembimbingController,
-    DosenWaliController
+    DosenWaliController,
+    InformasiController
 };
 
 /*
@@ -317,5 +318,9 @@ Route::group(
         // Pengaturan
         Route::get('/pengaturan_akun', [MainController::class, 'pengaturan_akun'])->name('pengaturan_akun');
         Route::post('/pengaturan_akun', [MainController::class, 'ganti_password'])->name('ganti_password');
+
+        // Informasi
+        Route::get('/informasi/data_index', [InformasiController::class,'data_index'])->name('informasi.data_index');
+        Route::resource('/informasi', InformasiController::class)->except(['show']);
     }
 );

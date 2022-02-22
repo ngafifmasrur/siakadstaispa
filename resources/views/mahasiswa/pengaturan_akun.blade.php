@@ -10,7 +10,7 @@
     <x-slot name="title">Pengaturan Akun</x-slot>
     
 
-    <form action="{{ route('admin.ganti_password')}}" method="post" id="form_setting">
+    <form action="{{ route('mahasiswa.ganti_password')}}" method="post" id="form_setting">
         @csrf
             <div class="tabs-menu1 ">
                 <ul class="nav panel-tabs" id="cardTab" role="tablist">

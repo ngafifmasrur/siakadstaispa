@@ -234,7 +234,7 @@ class KRSController extends Controller
             $item['hari'] = $jadwal->hari ?? null;
             $item['jam_mulai'] = $jadwal->jam_mulai ?? null;
             $item['jam_akhir'] = $jadwal->jam_akhir ?? null;
-            $item['smt'] = $matkul->where('id_matkul', $item->id_matkul)->first()->semester;
+            $item['smt'] = $matkul->where('id_matkul', $item->id_matkul)->first()->semester ?? '-';
             return $item;
         });
 

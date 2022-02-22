@@ -57,17 +57,17 @@
                                         @endif
                                         <strong  class="block">{{ $item->nama_mata_kuliah }}</strong>
                                     </div>
-                                    <div class="col-lg-5 col-md-12">
+                                    <div class="col-lg-6 col-md-12">
                                         <span class="block mb-1"><i class="fa fa-calendar mr-1"></i> {{ $item->nama_semester }}</span>
                                         <span class="block mb-1"><i class="fa fa-bank mr-1"></i>Kelas {{ $item->nama_kelas_kuliah }}</span>
                                         <span class="block mb-1"><i class="fa fa-book mr-1"></i> {{ $item->nama_program_studi }}</span>
 
                                     </div>
-                                    <div class="col-lg-3 col-md-12">
+                                    {{-- <div class="col-lg-3 col-md-12">
                                         <button type="button" class="btn btn-sm btn-primary">
                                             Perkuliahan
                                         </button>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -86,54 +86,28 @@
                     </div>
                     <div class="card-body p-0 ">
                         <div class="list-group list-lg-group list-group-flush">
+                            @forelse ($informasi as $item)
                             <a class="list-group-item list-group-item-action" href="#">
                                 <div class="media mt-0">
-                                    <img class="avatar-lg rounded-circle mr-3" src="{{ asset('landing_page/images/imp_logo.png') }}" alt="Image description">
+                                    {{-- <img class="avatar-lg rounded-circle mr-3" src="{{ asset('landing_page/images/imp_logo.png') }}" alt="Image description"> --}}
                                     <div class="media-body">
                                         <div class="d-md-flex align-items-center">
                                             <h4 class="mb-1">
-                                                Lorem isum dolor sit amet
+                                                {{ $item->judul }}
                                             </h4>
                                         </div>
     
-                                        <p class="mb-0">Itaque earum rerum hic tenetur a sapiente reiciendis voluptatibus.</p>
-                                        <small class="text-primary ml-md-auto"><i class="fe fe-calendar mr-1"></i> 26 Feb 2019</small>
+                                        <p class="mb-0"><?= substr($item->informasi,0,200); ?></p>
+                                        <small class="text-primary ml-md-auto"><i class="fe fe-calendar mr-1"></i> {{ date_format($item->created_at,'d M Y') }}</small>
 
                                     </div>
                                 </div>
                             </a>
-                            <a class="list-group-item list-group-item-action" href="#">
-                                <div class="media mt-0">
-                                    <img class="avatar-lg rounded-circle mr-3" src="{{ asset('landing_page/images/imp_logo.png') }}" alt="Image description">
-                                    <div class="media-body">
-                                        <div class="d-md-flex align-items-center">
-                                            <h4 class="mb-1">
-                                                Lorem isum dolor sit amet
-                                            </h4>
-                                        </div>
-    
-                                        <p class="mb-0">Itaque earum rerum hic tenetur a sapiente reiciendis voluptatibus.</p>
-                                        <small class="text-primary ml-md-auto"><i class="fe fe-calendar mr-1"></i> 26 Feb 2019</small>
-
-                                    </div>
-                                </div>
-                            </a>
-                            <a class="list-group-item list-group-item-action" href="#">
-                                <div class="media mt-0">
-                                    <img class="avatar-lg rounded-circle mr-3" src="{{ asset('landing_page/images/imp_logo.png') }}" alt="Image description">
-                                    <div class="media-body">
-                                        <div class="d-md-flex align-items-center">
-                                            <h4 class="mb-1">
-                                                Lorem isum dolor sit amet
-                                            </h4>br
-                                        </div>
-                                        <p class="mb-0">Itaque earum rerum hic tenetur a sapiente reiciendis voluptatibus.</p>
-                                        <small class="text-primary ml-md-auto"><i class="fe fe-calendar mr-1"></i> 26 Feb 2019</small>
-                                    </div>
-                                </div>
-                            </a>
+                            @empty
+                                Tidak ada informasi
+                            @endforelse
                             <hr class="mt-auto mb-auto">
-                            <a href="#" class="text-primary p-2">Lihat Selengkapnya</a>
+                            {{-- <a href="#" class="text-primary p-2">Lihat Selengkapnya</a> --}}
                         </div>
                     </div>
                 </div>
