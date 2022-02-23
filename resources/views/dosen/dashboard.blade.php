@@ -96,7 +96,7 @@
                                 </div>
                             </a>
                             @empty
-                                Tidak ada informasi
+                                <span class="text-center my-4 text-sm">Tidak ada informasi</span>
                             @endforelse
                             <hr class="mt-auto mb-auto">
                             {{-- <a href="#" class="text-primary p-2">Lihat Selengkapnya</a> --}}
