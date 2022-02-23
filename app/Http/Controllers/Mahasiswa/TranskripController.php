@@ -82,19 +82,18 @@ class TranskripController extends Controller
             'filter' => "id_registrasi_mahasiswa='$riwayat_pendidikan->id_registrasi_mahasiswa'"
         ])->get();
 
+        $total_semester = t_transkrip_mahasiswa::setFilter([
+            'filter' => "id_registrasi_mahasiswa='$riwayat_pendidikan->id_registrasi_mahasiswa'"
+        ])->distinct('smt_diambil')->count();
+
         $transkrip->map(function ($item){
-            $matkul = m_mata_kuliah::setFilter([
-                'filter' => "id_matkul='$item->id_matkul'"
-            ])->first();
-            $item['kode_mata_kuliah'] = $matkul->kode_mata_kuliah;
-            $item['sks_mata_kuliah'] = $matkul->sks_mata_kuliah;
-            $item['total_nilai'] = $matkul->sks_mata_kuliah*$item->nilai_indeks;
+            $item['total_nilai'] = $item->sks_mata_kuliah*$item->nilai_indeks;
 
             return $item;
         });
 
         
-        $pdf = PDF::loadView('mahasiswa.transkrip.cetak', compact('riwayat_pendidikan', 'transkrip', 'nama_semester_aktif', 'mahasiswa_lulus'))->setPaper('a4');
+        $pdf = PDF::loadView('mahasiswa.transkrip.cetak', compact('total_semester', 'riwayat_pendidikan', 'transkrip', 'nama_semester_aktif', 'mahasiswa_lulus'))->setPaper('a4');
         return $pdf->stream('Transkrip-_-'.$riwayat_pendidikan->nama_mahasiswa.'.pdf');    
     }
 }
