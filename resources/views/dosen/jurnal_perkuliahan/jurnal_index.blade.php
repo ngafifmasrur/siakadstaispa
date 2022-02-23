@@ -50,6 +50,7 @@
         ['title' => 'Program Studi', 'data' => 'nama_program_studi', 'name' => 'nama_program_studi', 'classname' => 'text-left'],
         ['title' => 'Tgl Pelaksanaan', 'data' => 'tanggal_pelaksanaan', 'name' => 'tanggal_pelaksanaan', 'classname' => 'text-left'],
         ['title' => 'Topik', 'data' => 'topik', 'name' => 'topik', 'classname' => 'text-left'],
+        ['title' => 'Absen MHS', 'data' => 'absen_mahasiswa', 'name' => 'absen_mahasiswa'],
         ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
     ]"
     />

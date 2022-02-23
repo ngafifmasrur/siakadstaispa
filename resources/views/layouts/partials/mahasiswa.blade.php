@@ -3,7 +3,7 @@
         <li aria-haspopup="true"><a href="{{ route('mahasiswa.dashboard') }}" class=""><i class="typcn typcn-device-desktop hor-icon"></i> Dashboard</a></li>
         <li aria-haspopup="true"><a href="{{ route('mahasiswa.biodata.index') }}" class=""><i class="fa fa-user"></i> Profile</a></li>
 
-        <li aria-haspopup="true"><a href="#" class="sub-icon {{ set_active(['mahasiswa/dosen_wali*''mahasiswa/aktivitas_perkuliahan*', 'mahasiswa/transkrip*', 'mahasiswa/histori_pendidikan*', 'mahasiswa/krs*', 'mahasiswa/histori_nilai*', 'mahasiswa/prestasi_mahasiswa*']) }}"><i class="fa fa-university"></i> Perkuliahan <i class="fa fa-angle-down horizontal-icon"></i></a>
+        <li aria-haspopup="true"><a href="#" class="sub-icon {{ set_active(['mahasiswa/dosen_wali*', 'mahasiswa/aktivitas_perkuliahan*', 'mahasiswa/transkrip*', 'mahasiswa/histori_pendidikan*', 'mahasiswa/krs*', 'mahasiswa/histori_nilai*', 'mahasiswa/prestasi_mahasiswa*']) }}"><i class="fa fa-university"></i> Perkuliahan <i class="fa fa-angle-down horizontal-icon"></i></a>
             <ul class="sub-menu">
                 <li aria-haspopup="true"><a href="{{ route('mahasiswa.dosen_wali.index' )}}">Perwalian</a></li>
                 <li aria-haspopup="true"><a href="{{ route('mahasiswa.aktivitas_perkuliahan.index' )}}">Aktivitas Perkuliahan</a></li>
