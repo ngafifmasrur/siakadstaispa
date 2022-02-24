@@ -30,7 +30,7 @@ class AktivitasPerkuliahanController extends Controller
         $semester = m_global_konfigurasi::first()->value('id_semester_aktif');
 
         $query = m_aktivitas_kuliah_mahasiswa::setFilter([
-            'filter' => "id_mahasiswa='$user->id_mahasiswa' AND id_semester='$semester'"
+            'filter' => "id_mahasiswa='$user->id_mahasiswa'"
         ])->get();
 
         return datatables()->of($query)

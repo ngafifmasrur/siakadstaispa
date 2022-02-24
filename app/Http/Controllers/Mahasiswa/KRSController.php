@@ -97,9 +97,11 @@ class KRSController extends Controller
         $query->map(function ($item) use ($dosen, $matkul_kurikulum) {
             // Jadwal
             $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kuliah)->first();
-            $item['hari'] = $jadwal->hari;
-            $item['jam_mulai'] = $jadwal->jam_mulai;
-            $item['jam_akhir'] = $jadwal->jam_akhir;
+            if(isset($jadwal)){
+                $item['hari'] = $jadwal->hari;
+                $item['jam_mulai'] = $jadwal->jam_mulai;
+                $item['jam_akhir'] = $jadwal->jam_akhir;
+            }
             $item['smt'] = $matkul_kurikulum->where('id_matkul', $item->id_matkul)->first()->semester ?? '-';
             $item['nama_dosen'] = $dosen->where('id_kelas_kuliah', $item->id_kelas_kuliah)->map(function($q) {
                 return ('- '.$q->nama_dosen);
