@@ -41,13 +41,15 @@
             </ul>
         </li>
 
-        <li aria-haspopup="true"><a href="#" class="sub-icon {{ set_active(['admin/informasi*','admin/semester*', 'admin/manajemen_user*','admin/tahun_ajaran*', 'admin/konfigurasi*']) }}"><i class="fa fa-gear"></i> Pengaturan <i class="fa fa-angle-down horizontal-icon"></i></a>
+        <li aria-haspopup="true"><a href="#" class="sub-icon {{ set_active(['admin/page*','admin/konfigurasi_menu*','admin/informasi*','admin/semester*', 'admin/manajemen_user*','admin/tahun_ajaran*', 'admin/konfigurasi*']) }}"><i class="fa fa-gear"></i> Pengaturan <i class="fa fa-angle-down horizontal-icon"></i></a>
             <ul class="sub-menu">
                 <li aria-haspopup="true"><a href="{{ route('admin.tahun_ajaran.index') }}">Tahun Ajaran</a></li>
                 <li aria-haspopup="true"><a href="{{ route('admin.semester.index') }}">Semester</a></li>
                 <li aria-haspopup="true"><a href="{{ route('admin.konfigurasi.index') }}">Konfigurasi Feeder</a></li>
                 <li aria-haspopup="true"><a href="{{ route('admin.konfigurasi_global.index') }}">Konfigurasi Global</a></li>
+                <li aria-haspopup="true"><a href="{{ route('admin.konfigurasi_menu.index') }}">Konfigurasi Menu</a></li>
                 <li aria-haspopup="true"><a href="{{ route('admin.berita.index') }}">Berita</a></li>
+                <li aria-haspopup="true"><a href="{{ route('admin.page.index') }}">Pages</a></li>
                 <li aria-haspopup="true"><a href="{{ route('admin.informasi.index') }}">Informasi</a></li>
                 <li aria-haspopup="true"><a href="#" class="sub-icon {{ set_active([
                     'admin/manajemen_user/mahasiswa',
