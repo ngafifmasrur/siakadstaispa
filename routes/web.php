@@ -39,6 +39,10 @@ Route::get('/kontak', [LandingPageController::class, 'kontak'])->name(
     'landing_page.kontak'
 );
 
+Route::get('/p/{slug}', [LandingPageController::class, 'page'])->name(
+    'landing_page.page'
+);
+
 Route::post('/mata_kuliah_list', [
     MainController::class,
     'mata_kuliah_list',
