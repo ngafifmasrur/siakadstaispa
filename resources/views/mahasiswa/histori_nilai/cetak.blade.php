@@ -81,7 +81,7 @@
             <tr>
                 <td>Semester - Tahun Akademik</td>
                 <td align="right">  :</td>
-                <td>{{ $semester_aktif->nama_semester_aktif }}</td>
+                <td>{{ $semester.' - '.$semester_aktif->nama_semester_aktif }}</td>
             </tr>
         </table>
     </div>
@@ -143,9 +143,9 @@
         <td>{{ $perkuliahan->ipk ?? '-'}}</td>
         </tr>
         <tr>
-            <td>SKS semester</td>
+            <td>Maksimal SKS semester selanjutnya</td>
             <td align="right">  :</td>
-            <td>{{ $perkuliahan->sks_semester ?? '-' }}</td>
+            <td>{{ $maksimal_sks ?? '-' }}</td>
         </tr>
     </table>
 
