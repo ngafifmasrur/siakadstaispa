@@ -37,7 +37,9 @@ use App\Http\Controllers\Admin\{
     BeritaController,
     DosenPembimbingController,
     DosenWaliController,
-    InformasiController
+    InformasiController,
+    PagesController,
+    KonfigurasiMenuController
 };
 
 /*
@@ -322,5 +324,13 @@ Route::group(
         // Informasi
         Route::get('/informasi/data_index', [InformasiController::class,'data_index'])->name('informasi.data_index');
         Route::resource('/informasi', InformasiController::class)->except(['show']);
+
+        // Pages
+        Route::get('/page/data_index', [PagesController::class,'data_index'])->name('page.data_index');
+        Route::resource('/page', PagesController::class)->except(['show']);
+
+        // Konfigurasi Menu
+        Route::post('/konfigurasi_menu/updateOrder', [KonfigurasiMenuController::class,'updateOrder'])->name('konfigurasi_menu.updateOrder');
+        Route::resource('/konfigurasi_menu', KonfigurasiMenuController::class)->except(['show']);
     }
 );

@@ -17,7 +17,7 @@
 
         </tbody>
         <tfoot align="right">
-            <th colspan="6" class="font-weight-bold text-center"></th>
+            <th colspan="7" class="font-weight-bold text-center"></th>
             <th class="font-weight-bold text-center"></th>
             <th class="font-weight-bold text-center"></th>
         </tfoot>
@@ -93,7 +93,7 @@
  
             // computing column Total of the complete result 
             var total_sks = api
-                .column( 6 )
+                .column( 7 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
@@ -102,8 +102,8 @@
                     
                 // Update footer by showing the total with the reference of the column index 
                 $( api.column( 1 ).footer() ).html('Total');
-                $( api.column( 6 ).footer() ).html(total_sks);
-                $( api.column( 7 ).footer() ).html('-');
+                $( api.column( 7 ).footer() ).html(total_sks);
+                $( api.column( 8 ).footer() ).html('-');
             },
 
             responsive: false,

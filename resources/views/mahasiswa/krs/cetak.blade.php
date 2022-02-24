@@ -4,6 +4,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>KARTU RENCANA STUDI ( KRS )</title>
+    <style>
+        footer {
+            font-size: 12px;
+        }
+
+        footer .left {
+            position: fixed;
+            bottom: 0px;
+            left: 0px; 
+        }
+
+        footer .right {
+            position: fixed;
+            bottom: 0px;
+            right: 0px;
+        }
+        .titimangsa {
+            position: fixed;
+            right: 0px;
+            margin-top: 30px;
+        }
+        
+    </style>
 </head>
 <body>
     <header>
@@ -14,7 +37,7 @@
         <div style="text-align:center;">
             <h3 style="align-items:center;"> SEKOLAH TINGGI AGAMA ISLAM SUNAN PANDANARAN (STAISPA) </h3>
             <span style="font-size:13px;align-items:center;"> Kl. Kaliurang Km. 12,5 Candi, Sardonoharjo, Ngaglik, Sleman, Yogyakarta, 55581 </span><br>
-            <span style="font-size:13px;align-items:center;"> Website: www.staispa.ac.id., Email: staispayogyakarta@gmail.com, Telp. (0274) 4543912 / 4543913 </span>
+            <span style="font-size:13px;align-items:center;"> Website: www.staisunanpandanaran.ac.id, Email: staispayogyakarta@gmail.com, Telp. (0274) 4543912 / 4543913 </span>
         </div>
     </header>
     <hr style="margin-top:20px;">
@@ -42,7 +65,7 @@
         </table>
     </div>
 
-    <table border="1" cellpadding="6" cellspacing="0" width="100%" style="margin-top:10;font-size:13px">
+    <table border="1" cellpadding="6" cellspacing="0" width="100%" style="margin-top:10px;margin-top:20px;font-size:13px">
         <thead>
             <tr>
                 <th align="center" width="5%">No</th>
@@ -75,5 +98,25 @@
         </tfoot>
     </table>
 
+    <div style="clear: both;"></div>
+    <div class="titimangsa">
+        <span>Yogyakarta, {{ Carbon\Carbon::now()->isoFormat('D MMMM YYYY')}}</span> <br>
+        <span>Dosen Pembimbing Akademik</span>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <span style="font-weight: bold;">{{ $dosen }}</span>
+    </div>
+
+    <footer>
+        <div class="left">
+            Dokumen ini dicetak pada  {{ Carbon\Carbon::now()->isoFormat('D MMMM YYYY')}} pukul {{ Carbon\Carbon::now()->isoFormat('h:mm')}} WIB
+        </div>
+        <div class="right">
+            <i>STAI Sunan Pandanaran</i>
+        </div>
+    </footer>
 </body>
 </html>

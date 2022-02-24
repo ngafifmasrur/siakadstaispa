@@ -10,7 +10,9 @@ use App\Http\Controllers\Mahasiswa\{
     AktivitasPerkuliahanController,
     HistoriPendidikanController,
     HistoriNilaiController,
-    TranskripController
+    TranskripController,
+    DosenWaliController,
+    AbsenController
 };
 
 /*
@@ -72,5 +74,13 @@ Route::group(
         // Pengaturan
         Route::get('/pengaturan_akun', [MainController::class, 'pengaturan_akun'])->name('pengaturan_akun');
         Route::post('/pengaturan_akun', [MainController::class, 'ganti_password'])->name('ganti_password');
+
+        // Dosen Wali
+        Route::get('/dosen_wali', [DosenWaliController::class, 'index'])->name('dosen_wali.index');
+        Route::post('/dosen_wali', [DosenWaliController::class, 'store'])->name('dosen_wali.store');
+
+        // Absensi Mahasiswa
+        Route::get('/absen/{id_jurnal_kuliah}', [AbsenController::class, 'index'])->name('absen.index');
+        Route::post('/absen', [AbsenController::class, 'store'])->name('absen.store');
     }
 );

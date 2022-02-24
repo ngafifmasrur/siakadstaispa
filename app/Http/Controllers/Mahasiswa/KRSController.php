@@ -18,12 +18,15 @@ use App\Models\{
     t_krs_mahasiswa,
     t_dosen_wali_mahasiswa,
     m_global_konfigurasi_prodi,
-    t_matkul_kurikulum
+    t_matkul_kurikulum,
+    t_dosen_pengajar_kelas_kuliah,
+    m_dosen
 };
 use Session, DB, Auth, PDF;
 
 class KRSController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
@@ -60,6 +63,7 @@ class KRSController extends Controller
     {
 
         // Check Pengajuan KRS 
+        $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
         $mahasiswa = t_riwayat_pendidikan_mahasiswa::setFilter([
             'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
         ])->first();
@@ -72,50 +76,38 @@ class KRSController extends Controller
         } else {
             $check_status_krs = 'enabled';
         }
-
         // END Check Pengajuan KRS 
-
-        $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
-        $id_registrasi_mahasiswa = t_riwayat_pendidikan_mahasiswa::setFilter([
-            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
-        ])->first()->id_registrasi_mahasiswa;
 
         $kelasKuliah = t_peserta_kelas_kuliah::setFilter([
             'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
         ])->pluck('id_kelas_kuliah')->toArray();
         
+        $dosen = t_dosen_pengajar_kelas_kuliah::setFilter([
+            'filter' => "id_semester='$semester_aktif'"
+        ])->get();
+
+        $matkul_kurikulum = t_matkul_kurikulum::setFilter([
+            'filter' => "id_semester='$semester_aktif' AND id_prodi='$mahasiswa->id_prodi'"
+        ])->select('id_matkul', 'semester')->get();
+
         $query = m_kelas_kuliah::setFilter([
             'filter' => "id_semester='$semester_aktif'"
         ])->whereIn('id_kelas_kuliah', $kelasKuliah)->get();
 
-        $query->map(function ($item) use ($id_registrasi_mahasiswa){
-            // Mata Kuliah
-            $matkul = m_mata_kuliah::setFilter([
-                'filter' => "id_matkul='$item->id_matkul'"
-            ])->first();
-            $matkul_kurikulum = t_matkul_kurikulum::setFilter([
-                'filter' => "id_matkul='$item->id_matkul'"
-            ])->first();
+        $query->map(function ($item) use ($dosen, $matkul_kurikulum) {
             // Jadwal
             $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kuliah)->first();
-
             $item['hari'] = $jadwal->hari;
             $item['jam_mulai'] = $jadwal->jam_mulai;
             $item['jam_akhir'] = $jadwal->jam_akhir;
-            $item['sks_mata_kuliah'] = $matkul->sks_mata_kuliah;
-            $item['smt'] = $matkul_kurikulum->semester;
-
-            return $item;
+            $item['smt'] = $matkul_kurikulum->where('id_matkul', $item->id_matkul)->first()->semester ?? '-';
+            $item['nama_dosen'] = $dosen->where('id_kelas_kuliah', $item->id_kelas_kuliah)->map(function($q) {
+                return ('- '.$q->nama_dosen);
+            })->implode('<br>');
         });
 
         return datatables()->of($query)
             ->addIndexColumn()
-            ->addColumn('sks_mata_kuliah',function ($data) {
-                return $data->sks_mata_kuliah;
-            })
-            ->addColumn('nama_dosen', function ($data) {
-                return '-';
-            })
             ->addColumn('jadwal',function ($data) {
                 if($data->hari && $data->jam_mulai && $data->jam_akhir) {
                     return $data->hari.', '.$data->jam_mulai.'-'.$data->jam_akhir;
@@ -123,7 +115,7 @@ class KRSController extends Controller
 
                 return '-';
             })
-            ->addColumn('action',function ($data) use ($id_registrasi_mahasiswa, $check_status_krs) {
+            ->addColumn('action',function ($data) use ($mahasiswa, $check_status_krs) {
            
                 $button = '<div class="btn-group" role="group" aria-label="Basic example">';
     
@@ -137,7 +129,7 @@ class KRSController extends Controller
                         ''.$check_status_krs == 'disabled' ? 'disabled' : 'enabled'.'' => $check_status_krs,
 
                     ],
-                    "route" => route('mahasiswa.krs.destroy', [$data->id_kelas_kuliah, $id_registrasi_mahasiswa]),
+                    "route" => route('mahasiswa.krs.destroy', [$data->id_kelas_kuliah, $mahasiswa->id_registrasi_mahasiswa]),
                 ]);
     
                 $button .= '</div>';
@@ -217,7 +209,7 @@ class KRSController extends Controller
 
         $matkul = t_matkul_kurikulum::setFilter([
             'filter' => "id_semester='$semester_aktif' AND id_prodi='$riwayat_pendidikan->id_prodi' AND semester='$request->semester'"
-        ])->select('id_matkul', 'semester');
+        ])->select('id_matkul', 'semester')->get();
 
         $query = m_kelas_kuliah::setFilter([
             'filter' => "id_semester='$semester_aktif'"
@@ -246,11 +238,6 @@ class KRSController extends Controller
                 } else {
                     return '<input type="checkbox"' .' name="kelas_kuliah[]" value="'. $data->id_kelas_kuliah .'">';
                 }
-            })
-            ->addColumn('nama_dosen',function ($data) {
-                return $data->dosen->map(function($q) {
-                    return ('- '.$q->nama_dosen);
-                })->implode('<br>');
             })
             ->addColumn('jadwal',function ($data) {
                 if($data->hari && $data->jam_mulai && $data->jam_akhir) {
@@ -341,8 +328,18 @@ class KRSController extends Controller
             $item['sks_mata_kuliah'] = $matkul->sks_mata_kuliah;
             return $item;
         });
+
+        // Dosen Pembimbing
+        $dosen_wali = t_dosen_wali_mahasiswa::where('id_registrasi_mahasiswa', $riwayat_pendidikan->id_registrasi_mahasiswa)->first();
+        if(isset($dosen_wali)) {
+            $dosen = m_dosen::setFilter([
+                'filter' => "id_dosen='$dosen_wali->id_dosen'"
+            ])->first()->nama_dosen;
+        } else {
+            $dosen = '-';
+        }
         
-        $pdf = PDF::loadView('mahasiswa.krs.cetak', compact('riwayat_pendidikan', 'krs', 'nama_semester_aktif'))->setPaper('a4', 'landscape');
+        $pdf = PDF::loadView('mahasiswa.krs.cetak', compact('riwayat_pendidikan', 'krs', 'nama_semester_aktif', 'dosen'))->setPaper('a4', 'landscape');
         return $pdf->stream('KRS_Online-_-'.$riwayat_pendidikan->nama_mahasiswa.'.pdf');    
     }
 

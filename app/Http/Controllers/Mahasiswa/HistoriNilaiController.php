@@ -51,7 +51,7 @@ class HistoriNilaiController extends Controller
 
         $matkul_semester = t_matkul_kurikulum::setFilter([
             'filter' => "id_semester='$semester_aktif' AND id_prodi='$riwayat_pendidikan->id_prodi' AND semester='$request->semester'"
-        ])->select('id_matkul', 'semester');
+        ])->select('id_matkul', 'semester')->get();
 
         if(isset($riwayat_pendidikan)) {
             $query = t_riwayat_nilai_mahasiswa::setFilter([
@@ -83,6 +83,7 @@ class HistoriNilaiController extends Controller
 
     public function cetak(Request $request)
     { 
+        $semester = $request->semester;
         $semester_aktif = m_global_konfigurasi::first();
         $riwayat_pendidikan = t_riwayat_pendidikan_mahasiswa::setFilter([
             'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
@@ -94,7 +95,7 @@ class HistoriNilaiController extends Controller
 
         $matkul_semester = t_matkul_kurikulum::setFilter([
             'filter' => "id_semester='$semester_aktif->id_semester_aktif' AND id_prodi='$riwayat_pendidikan->id_prodi' AND semester='$request->semester'"
-        ])->select('id_matkul', 'semester');
+        ])->select('id_matkul', 'semester')->get();
 
         if(isset($riwayat_pendidikan)) {
             $nilai = t_riwayat_nilai_mahasiswa::setFilter([
@@ -121,6 +122,30 @@ class HistoriNilaiController extends Controller
             'filter' => "id_registrasi_mahasiswa='$riwayat_pendidikan->id_registrasi_mahasiswa' AND id_semester='$semester_aktif->id_semester_aktif'"
         ])->first();
 
+        $ips = $perkuliahan->ips ?? null;
+        if(isset($ips)) {
+            switch (true) {
+                case ($ips >= 3.00):
+                    $maksimal_sks = 24;
+                break;
+                case ($ips >= 2.50 && $ips <= 2.99):
+                    $maksimal_sks = 21;
+                break;
+                case ($ips >= 2.00 && $ips <= 2.49):
+                    $maksimal_sks = 18;
+                break;
+                case ($ips >= 1.50 && $ips <= 1.99):
+                    $maksimal_sks = 15;
+                break;
+                case ($ips <= 1.50):
+                    $maksimal_sks = 12;
+                break;
+                }
+        } else {
+            $maksimal_sks = '-';
+        }
+
+
         // Dosen Pembimbing
         $dosen_wali = t_dosen_wali_mahasiswa::where('id_registrasi_mahasiswa', $riwayat_pendidikan->id_registrasi_mahasiswa)->first();
         if(isset($dosen_wali)) {
@@ -131,7 +156,7 @@ class HistoriNilaiController extends Controller
             $dosen = '-';
         }
         
-        $pdf = PDF::loadView('mahasiswa.histori_nilai.cetak', compact('riwayat_pendidikan', 'nilai', 'semester_aktif', 'dosen', 'perkuliahan'))->setPaper('a4');
+        $pdf = PDF::loadView('mahasiswa.histori_nilai.cetak', compact('semester', 'maksimal_sks', 'riwayat_pendidikan', 'nilai', 'semester_aktif', 'dosen', 'perkuliahan'))->setPaper('a4');
         return $pdf->stream('Histori_-_Nilai-_-'.$riwayat_pendidikan->nama_mahasiswa.'.pdf');    
     }
 }

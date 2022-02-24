@@ -11,15 +11,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav ms-auto navbar-center" id="navbar-navlist">
-                <li class="nav-item <?php if($nav=="home"){ echo "active"; } ?>">
-                    <a href="{{ route('landing_page.index') }}" class="nav-link">Home</a>
+                @foreach ($menus as $item)
+                <li class="nav-item <?php if('/'.request()->path() == $item->link){ echo "active"; } ?>">
+                    <a href="{{ $item->link }}" class="nav-link">{{ $item->judul }}</a>
                 </li>
-                <li class="nav-item <?php if($nav=="berita"){ echo "active"; } ?>">
-                    <a href="{{ route('landing_page.berita') }}" class="nav-link">Berita</a>
-                </li>
-                <li class="nav-item <?php if($nav=="kontak"){ echo "active"; } ?>">
-                    <a href="{{ route('landing_page.kontak') }}" class="nav-link">Kontak</a>
-                </li>
+                @endforeach
                 <li class="nav-item">
                     @auth
                     <a href="{{ route(auth()->user()->role->name.'.dashboard') }}"" class="nav-link">Dashboard</a>

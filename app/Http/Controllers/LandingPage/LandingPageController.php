@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\LandingPage;
 
 use App\Http\Controllers\Controller;
-use App\Models\m_berita;
+use App\Models\{
+    m_berita,
+    m_page
+};
 use Illuminate\Http\Request;
 
 class LandingPageController extends Controller {
@@ -58,6 +61,18 @@ class LandingPageController extends Controller {
                           ->limit(5)
                           ->get();
         return view('landing_page.kontak' , compact('nav','berita_terbaru'));
+    }
+
+    public function page($slug)
+    {
+        $nav = $slug;
+        $page = m_page::where('slug', $slug)->firstOrfail();
+        $berita_terbaru = m_berita::latest('created_at')
+        ->where('publish',1)
+        ->limit(5)
+        ->get();
+        
+        return view('landing_page.page' , compact('page', 'nav', 'berita_terbaru'));
     }
 
 

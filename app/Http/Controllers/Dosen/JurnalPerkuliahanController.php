@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Dosen;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Support\Facades\Crypt;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Models\m_jadwal;
 use App\Models\m_kelas_kuliah;
 use App\Models\m_dosen;
@@ -174,7 +177,12 @@ class JurnalPerkuliahanController extends Controller
             ->addColumn('jadwal', function ($data) {
                 return $data->kelas->hari.', '.$data->kelas->jam_mulai.' - '.$data->kelas->jam_akhir;
             })
-            ->rawColumns(['action'])
+            ->addColumn('absen_mahasiswa',function ($data) {
+                $link = route('mahasiswa.absen.index', Crypt::encryptString($data->id));
+                $qrcode = QrCode::size(100)->generate($link);
+                return $qrcode;
+            })
+            ->rawColumns(['action', 'absen_mahasiswa'])
             ->setRowAttr([
                 'style' => 'text-align: center',
             ])

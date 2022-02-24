@@ -45,8 +45,8 @@ class DashboardController extends Controller
         $dosen_wali = t_dosen_wali_mahasiswa::where('id_registrasi_mahasiswa', $riwayat_pendidikan->id_registrasi_mahasiswa)->first();
         if(isset($dosen_wali)) {
             $dosen = m_dosen::setFilter([
-                'filter' => "id_dosen='$dosen_wali->id_dosen'"
-            ])->first()->nama_dosen;
+                'limit' => "100000"
+            ])->where('id_dosen', $dosen_wali->id_dosen)->first()->nama_dosen;
         } else {
             $dosen = 'Belum memiliki dosen wali';
         }
