@@ -69,6 +69,7 @@
         </div>
         <div class="form-group col-lg-6">
             <label for="path_file" class="preview">Path File</label>
+            <span class="text-danger ml-2">* Maksimal 2MB ( pdf, doc, xls, ppt )</span>
             <div class="custom-file">
                 <input type="file" name="path_file" class="custom-file-input {{ $errors->has('path_file') ? 'is-invalid' : '' }}" id="path_file">
                 <label class="custom-file-label" for="path_file">Choose file</label>
