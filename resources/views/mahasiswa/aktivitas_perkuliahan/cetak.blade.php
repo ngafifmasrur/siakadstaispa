@@ -109,7 +109,7 @@
                     <td align="center">{{ $loop->iteration }}</td>
                     <td align="center">{{ $item->kode_mata_kuliah ?? '-' }}</td>
                     <td>{{ $item->nama_mata_kuliah }}</td>
-                    <td align="center">{{ '-' }}</td>
+                    <td align="center">{{ $item->smt ?? '-' }}</td>
                     <td align="center">{{ $item->sks_mata_kuliah ?? '-' }}</td>
                     <td align="center">{{ $item->nilai_huruf ?? '-'  }}</td>
                     <td align="center">{{ $item->nilai_indeks ?? '-'  }}</td>

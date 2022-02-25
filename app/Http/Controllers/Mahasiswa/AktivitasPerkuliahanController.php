@@ -78,26 +78,22 @@ class AktivitasPerkuliahanController extends Controller
             'filter' => "id_registrasi_mahasiswa='$mahasiswa->id_registrasi_mahasiswa' AND id_semester='$semester'"
         ])->first();
 
-        // $matkul_kurikulum = t_matkul_kurikulum::setFilter([
-        //     'filter' => "id_semester='$semester' AND id_prodi='$mahasiswa->id_prodi' AND semester='2'"
-        // ])->pluck('id_matkul')->toArray();
-
-        // $matkul_semester = t_matkul_kurikulum::setFilter([
-        //     'filter' => "id_semester='$semester' AND id_prodi='$mahasiswa->id_prodi' AND semester='2'"
-        // ])->select('id_matkul', 'semester')->get();
+        $matkul_semester = t_matkul_kurikulum::setFilter([
+            'filter' => "id_prodi='$mahasiswa->id_prodi'"
+        ])->select('id_matkul', 'semester')->get();
 
         $nilai = t_riwayat_nilai_mahasiswa::setFilter([
             'filter' => "id_registrasi_mahasiswa='$mahasiswa->id_registrasi_mahasiswa' AND id_periode='$semester'"
         ])->get();
 
-        $nilai->map(function ($item){
+        $nilai->map(function ($item) use ($matkul_semester){
             $matkul = m_mata_kuliah::setFilter([
                 'filter' => "id_matkul='$item->id_matkul'"
             ])->first();
             $item['kode_mata_kuliah'] = $matkul->kode_mata_kuliah;
             $item['sks_mata_kuliah'] = $matkul->sks_mata_kuliah;
             $item['total_nilai'] = $matkul->sks_mata_kuliah*$item->nilai_indeks;
-            $item['smt'] = '-';
+            $item['smt'] = $matkul_semester->where('id_matkul', $item->id_matkul)->first()->semester ?? '-';
 
             return $item;
         });
