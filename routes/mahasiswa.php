@@ -57,6 +57,7 @@ Route::group(
         Route::get('prestasi_mahasiswa/data_index', [PrestasiMahasiswaController::class, 'data_index'])->name('prestasi_mahasiswa.data_index');
         Route::resource('prestasi_mahasiswa', PrestasiMahasiswaController::class);
 
+        Route::get('aktivitas_perkuliahan/khs/{semester}', [AktivitasPerkuliahanController::class, 'khs'])->name('aktivitas_perkuliahan.khs');
         Route::get('aktivitas_perkuliahan/data_index', [AktivitasPerkuliahanController::class, 'data_index'])->name('aktivitas_perkuliahan.data_index');
         Route::resource('aktivitas_perkuliahan', AktivitasPerkuliahanController::class);
 
