@@ -49,7 +49,9 @@
             ['title' => 'Kode MK', 'data' => 'kode_mata_kuliah', 'name' => 'kode_mata_kuliah'],                           
             ['title' => 'Mata Kuliah', 'data' => 'nama_mata_kuliah', 'name' => 'nama_mata_kuliah','classname' => 'text-left'],
             ['title' => 'SMT', 'data' => 'smt', 'name' => 'smt'],
+            ['title' => 'Wajib', 'data' => 'wajib', 'name' => 'wajib'],
             ['title' => 'Kelas', 'data' => 'nama_kelas_kuliah', 'name' => 'nama_kelas_kuliah'],
+            ['title' => 'Dosen Pengajar', 'data' => 'nama_dosen', 'name' => 'nama_dosen'],
             ['title' => 'Jadwal', 'data' => 'jadwal', 'name' => 'jadwal'],
             ['title' => 'SKS', 'data' => 'sks_mata_kuliah', 'name' => 'sks_mata_kuliah'],
         ]"

@@ -204,6 +204,10 @@ class KRSController extends Controller
             'filer' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
         ])->first();
 
+        $dosen = t_dosen_pengajar_kelas_kuliah::setFilter([
+            'filter' => "id_semester='$semester_aktif'"
+        ])->get();
+
         // List Kelas Kuliah
         $matkul_kurikulum = t_matkul_kurikulum::setFilter([
             'filter' => "id_semester='$semester_aktif' AND id_prodi='$riwayat_pendidikan->id_prodi' AND semester='$request->semester'"
@@ -211,14 +215,14 @@ class KRSController extends Controller
 
         $matkul = t_matkul_kurikulum::setFilter([
             'filter' => "id_semester='$semester_aktif' AND id_prodi='$riwayat_pendidikan->id_prodi' AND semester='$request->semester'"
-        ])->select('id_matkul', 'semester')->get();
+        ])->select('id_matkul', 'semester', 'apakah_wajib')->get();
 
         $query = m_kelas_kuliah::setFilter([
             'filter' => "id_semester='$semester_aktif'"
         ])->whereIn('id_matkul', $matkul_kurikulum)->get();
 
         // Check Jika MHS Sudah Memiliki KRS Matkul Tsb
-        $query->map(function ($item) use ($pesertaKelas, $matkul) {
+        $query->map(function ($item) use ($pesertaKelas, $matkul, $dosen) {
             if(in_array($item->id_kelas_kuliah, $pesertaKelas)){
                 $item['checked'] = 1;
             } else {
@@ -229,6 +233,10 @@ class KRSController extends Controller
             $item['jam_mulai'] = $jadwal->jam_mulai ?? null;
             $item['jam_akhir'] = $jadwal->jam_akhir ?? null;
             $item['smt'] = $matkul->where('id_matkul', $item->id_matkul)->first()->semester ?? '-';
+            $item['wajib'] = $matkul->where('id_matkul', $item->id_matkul)->first()->apakah_wajib ?? '-';
+            $item['nama_dosen'] = $dosen->where('id_kelas_kuliah', $item->id_kelas_kuliah)->map(function($q) {
+                return ('- '.$q->nama_dosen);
+            })->implode('<br>');
             return $item;
         });
 
@@ -247,6 +255,13 @@ class KRSController extends Controller
                 }
 
                 return '-';
+            })
+            ->editColumn('wajib',function ($data) {
+                if ($data->wajib == 1) {
+                    return "Ya";
+                }
+                
+                return "Tidak";
             })
             ->rawColumns(['select_all'])
             ->setRowAttr([
