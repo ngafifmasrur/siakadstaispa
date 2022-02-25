@@ -110,10 +110,10 @@
                     <td align="center">{{ $item->kode_mata_kuliah ?? '-' }}</td>
                     <td>{{ $item->nama_mata_kuliah }}</td>
                     <td align="center">{{ $item->smt ?? '-' }}</td>
-                    <td align="center">{{ $item->sks_mata_kuliah ?? '-' }}</td>
+                    <td align="center">{{ number_format($item->sks_mata_kuliah) ?? '-' }}</td>
                     <td align="center">{{ $item->nilai_huruf ?? '-'  }}</td>
-                    <td align="center">{{ $item->nilai_indeks ?? '-'  }}</td>
-                    <td align="center">{{ $item->nilai_indeks*$item->sks_mata_kuliah }}</td>
+                    <td align="center">{{ number_format($item->nilai_indeks, 2) ?? '-'  }}</td>
+                    <td align="center">{{ number_format($item->nilai_indeks*$item->sks_mata_kuliah, 2) }}</td>
                 </tr>
             @empty
                 <tr>
@@ -135,12 +135,12 @@
         <tr>
             <td>IP Semester saat ini</td>
             <td align="right">  :</td>
-        <td>{{ $perkuliahan->ips ?? '-' }}</td>
+        <td>{{ number_format($perkuliahan->ips, 2) ?? '-' }}</td>
         </tr>
         <tr>
             <td>IP Kumulatif (IPK)</td>
             <td align="right">  :</td>
-        <td>{{ $perkuliahan->ipk ?? '-'}}</td>
+        <td>{{ number_format($perkuliahan->ipk, 2) ?? '-'}}</td>
         </tr>
         <tr>
             <td>Maksimal SKS semester selanjutnya</td>
