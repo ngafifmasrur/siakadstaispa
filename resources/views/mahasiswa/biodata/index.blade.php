@@ -13,9 +13,9 @@
     <form action="{{ route('mahasiswa.biodata.update') }}" method="POST">
         @csrf @method('PUT')
         <div class="form-group row">
-            <label for="nama_mahasiswa" class="col-sm-2 col-form-label">Nama <span class="text-danger">*</span></label>
+            <label for="nama_mahasiswa" class="col-sm-2 col-form-label">Nama</label>
             <div class="col-sm-10">
-            {!! Form::text('nama_mahasiswa', $mahasiswa->nama_mahasiswa, ['class' => 'form-control '.($errors->has('nama_mahasiswa') ? 'is-invalid' : ''), 'id' => 'nama_mahasiswa']) !!}
+            {!! Form::text('nama_mahasiswa', $mahasiswa->nama_mahasiswa, ['class' => 'form-control '.($errors->has('nama_mahasiswa') ? 'is-invalid' : ''), 'id' => 'nama_mahasiswa', 'disabled' => 'disabled']) !!}
             @error('nama_mahasiswa')
                 <div class="invalid-feedback">
                     {{ $message }}
@@ -44,7 +44,7 @@
         <div class="form-group row">
             <label for="tanggal_lahir" class="col-sm-2 col-form-label">Tanggal Lahir</label>
             <div class="col-sm-10">
-                {!! Form::date('tanggal_lahir', $mahasiswa->tanggal_lahir, ['class' => 'form-control '.($errors->has('tanggal_lahir') ? 'is-invalid' : ''), 'id' => 'tanggal_lahir']) !!}
+                {!! Form::date('tanggal_lahir', $mahasiswa->tanggal_lahir, ['class' => 'form-control '.($errors->has('tanggal_lahir') ? 'is-invalid' : ''), 'id' => 'tanggal_lahir', 'disabled' => 'disabled']) !!}
                 @error('tanggal_lahir')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -55,7 +55,7 @@
         <div class="form-group row">
             <label for="tempat_lahir" class="col-sm-2 col-form-label">Tempat Lahir <span class="text-danger">*</span></label>
             <div class="col-sm-10">
-                {!! Form::text('tempat_lahir', $mahasiswa->tempat_lahir, ['class' => 'form-control '.($errors->has('tempat_lahir') ? 'is-invalid' : ''), 'id' => 'tempat_lahir']) !!}
+                {!! Form::text('tempat_lahir', $mahasiswa->tempat_lahir, ['class' => 'form-control '.($errors->has('tempat_lahir') ? 'is-invalid' : ''), 'id' => 'tempat_lahir', 'disabled' => 'disabled']) !!}
                 @error('tempat_lahir')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -132,7 +132,7 @@
                     <div class="form-group row">
                         <label for="kewarganegaraan" class="col-sm-2 col-form-label">Kewarganegaraan <span class="text-danger">*</span></label>
                         <div class="col-sm-10">
-                            {!! Form::select('kewarganegaraan', $negara, $mahasiswa->kewarganegaraan, ['class' => 'form-control '.($errors->has('kewarganegaraan') ? 'is-invalid' : ''), 'id' => 'kewarganegaraan']) !!}
+                            {!! Form::select('kewarganegaraan', $negara, $mahasiswa->id_negara, ['class' => 'form-control '.($errors->has('kewarganegaraan') ? 'is-invalid' : ''), 'id' => 'kewarganegaraan']) !!}
                             @error('kewarganegaraan')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -298,9 +298,9 @@
 
                 <div class="tab-pane fade" id="orangtua" role="tabpanel" aria-labelledby="orangtua-tab">
                     <div class="form-group row">
-                        <label for="nama_ibu_kandung" class="col-sm-2 col-form-label">Nama Ibu Kandung  <span class="text-danger">*</span></label>
+                        <label for="nama_ibu_kandung" class="col-sm-2 col-form-label">Nama Ibu Kandung</label>
                         <div class="col-sm-10">
-                            {!! Form::text('nama_ibu_kandung', $mahasiswa->nama_ibu_kandung, ['class' => 'form-control '.($errors->has('nama_ibu_kandung') ? 'is-invalid' : ''), 'id' => 'nama_ibu_kandung']) !!}
+                            {!! Form::text('nama_ibu_kandung', $mahasiswa->nama_ibu_kandung, ['class' => 'form-control '.($errors->has('nama_ibu_kandung') ? 'is-invalid' : ''), 'id' => 'nama_ibu_kandung', 'disabled' => 'disabled']) !!}
                             @error('nama_ibu_kandung')
                                 <div class="invalid-feedback">
                                     {{ $message }}
