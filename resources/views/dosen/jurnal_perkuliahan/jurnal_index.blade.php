@@ -59,3 +59,14 @@
 <x-modal.delete/>
 
 @endsection
+
+@push('js')
+<script>
+    $( document ).ready(function() {
+            $(document).on('click', '.btn_share', function () {
+            let imageURL = $(this).data('image_url');
+            $(this).setAttribute('href', 'whatsapp://send?text='+encodeURIComponent(imageURL));
+        });
+    });
+</script>
+@endpush

@@ -179,7 +179,10 @@ class JurnalPerkuliahanController extends Controller
             })
             ->addColumn('absen_mahasiswa',function ($data) {
                 $link = route('mahasiswa.absen.index', Crypt::encryptString($data->id));
-                $qrcode = QrCode::size(100)->generate($link);
+                $qrcode_img = QrCode::format('png')->size(100)->generate($link);
+                $qrcode = '<div class="align-items-center">
+                <span><img src="'.$qrcode_img.'"></span>
+                <a class="btn_share" href="whatsapp://send?text='.urlencode($qrcode_img).'"><i class="fa fa-whatsapp text-success ml-2"></i></a></div>';
                 return $qrcode;
             })
             ->rawColumns(['action', 'absen_mahasiswa'])
