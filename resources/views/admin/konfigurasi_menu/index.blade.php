@@ -39,9 +39,17 @@
 
     <ul class="sort_menu list-group">
         @forelse ($data as $row)
-        <li class="list-group-item" data-id="{{$row->id}}">
-            <span class="handle text-primary"><i class="fa fa-bars"></i></span> {{$row->judul}} <span data-link="{{ $row->link }}" data-judul="{{ $row->judul }}" data-route="{{ route('admin.konfigurasi_menu.update', $row->id) }}" class="btn_edit"><i class="fa fa-edit ml-2"></i></span></li>
-        @empty
+        <li class="list-group-item d-flex justify-content-between align-items-center" data-id="{{$row->id}}">
+            <div class="label">
+                <span class="handle text-primary"><i class="fa fa-bars"></i></span> {{$row->judul}}
+            </div>
+            <div class="action">
+                <span data-link="{{ $row->link }}" data-judul="{{ $row->judul }}" data-route="{{ route('admin.konfigurasi_menu.update', $row->id) }}" class="btn_edit"><i class="fa fa-edit ml-2"></i></span>
+                <span data-text="Anda yakin ingin menghapus data ini ?" data-route="{{ route('admin.konfigurasi_menu.destroy', $row->id) }}" class="btn_delete text-danger"><i class="fa fa-trash ml-2"></i></span>
+            </div>
+        </li>
+
+         @empty
             Tidak ada data
         @endforelse
     </ul>

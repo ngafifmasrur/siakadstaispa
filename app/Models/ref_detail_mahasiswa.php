@@ -50,7 +50,7 @@ class ref_detail_mahasiswa extends SushiModel
         'no_kps' => 'string',
         'npwp' => 'string',
         'id_wilayah' => 'integer',
-        'kewarganegaraan' => 'string',
+        'id_negara' => 'string',
         'id_jenis_tinggal' => 'integer',
         'id_alat_transportasi' => 'integer',
     ];

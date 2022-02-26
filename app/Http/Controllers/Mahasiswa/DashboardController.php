@@ -12,7 +12,8 @@ use App\Models\{
     t_dosen_wali_mahasiswa,
     t_riwayat_pendidikan_mahasiswa,
     m_dosen,
-    m_informasi
+    m_informasi,
+    t_krs_mahasiswa
 };
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,22 +26,27 @@ class DashboardController extends Controller
         $riwayat_pendidikan = t_riwayat_pendidikan_mahasiswa::setFilter([
             'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
         ])->first();
-        
-        $pesertaKelasKuliah = t_peserta_kelas_kuliah::setFilter([
-            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
-        ])->pluck('id_kelas_kuliah')->toArray();
-        
-        $kelasKuliah = m_kelas_kuliah::setFilter([
-            'filter' => "id_semester='$semester_aktif'"
-        ])->whereIn('id_kelas_kuliah', $pesertaKelasKuliah)->get();
+        $status_krs = t_krs_mahasiswa::where('id_registrasi_mahasiswa', $riwayat_pendidikan->id_registrasi_mahasiswa)->first();
 
-        $kelasKuliah->map(function ($item){
-            $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kuliah)->first();
-            $item['hari'] = $jadwal->hari ?? null;
-            $item['jam_mulai'] = $jadwal->jam_mulai ?? null;
-            $item['jam_akhir'] = $jadwal->jam_akhir ?? null;
-            return $item;
-        });
+        if(isset($status_krs) && $status_krs->status == 'Diverifikasi') {
+            $pesertaKelasKuliah = t_peserta_kelas_kuliah::setFilter([
+                'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
+            ])->pluck('id_kelas_kuliah')->toArray();
+            
+            $kelasKuliah = m_kelas_kuliah::setFilter([
+                'filter' => "id_semester='$semester_aktif'"
+            ])->whereIn('id_kelas_kuliah', $pesertaKelasKuliah)->get();
+    
+            $kelasKuliah->map(function ($item){
+                $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kuliah)->first();
+                $item['hari'] = $jadwal->hari ?? null;
+                $item['jam_mulai'] = $jadwal->jam_mulai ?? null;
+                $item['jam_akhir'] = $jadwal->jam_akhir ?? null;
+                return $item;
+            });
+        } else {
+            $kelasKuliah = null;
+        }
 
         $dosen_wali = t_dosen_wali_mahasiswa::where('id_registrasi_mahasiswa', $riwayat_pendidikan->id_registrasi_mahasiswa)->first();
         if(isset($dosen_wali)) {
@@ -53,6 +59,6 @@ class DashboardController extends Controller
 
         $informasi = m_informasi::where('status', 1)->get();
 
-        return view('mahasiswa.dashboard', compact('kelasKuliah', 'dosen', 'informasi'));
+        return view('mahasiswa.dashboard', compact('kelasKuliah', 'dosen', 'informasi', 'status_krs'));
     }
 }

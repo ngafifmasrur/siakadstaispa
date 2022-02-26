@@ -130,7 +130,7 @@ class KonfigurasiMenuController extends Controller
             abort(404);
         }
 
-        $berita->delete();
+        $konfigurasi_menu->delete();
 
         Session::flash('success_msg', 'Berhasil Dihapus');
         return back();

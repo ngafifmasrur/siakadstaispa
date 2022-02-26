@@ -20,6 +20,7 @@
         ['title' => 'IPK', 'data' => 'ipk', 'name' => 'ipk'],
         ['title' => 'SKS Semester', 'data' => 'sks_semester', 'name' => 'sks_semester'],
         ['title' => 'SKS Total', 'data' => 'sks_total', 'name' => 'sks_total'],
+        ['title' => 'Aksi', 'data' => 'action', 'name' => 'action'],
     ]"
     />
 

@@ -11,6 +11,12 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav ms-auto navbar-center" id="navbar-navlist">
+                <li class="nav-item <?php if('/'.request()->path() == '/home'){ echo "active"; } ?>">
+                    <a href="{{ route('landing_page.index') }}" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item <?php if('/'.request()->path() == '/berita'){ echo "active"; } ?>">
+                    <a href="{{ route('landing_page.berita') }}" class="nav-link">Berita</a>
+                </li>
                 @foreach ($menus as $item)
                 <li class="nav-item <?php if('/'.request()->path() == $item->link){ echo "active"; } ?>">
                     <a href="{{ $item->link }}" class="nav-link">{{ $item->judul }}</a>

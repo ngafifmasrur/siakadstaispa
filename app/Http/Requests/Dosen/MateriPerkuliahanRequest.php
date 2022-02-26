@@ -29,7 +29,7 @@ class MateriPerkuliahanRequest extends FormRequest
             'id_prodi' => 'required',
             'id_matkul' => 'required',
             'judul' => 'required',
-            'path_file' => $this->route('id') ? 'nullable|'. $mimes : 'required'. $mimes,
+            'path_file' => $this->route('id') ? 'nullable|'. $mimes : 'required|'. $mimes,
             'link' => 'nullable|url'
         ];
     }
