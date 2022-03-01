@@ -1,0 +1,35 @@
+.btn-pill {
+	@include border-radius($badge-pill-border-radius);
+}
+
+.form-group.required label:not(.custom-control-label):not(.btn):not(.custom-file-label):after {
+	content: '*';
+	margin-left: 4px;
+	font-weight: bold;
+	color: #e74c3c;
+}
+
+.card {
+	margin-bottom: 30px;
+}
+
+.section {
+	margin-bottom: 18px;
+}
+
+.section:after {
+	display: block;
+	border-bottom: 8px solid theme-color("primary");
+	border-radius: 8px;
+	width: 50px;
+	content: '';
+}
+
+.bootstrap-datetimepicker-widget .disabled, 
+.bootstrap-datetimepicker-widget .disabled:hover {
+  color: #eee !important;
+}
+
+small, .small {
+	font-size: 84%;
+}
