@@ -16,7 +16,7 @@ class Admission extends Model
      * The attributes that are mass assignable.
      */
     protected $fillable = [
-        'period_id', 'name', 'generation', 'open', 'start_date', 'end_date'
+        'period_id', 'name', 'generation', 'open', 'start_date', 'end_date', 'published'
     ];
 
     /**

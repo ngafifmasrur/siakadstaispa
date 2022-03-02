@@ -103,6 +103,8 @@ Route::name('admission.')->group(function() {
 						Route::resource('/registrants', 'RegistrantController');
 						// Rooms
 						Route::resource('/rooms', 'RoomController');
+						Route::resource('/periode', 'PeriodeController');
+
 					});
 				});
 
