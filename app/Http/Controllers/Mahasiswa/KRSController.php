@@ -218,12 +218,13 @@ class KRSController extends Controller
             'filter' => "id_semester='$semester_aktif' AND id_prodi='$riwayat_pendidikan->id_prodi' AND semester='$request->semester'"
         ])->pluck('id_matkul')->toArray();
 
+
         $matkul = t_matkul_kurikulum::setFilter([
             'filter' => "id_semester='$semester_aktif' AND id_prodi='$riwayat_pendidikan->id_prodi' AND semester='$request->semester'"
         ])->select('id_matkul', 'semester', 'apakah_wajib')->get();
 
         $query = m_kelas_kuliah::setFilter([
-            'filter' => "id_semester='$semester_aktif'"
+            'filter' => "id_semester='$semester_aktif' AND id_prodi='$riwayat_pendidikan->id_prodi' "
         ])->whereIn('id_matkul', $matkul_kurikulum)->get();
 
         // Check Jika MHS Sudah Memiliki KRS Matkul Tsb
