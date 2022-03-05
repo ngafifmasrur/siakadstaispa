@@ -228,6 +228,7 @@
                             @enderror
                         </div>
                     </div>
+                    @if(isset($alat_transportasi))
                     <div class="form-group row">
                         <label for="id_alat_transportasi" class="col-sm-2 col-form-label">Alat Transportasi</label>
                         <div class="col-sm-10">
@@ -239,6 +240,7 @@
                             @enderror
                         </div>
                     </div>
+                    @endif
                     <div class="form-group row">
                         <label for="telepon" class="col-sm-2 col-form-label">Telepon</label>
                         <div class="col-sm-10">
