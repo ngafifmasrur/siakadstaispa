@@ -22,6 +22,7 @@ use App\Models\{
     t_dosen_pengajar_kelas_kuliah,
     m_dosen
 };
+
 use Session, DB, Auth, PDF;
 
 class KRSController extends Controller
@@ -87,7 +88,7 @@ class KRSController extends Controller
         ])->get();
 
         $matkul_kurikulum = t_matkul_kurikulum::setFilter([
-            'filter' => "id_semester='$semester_aktif' AND id_prodi='$mahasiswa->id_prodi'"
+            'filter' => "id_prodi='$mahasiswa->id_prodi'"
         ])->select('id_matkul', 'semester')->get();
 
         $query = m_kelas_kuliah::setFilter([
@@ -96,6 +97,10 @@ class KRSController extends Controller
 
         $query->map(function ($item) use ($dosen, $matkul_kurikulum) {
             // Jadwal
+            $matkul = m_mata_kuliah::setFilter([
+                'filter' => "id_matkul='$item->id_matkul'"
+            ])->where('id_matkul', $item->id_matkul)->first();
+
             $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kuliah)->first();
             if(isset($jadwal)){
                 $item['hari'] = $jadwal->hari;
@@ -229,6 +234,7 @@ class KRSController extends Controller
                 $item['checked'] = 0;
             }
             $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kuliah)->first();
+
             $item['hari'] = $jadwal->hari ?? null;
             $item['jam_mulai'] = $jadwal->jam_mulai ?? null;
             $item['jam_akhir'] = $jadwal->jam_akhir ?? null;
