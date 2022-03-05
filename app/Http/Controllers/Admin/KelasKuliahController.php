@@ -53,9 +53,9 @@ class KelasKuliahController extends Controller
         $query->map(function ($item){
             $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kuliah)->first();
             
-            // $item['hari'] = $jadwal->hari ?? null;
-            // $item['jam_mulai'] = $jadwal->jam_mulai ?? null;
-            // $item['jam_akhir'] = $jadwal->jam_akhir ?? null;
+            $item['hari'] = $jadwal->hari ?? null;
+            $item['jam_mulai'] = $jadwal->jam_mulai ?? null;
+            $item['jam_akhir'] = $jadwal->jam_akhir ?? null;
 
             return $item;
         });
