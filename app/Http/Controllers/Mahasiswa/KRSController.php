@@ -342,8 +342,8 @@ class KRSController extends Controller
 
         $krs->map(function ($item){
             $matkul = m_mata_kuliah::setFilter([
-                'filter' => "id_matkul='$item->id_matkul'"
-            ])->first();
+                'limit' => "100000"
+            ])->where('id_matkul', $item->id_matkul)->first();
             $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kulaih)->first();
             $item['hari'] = $item->hari;
             $item['jam_mulai'] = $item->jam_mulai;
