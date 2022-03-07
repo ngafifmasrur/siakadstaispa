@@ -39,7 +39,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    @foreach ($kelasKuliah as $item)
+                    @forelse ($kelasKuliah as $item)
                         <div class="card">
                             <div class="card-status card-status-left bg-primary br-bl-7 br-tl-7"></div>
                             <div class="card-body">
@@ -49,21 +49,30 @@
                                             <small class="block">{{ $item->hari.', '.$item->jam_mulai.' - '.$item->jam_akhir }} WIB</small>
                                         @endif                                      <strong  class="block">{{ $item->nama_mata_kuliah }}</strong>
                                     </div>
-                                    <div class="col-lg-5 col-md-12">
+                                    <div class="col-lg-4 col-md-12">
                                         <span class="block mb-1"><i class="fa fa-calendar mr-1"></i> {{ $item->nama_semester }}</span>
                                         <span class="block mb-1"><i class="fa fa-bank mr-1"></i>Kelas {{ $item->nama_kelas_kuliah }}</span>
                                         <span class="block mb-1"><i class="fa fa-book mr-1"></i> {{ $item->nama_program_studi }}</span>
 
                                     </div>
-                                    <div class="col-lg-3 col-md-12">
+                                    <div class="col-lg-4 col-md-12">
                                         <a href="{{ route('dosen.jurnal_perkuliahan.jurnal_index', $item->id_kelas_kuliah) }}" class="btn btn-sm btn-primary">
                                             Jurnal
                                         </a>
+                                        @if (isset($item->link_zoom))
+                                            <a href="{{ $item->link_zoom }}" class="btn btn-sm btn-primary">
+                                                Zoom
+                                            </a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    @endforeach
+                    @empty
+                       <div class="text-danger">
+                        Jadwal Kuliah Kosong / Tidak Ditemukan
+                       </div>
+                    @endforelse
                 </div>
             </div>
         </div>

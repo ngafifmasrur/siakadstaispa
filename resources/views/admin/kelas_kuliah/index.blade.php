@@ -37,6 +37,7 @@
         ['title' => 'Dosen', 'data' => 'nama_dosen', 'name' => 'nama_dosen', 'classname' => 'text-left'],
         ['title' => 'Kelas', 'data' => 'nama_kelas_kuliah', 'name' => 'nama_kelas_kuliah', 'classname' => 'text-center'],
         ['title' => 'Jadwal', 'data' => 'jadwal', 'name' => 'jadwal', 'classname' => 'text-center'],
+        ['title' => 'Link Zoom', 'data' => 'link_zoom', 'name' => 'link_zoom', 'classname' => 'text-center'],
         ['title' => 'Dosen', 'data' => 'dosen', 'name' => 'dosen'],
         ['title' => 'Mahasiswa', 'data' => 'mahasiswa', 'name' => 'mahasiswa'],
         ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
@@ -57,7 +58,7 @@
     @csrf 
     @method('post')
     <div class="form-group row">
-        <div class="form-group col-lg-12">
+        <div class="form-group col-lg-6">
             <label for="id_prodi">Program Studi</label>
             {!! Form::select('id_prodi', $prodi, null, ['class' => 'form-control '.($errors->has('id_prodi') ? 'is-invalid' : ''), 'id' => 'id_prodi']) !!}
             @error('id_prodi')
@@ -66,7 +67,7 @@
                 </div>
             @enderror
         </div>
-        <div class="form-group col-lg-12">
+        <div class="form-group col-lg-6">
             <label for="id_semester">Semester</label>
             {!! Form::select('id_semester', $semester, $semester_id, ['class' => 'form-control '.($errors->has('id_semester') ? 'is-invalid' : ''), 'id' => 'id_semester']) !!}
             @error('id_semester')
@@ -134,6 +135,17 @@
             <label for="jam_akhir">Jam Selesai</label>
             {!! Form::time('jam_akhir', null, ['class' => 'form-control '.($errors->has('jam_akhir') ? 'is-invalid' : ''), 'id' => 'jam_akhir']) !!}
             @error('jam_akhir')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="form-group col-lg-12">
+            <label for="link_zoom">Link Zoom</label>
+            {!! Form::text('link_zoom', null, ['class' => 'form-control '.($errors->has('link_zoom') ? 'is-invalid' : ''), 'id' => 'link_zoom', 'placeholder' => 'https://zoom.us/j/xxxxx']) !!}
+            @error('link_zoom')
                 <div class="invalid-feedback">
                     {{ $message }}
                 </div>

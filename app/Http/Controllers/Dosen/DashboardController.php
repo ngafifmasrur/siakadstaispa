@@ -34,6 +34,7 @@ class DashboardController extends Controller
             $item['hari'] = $jadwal->hari ?? null;
             $item['jam_mulai'] = $jadwal->jam_mulai ?? null;
             $item['jam_akhir'] = $jadwal->jam_akhir ?? null;
+            $item['link_zoom'] = $jadwal->link_zoom ?? null;
             return $item;
         });
 
