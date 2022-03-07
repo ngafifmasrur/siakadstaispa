@@ -64,15 +64,15 @@
                 <td align="right">  :</td>
                 <td>{{ $nama_semester_aktif  }}</td> --}}
             </tr>
-            <tr>
+            {{-- <tr>
                 <td>Tanggal Lulus</td>
                 <td align="right">  :</td>
                 <td>{{ $mahasiswa_lulus->tanggal_keluar ?? '-'}}</td>
                 <td width="160px"></td>
-                {{-- <td>No. SK-BAN-PT</td>
+                <td>No. SK-BAN-PT</td>
                 <td align="right">  :</td>
-                <td>-</td> --}}
-            </tr>
+                <td>-</td>
+            </tr> --}}
         </table>
     </div>
 
@@ -98,9 +98,9 @@
                         <td align="center">{{ $loop->iteration }}</td>
                         <td align="center">{{ $item->kode_mata_kuliah ?? '-' }}</td>
                         <td align="left">{{ ucwords(strtolower($item->nama_mata_kuliah)) }}</td>
-                        <td align="center">{{ $item->sks_mata_kuliah ?? '-'  }}</td>
+                        <td align="center">{{ number_format($item->sks_mata_kuliah) ?? '-'  }}</td>
                         <td align="center">{{ $item->nilai_huruf ?? '-'  }}</td>
-                        <td align="center">{{ $item->nilai_indeks ?? '-'  }}</td>
+                        <td align="center">{{ number_format($item->nilai_indeks, 2) ?? '-'  }}</td>
                     </tr>
                 @empty
                     <tr>
@@ -134,9 +134,9 @@
                         <td align="center">{{ $loop->iteration+34 }}</td>
                         <td align="center">{{ $item->kode_mata_kuliah ?? '-' }}</td>
                         <td align="left">{{ ucwords(strtolower($item->nama_mata_kuliah)) }}</td>
-                        <td align="center">{{ $item->sks_mata_kuliah ?? '-'  }}</td>
+                        <td align="center">{{ number_format($item->sks_mata_kuliah) ?? '-'  }}</td>
                         <td align="center">{{ $item->nilai_huruf ?? '-'  }}</td>
-                        <td align="center">{{ $item->nilai_indeks ?? '-'  }}</td>
+                        <td align="center">{{ number_format($item->sks_mata_kuliah, 2) ?? '-'  }}</td>
                     </tr>
                 @empty
                     <tr>
@@ -237,7 +237,7 @@
     <div style="float: right;font-size:10px;font-weight:bold">
         Sleman, {{ Carbon\Carbon::now()->isoFormat('D MMMM YYYY')}} <br>
         Wakil Ketua Bidang Akademik dan Penelitian<br><br><br><br>
-        -
+        {{ $dosen }}
     </div>
 
 </body>

@@ -31,7 +31,7 @@ class m_kelas_kuliah extends SushiModel
 
     public function getRows()
     {
-        return GetDataFeeder('GetDetailKelasKuliah', self::$filter);
+        return GetDataFeeder('GetListKelasKuliah', self::$filter);
     }
 
     public function prodi()

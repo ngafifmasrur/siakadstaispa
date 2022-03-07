@@ -53,7 +53,7 @@
             ['title' => 'Kelas', 'data' => 'nama_kelas_kuliah', 'name' => 'nama_kelas_kuliah'],
             ['title' => 'Dosen Pengajar', 'data' => 'nama_dosen', 'name' => 'nama_dosen'],
             ['title' => 'Jadwal', 'data' => 'jadwal', 'name' => 'jadwal'],
-            ['title' => 'SKS', 'data' => 'sks_mata_kuliah', 'name' => 'sks_mata_kuliah'],
+            ['title' => 'SKS', 'data' => 'sks', 'name' => 'sks'],
         ]"
         :filter="[
             ['data' => 'semester', 'value' => '$(`#semester`).val()']
