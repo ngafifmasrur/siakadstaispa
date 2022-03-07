@@ -28,8 +28,9 @@ class t_dosen_pengajar_kelas_kuliah extends SushiModel
         $dosen_belum_nidn = t_dosen_belum_nidn_pengajar_kelas_kuliah::all()->toArray();
         $dosen_feeder = GetDataFeeder('GetDosenPengajarKelasKuliah', self::$filter);
         
+        
         if($dosen_feeder != ""){
-            $data = $data = array_merge($dosen_feeder, $dosen_belum_nidn);
+            $data = array_merge($dosen_feeder, $dosen_belum_nidn);
         }else{
             $data = $dosen_belum_nidn;
         }
