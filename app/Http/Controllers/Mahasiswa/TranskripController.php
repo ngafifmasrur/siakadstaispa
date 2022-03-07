@@ -10,7 +10,9 @@ use App\Models\{
     m_global_konfigurasi,
     m_semester,
     m_mata_kuliah,
-    m_mahasiswa_lulus_do
+    m_mahasiswa_lulus_do,
+    m_dosen,
+    t_dosen_wali_mahasiswa
 };
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -84,16 +86,25 @@ class TranskripController extends Controller
 
         $total_semester = t_transkrip_mahasiswa::setFilter([
             'filter' => "id_registrasi_mahasiswa='$riwayat_pendidikan->id_registrasi_mahasiswa'"
-        ])->distinct('smt_diambil')->count();
+        ])->max('smt_diambil');
 
         $transkrip->map(function ($item){
-            $item['total_nilai'] = $item->sks_mata_kuliah*$item->nilai_indeks;
+            $item['total_nilai'] = number_format($item->sks_mata_kuliah*$item->nilai_indeks, 2);
 
             return $item;
         });
 
-        
-        $pdf = PDF::loadView('mahasiswa.transkrip.cetak', compact('total_semester', 'riwayat_pendidikan', 'transkrip', 'nama_semester_aktif', 'mahasiswa_lulus'))->setPaper('a4');
+        // Dosen Pembimbing
+        $dosen_wali = t_dosen_wali_mahasiswa::where('id_registrasi_mahasiswa', $riwayat_pendidikan->id_registrasi_mahasiswa)->first();
+        if(isset($dosen_wali)) {
+            $dosen = m_dosen::setFilter([
+                'filter' => "id_dosen='$dosen_wali->id_dosen'"
+            ])->first()->nama_dosen;
+        } else {
+            $dosen = '-';
+        }
+
+        $pdf = PDF::loadView('mahasiswa.transkrip.cetak', compact('dosen', 'total_semester', 'riwayat_pendidikan', 'transkrip', 'nama_semester_aktif', 'mahasiswa_lulus'))->setPaper('a4');
         return $pdf->stream('Transkrip-_-'.$riwayat_pendidikan->nama_mahasiswa.'.pdf');    
     }
 }

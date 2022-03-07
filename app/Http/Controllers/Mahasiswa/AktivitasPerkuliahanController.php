@@ -88,8 +88,8 @@ class AktivitasPerkuliahanController extends Controller
 
         $nilai->map(function ($item) use ($matkul_semester){
             $matkul = m_mata_kuliah::setFilter([
-                'filter' => "id_matkul='$item->id_matkul'"
-            ])->first();
+                'limit' => "1000000"
+            ])->where('id_matkul', $item->id_matkul)->first();
             $item['kode_mata_kuliah'] = $matkul->kode_mata_kuliah;
             $item['sks_mata_kuliah'] = $matkul->sks_mata_kuliah;
             $item['total_nilai'] = $matkul->sks_mata_kuliah*$item->nilai_indeks;
