@@ -137,11 +137,18 @@ class JurnalPerkuliahanController extends Controller
                 ->where('id_dosen', Auth::user()->id_dosen)->get();
 
         $query->map(function ($item){
-            $prodi = m_program_studi::setFilter([
-                'filter' => "id_prodi='$item->id_prodi'"
+            $kelas_kuliah = m_kelas_kuliah::setFilter([
+                'filter' => "id_kelas_kuliah='$item->id_kelas_kuliah'"
             ])->first();
-            $item['nama_program_studi'] = $prodi->nama_program_studi ?? null;
+            $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kuliah)->first();
 
+            $item['kode_mata_kuliah'] = $kelas_kuliah->kode_mata_kuliah ?? null;
+            $item['nama_mata_kuliah'] = $kelas_kuliah->nama_mata_kuliah ?? null;
+            $item['nama_kelas_kuliah'] = $kelas_kuliah->nama_kelas_kuliah ?? null;
+            $item['hari'] = $jadwal->hari ?? null;
+            $item['jam_mulai'] = $jadwal->jam_mulai ?? null;
+            $item['jam_akhir'] = $jadwal->jam_akhir ?? null;
+            $item['link_zoom'] = $jadwal->link_zoom ?? '-';
             return $item;
         });
 
@@ -174,15 +181,27 @@ class JurnalPerkuliahanController extends Controller
     
                 return $button;
             })
-            ->addColumn('jadwal', function ($data) {
-                return $data->kelas->hari.', '.$data->kelas->jam_mulai.' - '.$data->kelas->jam_akhir;
+            ->addColumn('jadwal',function ($data) {
+                if($data->hari && $data->jam_mulai && $data->jam_akhir) {
+                    return $data->hari.', '.$data->jam_mulai.'-'.$data->jam_akhir;
+                }
+
+                return '-';
             })
             ->addColumn('absen_mahasiswa',function ($data) {
-                $link = route('mahasiswa.absen.index', Crypt::encryptString($data->id));
-                $qrcode = QrCode::size(100)->generate($link);
-                // $qrcode = '<div class="align-items-center">
-                // <span><img src="'.$qrcode_img.'"></span>
-                // <a class="btn_share" href="whatsapp://send?text='.urlencode($qrcode_img).'"><i class="fa fa-whatsapp text-success ml-2"></i></a></div>';
+                $link = route('mahasiswa.absen.index', $data->id);
+                $qrcode = '<div class="align-items-center">
+                <span>'.QrCode::size(100)->generate($link).'</span>
+                <a class="btn_share" href="#"
+                data-link_absensi="'.$link.'"
+                data-link_zoom="'.$data->link_zoom.'"
+                data-tanggal_pelaksanaan="'.$data->tanggal_pelaksanaan.'"
+                data-kode_matkul="'.$data->kode_mata_kuliah.'"
+                data-nama_matkul="'.$data->nama_mata_kuliah.'"
+                data-nama_kelas="'.$data->nama_kelas_kuliah.'">
+                    <i class="fa fa-share text-success ml-2"></i>
+                </a>
+                </div>';
                 return $qrcode;
             })
             ->rawColumns(['action', 'absen_mahasiswa'])

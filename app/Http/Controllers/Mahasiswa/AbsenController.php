@@ -17,8 +17,8 @@ class AbsenController extends Controller
 {
     public function index($id_jurnal_kuliah)
     {
-        $decrypted_id_jurnal_kuliah = Crypt::decryptString($id_jurnal_kuliah);
-        $jurnal_kuliah = t_jurnal_kuliah::findOrFail($decrypted_id_jurnal_kuliah);
+        // $decrypted_id_jurnal_kuliah = Crypt::decryptString($id_jurnal_kuliah);
+        $jurnal_kuliah = t_jurnal_kuliah::findOrFail($id_jurnal_kuliah);
 
         $is_peserta = t_peserta_kelas_kuliah::setFilter([
             'filter' => "id_kelas_kuliah='$jurnal_kuliah->id_kelas_kuliah'",
