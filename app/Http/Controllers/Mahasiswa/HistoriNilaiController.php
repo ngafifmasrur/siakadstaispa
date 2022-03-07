@@ -33,6 +33,13 @@ class HistoriNilaiController extends Controller
         for ($smt=1; $smt <= 8; $smt++) {
             $semester[$smt] = 'Semester '.$smt;
         }
+        $mahasiwa = t_riwayat_pendidikan_mahasiswa::setFilter([
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
+        ])->first();
+        if(!isset($mahasiwa)){
+            Session::flash('error_msg', 'Mahasiswa tidak memiliki semester aktif / riwayat pendidikan');
+            return view('mahasiswa.krs.index2');
+        }
 
         return view('mahasiswa.histori_nilai.index', compact('semester'));
     }

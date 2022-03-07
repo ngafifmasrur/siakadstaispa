@@ -17,6 +17,7 @@ use App\Models\{
 };
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Session;
 
 class DashboardController extends Controller
 {
@@ -26,6 +27,11 @@ class DashboardController extends Controller
         $riwayat_pendidikan = t_riwayat_pendidikan_mahasiswa::setFilter([
             'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
         ])->first();
+        if(!isset($riwayat_pendidikan)){
+            Session::flash('error_msg', 'Mahasiswa tidak memiliki semester aktif / riwayat pendidikan');
+            return view('mahasiswa.krs.index2');
+        }
+
         $status_krs = t_krs_mahasiswa::where('id_registrasi_mahasiswa', $riwayat_pendidikan->id_registrasi_mahasiswa)->first();
 
         if(isset($status_krs) && $status_krs->status == 'Diverifikasi') {
