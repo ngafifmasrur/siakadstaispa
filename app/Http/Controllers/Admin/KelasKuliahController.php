@@ -56,6 +56,7 @@ class KelasKuliahController extends Controller
             $item['hari'] = $jadwal->hari ?? null;
             $item['jam_mulai'] = $jadwal->jam_mulai ?? null;
             $item['jam_akhir'] = $jadwal->jam_akhir ?? null;
+            $item['link_zoom'] = $jadwal->link_zoom ?? null;
 
             return $item;
         });
@@ -137,6 +138,19 @@ class KelasKuliahController extends Controller
 
                 return '-';
             })
+            ->addColumn('link_zoom',function ($data) {
+                if($data->link_zoom) {
+                    return view("components.button.default", [
+                        'type' => 'link',
+                        'tooltip' => 'Link Zoom',
+                        'class' => 'btn btn-primary btn-sm',
+                        "label" => "Zoom",
+                        "route" => $data->link_zoom,
+                    ]);
+                }
+
+                return '-';
+            })
             ->addColumn('nama_dosen', function ($data) {
                 return $data->dosen->map(function($q) {
                     return ('- '.$q->nama_dosen);
@@ -168,7 +182,8 @@ class KelasKuliahController extends Controller
                 'id_kelas_kuliah' => $result['data']['id_kelas_kuliah'],
                 'hari' => $request->hari,
                 'jam_mulai' => $request->jam_mulai,
-                'jam_akhir' => $request->jam_akhir
+                'jam_akhir' => $request->jam_akhir,
+                'link_zoom' => $request->link_zoom
             ]);
 
             DB::commit();
@@ -210,14 +225,16 @@ class KelasKuliahController extends Controller
                 $jadwal->update([
                     'hari' => $request->hari,
                     'jam_mulai' => $request->jam_mulai,
-                    'jam_akhir' => $request->jam_akhir
+                    'jam_akhir' => $request->jam_akhir,
+                    'link_zoom' => $request->link_zoom
                 ]);
             } else {
                 $jadwal = m_jadwal::create([
                     'id_kelas_kuliah' => $kelas_kuliah,
                     'hari' => $request->hari,
                     'jam_mulai' => $request->jam_mulai,
-                    'jam_akhir' => $request->jam_akhir
+                    'jam_akhir' => $request->jam_akhir,
+                    'link_zoom' => $request->link_zoom
                 ]);
             }
 

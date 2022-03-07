@@ -28,6 +28,7 @@ class KelasKuliahRequest extends FormRequest
             'hari' => 'required|string',
             'jam_mulai' => 'required',
             'jam_akhir' => 'required|after:jam_mulai',
+            'link_zoom' => 'string',
         ];
 
         // if(Auth::user()->role->name != 'admin_prodi'){
