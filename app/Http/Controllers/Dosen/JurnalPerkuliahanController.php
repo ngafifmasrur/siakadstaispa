@@ -231,7 +231,7 @@ class JurnalPerkuliahanController extends Controller
         ])->get();
 
         if(!is_null($id_jurnal)) {
-            $absensi = t_absensi_mahasiswa::query()->where('id_jurnal_kuliah', $id_jurnal);
+            $absensi = t_absensi_mahasiswa::where('id_jurnal_kuliah', $id_jurnal)->get();
         } else {
             $absensi = null;
         }
@@ -374,12 +374,12 @@ class JurnalPerkuliahanController extends Controller
             ]);
 
             // Update or Insert Absensi Siswa
-            $list_absensi = $request->except('_token', 'tanggal_pelaksanaan', 'topik', 'id_jadwal', 'nama_matkul', 'kode_matkul', 'dataTables_length', '_method');
+            $list_absensi = $request->except('_token', 'tanggal_pelaksanaan', 'topik', 'id_jadwal', 'nama_matkul', 'kode_matkul', 'dataTables_length', '_method', 'id_kelas_kuliah');
             foreach ($list_absensi as $id => $status) {
                 $absensi = t_absensi_mahasiswa::where('id_jurnal_kuliah', $jurnal_perkuliahan->id)
                                     ->where('id_mahasiswa', $id)->first();
                                     
-                if($absensi) {
+                if(isset($absensi)) {
                     $absensi->update(['status' => $status]);
                 } else {
                     t_absensi_mahasiswa::create([
