@@ -28,17 +28,20 @@ class BiodataController extends Controller
     {
         $mahasiswa = ref_detail_mahasiswa::where('id_mahasiswa', Auth::user()->id_mahasiswa)->first();
         
+        
         $agama = ref_agama::pluck('nama_agama', 'id_agama');
         $jenis_tinggal = ref_jenis_tinggal::pluck('nama_jenis_tinggal', 'id_jenis_tinggal');
         $jenjang_pendidikan = ref_jenjang_pendidikan::pluck('nama_jenjang_didik', 'id_jenjang_didik');
         $kebutuhan_khusus = ref_kebutuhan_khusus::pluck('nama_kebutuhan_khusus', 'id_kebutuhan_khusus');
         $pekerjaan = ref_pekerjaan::pluck('nama_pekerjaan', 'id_pekerjaan');
         $penghasilan = ref_penghasilan::pluck('nama_penghasilan', 'id_penghasilan');
-        $alat_transportasi = ref_alat_transportasi::pluck('nama_alat_transportasi', 'id_alat_transportasi');
+        //$alat_transportasi = ref_alat_transportasi::pluck('nama_alat_transportasi', 'id_alat_transportasi'); //sementara di disable karena ganti alamat
         $wilayah = ref_wilayah::where('id_negara', 'ID')->pluck('nama_wilayah', 'id_wilayah');
         $negara = ref_negara::pluck('nama_negara', 'id_negara');
 
-        return view('mahasiswa.biodata.index', compact('negara', 'agama', 'jenis_tinggal', 'jenjang_pendidikan', 'kebutuhan_khusus', 'pekerjaan', 'penghasilan', 'alat_transportasi', 'wilayah', 'mahasiswa'));
+        
+
+        return view('mahasiswa.biodata.index', compact('negara', 'agama', 'jenis_tinggal', 'jenjang_pendidikan', 'kebutuhan_khusus', 'pekerjaan', 'penghasilan', 'wilayah', 'mahasiswa'));
     }
 
     public function update(Request $request)
