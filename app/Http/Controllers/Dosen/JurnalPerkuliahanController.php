@@ -179,10 +179,10 @@ class JurnalPerkuliahanController extends Controller
             })
             ->addColumn('absen_mahasiswa',function ($data) {
                 $link = route('mahasiswa.absen.index', Crypt::encryptString($data->id));
-                $qrcode_img = QrCode::format('png')->size(100)->generate($link);
-                $qrcode = '<div class="align-items-center">
-                <span><img src="'.$qrcode_img.'"></span>
-                <a class="btn_share" href="whatsapp://send?text='.urlencode($qrcode_img).'"><i class="fa fa-whatsapp text-success ml-2"></i></a></div>';
+                $qrcode = QrCode::size(100)->generate($link);
+                // $qrcode = '<div class="align-items-center">
+                // <span><img src="'.$qrcode_img.'"></span>
+                // <a class="btn_share" href="whatsapp://send?text='.urlencode($qrcode_img).'"><i class="fa fa-whatsapp text-success ml-2"></i></a></div>';
                 return $qrcode;
             })
             ->rawColumns(['action', 'absen_mahasiswa'])
@@ -276,6 +276,9 @@ class JurnalPerkuliahanController extends Controller
         ]);
 
         $jadwal = t_dosen_pengajar_kelas_kuliah::where('id_kelas_kuliah', $request->id_kelas_kuliah)->first();
+        $kelas_kuliah = m_kelas_kuliah::setFilter([
+            'filter' => "id_kelas_kuliah='$jadwal->id_kelas_kuliah'",
+        ])->first();
 
         $cek = t_jurnal_kuliah::where('id_kelas_kuliah', $jadwal->id_kelas_kuliah)
                 ->whereDate('tanggal_pelaksanaan', $request->tanggal_pelaksanaan)
@@ -291,7 +294,7 @@ class JurnalPerkuliahanController extends Controller
         try{
 
             $jurnal_kuliah = t_jurnal_kuliah::create([
-                'id_prodi' => $jadwal->id_prodi,
+                'id_prodi' => $kelas_kuliah->id_prodi,
                 'id_dosen' => Auth::user()->id_dosen,
                 'id_kelas_kuliah' => $jadwal->id_kelas_kuliah,
                 'tanggal_pelaksanaan' => $request->tanggal_pelaksanaan,
@@ -318,7 +321,7 @@ class JurnalPerkuliahanController extends Controller
         }catch(\Exception $e){
 
             DB::rollback();
-
+            dd($e);
             Session::flash('error_msg', 'Terjadi kesalahan pada server');
             return redirect()->back()->withInput();
         }
