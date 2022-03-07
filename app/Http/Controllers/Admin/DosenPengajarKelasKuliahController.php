@@ -56,7 +56,7 @@ class DosenPengajarKelasKuliahController extends Controller
         ])->first();
 
         $query = t_dosen_pengajar_kelas_kuliah::setFilter([
-            'filter' => "id_semester='$kelas_kuliah->id_semester'",
+            'filter' => "id_kelas_kuliah='$id_kelas_kuliah'",
         ])->where('id_kelas_kuliah', $id_kelas_kuliah)->get();
 
         return datatables()->of($query)
