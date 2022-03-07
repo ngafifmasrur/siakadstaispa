@@ -41,17 +41,20 @@ class JurnalPerkuliahanController extends Controller
     public function data_index(Request $request)
     {
         $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
-        $query = t_dosen_pengajar_kelas_kuliah::setFilter([
-                    'filter' => "id_semester='$semester_aktif'",
-                ])
-                ->where('id_dosen', Auth::user()->id_dosen)
-                ->when($request->prodi, function($q) use ($request){
-                    $q->where('id_prodi', $request->prodi);
-                })
-                ->when($request->semester, function($q) use ($request){
-                    $q->where('id_semester', $request->semester);
-                })->get();
-                
+        $kelasKuliah = t_dosen_pengajar_kelas_kuliah::setFilter([
+                        'filter' => "id_dosen='".Auth::user()->id_dosen."'"
+                    ])
+                    ->where('id_dosen', Auth::user()->id_dosen)
+                    ->pluck('id_kelas_kuliah')->toArray();
+
+        $query = m_kelas_kuliah::setFilter([
+            'filter' => "id_semester='$semester_aktif'",
+        ])
+        ->whereIn('id_kelas_kuliah', $kelasKuliah)
+        ->when($request->prodi, function($q) use ($request){
+            $q->where('id_prodi', $request->prodi);
+        })->get();
+
         $query->map(function ($item){
             $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kuliah)->first();
             $item['hari'] = $jadwal->hari ?? null;
@@ -63,18 +66,6 @@ class JurnalPerkuliahanController extends Controller
 
         return datatables()->of($query)
             ->addIndexColumn()
-            ->addColumn('nama_semester', function ($data) {
-                return $data->kelas_kuliah->nama_semester;
-            })
-            ->addColumn('nama_program_studi', function ($data) {
-                return $data->kelas_kuliah->nama_program_studi;
-            })
-            ->addColumn('nama_mata_kuliah', function ($data) {
-                return $data->kelas_kuliah->nama_mata_kuliah;
-            })
-            ->addColumn('nama_kelas_kuliah', function ($data) {
-                return $data->kelas_kuliah->nama_kelas_kuliah;
-            })
             ->addColumn('jadwal',function ($data) {
                 if($data->hari && $data->jam_mulai && $data->jam_akhir) {
                     return $data->hari.', '.$data->jam_mulai.'-'.$data->jam_akhir;
@@ -83,7 +74,7 @@ class JurnalPerkuliahanController extends Controller
                 return '-';
             })
             ->addColumn('jumlah_mahasiswa', function ($data) {
-                return $data->kelas_kuliah->jumlah_mahasiswa;
+                return $data->jumlah_mahasiswa;
             })
             ->addColumn('action',function ($data) {
            

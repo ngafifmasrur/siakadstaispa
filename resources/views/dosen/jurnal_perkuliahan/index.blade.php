@@ -12,10 +12,10 @@
             <label for="prodi">Program Studi</label>
             {!! Form::select('prodi', $prodi, null, ['class' => 'form-control', 'id' => 'prodi']) !!}
         </div>
-        {{-- <div class="form-group col-lg-3">
+        <div class="form-group col-lg-3">
             <label for="semester">Semester</label>
-            {!! Form::select('semester', $semester, null, ['class' => 'form-control', 'id' => 'semester']) !!}
-        </div> --}}
+            {!! Form::select('semester', $semester, $semester_id, ['class' => 'form-control', 'id' => 'semester']) !!}
+        </div>
     </div>
 </x-card>
 
@@ -35,7 +35,8 @@
         ['title' => 'Ket.', 'data' => 'action', 'name' => 'action']
     ]"
     :filter="[
-        ['data' => 'prodi', 'value' => '$(`#prodi`).val()']
+        ['data' => 'prodi', 'value' => '$(`#prodi`).val()'],
+        ['data' => 'semester', 'value' => '$(`#semester`).val()']
     ]"
     />
 </x-card-table>
@@ -45,7 +46,7 @@
 @push('js')
     <script>
         $( document ).ready(function() {
-            $(document).on('change','#prodi',function(){
+            $(document).on('change','#prodi', '#semester',function(){
                 table.ajax.reload();
             });
         });
