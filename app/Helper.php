@@ -253,13 +253,25 @@ if (! function_exists('InsertDataFeeder')) {
 
         $result = json_decode($res->getBody()->getContents(), true);
 
-        if($result['error_code'] == '0') {
+        if($result['error_code'] == 0) {
             //clear Redis 
             Redis::del($redis);
         }
 
         
-        return $result;
+        if($result['error_code'] !== 0) {
+            return [
+                'error_code' => $result['error_code'],
+                'error_desc' => $result['error_desc'],
+                'data' => $result['data'],
+            ] ;
+        } elseif($result['error_code'] == 0) {
+            return [
+                'error_code' => '0',
+                'error_desc' => $result['error_desc'],
+                'data' => $result['data'],
+            ] ;
+        }
     }
 }
 
@@ -287,12 +299,24 @@ if (! function_exists('UpdateDataFeeder')) {
 
         $result = json_decode($res->getBody()->getContents(), true);
 
-        if($result['error_code'] == '0') {
+        if($result['error_code'] == 0) {
             //clear Redis 
             Redis::del($redis);
         }
 
-        return $result;
+        if($result['error_code'] !== 0) {
+            return [
+                'error_code' => $result['error_code'],
+                'error_desc' => $result['error_desc'],
+                'data' => $result['data'],
+            ] ;
+        } elseif($result['error_code'] == 0) {
+            return [
+                'error_code' => '0',
+                'error_desc' => $result['error_desc'],
+                'data' => $result['data'],
+            ] ;
+        }
     }
 }
 
@@ -319,11 +343,23 @@ if (! function_exists('DeleteDataFeeder')) {
 
         $result = json_decode($res->getBody()->getContents(), true);
 
-        if($result['error_code'] == '0') {
+        if($result['error_code'] == 0) {
             //clear Redis 
             Redis::del($redis);
         }
 
-        return $result;
+        if($result['error_code'] !== 0) {
+            return [
+                'error_code' => $result['error_code'],
+                'error_desc' => $result['error_desc'],
+                'data' => $result['data'],
+            ] ;
+        } elseif($result['error_code'] == 0) {
+            return [
+                'error_code' => '0',
+                'error_desc' => $result['error_desc'],
+                'data' => $result['data'],
+            ] ;
+        }
     }
 }
