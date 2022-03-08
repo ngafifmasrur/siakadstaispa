@@ -9,6 +9,7 @@ use App\Models\m_program_studi;
 use App\Models\m_mata_kuliah;
 use App\Models\m_semester;
 use App\Models\m_jadwal;
+use App\Models\t_dosen_pengajar_kelas_kuliah;
 use App\Http\Requests\KelasKuliahRequest;
 use Session, DB;
 
@@ -39,6 +40,10 @@ class KelasKuliahController extends Controller
 
     public function data_index(Request $request)
     {
+        $dosen = t_dosen_pengajar_kelas_kuliah::setFilter([
+            'limit' => "999999999"
+        ])->get();
+
         $query = m_kelas_kuliah::setFilter([
                     'filter' => "id_semester='$request->id_semester'",
                 ])
@@ -50,14 +55,15 @@ class KelasKuliahController extends Controller
                 })->get();
         
 
-        $query->map(function ($item){
+        $query->map(function ($item) use ($dosen) {
             $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kuliah)->first();
-            
             $item['hari'] = $jadwal->hari ?? null;
             $item['jam_mulai'] = $jadwal->jam_mulai ?? null;
             $item['jam_akhir'] = $jadwal->jam_akhir ?? null;
             $item['link_zoom'] = $jadwal->link_zoom ?? null;
-
+            $item['nama_dosen'] = $dosen->where('id_kelas_kuliah', $item->id_kelas_kuliah)->map(function($q) {
+                return ('- '.$q->nama_dosen);
+            })->implode('<br>');
             return $item;
         });
 
@@ -150,11 +156,6 @@ class KelasKuliahController extends Controller
                 }
 
                 return '-';
-            })
-            ->addColumn('nama_dosen', function ($data) {
-                return $data->dosen->map(function($q) {
-                    return ('- '.$q->nama_dosen);
-                })->implode('<br>');
             })
             ->rawColumns(['action', 'dosen', 'mahasiswa', 'nama_dosen'])
             ->setRowAttr([

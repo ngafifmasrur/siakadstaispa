@@ -27,6 +27,13 @@ class AktivitasPerkuliahanController extends Controller
      */
     public function index()
     {
+        $mahasiwa = t_riwayat_pendidikan_mahasiswa::setFilter([
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
+        ])->first();
+        if(!isset($mahasiwa)){
+            Session::flash('error_msg', 'Mahasiswa tidak memiliki semester aktif / riwayat pendidikan');
+            return view('mahasiswa.krs.index2');
+        }
         return view('mahasiswa.aktivitas_perkuliahan.index');
     }
 

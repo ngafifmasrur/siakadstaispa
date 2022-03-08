@@ -18,7 +18,10 @@ class DosenWaliController extends Controller
         $mahasiswa = t_riwayat_pendidikan_mahasiswa::setFilter([
             'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
         ])->first();
-
+        if(!isset($mahasiswa)){
+            Session::flash('error_msg', 'Mahasiswa tidak memiliki semester aktif / riwayat pendidikan');
+            return view('mahasiswa.krs.index2');
+        }
         $dosen_wali_aktif = t_dosen_wali_mahasiswa::where('id_registrasi_mahasiswa', $mahasiswa->id_registrasi_mahasiswa)->pluck('id_dosen')->toArray();
         $list_dosen = m_dosen::setFilter([
             'limit' => "100000"
