@@ -99,10 +99,19 @@ class PeriodeBaru extends Command
                     ];
             }
             DB::table('admission_committees')->insert($committees);
-    
-            $permissions = DB::table('admission_permissions')->get();
-            
             $committeess = DB::table('admission_committees')->where('admission_id', $admissions->id)->get();
+
+            $panitia = DB::table('admission_committee_members')->where('kd', 'PAN-01')->update([
+                'committee_id' => $committeess->where('name', 'Panitia')->first()->id
+            ]);
+            $programmer = DB::table('admission_committee_members')->where('kd', 'PRG-01')->update([
+                'committee_id' => $committeess->where('name', 'Programmer')->first()->id
+            ]);
+            $pembayaran = DB::table('admission_committee_members')->where('kd', 'PB-01')->update([
+                'committee_id' => $committeess->where('name', 'Div. Pembayaran')->first()->id
+            ]);
+
+            $permissions = DB::table('admission_permissions')->get();
             $committee_permissions = [];
 
             foreach ($committeess as $value) {

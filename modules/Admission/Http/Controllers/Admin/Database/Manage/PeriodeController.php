@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Admission\Models\Admission;
 use Modules\Admission\Repositories\AdmissionRegistrantRepository;
+use DB;
 
 class PeriodeController extends Controller
 {
@@ -78,12 +79,28 @@ class PeriodeController extends Controller
     public function update(Admission $periode, Request $request)
     {
         $periode->update([
-            'open' => $request->open,
-            'published' => $request->published
+            'open' => 1,
+            'published' => 1
+        ]);
+
+        Admission::where('id', '!=', $periode->id)->update([
+            'open' => 0,
+            'published' => 0
         ]);
         
+        $committeess = DB::table('admission_committees')->where('admission_id', $periode->id)->get();
+        $panitia = DB::table('admission_committee_members')->where('kd', 'PAN-01')->update([
+            'committee_id' => $committeess->where('name', 'Panitia')->first()->id
+        ]);
+        $programmer = DB::table('admission_committee_members')->where('kd', 'PRG-01')->update([
+            'committee_id' => $committeess->where('name', 'Programmer')->first()->id
+        ]);
+        $pembayaran = DB::table('admission_committee_members')->where('kd', 'PB-01')->update([
+            'committee_id' => $committeess->where('name', 'Div. Pembayaran')->first()->id
+        ]);
+
         return redirect($request->get('next', route('admission.admin.database.manage.rooms.index')))
-                    ->with(['success' => 'Sukses, Status periode berhasil diubah']);
+                    ->with(['success' => 'Sukses, Periode berhasil diubah']);
     }
     /**
      * Remove the specified resource from storage.
