@@ -1,0 +1,37 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Handle Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+
+    AddType  application/x-httpd-php         .php
+    AddType  application/x-httpd-php-source  .phps
+</IfModule>
+
+<FilesMatch ".(eot|otf|ttf|woff|woff2)">
+    Header always set Access-Control-Allow-Origin "*"
+</FilesMatch>
+
+<FilesMatch ".(php|html)">
+    Header add Access-Control-Allow-Origin "*"
+    #Header add Access-Control-Allow-Methods: "GET,POST,OPTIONS,DELETE,PUT"
+</FilesMatch>
+RewriteCond %{HTTP_HOST} ^pmb\.staispa\.ac\.id$ [OR]
+RewriteCond %{HTTP_HOST} ^www\.pmb\.staispa\.ac\.id$
+RewriteRule ^/?$ "https\:\/\/admisi\.staispa\.ac\.id\/" [R=301,L]
+

@@ -1,0 +1,13 @@
+{
+    "name": "Admission",
+    "alias": "admission",
+    "description": "",
+    "keywords": [],
+    "order": 0,
+    "providers": [
+        "Modules\\Admission\\Providers\\AdmissionServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

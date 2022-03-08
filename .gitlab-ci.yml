@@ -1,0 +1,116 @@
+variables:
+  DEPENDABOT_IMAGE: docker.io/andrcuns/dependabot-gitlab:0.12.0
+
+.dependabot-gitlab:
+  image:
+    name: $DEPENDABOT_IMAGE
+    entrypoint: [""]
+  variables:
+    GIT_STRATEGY: none
+    RAILS_ENV: production
+    PACKAGE_MANAGER: $CI_JOB_NAME
+    SETTINGS__GITLAB_URL: $CI_SERVER_URL
+    SETTINGS__STANDALONE: "true"
+  script:
+    - mkdir ~/.ssh
+    - cp "$READ_ONLY_PRIV_KEY" ~/.ssh/id_rsa
+    - cp "$CONFIG_PRIV_KEY" ~/.ssh/config
+    - chmod 700 ~/.ssh ~/.ssh/id_rsa
+    - cd /home/dependabot/app
+    - bundle exec rake "dependabot:update[$PROJECT_PATH,$PACKAGE_MANAGER,$DIRECTORY]"
+
+composer:
+  extends: .dependabot-gitlab
+  rules:
+    - if: $DEPENDENCY_UPDATES_DISABLED
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && $PACKAGE_MANAGER_SET =~ /\bcomposer\b/'
+
+npm:
+  extends: .dependabot-gitlab
+  rules:
+    - if: $DEPENDENCY_UPDATES_DISABLED
+      when: never
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && $PACKAGE_MANAGER_SET =~ /(\bnpm|yarn\b)/'
+
+.for_staging:
+  environment:
+    name: staging
+  variables:
+    DOCKER_IMAGE_TAG: stable
+  only:
+    - master
+
+.for_development:
+  environment:
+    name: development
+  variables:
+    DOCKER_IMAGE_TAG: latest
+  only:
+    - develop
+
+.build:
+  stage: build
+  image: docker:stable
+  services:
+    - docker:19-dind
+  script:
+    - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
+    - docker pull ${CI_REGISTRY_IMAGE}:${DOCKER_IMAGE_TAG} || true
+      .
+    - docker build
+      --cache-from ${CI_REGISTRY_IMAGE}:${DOCKER_IMAGE_TAG}
+      --tag ${CI_REGISTRY_IMAGE}:${DOCKER_IMAGE_TAG}
+      --label org.label-schema.schema-version="1.0"
+      --label org.label-schema.vcs-url="${CI_PROJECT_URL}.git"
+      --label org.label-schema.vcs-ref="${CI_COMMIT_SHA}"
+      .
+    - docker push ${CI_REGISTRY_IMAGE}:${DOCKER_IMAGE_TAG}
+
+staging:publish:
+  extends:
+    - .build
+    - .for_staging
+
+development:publish:
+  extends:
+    - .build
+    - .for_development
+
+sonarqube:check:
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+    GIT_DEPTH: "0"
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  script:
+    - sonar-scanner -Dsonar.qualitygate.wait=true -X
+  allow_failure: true
+  only:
+    - develop
+    - merge_requests
+
+trivy:scan:
+  image:
+    name: aquasec/trivy:latest
+    entrypoint: [""]
+  services:
+    - docker:19-dind
+  variables:
+   TRIVY_USERNAME: ${CI_REGISTRY_USER}
+   TRIVY_PASSWORD: ${CI_REGISTRY_PASSWORD}
+   TRIVY_AUTH_URL: ${CI_REGISTRY}
+  script:
+    - trivy image --output scanning-report.txt registry.impstudio.id/imp/pmb-staispa:${CI_COMMIT_TAG}
+    - cat scanning-report.txt
+  artifacts:
+    reports:
+      container_scanning: scanning-report.txt
+  only:
+    - develop
+    - master

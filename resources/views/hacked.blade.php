@@ -1,0 +1,1 @@
+<h1 style="background-color:black; color:white;text-align:center;">[Hacked by <span style="background-color:red;">AnonymoNg</span>] <br> wHerE's tHe JuStice >.<</h1>
