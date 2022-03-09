@@ -29,7 +29,7 @@ use App\Http\Controllers\Mahasiswa\{
 
 Route::group(
     [
-        'middleware' => ['Role:mahasiswa'],
+        'middleware' => ['Role:mahasiswa', 'checkfeeder'],
         'as' => 'mahasiswa.',
     ],
     function () {
