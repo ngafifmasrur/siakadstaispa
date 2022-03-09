@@ -49,19 +49,12 @@ class ref_detail_dosen extends SushiModel
         'tanggal_mulai_pns' => 'date',
         'id_pekerjaan_suami_istri' => 'integer',
         'nama_pekerjaan_suami_istri' => 'string',
-        'mampu_handle_kebutuhan_khusus' => 'integer',
-        'mampu_handle_braille' => 'integer',
-        'mampu_handle_bahasa_isyarat' => 'integer'
     ];
 
     public function getRows()
     {
 
         $dosen_belum_nidn = m_dosen_belum_nidn::all();
-        $dosen_belum_nidn->map(function ($item){
-            $item['nama_ibu'] = $item->nama_ibu_kandung;
-            return $item;
-        });
         $array_data = $dosen_belum_nidn->toArray();
 
         $data = array_merge(GetDataFeeder('DetailBiodataDosen', self::$filter), $array_data);
