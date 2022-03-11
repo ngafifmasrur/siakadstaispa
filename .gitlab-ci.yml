@@ -106,7 +106,7 @@ trivy:scan:
    TRIVY_PASSWORD: ${CI_REGISTRY_PASSWORD}
    TRIVY_AUTH_URL: ${CI_REGISTRY}
   script:
-    - trivy image --output scanning-report.txt registry.impstudio.id/imp/staispa_siakad:${CI_COMMIT_TAG}
+    - trivy image --output scanning-report.txt registry.impstudio.id/imp/staispa-siakad:${CI_COMMIT_TAG}
     - cat scanning-report.txt
   artifacts:
     reports:

@@ -28,3 +28,7 @@ RUN npm install
 RUN npm run prod
 
 RUN a2enmod rewrite
+
+RUN chmod +x run
+
+CMD ["./run"]
