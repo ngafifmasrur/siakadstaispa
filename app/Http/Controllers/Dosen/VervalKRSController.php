@@ -13,7 +13,8 @@ use App\Models\{
     m_jadwal,
     t_riwayat_pendidikan_mahasiswa,
     m_kelas_kuliah,
-    t_matkul_kurikulum
+    t_matkul_kurikulum,
+    t_dosen_pengajar_kelas_kuliah
 };
 
 use Session, DB, Auth;
@@ -131,27 +132,29 @@ class VervalKRSController extends Controller
         $kelasKuliah = t_peserta_kelas_kuliah::setFilter([
             'filter' => "id_mahasiswa='$mahasiswa->id_mahasiswa'"
         ])->pluck('id_kelas_kuliah')->toArray();
-        
+
+        $dosen = t_dosen_pengajar_kelas_kuliah::setFilter([
+            'filter' => "id_semester='$semester_aktif'"
+        ])->get();
+
         $query = m_kelas_kuliah::setFilter([
             'filter' => "id_semester='$semester_aktif'"
         ])->whereIn('id_kelas_kuliah', $kelasKuliah)->get();
 
-        $query->map(function ($item) {
-            // Mata Kuliah
-            $matkul = m_mata_kuliah::setFilter([
-                'filter' => "id_matkul='$item->id_matkul'"
-            ])->first();
+        $query->map(function ($item) use ($dosen) {
             $matkul_kurikulum = t_matkul_kurikulum::setFilter([
                 'filter' => "id_matkul='$item->id_matkul'"
             ])->first();
             // Jadwal
             $jadwal = m_jadwal::where('id_kelas_kuliah', $item->id_kelas_kuliah)->first();
 
-            $item['hari'] = $item->hari;
-            $item['jam_mulai'] = $item->jam_mulai;
-            $item['jam_akhir'] = $item->jam_akhir;
-            $item['sks_mata_kuliah'] = $matkul->sks_mata_kuliah;
+            $item['hari'] = $jadwal->hari ?? null;
+            $item['jam_mulai'] = $jadwal->jam_mulai ?? null;
+            $item['jam_akhir'] = $jadwal->jam_akhir ?? null;
             $item['smt'] = $matkul_kurikulum->semester;
+            $item['nama_dosen'] = $dosen->where('id_kelas_kuliah', $item->id_kelas_kuliah)->map(function($q) {
+                return ('- '.$q->nama_dosen);
+            })->implode('<br>');
 
             return $item;
         });
@@ -160,9 +163,6 @@ class VervalKRSController extends Controller
             ->addIndexColumn()
             ->addColumn('sks_mata_kuliah',function ($data) {
                 return $data->sks_mata_kuliah;
-            })
-            ->addColumn('nama_dosen', function ($data) {
-                return '-';
             })
             ->addColumn('jadwal',function ($data) {
                 if($data->hari && $data->jam_mulai && $data->jam_akhir) {
