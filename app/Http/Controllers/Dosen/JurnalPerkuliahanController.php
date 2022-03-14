@@ -282,8 +282,10 @@ class JurnalPerkuliahanController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'tanggal_pelaksanaan' => 'required|date',
+            'tanggal_pelaksanaan' => 'required',
         ]);
+
+        $tanggal = date('Y-m-d', strtotime($request->tanggal_pelaksanaan));
 
         $jadwal = t_dosen_pengajar_kelas_kuliah::where('id_kelas_kuliah', $request->id_kelas_kuliah)->first();
         $kelas_kuliah = m_kelas_kuliah::setFilter([
@@ -291,11 +293,11 @@ class JurnalPerkuliahanController extends Controller
         ])->first();
 
         $cek = t_jurnal_kuliah::where('id_kelas_kuliah', $jadwal->id_kelas_kuliah)
-                ->whereDate('tanggal_pelaksanaan', $request->tanggal_pelaksanaan)
+                ->whereDate('tanggal_pelaksanaan', $tanggal)
                 ->count();
 
         if($cek > 0) {
-            Session::flash('error_msg', 'Jurnal Kuliah dengan Tanggal Pelaksanaan '.$request->tanggal_pelaksanaan.' sudah ada.');
+            Session::flash('error_msg', 'Jurnal Kuliah dengan Tanggal Pelaksanaan '.$tanggal.' sudah ada.');
             return redirect()->back()->withInput();
         }
 
@@ -307,7 +309,7 @@ class JurnalPerkuliahanController extends Controller
                 'id_prodi' => $kelas_kuliah->id_prodi,
                 'id_dosen' => Auth::user()->id_dosen,
                 'id_kelas_kuliah' => $jadwal->id_kelas_kuliah,
-                'tanggal_pelaksanaan' => $request->tanggal_pelaksanaan,
+                'tanggal_pelaksanaan' => $tanggal,
                 'topik' => $request->topik,
             ]);
 
@@ -324,14 +326,12 @@ class JurnalPerkuliahanController extends Controller
             t_absensi_mahasiswa::insert($absensi);
 
             DB::commit();
-
             Session::flash('success_msg', 'Jurnal Kuliah Berhasil Disimpan!');
             return redirect()->route('dosen.jurnal_perkuliahan.jurnal_index', $jadwal->id_kelas_kuliah);
 
         }catch(\Exception $e){
 
             DB::rollback();
-            dd($e);
             Session::flash('error_msg', 'Terjadi kesalahan pada server');
             return redirect()->back()->withInput();
         }
@@ -340,17 +340,19 @@ class JurnalPerkuliahanController extends Controller
     public function update(Request $request, t_jurnal_kuliah $jurnal_perkuliahan)
     {
         $validated = $request->validate([
-            'tanggal_pelaksanaan' => 'required|date',
+            'tanggal_pelaksanaan' => 'required',
         ]);
 
+        $tanggal = date('Y-m-d', strtotime($request->tanggal_pelaksanaan));
+
         $jadwal = t_dosen_pengajar_kelas_kuliah::where('id_kelas_kuliah', $request->id_kelas_kuliah)->first();
-        if($jurnal_perkuliahan->tanggal_pelaksanaan !== $request->tanggal_pelaksanaan) {
+        if($jurnal_perkuliahan->tanggal_pelaksanaan !== $tanggal) {
             $cek = t_jurnal_kuliah::where('id_kelas_kuliah', $request->id_kelas_kuliah)
-                    ->whereDate('tanggal_pelaksanaan', $request->tanggal_pelaksanaan)
+                    ->whereDate('tanggal_pelaksanaan', $tanggal)
                     ->count();
 
             if($cek > 0) {
-                Session::flash('error_msg', 'Jurnal Kuliah dengan Tanggal Pelaksanaan '.$request->tanggal_pelaksanaan.' sudah ada.');
+                Session::flash('error_msg', 'Jurnal Kuliah dengan Tanggal Pelaksanaan '.$tanggal.' sudah ada.');
                 return redirect()->back()->withInput();
             }
         }
@@ -360,7 +362,7 @@ class JurnalPerkuliahanController extends Controller
         try{
 
             $jurnal_perkuliahan->update([
-                'tanggal_pelaksanaan' => $request->tanggal_pelaksanaan,
+                'tanggal_pelaksanaan' => $tanggal,
                 'topik' => $request->topik,
             ]);
 

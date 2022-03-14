@@ -38,7 +38,7 @@
         <div class="form-group row">
             <label for="tanggal_pelaksanaan" class="col-sm-2 col-form-label">Tanggal Pelaksanaan <span class="text-danger">*</span></label>
             <div class="col-sm-10">
-                {!! Form::date('tanggal_pelaksanaan', null, ['class' => 'form-control '.($errors->has('tanggal_pelaksanaan') ? 'is-invalid' : ''), 'id' => 'tanggal_pelaksanaan']) !!}
+                {!! Form::text('tanggal_pelaksanaan', null, ['class' => 'form-control fc-datepicker '.($errors->has('tanggal_pelaksanaan') ? 'is-invalid' : ''), 'id' => 'tanggal_pelaksanaan', 'placeholder' => 'MM/DD/YYYY']) !!}
                 @error('tanggal_pelaksanaan')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -83,9 +83,20 @@
 @endsection
 
 @push('css')
+		<!-- Date Picker css-->
+		<link href="{{ asset('sparic/plugins/spectrum-date-picker/spectrum.css') }}" rel="stylesheet" />
+
     <style>
         .form-group {
             display: flex!important;
         }
     </style>
+@endpush
+
+@push('js')
+		<!-- Datepicker js -->
+		<script src="{{ asset('sparic/plugins/spectrum-date-picker/spectrum.js') }}"></script>
+		<script src="{{ asset('sparic/plugins/spectrum-date-picker/jquery-ui.js') }}"></script>
+		<script src="{{ asset('sparic/plugins/input-mask/jquery.maskedinput.js') }}"></script>
+        <script src="{{ asset('sparic/js/form-elements.js') }}"></script>
 @endpush
