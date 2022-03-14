@@ -54,7 +54,7 @@ use App\Http\Controllers\Admin\{
 */
 
 Route::group(
-    ['middleware' => ['Role:admin'], 'as' => 'admin.'],
+    ['middleware' => ['Role:admin', 'checkfeeder'], 'as' => 'admin.'],
     function () {
         Route::get('/', fn () => redirect()->route('admin.dashboard'));
         Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('checkfeeder')->name(
@@ -63,7 +63,7 @@ Route::group(
         Route::get('/perguruan_tinggi', [
             PerguruanTinggiController::class,
             'index',
-        ])->middleware('checkfeeder')->name('perguruan_tinggi.index');
+        ])->name('perguruan_tinggi.index');
         Route::post('/perguruan_tinggi/update', [
             PerguruanTinggiController::class,
             'update',
@@ -72,7 +72,7 @@ Route::group(
         Route::resource(
             '/program_studi',
             ProgramStudiController::class
-        )->middleware('checkfeeder')->except(['show']);
+        )->except(['show']);
         Route::get('/program_studi/data_index', [
             ProgramStudiController::class,
             'data_index',
@@ -202,15 +202,6 @@ Route::group(
             RiwayatPendidikanMHSController::class,
             'data_index',
         ])->name('riwayat_pendidikan.data_index');
-
-        Route::get('/konfigurasi/data_index', [
-            KonfigurasiController::class,
-            'data_index',
-        ])->name('konfigurasi.data_index');
-        
-        Route::resource('/konfigurasi', KonfigurasiController::class)->except([
-            'show',
-        ]);
         
 
         Route::get('/data_pokok/{master}', [
@@ -333,4 +324,12 @@ Route::group(
         Route::post('/konfigurasi_menu/updateOrder', [KonfigurasiMenuController::class,'updateOrder'])->name('konfigurasi_menu.updateOrder');
         Route::resource('/konfigurasi_menu', KonfigurasiMenuController::class)->except(['show']);
     }
+);
+
+
+
+Route::group( ['middleware' => ['Role:admin'], 'as' => 'admin.'], function () {
+    Route::get('/konfigurasi/data_index', [KonfigurasiController::class, 'data_index',])->name('konfigurasi.data_index');
+    Route::resource('/konfigurasi', KonfigurasiController::class)->except(['show',]);
+}
 );

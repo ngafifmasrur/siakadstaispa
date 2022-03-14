@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use App\Models\m_konfigurasi;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Http\Client\ConnectionException;
 
 function set_active($path, $active = 'show') {
 
@@ -145,16 +146,21 @@ if (! function_exists('GetTokenFeeder')) {
         $username_fromdb = m_konfigurasi::where('variable','username_feeder_pd_dikti')->first()->value;
         $password_fromdb = m_konfigurasi::where('variable','password_feeder_pd_dikti')->first()->value;
 
-        $response = Http::post($endpoint_fromdb, [
-            'act' => 'GetToken',
-            'username' => $username_fromdb,
-            'password' => $password_fromdb,
-        ]);
-        
-        $result = $response->getBody()->getContents();
-        $token = json_decode($result)->data->token;
+        try {
+            $response = Http::post($endpoint_fromdb, [
+                'act' => 'GetToken',
+                'username' => $username_fromdb,
+                'password' => $password_fromdb,
+            ]);
 
-        return $token;
+            $result = $response->getBody()->getContents();
+            $token = json_decode($result)->data->token ?? null;
+            return $token;
+
+        } catch(ConnectionException $e)
+        {
+            return null;
+        }
     }
 }
 
