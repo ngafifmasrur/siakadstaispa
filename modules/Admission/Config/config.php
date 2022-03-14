@@ -113,6 +113,12 @@ return [
                         'icon' => 'wallet',
                         'label' => 'Pembayaran'
                     ],
+                    [
+                        'route' => 'admission.admin.registration.cbt.index',
+                        'permissions' => 1,
+                        'icon' => 'calculator',
+                        'label' => 'Tes CBT'
+                    ],
                 ]
             ],
             [
@@ -156,6 +162,12 @@ return [
                                 'permissions' => 'manage-registrants',
                                 'icon' => 'layers',
                                 'label' => 'Calon maba'
+                            ],
+                            [
+                                'route' => 'admission.admin.cbt.index',
+                                'permissions' => 1,
+                                'icon' => 'layers',
+                                'label' => 'Mapel CBT'
                             ],
                         ]
                     ],

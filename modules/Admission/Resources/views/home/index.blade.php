@@ -9,10 +9,13 @@
 				<div class="jumbotron bg-dark text-white">
 					<h1>Assalamualaikum {{ $registrant->user->profile->full_name }}!</h1>
 					<div>di {{ config('admission.head.title') }}</div>
-				</div>
+				</div> 
 				{{-- @include('admission::includes.announcements') --}}
 				@include('admission::includes.registrant-form-status', ['registrant' => $registrant])
 				@include('admission::includes.registrant-progress', ['registrant' => $registrant])
+				@if ($registrant->verified_at)
+					@include('admission::includes.registrant-cbt', ['registrant' => $registrant])
+				@endif
 			</div>
 			<div class="col-md-4">
 				@include('admission::includes.registrant-information', ['registrant' => $registrant])

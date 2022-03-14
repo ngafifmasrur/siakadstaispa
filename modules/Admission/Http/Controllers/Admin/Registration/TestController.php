@@ -122,6 +122,8 @@ class TestController extends Controller
 		 */
 		public function print(AdmissionRegistrant $registrant)
 		{
+			$admissions = $this->repo->admission = auth()->user()->admissionCommittees->load('admission')->pluck('admission');
+
 			$this->authorize('testRegistrant', $registrant);
 
             if($registrant->tested_at) {
@@ -159,6 +161,7 @@ class TestController extends Controller
 		public function printQuestions(AdmissionRegistrant $registrant)
 		{
 			$this->authorize('testRegistrant', $registrant);
+			$admission = $this->repo->admission = auth()->user()->admissionCommittees->load('admission')->pluck('admission');
 
 			$registrant = $registrant->load(['user', 'admission.period.instance']);
 			$user = $registrant->user;
