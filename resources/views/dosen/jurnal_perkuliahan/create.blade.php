@@ -38,7 +38,7 @@
         <div class="form-group row">
             <label for="tanggal_pelaksanaan" class="col-sm-2 col-form-label">Tanggal Pelaksanaan <span class="text-danger">*</span></label>
             <div class="col-sm-10">
-                {!! Form::date('tanggal_pelaksanaan', null, ['class' => 'form-control '.($errors->has('tanggal_pelaksanaan') ? 'is-invalid' : ''), 'id' => 'tanggal_pelaksanaan']) !!}
+                {!! Form::date('tanggal_pelaksanaan', null, ['class' => 'form-control '.($errors->has('tanggal_pelaksanaan') ? 'is-invalid' : ''), 'id' => 'tanggal_pelaksanaan', 'placeholder' => 'dd-mm-yyyy', 'min' => '1997-01-01']) !!}
                 @error('tanggal_pelaksanaan')
                     <div class="invalid-feedback">
                         {{ $message }}
