@@ -18,7 +18,7 @@
     		    	    @if(count(config('admission.closed')) != 2)
     		    	        <a class="btn btn-success btn-pill btn-lg m-1" href="{{ auth()->check() ? route('admission.register') : route('account.register', ['next' => route('admission.register')]) }}">Daftar sekarang &raquo;</a>
     		    	    @endif
-    		    		<a class="btn btn-outline-success btn-pill btn-lg m-1" href="{{ config('admission.brosur') }}" target="_blank">Download Brosur &raquo;</a>
+    		    		<a class="btn btn-outline-success btn-pill btn-lg m-1" href="{{ asset('Brosur-PMB_STAISPA_2022-2023.pdf') }}" target="_blank">Download Brosur &raquo;</a>
     		    	</div>
     		    	<p class="mb-0">Sudah pernah mendaftar? <a class="text-success" href="{{ route('admission.register') }}"><u>Klik disini</u></a></p>
     		    @else
