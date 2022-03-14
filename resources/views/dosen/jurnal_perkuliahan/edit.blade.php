@@ -38,7 +38,7 @@
         <div class="form-group row">
             <label for="tanggal_pelaksanaan" class="col-sm-2 col-form-label">Tanggal Pelaksanaan <span class="text-danger">*</span></label>
             <div class="col-sm-10">
-                {!! Form::text('tanggal_pelaksanaan', $jurnal_perkuliahan->tanggal_pelaksanaan, ['class' => 'form-control fc-datepicker '.($errors->has('tanggal_pelaksanaan') ? 'is-invalid' : ''), 'id' => 'tanggal_pelaksanaan', 'placeholder' => 'MM/DD/YYYY']) !!}
+                {!! Form::text('tanggal_pelaksanaan', $jurnal_perkuliahan->tanggal_pelaksanaan, ['class' => 'form-control fc-datepicker '.($errors->has('tanggal_pelaksanaan') ? 'is-invalid' : ''), 'id' => 'tanggal_pelaksanaan', 'placeholder' => 'MM/DD/YYYY', 'autocomplete' => 'off']) !!}
                 @error('tanggal_pelaksanaan')
                     <div class="invalid-feedback">
                         {{ $message }}
