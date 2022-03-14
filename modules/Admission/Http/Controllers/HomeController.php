@@ -4,6 +4,7 @@ namespace Modules\Admission\Http\Controllers;
 
 use Modules\Admission\Models\AdmissionRegistrant;
 use Modules\Admission\Models\AdmissionCBT;
+use Modules\Admission\Models\RegistrantCBT;
 use Modules\Admission\Repositories\AdmissionRegistrantRepository;
 use Modules\Admission\Http\Controllers\Controller;
 
@@ -30,11 +31,13 @@ class HomeController extends Controller
     	$this->authorize('registration', Admission::class);
 
     	$registrant = $this->repo->getCurrentUser();
-        $admission_cbt = AdmissionCBT::where('admission_cbt.admission_id', $registrant->admission_id)
-        ->join('t_registrant_cbt', 't_registrant_cbt.cbt_id', 'admission_cbt.id')
-        ->where('t_registrant_cbt.registrant_id', $registrant->id)
-        ->select('admission_cbt.*', 't_registrant_cbt.status as status_registrant_cbt')
-        ->get();
+        $admission_cbt = AdmissionCBT::where('admission_cbt.admission_id', $registrant->admission_id)->get();
+        $admission_cbt->map(function ($item) use ($registrant){
+            $item['status_registrant_cbt'] = RegistrantCBT::where('registrant_id', $registrant->id)
+            ->where('cbt_id', $item->id)->first()->status ?? 0;
+
+            return $item;
+        });
 
     	return view('admission::home.index', compact('registrant', 'admission_cbt'));
     }

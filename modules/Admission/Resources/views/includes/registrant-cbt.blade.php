@@ -20,8 +20,8 @@
 					<td class="text-center">{{ $loop->iteration }}</td>
 					<td>{{ $item->kode_mapel }}</td>
 					<td>{{ $item->mapel }}</td>
-					<td>{{ $item->durasi }} Menit</td>
-					<td>{{ $item->questions->count() }}</td>
+					<td>{{ $item->durasi/60 }} Menit</td>
+					<td>{{ $item->jumlah_acakan_soal }}</td>
 					<td>
 					@if ($item->status_registrant_cbt == 0)
 						<a class="btn btn-primary" href="{{ route('admission.cbt', $item->id)}}">Kerjakan</a>

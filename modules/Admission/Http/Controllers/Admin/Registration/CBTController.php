@@ -52,11 +52,15 @@ class CBTController extends Controller
      */
     public function show(AdmissionRegistrant $registrant)
     {
-        $admission_cbt = AdmissionCBT::where('admission_cbt.admission_id', $registrant->admission_id)
-        ->join('t_registrant_cbt', 't_registrant_cbt.cbt_id', 'admission_cbt.id')
-        ->where('t_registrant_cbt.registrant_id', $registrant->id)
-        ->select('admission_cbt.*', 't_registrant_cbt.status as status_registrant_cbt', 't_registrant_cbt.jumlah_jawaban_benar')
-        ->get();
+        $admission_cbt = AdmissionCBT::where('admission_cbt.admission_id', $registrant->admission_id)->get();
+        $admission_cbt->map(function ($item) use ($registrant){
+            $cbt_peserta = RegistrantCBT::where('registrant_id', $registrant->id)
+            ->where('cbt_id', $item->id)->first();
+            $item['status_registrant_cbt'] = $cbt_peserta->status ?? 0;
+            $item['jumlah_jawaban_benar'] = $cbt_peserta->jumlah_jawaban_benar ?? null;
+            
+            return $item;
+        });
 
         return view('admission::admin.registration.cbt.show', compact('admission_cbt', 'registrant'));
     }

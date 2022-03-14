@@ -31,7 +31,7 @@
                             <tr>
                                 <th nowrap>Kode Mapel</th>
                                 <th nowrap>Nama Mapel</th>
-                                <th nowrap>Total Soal</th>
+                                <th nowrap>Jumlah Soal</th>
                                 <th nowrap>Jawaban Benar</th>
                                 <th nowrap>Status</th>
                             </tr>
@@ -41,8 +41,8 @@
                                 <tr>
                                     <td>{{ $item->kode_mapel }}</td>
                                     <td>{{ $item->mapel }}</td>
-                                    <td>{{ $item->questions->count() }}</td>
-                                    <td>23</td>
+                                    <td>{{ $item->jumlah_acakan_soal }}</td>
+                                    <td>{{ $item->jumlah_jawaban_benar }}</td>
                                     <td>
                                         @if ($item->status_registrant_cbt == 0)
                                             Belum Dikerjakan

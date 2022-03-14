@@ -21,6 +21,7 @@ class CreateAdmissionCbtTable extends Migration
             $table->string('description')->nullable();
             $table->double('durasi');
             $table->integer('status')->default(0);
+            $table->integer('jumlah_acakan_soal');
             $table->softDeletes();
             $table->timestamps();
 

@@ -47,7 +47,13 @@
                             <div class="form-group row">
                                 <label class="col-md-4 col-form-label text-md-right">Durasi (dalam menit)</label>
                                 <div class="col-md-7">
-                                    <input class="form-control" type="text" name="durasi" id="durasi" placeholder="60" value="{{ $cbt->durasi }}>
+                                    <input class="form-control" type="text" name="durasi" id="durasi" placeholder="60" value="{{ $cbt->durasi }}">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label text-md-right">Jumlah Acakan Soal</label>
+                                <div class="col-md-7">
+                                    <input class="form-control" type="number" name="jumlah_acakan_soal" id="jumlah_acakan_soal" placeholder="20"  value="{{ $cbt->jumlah_acakan_soal }}">
                                 </div>
                             </div>
                         </fieldset>

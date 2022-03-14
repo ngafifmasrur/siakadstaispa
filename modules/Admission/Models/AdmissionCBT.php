@@ -18,7 +18,7 @@ class AdmissionCBT extends Model
      * The attributes that are mass assignable.
      */
     protected $fillable = [
-        'admission_id', 'mapel', 'kode_mapel', 'description', 'durasi', 'status'
+        'admission_id', 'mapel', 'kode_mapel', 'description', 'durasi', 'status', 'jumlah_acakan_soal'
     ];
 
     /**

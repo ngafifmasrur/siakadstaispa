@@ -50,6 +50,12 @@
                                     <input class="form-control" type="text" name="durasi" id="durasi" placeholder="60">
                                 </div>
                             </div>
+                            <div class="form-group row">
+                                <label class="col-md-4 col-form-label text-md-right">Jumlah Acakan Soal</label>
+                                <div class="col-md-7">
+                                    <input class="form-control" type="number" name="jumlah_acakan_soal" id="jumlah_acakan_soal" placeholder="20">
+                                </div>
+                            </div>
                         </fieldset>
                         <hr>
                         <div class="form-group row mb-0">

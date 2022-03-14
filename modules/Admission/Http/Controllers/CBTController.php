@@ -63,7 +63,7 @@ class CBTController extends Controller
                    'status' => 1,
                ]);
 
-               $list_soal = Question::where('cbt_id', $cbt->id)->inRandomOrder()->get();
+               $list_soal = Question::where('cbt_id', $cbt->id)->take($cbt->jumlah_acakan_soal)->inRandomOrder()->get();
                foreach($list_soal as $soal) {
                     $soal_peserta [] = array(
                         'cbt_id' => $cbt->id,

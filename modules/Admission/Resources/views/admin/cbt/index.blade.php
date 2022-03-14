@@ -51,7 +51,9 @@
                                     <th>Periode</th>
                                     <th>Kode</th>
                                     <th>Nama</th>
+                                    <th>Durasi</th>
                                     <th>Total Soal</th>
+                                    <th>Jumlah Soal Acakan</th>
                                     <th>Deskripsi</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -63,7 +65,9 @@
                                         <td>{{ $item->admission->full_name }}</td>
                                         <td>{{ $item->kode_mapel }}</td>
                                         <td>{{ $item->mapel }}</td>
+                                        <td>{{ $item->durasi/60 }}</td>
                                         <td>{{ $item->questions->count() }}</td>
+                                        <td>{{ $item->jumlah_acakan_soal }}</td>
                                         <td>{{ $item->description ?? '-' }}</td>
                                         <td class="py-2 align-middle border-left text-center" nowrap>
                                             <a class="btn btn-success btn-sm" href="{{ route('admission.admin.cbt.import', ['cbt' => $item->id]) }}"><i class="mdi mdi-upload"></i></a>
