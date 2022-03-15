@@ -84,4 +84,21 @@ class SamanController extends Controller
         return redirect()->back()
                     ->with(['success' => 'Sukses, jawal wawancara <strong>'.$registrant->user->profile->full_name.'</strong> telah berhasil disimpan.']);
     }
+
+    /**
+     * Update Status Wawancara
+     */
+    public function status_wawancara(AdmissionRegistrant $registrant, Request $request)
+    {
+        $validated = $request->validate([
+            'status_wawancara' => 'required|integer',
+        ]);
+
+        $this->repo->update([
+            'status_wawancara' => $request->status_wawancara
+        ], $registrant);
+        
+        return redirect()->back()
+                    ->with(['success' => 'Sukses, status_wawancara <strong>'.$registrant->user->profile->full_name.'</strong> telah berhasil disimpan.']);
+    }
 }

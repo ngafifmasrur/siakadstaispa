@@ -53,10 +53,9 @@
                                 @include('admission::includes.registrant-progress-badge', compact('registrant'))
                             </td>
                             <td nowrap>
-                                <strong>Tanggal tes</strong><br>
-                                @if($registrant->test_at)
-                                    {{ $registrant->test_at->formatLocalized('%A, %d %B %Y') }} <br>
-                                    {{ $registrant->session->name.' ('.$registrant->session->range.')' }}
+                                <strong>Tanggal kedatangan</strong><br>
+                                @if($registrant->tanggal_kedatangan)
+                                    {{ $registrant->tanggal_kedatangan->formatLocalized('%A, %d %B %Y') }} <br>
                                 @else
                                     <span class="text-muted">(Belum diisi)</span>
                                 @endif

@@ -18,7 +18,7 @@ return [
         'brand_ext' => 'STAISPA'
     ],
     
-    'brosur' => 'http://pmb.staispa.ac.id/Brosur-PMB-STAISPA-2021-2022.pdf',
+    'brosur' => 'http://pmb.staispa.ac.id/Brosur-PMB-STAISPA-2022-2023.pdf',
 
     'display_error_validations' => true,
 
@@ -83,6 +83,12 @@ return [
             [
                 'title' => 'Pendaftaran',
                 'items' => [
+                    [
+                        'route' => 'admission.admin.registration.saman.index',
+                        'permissions' => 'verify',
+                        'icon' => 'check-circle',
+                        'label' => 'Pilih SAMAN'
+                    ],
                     [
                         'route' => 'admission.admin.registration.verification.index',
                         'permissions' => 'verify',
@@ -168,6 +174,12 @@ return [
                                 'permissions' => 1,
                                 'icon' => 'layers',
                                 'label' => 'Mapel CBT'
+                            ],
+                            [
+                                'route' => 'admission.admin.tanggal_kedatangan.index',
+                                'permissions' => 1,
+                                'icon' => 'layers',
+                                'label' => 'Tanggal Kedatangan'
                             ],
                         ]
                     ],

@@ -105,7 +105,7 @@ class CBTController extends Controller
     public function destroy(AdmissionCBT $cbt)
     {
 
-        if($room->delete()) {
+        if($cbt->delete()) {
             return redirect()->back()
                         ->with(['success' => 'Sukses, data cbt telah berhasil dihapus.']);
         }

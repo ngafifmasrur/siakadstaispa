@@ -19,6 +19,25 @@
     <div class="row">
         <div class="col-md-4">
             @include('admission::includes.registrant-information', ['registrant' => $registrant, 'simple' => true])
+            <div class="card mb-4">
+                <div class="card-body border-top">
+                    <form class="form-block" action="{{ route('admission.admin.registration.saman.status_wawancara', ['registrant' => $registrant->id]) }}" method="POST"> @csrf @method('PUT')
+                        <div class="form-group">
+                            <label class="form-control-label">Status tahap wawancara</label>
+                            <select class="form-control{{ $errors->has('status_wawancara') ? ' is-invalid' : '' }}" name="status_wawancara">
+                                <option value="0" @if($registrant->status_wawancara == 0) selected @endif>Belum lulus</option>
+                                <option value="1" @if($registrant->status_wawancara == 1) selected @endif>Sudah lulus</option>
+                            </select>
+                            @if ($errors->has('status_wawancara'))
+                                <span class="invalid-feedback"> {{ $errors->first('status_wawancara') }} </span>
+                            @endif
+                        </div>
+                        <div class="form-group mb-0">
+                            <button type="submit" class="btn btn-success"><i class="mdi mdi-check"></i> Simpan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
         <div class="col-md-8">
             <div class="card mb-4">

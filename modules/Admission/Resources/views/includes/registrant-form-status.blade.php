@@ -115,9 +115,9 @@ $name = $registrant->user_id == auth()->id() ? 'Anda' : $registrant->user->profi
 		@can('view', $registrant)
 			<div class="card-body">
 				@can('registration', Admission::class)
-					<p>Jika {{ $name }} telah mengisi seluruh data pendaftaran dengan data yang benar-benar valid, silahkan tekan tombol berikut untuk mengunduh dan mencetak formulir pendaftaran {{ $name }}.</p>
+					<p>Jika {{ $name }} telah mengisi seluruh data pendaftaran dengan data yang benar-benar valid serta sudah mengerjakan tes CBT, silahkan tekan tombol berikut untuk mengunduh dan mencetak formulir pendaftaran {{ $name }}.</p>
 				@endcan
-				@if($precentage == 100 || auth()->user()->can('update', $registrant) || $registrant->validated_at)
+				@if(($precentage == 100 || auth()->user()->can('update', $registrant) || $registrant->validated_at) && $status_cbt == true)
         		    <p>
         		        <button class="btn btn-link p-0" data-toggle="modal" data-target="#result-modal"><i class="mdi mdi-printer"></i> Cetak seluruh data pendaftaran</button>
         		    </p>

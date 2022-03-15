@@ -15,7 +15,7 @@
 			<li><a href="{{ route('admission.form.achievements.index') }}">Isi data prestasi</a></li> --}}
 			<li><a href="{{ route('admission.form.major') }}">Pemilihan program studi</a></li>
 			<li><a href="{{ route('admission.form.file') }}">Berkas pendaftaran</a></li>
-			{{-- <li><a href="{{ route('admission.form.test') }}">Pemilihan tanggal tes</a></li> --}}
+			<li><a href="{{ route('admission.form.tanggal_kedatangan') }}">Pemilihan tanggal Kedatangan</a></li>
 		</ul>
 	</div>
 </div>

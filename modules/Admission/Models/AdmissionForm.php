@@ -163,9 +163,9 @@ class AdmissionForm extends Model
                     ->count()) : null,
             ],
             [
-                'route' => 'test', 
-                'name' => 'Pemilihan tanggal tes',
-                'status' => $registrant ? ($registrant->test_at && $registrant->session_id) : null,
+                'route' => 'tanggal_kedatangan', 
+                'name' => 'Pemilihan tanggal kedatangan',
+                'status' => $registrant ? $registrant->tanggal_kedatangan : null,
             ]
         ];
     }

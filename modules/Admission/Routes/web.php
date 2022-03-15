@@ -57,6 +57,9 @@ Route::name('admission.')->group(function() {
 				Route::get('/email', 'Form\EmailController@index')->name('form.email');
 				Route::put('/email', 'Form\EmailController@update')->name('form.email');
 				// Address
+				Route::get('/tanggal_kedatangan', 'Form\TanggalKedatanganController@index')->name('form.tanggal_kedatangan');
+				Route::put('/tanggal_kedatangan', 'Form\TanggalKedatanganController@update')->name('form.tanggal_kedatangan');
+				// Address
 				Route::get('/phone', 'Form\PhoneController@index')->name('form.phone');
 				Route::put('/phone', 'Form\PhoneController@update')->name('form.phone');
 				// Address
@@ -110,6 +113,9 @@ Route::name('admission.')->group(function() {
 				Route::post('/cbt/{cbt}/import', 'CBTController@import_store')->name('cbt.import_store');
 				Route::resource('/cbt', 'CBTController');
 				
+				// tanggal_kedatangan
+				Route::resource('/tanggal_kedatangan', 'TanggalKedatanganController');
+
 				// Database
 				Route::name('database.')->prefix('database')->namespace('Database')->group(function () {
 					Route::name('manage.')->prefix('manage')->namespace('Manage')->middleware(AdmissionIsOpen::class)->group(function () {
@@ -141,6 +147,7 @@ Route::name('admission.')->group(function() {
 						Route::put('/{registrant}', 'SamanController@verify')->name('registration.saman.verify');
 						Route::get('/{registrant}/jadwal_wawancara', 'SamanController@jadwal_wawancara')->name('registration.saman.jadwal_wawancara');
 						Route::put('/{registrant}/set_jadwal_wawancara', 'SamanController@set_jadwal_wawancara')->name('registration.saman.set_jadwal_wawancara');
+						Route::put('/{registrant}/status_wawancara', 'SamanController@status_wawancara')->name('registration.saman.status_wawancara');
 
 					});
 					// Test
