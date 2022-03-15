@@ -1,14 +1,14 @@
 @extends('layouts.app')
-@section('title', 'KRS')
+@section('title', 'Error')
 
 @section('content')
 
 <x-header>
-    KRS
+    {!! Session::get('error_msg') !!}
 </x-header>
 
 <x-card-table>
-    <x-slot name="title">Mahasiswa tidak memiliki semester aktif</x-slot>
+    <x-slot name="title">{!! Session::get('error_msg') !!}</x-slot>
 </x-card-table>
 
 @endsection
