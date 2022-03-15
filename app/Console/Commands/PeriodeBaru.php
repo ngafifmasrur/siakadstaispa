@@ -125,16 +125,77 @@ class PeriodeBaru extends Command
 
             DB::table('admission_committee_permissions')->insert($committee_permissions);
 
-            $availableForms = [1, 0, 1, 1, 1, 1, 0, 1, 0, 0, 1, 1];
+            $availableForms = [
+                [
+                    'key'        => 0,
+                    'keterangan' => 'Profile',
+                    'required'   => 1
+                ],
+                [
+                    'key'        => 1,
+                    'keterangan' => 'Alamat e-mail',
+                    'required'   => 1
+                ],                
+                [
+                    'key'        => 2,
+                    'keterangan' => 'Nomor HP',
+                    'required'   => 0
+                ],                
+                [
+                    'key'        => 3,
+                    'keterangan' => 'Alamat asal',
+                    'required'   => 1
+                ],                
+                [
+                    'key'        => 4,
+                    'keterangan' => 'Data ayah',
+                    'required'   => 1
+                ],                
+                [
+                    'key'        => 5,
+                    'keterangan' => 'Data ibu',
+                    'required'   => 1
+                ],                
+                // [
+                //     'key'        => 6,
+                //     'keterangan' => 'Data wali',
+                //     'required'   => 1
+                // ],                
+                // [
+                //     'key'        => 7,
+                //     'keterangan' => 'Riwayat pendidikan',
+                //     'required'   => 0
+                // ],              
+                // [
+                //     'key'        => 8,
+                //     'keterangan' => 'Riwayat organisasi',
+                //     'required'   => 0
+                // ],                
+                // [
+                //     'key'        => 9,
+                //     'keterangan' => 'Data Prestasi',
+                //     'required'   => 0
+                // ],                
+                [
+                    'key'        => 10,
+                    'keterangan' => 'Pemilihan program studi',
+                    'required'   => 1
+                ],
+                [        
+                    'key'        => 11,
+                    'keterangan' => 'Berkas pendaftaran',
+                    'required'   => 1
+                ]
+            ];
             $forms = [];
-            for ($i=0; $i < count($availableForms); $i++) { 
-                    $forms[] = [
-                        'admission_id' => $admissions->id,
-                        'key' => $i,
-                        'required' => $availableForms[$i],
-                        'created_at' => $now,
-                        'updated_at' => $now,
-                    ];
+            foreach($availableForms as $item) {
+                $forms[] = [
+                    'admission_id' => $admissions->id,
+                    'key' => $item['key'],
+                    'required' => $item['required'],
+                    'created_at' => $now,
+                    'updated_at' => $now,
+                ];
             }
             DB::table('admission_forms')->insert($forms);
 
@@ -173,7 +234,7 @@ class PeriodeBaru extends Command
             $files = [];
                 foreach ([
                     ['Kartu Keluarga (KK)', null, '1'],
-                    ['Akta kelahiran', null, '1'],
+                    ['Akta kelahiran', null, 0],
                     ['Ijazah Sekolah/Madrasah jenjang sebelumnya', 'Wajib diunggah jika pengumuman kelulusan dari sekolah/madrasah asal sudah keluar atau berkas sudah terbit', 0],
                     ['SKHUN Sekolah/Madrasah jenjang sebelumnya', 'Wajib diunggah jika pengumuman kelulusan dari sekolah/madrasah asal sudah keluar atau berkas sudah terbit', 0],
                     ['Surat keterangan sehat dari dokter', null, 0],
@@ -210,7 +271,7 @@ class PeriodeBaru extends Command
             
             DB::table('admission_sessions')->insert($sessions);
 
-            $dates = ['2019-12-22', '2019-12-23', '2019-12-24', '2019-12-25', '2019-12-28', '2019-12-29', '2019-12-30', '2019-12-31', '2020-01-01', '2020-01-04', '2020-01-05', '2020-01-06', '2020-01-07', '2020-01-08', '2020-01-11', '2020-01-12', '2020-01-13', '2020-01-14', '2020-01-15', '2020-01-18', '2020-01-19', '2020-01-20', '2020-01-21', '2020-01-22', '2020-01-25', '2020-01-26', '2020-01-27', '2020-01-28', '2020-01-29', '2020-02-01', '2020-02-02', '2020-02-03', '2020-02-04', '2020-02-05', '2020-02-08', '2020-02-09', '2020-02-10', '2020-02-11', '2020-02-12', '2020-02-15', '2020-02-16', '2020-02-17', '2020-02-18', '2020-02-19', '2020-02-22', '2020-02-23', '2020-02-24', '2020-02-25', '2020-02-26'];
+            $dates = ['2022-03-10', '2022-03-11', '2022-03-12', '2022-03-13'];
             $test_dates = [];
                 foreach ($dates as $v) {
                     $test_dates[] = [
@@ -220,6 +281,10 @@ class PeriodeBaru extends Command
                 
             }
             DB::table('admission_test_dates')->insert($test_dates);
+
+            $admission_tests = DB::table('admission_tests')->update([
+                'admission_id' => $admissions->id
+            ]);
 
             DB::commit();
         } catch (\Exception $e) {
