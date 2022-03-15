@@ -2,7 +2,6 @@
 $statusses = [
 	['step' => 'Terdaftar', 'status' => 'Terdaftar', 'datetime' => $registrant->created_at, 'key' => null],
 	['step' => 'Verifikasi', 'status' => 'Terverifikasi', 'datetime' => $registrant->verified_at, 'key' => 'verified_at'],
-	['step' => 'Tes', 'status' => 'Lulus tes', 'datetime' => $registrant->tested_at, 'key' => 'tested_at'],
 	['step' => 'Validasi', 'status' => 'Data valid', 'datetime' => $registrant->validated_at, 'key' => 'validated_at'],
 	['step' => 'Perjanjian', 'status' => 'Sudah', 'datetime' => $registrant->agreement_at, 'key' => 'agreement_at'],
 	['step' => 'Pembayaran', 'status' => 'Lunas pembayaran', 'datetime' => $registrant->paid_off_at, 'key' => 'paid_off_at'],

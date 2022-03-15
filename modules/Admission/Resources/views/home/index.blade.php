@@ -13,13 +13,11 @@
 				{{-- @include('admission::includes.announcements') --}}
 				@include('admission::includes.registrant-form-status', ['registrant' => $registrant])
 				@include('admission::includes.registrant-progress', ['registrant' => $registrant])
-				@if ($registrant->verified_at)
-					@include('admission::includes.registrant-cbt', ['registrant' => $registrant])
-				@endif
+				@include('admission::includes.registrant-cbt', ['registrant' => $registrant])
 			</div>
 			<div class="col-md-4">
 				@include('admission::includes.registrant-information', ['registrant' => $registrant])
-				@include('admission::includes.registrant-test', ['registrant' => $registrant])
+				{{-- @include('admission::includes.registrant-test', ['registrant' => $registrant]) --}}
 				@include('admission::includes.menu')
 			</div>
 		</div>
