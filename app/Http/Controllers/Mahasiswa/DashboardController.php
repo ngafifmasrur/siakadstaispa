@@ -24,6 +24,11 @@ class DashboardController extends Controller
     public function index()
     {
         $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
+        $check_feeder = t_riwayat_pendidikan_mahasiswa::count_total();
+        if($check_feeder == 0) {
+            Session::flash('error_msg', 'Aplikasi SIAKAD sedang mengalami gangguan, coba lagi nanti.');
+            return view('mahasiswa.krs.index2'); 
+        }
         $riwayat_pendidikan = t_riwayat_pendidikan_mahasiswa::setFilter([
             'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
         ])->first();

@@ -29,6 +29,12 @@ class HistoriNilaiController extends Controller
      */
     public function index()
     {
+        $check_feeder = t_riwayat_pendidikan_mahasiswa::count_total();
+        if($check_feeder == 0) {
+            Session::flash('error_msg', 'Aplikasi SIAKAD sedang mengalami gangguan, coba lagi nanti.');
+            return view('mahasiswa.krs.index2'); 
+        }
+        
         $semester = [];
         for ($smt=1; $smt <= 8; $smt++) {
             $semester[$smt] = 'Semester '.$smt;

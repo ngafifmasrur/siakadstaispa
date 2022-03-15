@@ -40,12 +40,29 @@ class t_riwayat_pendidikan_mahasiswa extends SushiModel
 
     public function getRows()
     {
-        return GetDataFeeder('GetListRiwayatPendidikanMahasiswa', self::$filter);
+        $dosen_belum_nidn = t_dosen_belum_nidn_pengajar_kelas_kuliah::all()->toArray();
+        $data_feeder = GetDataFeeder('GetListRiwayatPendidikanMahasiswa', self::$filter);
+        
+        
+        if($data_feeder == ""){
+            $data = [];
+        }else{
+            $data = GetDataFeeder('GetListRiwayatPendidikanMahasiswa', self::$filter);
+        }
+        
+        return $data;
     }
 
     public static function count_total()
     {
-        return count(GetDataFeeder('GetListRiwayatPendidikanMahasiswa', self::$filter));
+        $data_feeder = GetDataFeeder('GetListRiwayatPendidikanMahasiswa', self::$filter);
+        if($data_feeder == ""){
+            $data = 0;
+        }else{
+            $data = count(GetDataFeeder('GetListRiwayatPendidikanMahasiswa', self::$filter));
+        }
+
+        return $data;
     }
 
     public function prodi()
