@@ -151,7 +151,16 @@ class AdmissionForm extends Model
             [
                 'route' => 'file', 
                 'name' => 'Berkas pendaftaran',
-                'status' => $registrant ? ($registrant->files()->where('required', 1)->count() >= $registrant->admission->files()->where('required', 1)->count()) : null,
+                'status' => $registrant ? (
+                    $registrant->files()->where('required', 1)
+                    ->when($registrant->is_saman == 1, function($q){
+                        return $q->orWhere('required_saman', 1);
+                    })->count() >=
+                    $registrant->admission->files()->where('required', 1)
+                    ->when($registrant->is_saman == 1, function($q){
+                        return $q->orWhere('required_saman', 1);
+                    })
+                    ->count()) : null,
             ],
             [
                 'route' => 'test', 

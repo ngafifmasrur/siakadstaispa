@@ -18,7 +18,7 @@ class AdmissionFile extends Model
      * The attributes that are mass assignable.
      */
     protected $fillable = [
-        'admission_id', 'name', 'description', 'required', 'required_message'
+        'admission_id', 'name', 'description', 'required', 'required_message', 'required_saman'
     ];
 
     /**

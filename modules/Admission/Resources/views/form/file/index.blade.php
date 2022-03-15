@@ -38,6 +38,8 @@
                                             {{ $file->name }} 
                                             @if($file->required)
                                                 <small class="text-danger">({!! $file->required_message ?: 'Wajib diunggah' !!})</small>
+                                            @elseif($file->name == 'Kartu BSM' && $registrant->is_saman == 1)
+                                                <small class="text-danger">(SAMAN Wajib unggah)</small>
                                             @endif
                                             @if($file->description)
                                                 <div>

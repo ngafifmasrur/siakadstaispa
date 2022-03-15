@@ -135,6 +135,14 @@ Route::name('admission.')->group(function() {
 						Route::get('/', 'VerificationController@index')->name('registration.verification.index');
 						Route::put('/{registrant}', 'VerificationController@verify')->name('registration.verification.verify');
 					});
+					// Verification
+					Route::prefix('saman')->group(function () {
+						Route::get('/', 'SamanController@index')->name('registration.saman.index');
+						Route::put('/{registrant}', 'SamanController@verify')->name('registration.saman.verify');
+						Route::get('/{registrant}/jadwal_wawancara', 'SamanController@jadwal_wawancara')->name('registration.saman.jadwal_wawancara');
+						Route::put('/{registrant}/set_jadwal_wawancara', 'SamanController@set_jadwal_wawancara')->name('registration.saman.set_jadwal_wawancara');
+
+					});
 					// Test
 					Route::prefix('test')->group(function () {
 						Route::get('/', 'TestController@index')->name('registration.test.index');
