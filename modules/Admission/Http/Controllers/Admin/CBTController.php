@@ -117,7 +117,7 @@ class CBTController extends Controller
     public function destroy(AdmissionCBT $cbt)
     {
 
-        if($room->delete()) {
+        if($cbt->delete()) {
             return redirect()->back()
                         ->with(['success' => 'Sukses, data cbt telah berhasil dihapus.']);
         }
@@ -248,6 +248,7 @@ class CBTController extends Controller
                             'jawaban_d' => $option_4,
                             'jawaban_e' => $option_5 ?? null,
                             'jawaban_benar' => $jawaban_benar,
+                            'skor' => 5,
 
                         ]);
                     }
@@ -264,5 +265,139 @@ class CBTController extends Controller
         return redirect()->back()->with(['success' => 'Sukses, data soal berhasil diimport']);
     }
 
+    /**
+     * Import Store the specified resource in storage.
+     * @param Request $request
+     * @param int $id
+     * @return Response
+     */
+    public function import_storse(Request $request, AdmissionCBT $cbt)
+    {
+        $request->validate([
+            'file' => 'required|mimes:doc,docx',
+        ]);
 
+        $cbt_id = $cbt->id;
+        $phpWord = \PhpOffice\PhpWord\IOFactory::load($request->file('file'));
+        $content = '';
+        $soal = '';
+        $nomor = 0;
+        $isQuestion = false;
+        $isOptionA = false;
+        //option
+        $option_1 = '';$option_2 = '';$option_3 = '';$option_4 = '';$option_5 = '';
+        $judul='';$mapel='';
+
+        $a = 'أ)';
+        $b = 'ب)';
+        $c = 'ج)';
+        $d = 'د';
+        $e = 'ه)';
+
+
+        $test = [];
+
+        foreach($phpWord->getSections() as $section) {
+            $newLine = false;
+            foreach($section->getElements() as $element) {
+                if (method_exists($element, 'getElements')) {
+                    $text = '';
+                    foreach($element->getElements() as $key => $childElement) {
+                        if (method_exists($childElement, 'getText')) {
+                            $text = $text.$childElement->getText();
+                        }
+                        else if (method_exists($childElement, 'getContent')) {
+                            $content .= $childElement->getContent() . ' ';
+                        }
+                    }
+
+                    //BEGIN - read the doc
+                    if($isQuestion && substr($text,0,3) != "أ."){
+                        if($newLine){
+                            $soal = $soal.'<br>'.$text;
+                        }else{
+                            $soal = $soal.$text;
+                        }
+                        $newLine = true;
+                    }
+     
+                    if(substr($text,0,2) == "Q#"){
+                        $soal = '';
+                        $nomor = substr($text,2);
+                        $isQuestion = true;
+                        $newLine = false;
+                    }
+                    elseif(substr($text,0, 3) == "أ."){
+                        $isQuestion = false;
+                        $option_1 = substr($text, 3);
+                        $isOptionA = true;
+                    }
+                    elseif(substr($text,0,3) == "ب."){
+                        $isQuestion = false;
+                        $option_2 = substr($text,3);
+                    }
+                    elseif(substr($text,0,3) == "ج."){
+                        $isQuestion = false;
+                        $option_3 = substr($text,3);
+                        
+                    }
+                    elseif(substr($text,0,3) == "د."){
+                        $isQuestion = false;
+                        $option_4 = substr($text,3);
+                    }
+                    elseif(substr($text,0,3) == "ه."){
+                        $isQuestion = false;
+                        $option_5 = substr($text,3);
+                    }
+                    elseif(substr($text, -1)  == ')'){
+                        $isQuestion = false;
+                        $jawaban_benar = '';
+                        $kunci = substr($text, -3);
+                        
+                        switch ($kunci) {
+                            case 'أ)':
+                                $jawaban_benar = 'A';
+                                break;
+                            case 'ب)':
+                                $jawaban_benar = 'B';
+                                break;
+                            case 'ج)':
+                                $jawaban_benar = 'C';
+                                break;
+                            case 'د':
+                                $jawaban_benar = 'D';
+                                break;
+                            case 'ه)':
+                                $jawaban_benar = 'E';
+                                break;
+                            
+                            default:
+                                # code...
+                                break;
+                        }
+
+                        Question::create([
+                            'cbt_id' => $cbt_id,
+                            'soal' => $soal,
+                            'jawaban_a' => $option_1,
+                            'jawaban_b' => $option_2,
+                            'jawaban_c' => $option_3,
+                            'jawaban_d' => $option_4,
+                            'jawaban_e' => $option_5 ?? null,
+                            'jawaban_benar' => $jawaban_benar,
+                            'skor' => 5,
+
+                        ]);
+                    }
+                    //END
+
+                }
+                else if (method_exists($element, 'getText')) {
+                    $content .= $element->getText() . ' ';
+                }
+            }
+        }
+
+        return redirect()->back()->with(['success' => 'Sukses, data soal berhasil diimport']);
+    }
 }

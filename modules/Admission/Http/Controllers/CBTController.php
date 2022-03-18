@@ -73,7 +73,7 @@ class CBTController extends Controller
                         'jawaban_benar' => $soal->jawaban_benar,
                         'jawaban_peserta' => null,
                         'status' => 0,
-                        'skor' => 0,
+                        'skor' => $soal->skor,
                         'created_at'=> now(),
                         'updated_at'=> now()
                     );
@@ -104,7 +104,8 @@ class CBTController extends Controller
 
     public function submit_form(Request $request){
         
-        $total_skor    = 0;
+        $total_skor = Answer::where('registrant_cbt_id', $request->cbt_peserta_id)
+        ->whereColumn('jawaban_benar', 'jawaban_peserta')->sum('skor');   
         $jawaban_benar = Answer::where('registrant_cbt_id', $request->cbt_peserta_id)
                         ->whereColumn('jawaban_benar', 'jawaban_peserta')->count();   
         $cbt_peserta   = RegistrantCBT::where('id', $request->cbt_peserta_id)
