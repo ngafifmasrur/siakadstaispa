@@ -4,6 +4,17 @@
 
 @push('style')
     <style>
+        @font-face {
+            font-family: "majallab";
+            src: url('{{ asset('/majallab.ttf') }}') format("truetype");
+        }
+
+        .majallab {
+            font-family: "majallab";
+            float: right;
+            text-align: right;
+        }
+
         .addButton {
             width: 50px!important;
         }
@@ -75,9 +86,15 @@
                     <div class="card">
                         <div class="card-body">
                         <h5 class="card-title">Soal Nomor {{$key+1}}</h5>
-                        <div class="soal_ujian" style="display: grid;">
-                            {!! $row->soal !!}
-                        </div>
+                            @if ($cbt_peserta->admission_cbt->mapel == 'Bahasa Arab')
+                                <div class="soal_ujian majallab" dir="auto" style="display: grid;">
+                                    {!! $row->soal !!}
+                                </div>
+                            @else
+                                <div class="soal_ujian" style="display: grid;">
+                                    {!! $row->soal !!}
+                                </div>
+                            @endif
                         </div>
                     </div>
                     <div class="card">
@@ -86,22 +103,46 @@
                         <div id="jawaban" class="jawaban">
                             <input type="hidden" value="{{$row->id_soal}}" name="soal_id[]">
 
-                            <div class="custom-control custom-radio mt-3">
-                                <input type="radio" id="customRadio{{$row->id_soal}}_a" name="jawaban_{{$row->id_soal}}" class="custom-control-input" id="jawaban-id" value="A" data-id_soal="{{ $row->id_soal }}" data-soal="{{$row->id}}" data-jawaban="{{ $row->id_jawaban_peserta }}" {{($row->jawaban_peserta == 'A') ? 'checked' : ''}}>
-                                <label class="custom-control-label" for="customRadio{{$row->id_soal}}_a"> {!! 'A'.'.  '.$row->jawaban_a !!} </label>
-                            </div>
-                            <div class="custom-control custom-radio mt-3">
-                                <input type="radio" id="customRadio{{$row->id_soal}}_b" name="jawaban_{{$row->id_soal}}" class="custom-control-input" id="jawaban-id" value="B" data-id_soal="{{ $row->id_soal }}" data-soal="{{$row->id}}" data-jawaban="{{ $row->id_jawaban_peserta }}" {{($row->jawaban_peserta == 'B') ? 'checked' : ''}}>
-                                <label class="custom-control-label" for="customRadio{{$row->id_soal}}_b"> {!! 'B'.'.  '.$row->jawaban_b !!} </label>
-                            </div>
-                            <div class="custom-control custom-radio mt-3">
-                                <input type="radio" id="customRadio{{$row->id_soal}}_c" name="jawaban_{{$row->id_soal}}" class="custom-control-input" id="jawaban-id" value="C" data-id_soal="{{ $row->id_soal }}" data-soal="{{$row->id}}" data-jawaban="{{ $row->id_jawaban_peserta }}" {{($row->jawaban_peserta == 'C') ? 'checked' : ''}}>
-                                <label class="custom-control-label" for="customRadio{{$row->id_soal}}_c"> {!! 'C'.'.  '.$row->jawaban_c !!} </label>
-                            </div>
-                            <div class="custom-control custom-radio mt-3">
-                                <input type="radio" id="customRadio{{$row->id_soal}}_d" name="jawaban_{{$row->id_soal}}" class="custom-control-input" id="jawaban-id" value="D" data-id_soal="{{ $row->id_soal }}" data-soal="{{$row->id}}" data-jawaban="{{ $row->id_jawaban_peserta }}" {{($row->jawaban_peserta == 'D') ? 'checked' : ''}}>
-                                <label class="custom-control-label" for="customRadio{{$row->id_soal}}_d"> {!! 'D'.'.  '.$row->jawaban_d !!} </label>
-                            </div>
+                            @if ($cbt_peserta->admission_cbt->mapel == 'Bahasa Arab')
+                                <div class="custom-control custom-radio mt-3">
+                                    <input type="radio" id="customRadio{{$row->id_soal}}_a" name="jawaban_{{$row->id_soal}}" class="custom-control-input" id="jawaban-id" value="A" data-id_soal="{{ $row->id_soal }}" data-soal="{{$row->id}}" data-jawaban="{{ $row->id_jawaban_peserta }}" {{($row->jawaban_peserta == 'A') ? 'checked' : ''}}>
+                                    <label class="custom-control-label majallab radio-inline" dir="auto"  for="customRadio{{$row->id_soal}}_a"> {!! 'أ'.'.  '.$row->jawaban_a !!} </label>
+                                </div>
+                                <div class="custom-control custom-radio mt-3">
+                                    <input type="radio" id="customRadio{{$row->id_soal}}_b" name="jawaban_{{$row->id_soal}}" class="custom-control-input" id="jawaban-id" value="B" data-id_soal="{{ $row->id_soal }}" data-soal="{{$row->id}}" data-jawaban="{{ $row->id_jawaban_peserta }}" {{($row->jawaban_peserta == 'B') ? 'checked' : ''}}>
+                                    <label class="custom-control-label majallab radio-inline" dir="auto"  for="customRadio{{$row->id_soal}}_b"> {!! 'ب'.'.  '.$row->jawaban_b !!} </label>
+                                </div>
+                                <div class="custom-control custom-radio mt-3">
+                                    <input type="radio" id="customRadio{{$row->id_soal}}_c" name="jawaban_{{$row->id_soal}}" class="custom-control-input" id="jawaban-id" value="C" data-id_soal="{{ $row->id_soal }}" data-soal="{{$row->id}}" data-jawaban="{{ $row->id_jawaban_peserta }}" {{($row->jawaban_peserta == 'C') ? 'checked' : ''}}>
+                                    <label class="custom-control-label majallab radio-inline" dir="auto"  for="customRadio{{$row->id_soal}}_c"> {!! 'ج'.'.  '.$row->jawaban_c !!} </label>
+                                </div>
+                                <div class="custom-control custom-radio mt-3">
+                                    <input type="radio" id="customRadio{{$row->id_soal}}_d" name="jawaban_{{$row->id_soal}}" class="custom-control-input" id="jawaban-id" value="D" data-id_soal="{{ $row->id_soal }}" data-soal="{{$row->id}}" data-jawaban="{{ $row->id_jawaban_peserta }}" {{($row->jawaban_peserta == 'D') ? 'checked' : ''}}>
+                                    <label class="custom-control-label majallab radio-inline" dir="auto"  for="customRadio{{$row->id_soal}}_d"> {!! 'د'.'.  '.$row->jawaban_d !!} </label>
+                                </div>
+                                <div class="custom-control custom-radio mt-3">
+                                    <input type="radio" id="customRadio{{$row->id_soal}}_e" name="jawaban_{{$row->id_soal}}" class="custom-control-input" id="jawaban-id" value="E" data-id_soal="{{ $row->id_soal }}" data-soal="{{$row->id}}" data-jawaban="{{ $row->id_jawaban_peserta }}" {{($row->jawaban_peserta == 'E') ? 'checked' : ''}}>
+                                    <label class="custom-control-label majallab radio-inline" dir="auto" for="customRadio{{$row->id_soal}}_e"> {!! 'ه'.'.  '.$row->jawaban_e !!} </label>
+                                </div>
+                            @else
+                                <div class="custom-control custom-radio mt-3">
+                                    <input type="radio" id="customRadio{{$row->id_soal}}_a" name="jawaban_{{$row->id_soal}}" class="custom-control-input" id="jawaban-id" value="A" data-id_soal="{{ $row->id_soal }}" data-soal="{{$row->id}}" data-jawaban="{{ $row->id_jawaban_peserta }}" {{($row->jawaban_peserta == 'A') ? 'checked' : ''}}>
+                                    <label class="custom-control-label" for="customRadio{{$row->id_soal}}_a"> {!! 'A'.'.  '.$row->jawaban_a !!} </label>
+                                </div>
+                                <div class="custom-control custom-radio mt-3">
+                                    <input type="radio" id="customRadio{{$row->id_soal}}_b" name="jawaban_{{$row->id_soal}}" class="custom-control-input" id="jawaban-id" value="B" data-id_soal="{{ $row->id_soal }}" data-soal="{{$row->id}}" data-jawaban="{{ $row->id_jawaban_peserta }}" {{($row->jawaban_peserta == 'B') ? 'checked' : ''}}>
+                                    <label class="custom-control-label" for="customRadio{{$row->id_soal}}_b"> {!! 'B'.'.  '.$row->jawaban_b !!} </label>
+                                </div>
+                                <div class="custom-control custom-radio mt-3">
+                                    <input type="radio" id="customRadio{{$row->id_soal}}_c" name="jawaban_{{$row->id_soal}}" class="custom-control-input" id="jawaban-id" value="C" data-id_soal="{{ $row->id_soal }}" data-soal="{{$row->id}}" data-jawaban="{{ $row->id_jawaban_peserta }}" {{($row->jawaban_peserta == 'C') ? 'checked' : ''}}>
+                                    <label class="custom-control-label" for="customRadio{{$row->id_soal}}_c"> {!! 'C'.'.  '.$row->jawaban_c !!} </label>
+                                </div>
+                                <div class="custom-control custom-radio mt-3">
+                                    <input type="radio" id="customRadio{{$row->id_soal}}_d" name="jawaban_{{$row->id_soal}}" class="custom-control-input" id="jawaban-id" value="D" data-id_soal="{{ $row->id_soal }}" data-soal="{{$row->id}}" data-jawaban="{{ $row->id_jawaban_peserta }}" {{($row->jawaban_peserta == 'D') ? 'checked' : ''}}>
+                                    <label class="custom-control-label" for="customRadio{{$row->id_soal}}_d"> {!! 'D'.'.  '.$row->jawaban_d !!} </label>
+                                </div>
+                            @endif
+
 
                         </div>
                         </div>
@@ -142,7 +183,7 @@
                 </div>
                 <div class="col-md-4">
                     <span class="p-2 bg-primary rounded">Sisa Waktu : <span id="waktu">00:00:00</span></span>
-                    <button class="btn btn-info text-white" onclick="informasi()">Informasi</button>
+                    <span class="btn btn-info text-white" onclick="informasi()">Informasi</span>
 
                     <div class="card p-3 mt-3 listpilihan" style="height: 600px; overflow-y: scroll;">
                         <div class="card-title">List Nomor Soal</div>

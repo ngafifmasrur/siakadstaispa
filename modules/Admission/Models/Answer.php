@@ -17,7 +17,7 @@ class Answer extends Model
      * The attributes that are mass assignable.
      */
     protected $fillable = [
-        'registrant_id', 'question_id', 'jawaban_benar', 'jawaban_peserta', 'skor', 'status'
+        'registrant_id', 'question_id', 'jawaban_benar', 'jawaban_peserta', 'skor', 'status', 'registrant_cbt_id'
     ];
 
     /**

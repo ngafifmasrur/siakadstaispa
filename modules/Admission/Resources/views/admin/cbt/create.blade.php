@@ -10,7 +10,7 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <h2 class="mb-0"><a class="text-decoration-none small" href="{{ request('next', url()->previous()) }}"><i class="mdi mdi-arrow-left-circle"></i></a> Ubah data periode</h2>
+            <h2 class="mb-0"><a class="text-decoration-none small" href="{{ request('next', url()->previous()) }}"><i class="mdi mdi-arrow-left-circle"></i></a> Tambah data mapel</h2>
             <hr>
             <div class="card">
                 <div class="card-body">
