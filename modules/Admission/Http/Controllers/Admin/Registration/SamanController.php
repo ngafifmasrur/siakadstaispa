@@ -75,10 +75,12 @@ class SamanController extends Controller
     {
         $validated = $request->validate([
             'tanggal_wawancara' => 'required|date',
+            'jenis_wawancara'   => 'required|in:online,offline'
         ]);
 
         $this->repo->update([
-            'jadwal_wawancara' => $request->tanggal_wawancara
+            'jadwal_wawancara' => $request->tanggal_wawancara,
+            'jenis_wawancara' => $request->jenis_wawancara
         ], $registrant);
         
         return redirect()->back()

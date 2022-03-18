@@ -43,12 +43,23 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <span class="btn btn-primary mb-3">Jadwal Wawancara: {{  $registrant->jadwal_wawancara ?? 'Belum diset' }}</span>
+                    <span class="btn btn-secondary mb-3">Jenis Wawancara: {{  strtoupper($registrant->jenis_wawancara) ?? 'Belum diset' }}</span>
                     <form class="form-block" action="{{ route('admission.admin.registration.saman.set_jadwal_wawancara', ['registrant' => $registrant->id]) }}" method="POST"> @csrf @method('PUT')
                         <div class="form-group">
                             <label class="form-control-label">Edit/Input Jadwal Wawancara</label>
                             <input type="datetime-local" class="form-control{{ $errors->has('tanggal_wawancara') ? ' is-invalid' : '' }}" name="tanggal_wawancara" id="tanggal_wawancara" value="{{ $registrant->jadwal_wawancara }}">
                             @if ($errors->has('pass'))
                                 <span class="invalid-feedback"> {{ $errors->first('tanggal_wawancara') }} </span>
+                            @endif
+                        </div>
+                        <div class="form-group">
+                            <label class="form-control-label">Jenis wawancara</label>
+                            <select class="form-control{{ $errors->has('jenis_wawancara') ? ' is-invalid' : '' }}" name="jenis_wawancara">
+                                <option value="online" @if($registrant->jenis_wawancara == 'online') selected @endif>Online</option>
+                                <option value="offline" @if($registrant->jenis_wawancara == 'offline') selected @endif>Offline</option>
+                            </select>
+                            @if ($errors->has('jenis_wawancara'))
+                                <span class="invalid-feedback"> {{ $errors->first('jenis_wawancara') }} </span>
                             @endif
                         </div>
                         <div class="form-group mb-0">

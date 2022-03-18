@@ -55,7 +55,7 @@
                             <td nowrap>
                                 <strong>Tanggal kedatangan</strong><br>
                                 @if($registrant->tanggal_kedatangan)
-                                    {{ $registrant->tanggal_kedatangan->formatLocalized('%A, %d %B %Y') }} <br>
+                                    {{ $registrant->tanggal_kedatangan }} <br>
                                 @else
                                     <span class="text-muted">(Belum diisi)</span>
                                 @endif

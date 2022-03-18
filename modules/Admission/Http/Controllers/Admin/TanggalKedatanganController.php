@@ -94,7 +94,7 @@ class TanggalKedatanganController extends Controller
     {
         $admission = $this->repo->admission = Admission::with('period')->get();
 
-        return view('admission::admin.tanggal_kedatangan.edit', compact('cbt', 'admission'));
+        return view('admission::admin.tanggal_kedatangan.edit', compact('tanggal_kedatangan', 'admission'));
     }
 
     /**
