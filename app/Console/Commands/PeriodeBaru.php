@@ -185,6 +185,11 @@ class PeriodeBaru extends Command
                     'key'        => 11,
                     'keterangan' => 'Berkas pendaftaran',
                     'required'   => 1
+                ],
+                [        
+                    'key'        => 12,
+                    'keterangan' => 'Pemilihan tanggal kedatangan',
+                    'required'   => 1
                 ]
             ];
             $forms = [];
@@ -233,14 +238,14 @@ class PeriodeBaru extends Command
 
             $files = [];
                 foreach ([
-                    ['Kartu Keluarga (KK)', null, '1'],
-                    ['Akta kelahiran', null, 0],
-                    ['Ijazah Sekolah/Madrasah jenjang sebelumnya', 'Wajib diunggah jika pengumuman kelulusan dari sekolah/madrasah asal sudah keluar atau berkas sudah terbit', 0],
-                    ['SKHUN Sekolah/Madrasah jenjang sebelumnya', 'Wajib diunggah jika pengumuman kelulusan dari sekolah/madrasah asal sudah keluar atau berkas sudah terbit', 0],
-                    ['Surat keterangan sehat dari dokter', null, 0],
-                    ['Surat keterangan kelakuan baik (SKKB)', 'Wajib diunggah apabila pendaftar adalah BUKAN lulusan MTs Sunan Pandanaran', 0],
-                    ['Kartu BSM', 'Wajib diunggah jika Anda ingin mengajukan sebagai santri mandiri (dokumen akan melalui proses screening dan verifikasi oleh tim)', 0],
-                    ['Bukti pembayaran', 'Biaya pendaftaran sebesar Rp 250.000', '1'],
+                    ['Kartu Keluarga (KK)', null, '1', 1],
+                    // ['Akta kelahiran', null, 0, 0],
+                    // ['Ijazah Sekolah/Madrasah jenjang sebelumnya', 'Wajib diunggah jika pengumuman kelulusan dari sekolah/madrasah asal sudah keluar atau berkas sudah terbit', 0, 0],
+                    // ['SKHUN Sekolah/Madrasah jenjang sebelumnya', 'Wajib diunggah jika pengumuman kelulusan dari sekolah/madrasah asal sudah keluar atau berkas sudah terbit', 0, 0],
+                    // ['Surat keterangan sehat dari dokter', null, 0, 0],
+                    // ['Surat keterangan kelakuan baik (SKKB)', 'Wajib diunggah apabila pendaftar adalah BUKAN lulusan MTs Sunan Pandanaran', 0, 0],
+                    ['Kartu BSM', 'Wajib diunggah jika Anda ingin mengajukan sebagai santri mandiri (dokumen akan melalui proses screening dan verifikasi oleh tim)', 0, 1],
+                    // ['Bukti pembayaran', 'Biaya pendaftaran sebesar Rp 250.000', '1', 0],
                 ] as $v) {
                     $files[] = [
                         'admission_id' => $admissions->id,

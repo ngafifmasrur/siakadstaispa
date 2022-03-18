@@ -16,7 +16,7 @@ class CreateTRegistrantCbtTable extends Migration
         Schema::create('t_registrant_cbt', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('registrant_id');
-            $table->unsignedTinyInteger('cbt_id');
+            $table->unsignedInteger('cbt_id');
             $table->datetime('waktu_mulai');
             $table->datetime('waktu_selesai')->nullable();
             $table->double('sisa_waktu')->nullable();

@@ -14,8 +14,8 @@ class CreateRefQuestionsTable extends Migration
     public function up()
     {
         Schema::create('ref_questions', function (Blueprint $table) {
-            $table->tinyIncrements('id');
-            $table->unsignedTinyInteger('cbt_id');
+            $table->increments('id');
+            $table->unsignedInteger('cbt_id');
             $table->longText('soal');
             $table->longText('jawaban_a');
             $table->longText('jawaban_b');

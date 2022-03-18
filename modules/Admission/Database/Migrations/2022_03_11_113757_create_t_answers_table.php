@@ -16,12 +16,13 @@ class CreateTAnswersTable extends Migration
         Schema::create('t_answers', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('registrant_id');
-            $table->unsignedTinyInteger('question_id');
-            $table->unsignedTinyInteger('cbt_id');
-            $table->unsignedTinyInteger('registrant_cbt_id');
+            $table->unsignedInteger('question_id');
+            $table->unsignedInteger('cbt_id');
+            $table->unsignedInteger('registrant_cbt_id');
             $table->string('jawaban_benar')->nullable();
             $table->string('jawaban_peserta')->nullable();
             $table->float('skor');
+            $table->integer('status')->default(0);
             $table->timestamps();
 
             $table->foreign('question_id')->references('id')->on('ref_questions')->onUpdate('cascade')->onDelete('cascade');

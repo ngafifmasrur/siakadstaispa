@@ -14,7 +14,7 @@ class CreateAdmissionCbtTable extends Migration
     public function up()
     {
         Schema::create('admission_cbt', function (Blueprint $table) {
-            $table->tinyIncrements('id');
+            $table->increments('id');
             $table->unsignedTinyInteger('admission_id');
             $table->string('mapel');
             $table->string('kode_mapel');
