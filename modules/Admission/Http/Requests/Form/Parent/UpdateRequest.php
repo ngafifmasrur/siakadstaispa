@@ -14,22 +14,22 @@ class UpdateRequest extends FormRequest
         $id = $uid ?: auth()->id();
 
         return [
-            'nik'               => 'required|digits_between:1,16',
+            // 'nik'               => 'required|digits_between:1,16',
             'name'              => 'required|string|max:191',
-            'pob'               => 'required|string|max:191',
-            'dob'               => 'required|date_format:d-m-Y',
-            'ktp'               => 'nullable|file|image|max:1024',
+            // 'pob'               => 'required|string|max:191',
+            // 'dob'               => 'required|date_format:d-m-Y',
+            // 'ktp'               => 'nullable|file|image|max:1024',
             'is_dead'           => 'required|boolean',
             'biological'        => 'required|boolean',
             'grade'             => 'required|exists:ref_grades,id',
             'employment'        => 'required|exists:ref_employments,id',
             'salary'            => 'required|exists:ref_salaries,id',
-            'address'           => 'required|string|max:191',
-            'rt'                => 'nullable|string|max:10',
-            'rw'                => 'nullable|string|max:10',
-            'village'           => 'nullable|string|max:191',
-            'district'          => 'required|exists:ref_province_regency_districts,id',
-            'postal'            => 'required|string|max:5',
+            // 'address'           => 'required|string|max:191',
+            // 'rt'                => 'nullable|string|max:10',
+            // 'rw'                => 'nullable|string|max:10',
+            // 'village'           => 'nullable|string|max:191',
+            // 'district'          => 'required|exists:ref_province_regency_districts,id',
+            // 'postal'            => 'required|string|max:5',
         ];
     }
 

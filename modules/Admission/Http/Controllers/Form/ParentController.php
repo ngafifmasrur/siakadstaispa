@@ -67,30 +67,30 @@ class ParentController extends Controller
         $registrant = $this->repo->getCurrentUser();
 
         $data = [
-            'nik'           => $request->input('nik'),
+            // 'nik'           => $request->input('nik'),
             'name'          => $request->input('name'),
-            'pob'           => $request->input('pob'),
-            'dob'           => date('Y-m-d', strtotime($request->input('dob'))),
+            // 'pob'           => $request->input('pob'),
+            // 'dob'           => date('Y-m-d', strtotime($request->input('dob'))),
             'is_dead'       => (bool) $request->input('is_dead'),
             'biological'    => (bool) $request->input('biological'),
             'salary_id'     => $request->input('salary'),
             'employment_id' => $request->input('employment'),
             'grade_id'      => $request->input('grade'),
-            'address'       => $request->input('address'),
-            'rt'            => $request->input('rt'),
-            'rw'            => $request->input('rw'),
-            'village'       => $request->input('village'),
-            'district_id'   => $request->input('district'),
-            'postal'        => $request->input('postal')
+            // 'address'       => $request->input('address'),
+            // 'rt'            => $request->input('rt'),
+            // 'rw'            => $request->input('rw'),
+            // 'village'       => $request->input('village'),
+            // 'district_id'   => $request->input('district'),
+            // 'postal'        => $request->input('postal')
         ];
 
         $data['__type'] = $type;
 
-        if ($request->has('ktp')){
-            $file = $request->file('ktp');
-            \Storage::delete($registrant->user->{$type}->ktp);
-            $data['ktp'] = $file->store('user_files/'.$registrant->user->id);
-        }
+        // if ($request->has('ktp')){
+        //     $file = $request->file('ktp');
+        //     \Storage::delete($registrant->user->{$type}->ktp);
+        //     $data['ktp'] = $file->store('user_files/'.$registrant->user->id);
+        // }
 
         if ($registrant->user->{$type}()->updateOrCreate([], $data)) {
             return redirect($request->get('next', route('account.home')))

@@ -122,16 +122,17 @@ class TestController extends Controller
 		 */
 		public function print(AdmissionRegistrant $registrant)
 		{
-			$this->authorize('testRegistrant', $registrant);
+			$admission = $this->repo->admission = auth()->user()->admissionCommittees->load('admission')->pluck('admission');
+			$status_cbt = (count($registrant->admission->cbts) == count($registrant->cbts->where('status', 2))) ? true : false;
 
-            if($registrant->tested_at) {
-                $registrant = $registrant->load(['user', 'tests', 'admission.period.instance']);
+            if(($registrant->paid_off_at && $registrant->is_saman == 0 && $registrant->verified_at && $status_cbt == true) || ($registrant->status_wawancara == 1 && $registrant->is_saman == 1 && $registrant->verified_at && $status_cbt == true)) {
+                $registrant = $registrant->load(['user', 'cbts', 'admission.period.instance']);
     			$user = $registrant->user;
     
     			$pdf = \PDF::loadView('admission::admin.registration.test.pdf.result', compact('user', 'registrant', 'admission'))
     			            ->setPaper('a4', 'portrait');
     
-    			return $pdf->stream('HASIL-TES-'.$registrant->kd.'.pdf');
+    			return $pdf->stream('SURAT-KETRANGAN-DITERIMA-'.$registrant->kd.'.pdf');
             } else {
                 return abort(404);
             }
@@ -159,6 +160,7 @@ class TestController extends Controller
 		public function printQuestions(AdmissionRegistrant $registrant)
 		{
 			$this->authorize('testRegistrant', $registrant);
+			$admission = $this->repo->admission = auth()->user()->admissionCommittees->load('admission')->pluck('admission');
 
 			$registrant = $registrant->load(['user', 'admission.period.instance']);
 			$user = $registrant->user;

@@ -20,7 +20,7 @@ class AdmissionRegistrant extends Model
      * The attributes that are mass assignable.
      */
     protected $fillable = [
-        'kd', 'admission_id', 'kd', 'user_id', 'avatar', 'major1', 'major2', 'agreement', 'payment_id', 'test_at', 'session_id', 'verified_at', 'tested_at', 'validated_at', 'agreement_at', 'paid_off_at', 'accepted_at', 'special'
+        'kd', 'admission_id', 'kd', 'user_id', 'avatar', 'major1', 'major2', 'agreement', 'payment_id', 'test_at', 'session_id', 'verified_at', 'tested_at', 'validated_at', 'agreement_at', 'paid_off_at', 'accepted_at', 'special', 'is_saman', 'jadwal_wawancara', 'tanggal_kedatangan', 'status_wawancara', 'tanggal_kedatangan', 'jenis_wawancara'
     ];
 
     /**
@@ -134,6 +134,14 @@ class AdmissionRegistrant extends Model
      */
     public function transactions () {
         return $this->hasMany(AdmissionRegistrantTransaction::class, 'registrant_id');
+    }
+    
+
+        /**
+     * This has many transactions.
+     */
+    public function cbts () {
+        return $this->hasMany(RegistrantCBT::class, 'registrant_id');
     }
 
     /**

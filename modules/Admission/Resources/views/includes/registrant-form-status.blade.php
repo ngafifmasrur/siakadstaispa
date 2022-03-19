@@ -22,17 +22,17 @@ if ($precentage <= 60) {
 $name = $registrant->user_id == auth()->id() ? 'Anda' : $registrant->user->profile->name
 @endphp
 
-@if($registrant->tested_at)
+@if(($precentage == 100 && $registrant->paid_off_at && $registrant->is_saman == 0 && $registrant->verified_at && $status_cbt == true) || ($precentage == 100 && $registrant->status_wawancara == 1 && $registrant->is_saman == 1 && $registrant->verified_at && $status_cbt == true))
     <div class="alert alert-success bg-success">
-        <p><Strong>Selamat!</Strong> <br> Anda telah <strong>diterima</strong> secara resmi sebagai mahasiswa STAI Sunan Pandanaran T.A 2021-2022. Adapun ketetapan penempatan Program Studi pilihan saudara/i akan dimumkan pada bulan Agustus-September 2021 berdasarkan hasil tes tulis dan tes wawancara.</p>
+        <p><Strong>Selamat!</Strong> <br> Anda telah <strong>diterima</strong> secara resmi sebagai mahasiswa STAI Sunan Pandanaran T.A 2022-2023. Adapun ketetapan penempatan Program Studi pilihan saudara/i akan dimumkan berdasarkan hasil tes tulis dan tes wawancara.</p>
         <a class="btn btn-outline-light" href="{{ route('admission.test.result.print', ['registrant' => $registrant->id]) }}" target="_blank"><i class="mdi mdi-printer"></i> Cetak surat diterima</a>
     </div>
 @endif
 
-<div class="alert alert-info">
+{{-- <div class="alert alert-info">
     <Strong>Informasi!</Strong> <br> Pembayaran untuk pendaftaran berlaku untuk seluruh calon mahasiswa baru sebesar Rp 250.000 ke BRI a.n. <strong>PMB STAISPA</strong> No Rek. <strong>31193-77777-22222</strong> (BRIVA).  <br>
     <a class="alert-link" href="/teknis-pembayaran.jpeg" target="_blank"><u>Klik disini</u></a> untuk melihat tata cara dan teknis pembayaran.
-</div>
+</div> --}}
 
 <div class="card">
 	<div class="card-body">
@@ -115,18 +115,18 @@ $name = $registrant->user_id == auth()->id() ? 'Anda' : $registrant->user->profi
 		@can('view', $registrant)
 			<div class="card-body">
 				@can('registration', Admission::class)
-					<p>Jika {{ $name }} telah mengisi seluruh data pendaftaran dengan data yang benar-benar valid, silahkan tekan tombol berikut untuk mengunduh dan mencetak formulir pendaftaran {{ $name }}.</p>
+					<p>Jika {{ $name }} telah mengisi seluruh data pendaftaran dengan data yang benar-benar valid serta sudah mengerjakan tes CBT, silahkan tekan tombol berikut untuk mengunduh dan mencetak formulir pendaftaran {{ $name }}.</p>
 				@endcan
-				@if($precentage == 100 || auth()->user()->can('update', $registrant) || $registrant->validated_at)
+				@if(($precentage == 100 || auth()->user()->can('update', $registrant) || $registrant->validated_at) && $status_cbt == true)
         		    <p>
-        		        <button class="btn btn-link p-0" data-toggle="modal" data-target="#result-modal"><i class="mdi mdi-printer"></i> Cetak seluruh data pendaftaran</button>
+        		        <a href="{{ route('admission.form', $registrant->id)}}" class="btn btn-link p-0" target="_blank"><i class="mdi mdi-printer"></i> Cetak seluruh data pendaftaran</a>
         		    </p>
 				    <div class="alert alert-success">
 				        Anda telah mengisi seluruh data pendaftaran dengan benar, salin teks berikut lalu kirimkan ke tautan WhatsApp berikut ini. <br>
 				        <strong>VERIFIKASI - {{ $registrant->user->profile->full_name. ' - '.$registrant->kd }}</strong> <br>
 				    </div>
 					<!--<button class="btn btn-success" data-toggle="modal" data-target="#result-modal"><i class="mdi mdi-printer"></i> Cetak seluruh data pendaftaran</button>-->
-					<a class="btn btn-success" href="https://chat.whatsapp.com/CAfbhIxNaQUJKmVD1bNcEG"><i class="mdi mdi-whatsapp"></i> Link grup WhatsApp</a>
+					<a class="btn btn-success" href="https://wa.me/6285810471058"><i class="mdi mdi-whatsapp"></i> Link WhatsApp</a>
 					@push('script')
 						<div id="result-modal" class="modal" data-backdrop="static">
 							<div class="modal-dialog modal-lg">
@@ -154,7 +154,7 @@ $name = $registrant->user_id == auth()->id() ? 'Anda' : $registrant->user->profi
 						</script>
 					@endpush
 				@else
-					<p class="text-danger">{{ $name }} belum melengkapi pengisian formulir</p>
+					<p class="text-danger">{{ $name }} belum melengkapi pengisian formulir dan tes cbt</p>
 					<button class="btn btn-secondary" disabled><i class="mdi mdi-printer"></i> Cetak formulir pendaftaran</button>
 				@endif
 				@can('update', $registrant)

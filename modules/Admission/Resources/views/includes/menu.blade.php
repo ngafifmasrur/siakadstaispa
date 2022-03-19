@@ -9,13 +9,13 @@
 			<li><a href="{{ route('admission.form.address', ['next' => route('admission.home')]) }}">Isi alamat asal</a></li>
 			<li><a href="{{ route('admission.form.parent', ['type' => 'father', 'next' => route('admission.home')]) }}">Isi data ayah</a></li>
 			<li><a href="{{ route('admission.form.parent', ['type' => 'mother', 'next' => route('admission.home')]) }}">Isi data ibu</a></li>
-			<li><a href="{{ route('admission.form.parent', ['type' => 'foster', 'next' => route('admission.home')]) }}">Isi data wali</a></li>
-			<li><a href="{{ route('admission.form.studies.index') }}">Isi riwayat pendidikan</a></li>
+			{{-- <li><a href="{{ route('admission.form.parent', ['type' => 'foster', 'next' => route('admission.home')]) }}">Isi data wali</a></li> --}}
+			{{-- <li><a href="{{ route('admission.form.studies.index') }}">Isi riwayat pendidikan</a></li>
 			<li><a href="{{ route('admission.form.organizations.index') }}">Isi riwayat organisasi</a></li>
-			<li><a href="{{ route('admission.form.achievements.index') }}">Isi data prestasi</a></li>
+			<li><a href="{{ route('admission.form.achievements.index') }}">Isi data prestasi</a></li> --}}
 			<li><a href="{{ route('admission.form.major') }}">Pemilihan program studi</a></li>
 			<li><a href="{{ route('admission.form.file') }}">Berkas pendaftaran</a></li>
-			<li><a href="{{ route('admission.form.test') }}">Pemilihan tanggal tes</a></li>
+			<li><a href="{{ route('admission.form.tanggal_kedatangan') }}">Pemilihan tanggal ke pondok</a></li>
 		</ul>
 	</div>
 </div>

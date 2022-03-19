@@ -11,14 +11,6 @@ $user = $registrant->user;
         </div>
     </div>
     <div class="form-group required row">
-        <label class="col-md-4 col-form-label text-md-right">NIK {{ $trans }}</label>
-        <div class="col-md-8">
-            <input type="text" class="form-control @error('nik') is-invalid @enderror" name="nik" value="{{ old('nik', $parent->nik) }}" required autofocus>
-            <small class="form-text text-muted">Nomor Induk Kependudukan {{ $trans }}, bisa dilihat di Kartu Keluarga</small>
-            @if ($errors->has('nik')) <span class="invalid-feedback"> {{ $errors->first('nik') }} </span> @endif
-        </div>
-    </div>
-    <div class="form-group required row">
         <label class="col-md-4 col-form-label text-md-right">Nama lengkap {{ $trans }}</label>
         <div class="col-md-8">
             <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name', $parent->name) }}" required>
@@ -27,6 +19,7 @@ $user = $registrant->user;
         </div>
     </div>
     <div class="form-group required row">
+<<<<<<< HEAD
         <label class="col-md-4 col-form-label text-md-right">Tempat lahir</label>
         <div class="col-md-5">
             <input type="text" class="form-control @error('pob') is-invalid @enderror" name="pob" value="{{ old('pob', $parent->pob) }}" required>
@@ -37,30 +30,6 @@ $user = $registrant->user;
     <div class="form-group required row">
         <label class="col-md-4 col-form-label text-md-right">Tanggal lahir</label>
         <div class="col-md-5">
-            <div class="input-group date" id="dob" data-target-input="nearest">
-                <input type="text" class="form-control datetimepicker-input @error('dob') is-invalid @enderror" name="dob" value="{{ old('dob', ($parent->dob ? $parent->dob->format('d-m-Y') : '')) }}" data-toggle="datetimepicker" data-target="#dob" autocomplete="off">
-                <div class="input-group-append" data-target="#dob" data-toggle="datetimepicker">
-                    <div class="input-group-text"><i class="mdi mdi-calendar"></i></div>
-                </div>
-            </div>
-            @error('dob')
-                <small class="text-danger"> {{ $message }} </small>
-            @enderror
-            <small class="form-text text-muted">Diisi dengan format hh-bb-tttt (ex: 23-02-{{ date('Y', strtotime(config('admisison.maximum-dob-year'))) }}) dan sesuai dengan Kartu Keluarga atau akta kelahiran </small>
-        </div>
-    </div>
-    <div class="form-group required row">
-        <label class="col-md-4 col-form-label text-md-right">Status {{ $trans }}</label>
-        <div class="col-md-5">
-            <select name="biological" class="form-control @error('biological') is-invalid @enderror" required>
-                @foreach (config('web.references.biologicals') as $i => $v)
-                    <option value="{{ $i }}" @if(old('biological', $parent->biological) == $i) selected @endif>{{ $v }}</option>
-                @endforeach
-            </select>
-            @if ($errors->has('biological')) <span class="invalid-feedback"> {{ $errors->first('biological') }} </span> @endif
-        </div>
-    </div>
-    <div class="form-group required row">
         <label class="col-md-4 col-form-label text-md-right">Keadaan {{ $trans }}</label>
         <div class="col-md-5">
             <select name="is_dead" class="form-control @error('is_dead') is-invalid @enderror" required>
@@ -72,6 +41,7 @@ $user = $registrant->user;
         </div>
     </div>
     <div class="form-group required row">
+<<<<<<< HEAD
         <label class="col-md-4 col-form-label text-md-right">Upload scan/foto KTP</label>
         <div class="col-md-8">
             <img id="preview_file" src="{{ $parent->ktp ? Storage::url($parent->ktp) : asset('/assets/img/img-blank.png') }}" class="rounded w-100 mb-2 border border-light"/>
@@ -87,6 +57,8 @@ $user = $registrant->user;
         </div>
     </div>
     <div class="form-group required row">
+=======
+>>>>>>> dwi-dev
         <label class="col-md-4 col-form-label text-md-right">Pendidikan terakhir {{ $trans }}</label>
         <div class="col-md-5">
             <select name="grade" class="form-control @error('grade') is-invalid @enderror" required>
@@ -124,6 +96,7 @@ $user = $registrant->user;
     </div>
 </fieldset>
 <hr>
+<<<<<<< HEAD
 <fieldset>
     <div class="row">
         <div class="col-md-8 offset-md-4">
@@ -185,6 +158,9 @@ $user = $registrant->user;
         </div>
     </div>
 </fieldset>
+=======
+
+>>>>>>> dwi-dev
 <hr>
 <div class="row">
     <div class="col-md-8 offset-md-4">
