@@ -41,9 +41,10 @@ class PaymentController extends Controller
         });
 
         $registrants = $this->repo->setWhere(function($query) {
-                                    $query->whereNotNull('verified_at');
+                                    // $query->whereNotNull('verified_at');
                                     // $query->whereNotNull('validated_at');
-                                    $query->whereNotNull('tested_at');
+                                    // $query->whereNotNull('tested_at');
+                                    $query->where('is_saman', 0);
                                   })
                                   ->setLimit(request('limit', $this->repo->limit))
                                   ->onlyTrashed(request('trash', false))

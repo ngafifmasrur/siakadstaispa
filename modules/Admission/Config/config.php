@@ -18,7 +18,7 @@ return [
         'brand_ext' => 'STAISPA'
     ],
     
-    'brosur' => 'http://pmb.staispa.ac.id/Brosur-PMB-STAISPA-2021-2022.pdf',
+    'brosur' => 'http://pmb.staispa.ac.id/Brosur-PMB-STAISPA-2022-2023.pdf',
 
     'display_error_validations' => true,
 
@@ -84,6 +84,12 @@ return [
                 'title' => 'Pendaftaran',
                 'items' => [
                     [
+                        'route' => 'admission.admin.registration.saman.index',
+                        'permissions' => 'verify',
+                        'icon' => 'check-circle',
+                        'label' => 'Pilih SAMAN'
+                    ],
+                    [
                         'route' => 'admission.admin.registration.verification.index',
                         'permissions' => 'verify',
                         'icon' => 'check-circle',
@@ -112,6 +118,12 @@ return [
                         'permissions' => 'accept-payment',
                         'icon' => 'wallet',
                         'label' => 'Pembayaran'
+                    ],
+                    [
+                        'route' => 'admission.admin.registration.cbt.index',
+                        'permissions' => 1,
+                        'icon' => 'calculator',
+                        'label' => 'Tes CBT'
                     ],
                 ]
             ],
@@ -156,6 +168,18 @@ return [
                                 'permissions' => 'manage-registrants',
                                 'icon' => 'layers',
                                 'label' => 'Calon maba'
+                            ],
+                            [
+                                'route' => 'admission.admin.cbt.index',
+                                'permissions' => 1,
+                                'icon' => 'layers',
+                                'label' => 'Mapel CBT'
+                            ],
+                            [
+                                'route' => 'admission.admin.tanggal_kedatangan.index',
+                                'permissions' => 1,
+                                'icon' => 'layers',
+                                'label' => 'Tanggal Kedatangan'
                             ],
                         ]
                     ],

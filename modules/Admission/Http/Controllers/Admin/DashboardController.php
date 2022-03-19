@@ -117,11 +117,14 @@ class DashboardController extends Controller
             foreach ($admissions as $a) {
                 $data['Total pendaftar'][$sex] = $a->registrants()->whereHas('user.profile', function($profile) use ($sex) { return $profile->where('sex', $sex) ; })->count();
                 $data['Terverifikasi'][$sex] = $a->registrants()->whereNotNull('verified_at')->whereHas('user.profile', function($profile) use ($sex) { return $profile->where('sex', $sex) ; })->count();
-                $data['Belum lulus tes/mengulang tes'][$sex] = $a->registrants()->whereNotNull('test_at')->whereNull('tested_at')->whereHas('user.profile', function($profile) use ($sex) { return $profile->where('sex', $sex) ; })->count();
-                $data['Lulus tes/diterima'][$sex] = $a->registrants()->whereNotNull('verified_at')->whereNotNull('tested_at')->whereHas('user.profile', function($profile) use ($sex) { return $profile->where('sex', $sex) ; })->count();
+                // $data['Belum lulus tes/mengulang tes'][$sex] = $a->registrants()->whereNotNull('test_at')->whereNull('tested_at')->whereHas('user.profile', function($profile) use ($sex) { return $profile->where('sex', $sex) ; })->count();
+                // $data['Lulus tes/diterima'][$sex] = $a->registrants()->whereNotNull('verified_at')->whereNotNull('tested_at')->whereHas('user.profile', function($profile) use ($sex) { return $profile->where('sex', $sex) ; })->count();
                 $data['Sudah bayar'][$sex] = $a->registrants()->whereNotNull('verified_at')->whereNotNull('tested_at')->has('transactions')->whereHas('user.profile', function($profile) use ($sex) { return $profile->where('sex', $sex) ; })->count();
                 $data['Belum lunas'][$sex] = $a->registrants()->whereNotNull('verified_at')->whereNotNull('tested_at')->has('transactions')->whereNull('paid_off_at')->whereHas('user.profile', function($profile) use ($sex) { return $profile->where('sex', $sex) ; })->count();
                 $data['Lunas'][$sex] = $a->registrants()->whereNotNull('verified_at')->whereNotNull('tested_at')->has('transactions')->whereNotNull('paid_off_at')->whereHas('user.profile', function($profile) use ($sex) { return $profile->where('sex', $sex) ; })->count();
+                $data['Santri Mandiri'][$sex] = $a->registrants()->where('is_saman', 1)->whereHas('user.profile', function($profile) use ($sex) { return $profile->where('sex', $sex) ; })->count();
+                $data['Reguler'][$sex] = $a->registrants()->where('is_saman', 0)->whereHas('user.profile', function($profile) use ($sex) { return $profile->where('sex', $sex) ; })->count();
+
             }            
         }
 

@@ -159,6 +159,13 @@ class Admission extends Model
     }
 
     /**
+     * This has cbt kinds.
+     */
+    public function cbts () {
+        return $this->hasMany(AdmissionCBT::class, 'admission_id');
+    }
+
+    /**
      * Scope current user.
      */
     public function scopeCurrentUser($query, $user = false)

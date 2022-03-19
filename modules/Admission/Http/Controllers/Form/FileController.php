@@ -35,7 +35,12 @@ class FileController extends Controller
             'registrants' => function($query) use ($registrant) { 
                 $query->where('registrant_id', $registrant->id); 
             }
-        ]);
+        ])->when($registrant->is_saman == 0, function($q){
+            return $q->where('required', 1);
+        })
+        ->when($registrant->is_saman == 1, function($q){
+            return $q->where('required_saman', 1);
+        });
 
         return view('admission::form.file.index', compact('registrant', 'files'));
     }

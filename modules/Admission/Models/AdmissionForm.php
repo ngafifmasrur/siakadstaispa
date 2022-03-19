@@ -151,12 +151,28 @@ class AdmissionForm extends Model
             [
                 'route' => 'file', 
                 'name' => 'Berkas pendaftaran',
-                'status' => $registrant ? ($registrant->files()->where('required', 1)->count() >= $registrant->admission->files()->where('required', 1)->count()) : null,
+                'status' => $registrant ? ($registrant->is_saman == 1 ? ($registrant->files()->where('name', 'Kartu BSM')->exists() || $registrant->files()->where('name', 'Surat Keterangan Tidak Mampu')->exists() || $registrant->files()->where('name', 'Kartu KIP')->exists()) : ($registrant->files()->where('name', 'Kartu Keluarga (KK)')->exists())) : null,
+                // 'status' => $registrant ? (
+                //     $registrant->files()
+                //     ->when($registrant->is_saman == 0, function($q){
+                //         return $q->where('required', 1);
+                //     })
+                //     ->when($registrant->is_saman == 1, function($q){
+                //         return $q->where('required_saman', 1);
+                //     })->count() >=
+                //     $registrant->admission->files()
+                //     ->when($registrant->is_saman == 0, function($q){
+                //         return $q->where('required', 1);
+                //     })
+                //     ->when($registrant->is_saman == 1, function($q){
+                //         return $q->where('required_saman', 1);
+                //     })
+                //     ->count()) : null,
             ],
             [
-                'route' => 'test', 
-                'name' => 'Pemilihan tanggal tes',
-                'status' => $registrant ? ($registrant->test_at && $registrant->session_id) : null,
+                'route' => 'tanggal_kedatangan', 
+                'name' => 'Pemilihan tanggal ke pondok',
+                'status' => $registrant ? $registrant->tanggal_kedatangan : null,
             ]
         ];
     }
