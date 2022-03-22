@@ -50,19 +50,20 @@ class EmailController extends Controller
             'verified_at'    => null
         ];
 
-        if($data['address'] != $registrant->user->email->address) {
-            if($registrant->user->email()->updateOrCreate([], $data)) {
+        // if($data['address'] != $registrant->user->email->address) {
+        //     if($registrant->user->email()->updateOrCreate([], $data)) {
 
-                $email = UserEmail::where('user_id', $registrant->user->id)->firstOrFail();
+        //         $email = UserEmail::where('user_id', $registrant->user->id)->firstOrFail();
 
-                return redirect()->route('account.user.email.reverify', ['uid' => encrypt($email->id), 'next' => $request->get('next', route('admission.home'))]);
-            }
+        //         return redirect()->route('account.user.email.reverify', ['uid' => encrypt($email->id), 'next' => $request->get('next', route('admission.home'))]);
+        //     }
 
-            return redirect()->back()
-                             ->withInput()
-                             ->with(['danger' => 'Maaf, terjadi kegagalan ketika proses penyimpanan.']);
-        }
+        //     return redirect()->back()
+        //                      ->withInput()
+        //                      ->with(['danger' => 'Maaf, terjadi kegagalan ketika proses penyimpanan.']);
+        // }
 
-        return redirect()->back();
+        return redirect($request->get('next', route('account.home')))
+        ->with(['success' => 'Alamat email berhasil disimpan.']);
     }
 }

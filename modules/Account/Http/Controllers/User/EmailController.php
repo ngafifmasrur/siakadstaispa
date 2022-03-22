@@ -44,18 +44,18 @@ class EmailController extends Controller
             'verified_at'    => null
         ];
 
-        if($data['address'] != auth()->user()->email->address) {
-            if ($user = $this->repo->update($data, auth()->user())) {
+        // if($data['address'] != auth()->user()->email->address) {
+        //     if ($user = $this->repo->update($data, auth()->user())) {
 
-                $email = UserEmail::where('user_id', $user->id)->firstOrFail();
+        //         $email = UserEmail::where('user_id', $user->id)->firstOrFail();
 
-                return redirect()->route('account.user.email.reverify', ['uid' => encrypt($email->id), 'next' => route('account.user')]);
-            }
+        //         return redirect()->route('account.user.email.reverify', ['uid' => encrypt($email->id), 'next' => route('account.user')]);
+        //     }
 
-            return redirect()->back()
-                             ->withInput()
-                             ->with(['danger' => 'Maaf, terjadi kegagalan ketika proses penyimpanan.']);
-        }
+        //     return redirect()->back()
+        //                      ->withInput()
+        //                      ->with(['danger' => 'Maaf, terjadi kegagalan ketika proses penyimpanan.']);
+        // }
 
         return redirect($request->get('next', route('account.home')));
     }
