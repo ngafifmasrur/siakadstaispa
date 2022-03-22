@@ -38,6 +38,8 @@
                                             {{ $file->name }} 
                                             @if($file->required)
                                                 <small class="text-danger">({!! $file->required_message ?: 'Wajib diunggah' !!})</small>
+                                            @elseif(($file->name == 'Kartu BSM' || $file->name == 'Surat Keterangan Tidak Mampu' || $file->name == 'Kartu KIP') && $registrant->is_saman == 1)
+                                                <small class="text-danger">(SAMAN Wajib unggah jika punya)</small>
                                             @endif
                                             @if($file->description)
                                                 <div>
@@ -61,6 +63,11 @@
                                             @endif
                                         </td>
                                     </tr>
+                                    @if ($registrant->is_saman == 1 && $file->name == 'Kartu Keluarga (KK)')
+                                        <tr class="bg-dark text-white">
+                                            <td colspan="4">SAMAN Wajib Upload salah satu berkas dibawah</td>
+                                        </tr>
+                                    @endif
                                 @empty
                                     <tr>
                                         <td colspan="4">Tidak ada berkas yang harus diunggah</td>

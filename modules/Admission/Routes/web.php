@@ -35,6 +35,19 @@ Route::name('admission.')->group(function() {
 		Route::group(['middleware' => Registered::class], function() {
 			// Home
 			Route::get('/home', 'HomeController@index')->name('home');
+
+			// CBT
+			// CBT Home
+			Route::get('/cbt/{cbt_id}', 'CBTController@index')->name('cbt');
+			// Selesai CBT
+			Route::post('/submit_form', 'CBTController@submit_form')->name('cbt.submit_form');
+			// Kirim Jawaban Soal
+			Route::get('/kirimjawaban_cbt', 'CBTController@kirimjawaban')->name('cbt.kirimjawaban');
+			// Update Waktu
+			Route::get('/set_waktu', 'CBTController@update_waktu')->name('cbt.set_waktu');
+			// Jumlah Soal Terjawab
+			Route::get('/soal_terjawab', 'CBTController@soal_terjawab')->name('cbt.soal_terjawab');
+			
 			// Admission form
 			Route::group(['prefix' => 'form'], function() {
 				// Personal
@@ -43,6 +56,9 @@ Route::name('admission.')->group(function() {
 				// Address
 				Route::get('/email', 'Form\EmailController@index')->name('form.email');
 				Route::put('/email', 'Form\EmailController@update')->name('form.email');
+				// Address
+				Route::get('/tanggal_kedatangan', 'Form\TanggalKedatanganController@index')->name('form.tanggal_kedatangan');
+				Route::put('/tanggal_kedatangan', 'Form\TanggalKedatanganController@update')->name('form.tanggal_kedatangan');
 				// Address
 				Route::get('/phone', 'Form\PhoneController@index')->name('form.phone');
 				Route::put('/phone', 'Form\PhoneController@update')->name('form.phone');
@@ -92,6 +108,14 @@ Route::name('admission.')->group(function() {
 				// Dashboard
 				Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
+				// CBT
+				Route::get('/cbt/{cbt}/import', 'CBTController@import')->name('cbt.import');
+				Route::post('/cbt/{cbt}/import', 'CBTController@import_store')->name('cbt.import_store');
+				Route::resource('/cbt', 'CBTController');
+				
+				// tanggal_kedatangan
+				Route::resource('/tanggal_kedatangan', 'TanggalKedatanganController');
+
 				// Database
 				Route::name('database.')->prefix('database')->namespace('Database')->group(function () {
 					Route::name('manage.')->prefix('manage')->namespace('Manage')->middleware(AdmissionIsOpen::class)->group(function () {
@@ -103,6 +127,8 @@ Route::name('admission.')->group(function() {
 						Route::resource('/registrants', 'RegistrantController');
 						// Rooms
 						Route::resource('/rooms', 'RoomController');
+
+						// Pilih Periode
 						Route::resource('/periode', 'PeriodeController');
 
 					});
@@ -114,6 +140,15 @@ Route::name('admission.')->group(function() {
 					Route::prefix('verification')->group(function () {
 						Route::get('/', 'VerificationController@index')->name('registration.verification.index');
 						Route::put('/{registrant}', 'VerificationController@verify')->name('registration.verification.verify');
+					});
+					// Verification
+					Route::prefix('saman')->group(function () {
+						Route::get('/', 'SamanController@index')->name('registration.saman.index');
+						Route::put('/{registrant}', 'SamanController@verify')->name('registration.saman.verify');
+						Route::get('/{registrant}/jadwal_wawancara', 'SamanController@jadwal_wawancara')->name('registration.saman.jadwal_wawancara');
+						Route::put('/{registrant}/set_jadwal_wawancara', 'SamanController@set_jadwal_wawancara')->name('registration.saman.set_jadwal_wawancara');
+						Route::put('/{registrant}/status_wawancara', 'SamanController@status_wawancara')->name('registration.saman.status_wawancara');
+
 					});
 					// Test
 					Route::prefix('test')->group(function () {
@@ -155,6 +190,11 @@ Route::name('admission.')->group(function() {
 						Route::put('/unassign/{registrant}', 'RoomController@unassign')->name('registration.room.unassign');
 						Route::get('/{registrant}/print-room', 'RoomController@printRoom')->name('registration.room.print-room');
 						Route::get('/{registrant}/print-card', 'RoomController@printCard')->name('registration.room.print-card');
+					});
+					// CBT
+					Route::prefix('cbt')->group(function () {
+						Route::get('/', 'CBTController@index')->name('registration.cbt.index');
+						Route::get('/{registrant}', 'CBTController@show')->name('registration.cbt.show');
 					});
 				});
 

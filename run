@@ -1,0 +1,4 @@
+#!/bin/sh
+
+php artisan package:discover --ansi
+apache2-foreground
