@@ -57,8 +57,9 @@ class RegistrantController extends Controller
     public function show(AdmissionRegistrant $registrant)
     {
         $registrant = $this->repo->show($registrant);
+        $status_cbt = (count($registrant->admission->cbts) == count($registrant->cbts->where('status', 2))) ? true : false;
 
-        return view('admission::admin.database.manage.registrants.show', compact('registrant'));
+        return view('admission::admin.database.manage.registrants.show', compact('registrant', 'status_cbt'));
     }
 
     /**
