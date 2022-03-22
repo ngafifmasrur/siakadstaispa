@@ -7,7 +7,7 @@
 				<span class="invalid-feedback"> {{ $message }} </span>
 			@enderror
 		</div>
-		@if ($registrant->user->email->address) 
+		{{-- @if ($registrant->user->email->address) 
 			<div class="mt-2 mb-1">Status verifikasi</div>
 			@if ($registrant->user->email->verified_at) 
 				<div class="text-success"><i class="icon-check"></i> Terverifikasi</div>
@@ -15,16 +15,16 @@
 				<div class="text-danger"><i class="icon-close"></i> Belum terverifikasi</div>
 				<a href="{{ route('account.user.email.reverify', ['uid' => encrypt($registrant->user->email->id), 'next' => url()->full()]) }}">Kirim tautan verifikasi sekarang!</a>
 			@endif
-		@endif
+		@endif --}}
 	</div>
 </div>
-@if ($registrant->user->email->verified_at)
+{{-- @if ($registrant->user->email->verified_at)
 	<hr>
 	<p class="mb-0">
 		<strong>Peringatan!</strong> <br>
 		Jika Anda mengubah alamat e-mail Anda, kami akan melakukan verifikasi ulang terhadap e-mail Anda
 	</p>
-	@endif
+	@endif --}}
 <div class="row mt-3">
     <div class="col-sm-8">
     	<div class="form-group mb-0">
