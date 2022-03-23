@@ -148,7 +148,7 @@ class HomeController extends Controller
         $cbts = $registrant->cbts->where('status', 2);
 
         // Profile Photo
-        $gambar = $registrant->avatar ? "data:image/". pathinfo(public_path("storage/".$registrant->avatar), PATHINFO_EXTENSION) .";base64,".base64_encode(file_get_contents(public_path("storage/".$registrant->avatar))) : "data:image/". pathinfo(public_path('assets/img/img-blank-3-4.png'), PATHINFO_EXTENSION) .";base64,".base64_encode(file_get_contents(public_path('assets/img/img-blank-3-4.png')));
+        $gambar = $registrant->avatar ? Storage::url($registrant->avatar) : asset('assets/img/img-blank-3-4.png');
         $pdf = \PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('admission::home.form', compact('registrant', 'user', 'files', 'personal', 'ttdparent', 'parent', 'admission', 'cbts', 'gambar'))
                     ->setPaper('a4', 'portrait');
         $pdf->getDomPDF()->setHttpContext(
