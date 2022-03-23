@@ -7,6 +7,7 @@ use Modules\Admission\Models\AdmissionCBT;
 use Modules\Admission\Models\RegistrantCBT;
 use Modules\Admission\Repositories\AdmissionRegistrantRepository;
 use Modules\Admission\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
