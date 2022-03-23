@@ -6,7 +6,10 @@ use Modules\Admission\Http\Middleware\Registered;
 
 $domain = env('APP_DOMAIN');
 
+
 Route::name('admission.')->group(function() {
+	Route::get('storage/user_files/{user_id}/admissions/{file}', 'FileController@fileUser')->name('fileUser');
+
 	Route::get('/', 'Controller@home')->name('index');
 	
 	Route::get('/xxx', function(){
