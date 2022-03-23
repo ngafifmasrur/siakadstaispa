@@ -15,7 +15,7 @@ class FileController extends Controller
         // any permission handling or anything else
 
         // we check for the existing of the file
-        $path = '/public/user_files/';
+        $path = 'user_files/';
         if (!Storage::disk('local')->exists($path.$user_id.'/'.'admissions/'.$file)){ // note that disk()->exists() expect a relative path, from your disk root path. so in our example we pass directly the path (/…/laravelProject/storage/app) is the default one (referenced with the helper storage_path('app')
             // abort('404'); // we redirect to 404 page if it doesn't exist
            return response()->json(['Galat' => 'Dokumen tidak ditemukan'], 404);
@@ -24,7 +24,7 @@ class FileController extends Controller
         
         // if there is parameters [you can change the files, depending on them. ex serving different content to different regions, or to mobile and desktop …etc] // repetitive things can be handled through helpers [make helpers]
 
-        return response()->file(storage_path('app/public/user_files/'.$user_id.'/'.'admissions/'.$file)); // the response()->file() will add the necessary headers in our place (no headers are needed to be provided for images (it's done automatically) expected hearder is of form => ['Content-Type' => 'image/png'];
+        return response()->file(storage_path('app/user_files/'.$user_id.'/'.'admissions/'.$file)); // the response()->file() will add the necessary headers in our place (no headers are needed to be provided for images (it's done automatically) expected hearder is of form => ['Content-Type' => 'image/png'];
 
         // big note here don't use Storage::url() // it's not working correctly.
     }
