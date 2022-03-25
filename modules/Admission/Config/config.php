@@ -24,7 +24,7 @@ return [
 
     'footer' => [
     	'left'  => 'PMB '.env('APP_NAME'),
-        'right' => 'Copyright &copy; 2019'
+        'right' => 'Copyright &copy; 2022'
     ],
 
     // 'maximum-grades' => 3,
