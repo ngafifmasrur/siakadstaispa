@@ -208,7 +208,7 @@
 		</div>
 	</div-->
 
-    @if($admissions->first())
+    {{-- @if($admissions->first())
         <div class="container my-5 py-md-5">
             <div class="row">
                 <div class="col-lg-6 align-self-center text-center d-none d-lg-block">
@@ -256,7 +256,7 @@
                 </div>
             </div>
         </div>
-    @endif
+    @endif --}}
 @endsection
 
 @push('script')
