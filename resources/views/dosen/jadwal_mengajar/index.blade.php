@@ -26,7 +26,8 @@
         ['title' => 'Program Studi', 'data' => 'nama_program_studi', 'name' => 'nama_program_studi', 'classname' => 'text-left'],
         ['title' => 'Mata Kuliah', 'data' => 'nama_mata_kuliah', 'name' => 'nama_mata_kuliah', 'classname' => 'text-left'],
         ['title' => 'Kelas', 'data' => 'nama_kelas_kuliah', 'name' => 'nama_kelas_kuliah', 'classname' => 'text-center'],
-        ['title' => 'Jadwal', 'data' => 'jadwal', 'name' => 'jadwal', 'classname' => 'text-center']
+        ['title' => 'Jadwal', 'data' => 'jadwal', 'name' => 'jadwal', 'classname' => 'text-center'],
+        ['title' => 'Presensi', 'data' => 'cetak_presensi', 'name' => 'cetak_presensi', 'classname' => 'text-center']
     ]"
     :filter="[
         ['data' => 'prodi', 'value' => '$(`#prodi`).val()']

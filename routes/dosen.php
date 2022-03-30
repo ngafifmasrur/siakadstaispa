@@ -71,6 +71,10 @@ Route::group(
             JadwalMengajarController::class, 
             'update'
         ])->name('jadwal_mengajar.update');
+        Route::get('/jadwal_mengajar/{id_kelas_kuliah}/cetak_presensi', [
+            JadwalMengajarController::class, 
+            'cetak_presensi'
+        ])->name('jadwal_mengajar.cetak_presensi');
     
         Route::resource('/jurnal_perkuliahan', JurnalPerkuliahanController::class)->except([
             'show',

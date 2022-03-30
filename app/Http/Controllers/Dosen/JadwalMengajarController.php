@@ -11,8 +11,13 @@ use App\Models\m_semester;
 use App\Models\m_program_studi;
 use App\Models\m_global_konfigurasi;
 use App\Models\m_kelas_kuliah;
+use App\Models\{
+    t_jurnal_kuliah,
+    t_peserta_kelas_kuliah,
+    t_absensi_mahasiswa
+};
 use App\Http\Requests\Dosen\KontrakRequest;
-use Session, DB, Auth;
+use Session, DB, Auth, PDF;
 
 class JadwalMengajarController extends Controller
 {
@@ -70,6 +75,18 @@ class JadwalMengajarController extends Controller
 
                 return '-';
             })
+            ->addColumn('cetak_presensi',function ($data) {
+                $button = view("components.button.default", [
+                    'type' => 'link',
+                    'tooltip' => 'Status',
+                    'class' => 'btn btn-primary btn-sm',
+                    "label" => "Unduh Presensi",
+                    "route" => route('dosen.jadwal_mengajar.cetak_presensi', $data->id_kelas_kuliah),
+                ]);
+
+                return $button;
+            })
+            ->rawColumns(['cetak_presensi'])
             ->setRowAttr([
                 'style' => 'text-align: center',
             ])
@@ -116,5 +133,27 @@ class JadwalMengajarController extends Controller
             Session::flash('error_msg', 'Terjadi kesalahan pada server');
             return redirect()->back()->withInput();
         }
+    }
+
+    public function cetak_presensi(Request $request, $id_kelas_kuliah)
+    { 
+
+        $kelas = m_kelas_kuliah::setFilter([
+            'filter' => "id_kelas_kuliah='$id_kelas_kuliah'",
+        ])->first();
+        $dosen = t_dosen_pengajar_kelas_kuliah::where('id_kelas_kuliah', $id_kelas_kuliah)->first();
+
+        $jadwal = m_jadwal::where('id_kelas_kuliah', $id_kelas_kuliah)->first();
+
+        $jurnal = t_jurnal_kuliah::where('id_kelas_kuliah', $id_kelas_kuliah)->get();
+        $data_jurnal = t_jurnal_kuliah::where('id_kelas_kuliah', $id_kelas_kuliah)->pluck('id')->toArray();
+
+        $absensi = t_absensi_mahasiswa::whereIn('id_jurnal_kuliah', $data_jurnal)->get();
+        $list_mahasiswa = t_peserta_kelas_kuliah::setFilter([
+            'filter' => "id_kelas_kuliah='$id_kelas_kuliah'",
+        ])->get();
+
+        $pdf = PDF::loadView('dosen.jadwal_mengajar.cetak_presensi', compact('dosen','jurnal', 'data_jurnal', 'absensi', 'list_mahasiswa', 'kelas', 'jadwal'))->setPaper('a4', 'landscape');
+        return $pdf->stream('Presensi_-_Kelas-_-'.$kelas->nama_mata_kuliah.'.pdf');
     }
 }
