@@ -50,6 +50,8 @@ class EmailController extends Controller
             'verified_at'    => null
         ];
 
+        $registrant->user->email()->updateOrCreate([], $data);
+        
         // if($data['address'] != $registrant->user->email->address) {
         //     if($registrant->user->email()->updateOrCreate([], $data)) {
 
