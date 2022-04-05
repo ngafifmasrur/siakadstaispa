@@ -42,6 +42,6 @@ class RegistrantController extends Controller
         $registrants = $registrants->get();
         $files = Admission::find($request->input('aid'))->files;
 
-        return view('admission::admin.report.registrants.export.registrants', compact('registrants', 'date', 'files'));
+        return view('admission::admin.report.registrants.export.registrants', compact('registrants', 'files'));
     }
 }

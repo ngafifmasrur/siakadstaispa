@@ -1,10 +1,10 @@
 @php
 $stats = [
     'verified_at' => 'Terverifikasi',
-    'tested_at' => 'Lulus tes',
-    'validated_at' => 'Sudah validasi',
+    // 'tested_at' => 'Lulus tes',
+    // 'validated_at' => 'Sudah validasi',
     'paid_off_at' => 'Lunas pembayaran',
-    'room_id' => 'Dapat kamar'
+    // 'room_id' => 'Dapat kamar'
 ];
 @endphp
 
