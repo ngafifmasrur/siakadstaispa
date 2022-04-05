@@ -28,6 +28,8 @@ class TestController extends Controller
      */
     public function index()
     {
+        return redirect()->route('admission.home')->with(['success' => 'Sukses, Calon Mahasiswa tidak perlu mengisi tanggal tes.']);
+
         $this->authorize('registration', Admission::class);
 
         $registrant = $this->repo->getCurrentUser();
