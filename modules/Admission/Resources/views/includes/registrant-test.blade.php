@@ -1,4 +1,4 @@
-@php
+{{-- @php
 	$lists = [
 		'Tanggal tes'			=> $registrant->test_at ? $registrant->test_at->formatLocalized('%A, %d %B %Y') : '-',
 		'Sesi tes'				=> $registrant->test_at ? ($registrant->session->name.' ('.substr($registrant->session->start_time, 0, 5).'-'.substr($registrant->session->end_time, 0, 5).')') : '-',
@@ -17,4 +17,4 @@
 			@endforeach
 		</ul>
 	</div>
-</div>
+</div> --}}
