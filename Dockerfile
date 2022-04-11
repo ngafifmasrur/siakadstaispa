@@ -1,7 +1,5 @@
 FROM php:7.4.27-apache-buster
 
-WORKDIR /app
-
 # install nodejs
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 
