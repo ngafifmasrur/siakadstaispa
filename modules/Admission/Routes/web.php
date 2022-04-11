@@ -199,6 +199,9 @@ Route::name('admission.')->group(function() {
 						Route::get('/', 'CBTController@index')->name('registration.cbt.index');
 						Route::get('/{registrant}', 'CBTController@show')->name('registration.cbt.show');
 					});
+
+					Route::get('/tanggal_kedatangan/{registrant}', 'TanggalKedatanganController@index')->name('registration.tanggal_kedatangan');
+					Route::put('/tanggal_kedatangan/{registrant}', 'TanggalKedatanganController@update')->name('registration.tanggal_kedatangan');
 				});
 
 				// Administration

@@ -13,7 +13,9 @@
 			<label class="col-form-label">Tanggal Kedatangan ke pondok</label>
 			<select class="form-control @error('tanggal_kedatangan') is-invalid @enderror" name="tanggal_kedatangan" id="tanggal_kedatangan">
 				@foreach ($tanggal_kedatangan as $key => $item)
-					<option value="{{ $item }}">{{ $item }}</option>
+					<option @if ($registrant->tanggal_kedatangan == $item)
+						selected
+					@endif value="{{ $item }}">{{ $item }}</option>
 				@endforeach
 			</select>
 			

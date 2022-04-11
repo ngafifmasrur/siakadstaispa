@@ -27,6 +27,7 @@ class UpdateRequest extends FormRequest
 			'file' => new \Modules\Admission\Http\Requests\Form\File\UploadRequest(),
 			'test' => new \Modules\Admission\Http\Requests\Form\Test\AssignRequest(),
 			'major' => new \Modules\Admission\Http\Requests\Form\Major\UpdateRequest(),
+			'tanggal_kedatangan' => new \Modules\Admission\Http\Requests\Form\TanggalKedatangan\UpdateRequest(),
 		];
 
 		return $class[$key] ?? abort(404);

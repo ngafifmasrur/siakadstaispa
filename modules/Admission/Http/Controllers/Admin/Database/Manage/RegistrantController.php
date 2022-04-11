@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\UserAddress;
 use Modules\Admission\Models\Admission;
 use Modules\Admission\Models\AdmissionRegistrant;
+use Modules\Admission\Models\AdmissionKedatangan;
 use Modules\Admission\Repositories\AdmissionRegistrantRepository;
 use Modules\Admission\Http\Requests\RegisterRequest;
 
@@ -122,6 +123,11 @@ class RegistrantController extends Controller
         $key = $request->get('key');
 
         switch ($key) {
+            case 'tanggal_kedatangan':
+                $tanggal_kedatangan = AdmissionKedatangan::where('admission_id', $registrant->admission_id)->pluck('date', 'id');
+
+                return view('admission::admin.database.manage.registrants.edit.'.$key, compact('registrant', 'key', 'tanggal_kedatangan'));
+
             case 'profile':
             case 'email':
             case 'phone':
@@ -192,6 +198,11 @@ class RegistrantController extends Controller
         $data = $this->transformRequest($request, $key);
 
         switch ($key) {
+            case 'tanggal_kedatangan':
+                if ($registrant->update($data['data'])) {
+                    return redirect($request->get('next'))
+                            ->with(['success' => 'Sukses, Tanggal kedatangan telah berhasil diperbarui.']);
+                }
             case 'profile':
             case 'email':
             case 'phone':
@@ -539,6 +550,13 @@ class RegistrantController extends Controller
                     'data' => [
                         'major1' => $request->input('major1'),
                         'major2' => $request->input('major2')
+                    ]
+                ];
+            case 'tanggal_kedatangan':
+                return [
+                    'name' => 'pemilihan tanggal kedatangan',
+                    'data' => [
+                        'tanggal_kedatangan' => date('Y-m-d', strtotime($request->input('tanggal_kedatangan'))),
                     ]
                 ];
             default:
