@@ -1,7 +1,5 @@
 FROM php:8.1-apache-buster
 
-WORKDIR /var/www/html
-
 # install nodejs
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 
@@ -28,7 +26,3 @@ RUN npm install
 RUN npm run prod
 
 RUN a2enmod rewrite
-
-RUN chmod +x run
-
-CMD ["./run"]
