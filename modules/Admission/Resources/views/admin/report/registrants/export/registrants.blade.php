@@ -20,16 +20,14 @@
             <th>Alamat email</th>
             <th>Jalur pendaftaran</th>
             <th>No pendaftaran</th>
-            <th>Tanggal tes</th>
-            <th>Sesi tes</th>
+            <th>Tanggal kedatangan</th>
+            <th>Tes CBT Bahasa Inggris</th>
+            <th>Tes CBT Bahasa Arab</th>
             <th>Mendaftar</th>
             <th>Terverifikasi</th>
-            <th>Lulus tes</th>
             <th>Validasi</th>
             <th>Perjanjian</th>
             <th>Lunas pembayaran</th>
-            <th>Kamar</th>
-            <th>Ranjang</th>
             <th>Status saat ini</th>
             <th>Minat 1</th>
             <th>Minat 2</th>
@@ -62,16 +60,14 @@
                 <td>{{ $user->email->address ?? '-' }}</td>
                 <td>{{ $admission->full_name }}</td>
                 <td>{{ $registrant->kd }}</td>
-                <td>{{ $registrant->test_at ? $registrant->test_at->format('d-m-Y') : '' }}</td>
-                <td>{{ $registrant->session ? ($registrant->session->name.' '.$registrant->session->range) : '' }}</td>
+                <td>{{ $registrant->tanggal_kedatangan }}</td>
+                <td>{{ $registrant->cbts->where('cbt_id', 1)->where('status',2)->first() ? 'OK - Skor '.$registrant->cbts->where('cbt_id', 1)->where('status',2)->first()->total_skor : 'Belum Mengerjakan' }}</td>
+                <td>{{ $registrant->cbts->where('cbt_id', 2)->where('status',2)->first() ? 'OK - Skor '.$registrant->cbts->where('cbt_id', 2)->where('status',2)->first()->total_skor : 'Belum Mengerjakan' }}</td>
                 <td>{{ $registrant->created_at }}</td>
                 <td>{{ $registrant->verified_at }}</td>
-                <td>{{ $registrant->tested_at }}</td>
                 <td>{{ $registrant->validated_at }}</td>
                 <td>{{ $registrant->agreement_at }}</td>
                 <td>{{ $registrant->paid_off_at }}</td>
-                <td>{{ $registrant->room->name ?? '' }}</td>
-                <td>{{ $registrant->bed }}</td>
                 <td>{{ $registrant->step_status }}</td>
                 <td>{{ $registrant->major1_name ?? '-' }}</td>
                 <td>{{ $registrant->major2_name ?? '-' }}</td>
