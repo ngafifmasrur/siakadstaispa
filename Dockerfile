@@ -1,7 +1,5 @@
 FROM php:7.4.27-apache-buster
 
-WORKDIR /app
-
 # install nodejs
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 
@@ -29,6 +27,6 @@ RUN npm run prod
 
 RUN a2enmod rewrite
 
-RUN chmod +x run
-
-CMD ["./run"]
+# set vhost
+COPY ./docker/vhost.conf /etc/apache2/sites-available/000-default.conf
+RUN chown -R www-data:www-data /var/www/html
