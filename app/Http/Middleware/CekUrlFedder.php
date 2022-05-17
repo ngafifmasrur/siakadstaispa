@@ -22,7 +22,7 @@ class CekUrlFedder
         $endpoint_fromdb_username = m_konfigurasi::where('variable','username_feeder_pd_dikti')->count();
         $endpoint_fromdb_password = m_konfigurasi::where('variable','password_feeder_pd_dikti')->count();
         if($endpoint_fromdb_url==0&&$endpoint_fromdb_username==0&&$endpoint_fromdb_password==0){
-            if(Auth::user()->role->name == 'dosen' || Auth::user()->role->name == 'mahasiswa') {
+            if(Auth::user()->role->name == 'dosen' || Auth::user()->role->name == 'mahasiswa'|| Auth::user()->role->name == 'bendahara') {
                 Auth::logout();
                 Session::flash('status', 'Server siakad sedang error, coba lagi nanti.');
                 return redirect('/login');
@@ -33,7 +33,7 @@ class CekUrlFedder
             $token =  GetTokenFeeder();
             if(!isset($token)) {
 
-                if(Auth::user()->role->name == 'dosen' || Auth::user()->role->name == 'mahasiswa') {
+                if(Auth::user()->role->name == 'dosen' || Auth::user()->role->name == 'mahasiswa'|| Auth::user()->role->name == 'bendahara') {
                     Auth::logout();
                     Session::flash('status', 'Server siakad sedang error, coba lagi nanti.');
                     return redirect('/login');

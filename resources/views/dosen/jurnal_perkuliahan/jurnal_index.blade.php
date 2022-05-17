@@ -49,6 +49,8 @@
         ['title' => 'No.', 'data' => 'DT_RowIndex', 'name' => 'DT_RowIndex', 'orderable' => 'false', 'searchable' => 'false', 'width' => '10'],
         ['title' => 'Tgl Pelaksanaan', 'data' => 'tanggal_pelaksanaan', 'name' => 'tanggal_pelaksanaan', 'classname' => 'text-center'],
         ['title' => 'Jadwal', 'data' => 'jadwal', 'name' => 'jadwal', 'classname' => 'text-center'],
+        ['title' => 'Pertemuan Ke', 'data' => 'pertemuan_ke', 'name' => 'pertemuan_ke', 'classname' => 'text-center'],
+        ['title' => 'Status', 'data' => 'status', 'name' => 'status', 'classname' => 'text-center'],
         ['title' => 'Topik', 'data' => 'topik', 'name' => 'topik', 'classname' => 'text-left'],
         ['title' => 'Absen MHS', 'data' => 'absen_mahasiswa', 'name' => 'absen_mahasiswa'],
         ['title' => 'Aksi', 'data' => 'action', 'orderable' => 'false', 'searchable' => 'false'],
