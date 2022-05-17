@@ -44,7 +44,7 @@
         </tr>
     </table>
     <br>
-    <p class="paragraph">telah dinyatakan <strong>DITERIMA</strong> sebagai mahasiswa {{ env('APP_NAME') }} T.A {{ $registrant->admission->period->name }}. Adapun ketetapan penempatan Program Studi pilihan saudara/i akan dimumkan pada berdasarkan hasil tes tulis dan tes wawancara. Demikian surat pemberitahuan ini dibuat. Atas perhatian dan kerja samanya, kami ucapkan terima kasih.</p>
+    <p class="paragraph">telah dinyatakan <strong>DITERIMA</strong> sebagai mahasiswa STAISPA T.A {{ $registrant->admission->period->name }}. Adapun ketetapan penempatan Program Studi pilihan saudara/i akan dimumkan pada berdasarkan hasil tes tulis dan tes wawancara. Demikian surat pemberitahuan ini dibuat. Atas perhatian dan kerja samanya, kami ucapkan terima kasih.</p>
     <p class="paragraph"><i>Wassalamu'alaikum Wr. Wb.</i></p>
     <br>
     <br>
