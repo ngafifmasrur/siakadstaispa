@@ -23,6 +23,9 @@ class RedirectAuthenticatedUsersController extends Controller
             elseif(auth()->user()->hasRole('admin_prodi')){
                 return redirect()->route('admin_prodi.dashboard');
             }
+            elseif(auth()->user()->hasRole('bendahara')){
+                return redirect()->route('bendahara.dashboard');
+            }
             else{
                 return auth()->logout();
             }

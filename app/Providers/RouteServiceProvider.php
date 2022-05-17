@@ -70,6 +70,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('admin_prodi')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/prodi.php'));
+
+            Route::middleware(['web', 'auth'])
+                ->prefix('bendahara')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/bendahara.php'));
         });
     }
 
