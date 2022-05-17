@@ -125,7 +125,8 @@ class JurnalPerkuliahanController extends Controller
     {
         $query = t_jurnal_kuliah::query()
                 ->where('id_kelas_kuliah', $id_kelas_kuliah)
-                ->where('id_dosen', Auth::user()->id_dosen)->get();
+                ->where('id_dosen', Auth::user()->id_dosen)
+                ->orderBy('pertemuan_ke', 'ASC')->get();
 
         $query->map(function ($item){
             $kelas_kuliah = m_kelas_kuliah::setFilter([
@@ -283,6 +284,8 @@ class JurnalPerkuliahanController extends Controller
     {
         $validated = $request->validate([
             'tanggal_pelaksanaan' => 'required',
+            'pertemuan_ke' => 'integer|required',
+            'status' => 'required|in:Sakit,Hadir,Alpa,Ijin'
         ]);
 
         $tanggal = date('Y-m-d', strtotime($request->tanggal_pelaksanaan));
@@ -301,6 +304,15 @@ class JurnalPerkuliahanController extends Controller
             return redirect()->back()->withInput();
         }
 
+        $cek_pertemuan = t_jurnal_kuliah::where('id_kelas_kuliah', $jadwal->id_kelas_kuliah)
+        ->where('pertemuan_ke', $request->pertemuan_ke)
+        ->count();
+
+        if($cek_pertemuan > 0) {
+            Session::flash('error_msg', 'Jurnal Kuliah dengan Pertemuan ke '.$request->pertemuan_ke.' sudah ada.');
+            return redirect()->back()->withInput();
+        }
+
         DB::beginTransaction();
 
         try{
@@ -311,6 +323,8 @@ class JurnalPerkuliahanController extends Controller
                 'id_kelas_kuliah' => $jadwal->id_kelas_kuliah,
                 'tanggal_pelaksanaan' => $tanggal,
                 'topik' => $request->topik,
+                'pertemuan_ke' => $request->pertemuan_ke,
+                'status' => $request->status,
             ]);
 
             // Insert Absensi Siswa
@@ -341,6 +355,8 @@ class JurnalPerkuliahanController extends Controller
     {
         $validated = $request->validate([
             'tanggal_pelaksanaan' => 'required',
+            'pertemuan_ke' => 'integer|required',
+            'status' => 'required|in:Sakit,Hadir,Alpa,Ijin'
         ]);
 
         $tanggal = date('Y-m-d', strtotime($request->tanggal_pelaksanaan));
@@ -357,6 +373,17 @@ class JurnalPerkuliahanController extends Controller
             }
         }
 
+        if($jurnal_perkuliahan->pertemuan_ke !== $request->pertemuan_ke) {
+            $cek_pertemuan = t_jurnal_kuliah::where('id_kelas_kuliah', $jadwal->id_kelas_kuliah)
+            ->where('pertemuan_ke', $request->pertemuan_ke)
+            ->count();
+
+            if($cek_pertemuan > 0) {
+                Session::flash('error_msg', 'Jurnal Kuliah dengan Pertemuan ke '.$request->pertemuan_ke.' sudah ada.');
+                return redirect()->back()->withInput();
+            }
+        }
+
         DB::beginTransaction();
 
         try{
@@ -364,6 +391,8 @@ class JurnalPerkuliahanController extends Controller
             $jurnal_perkuliahan->update([
                 'tanggal_pelaksanaan' => $tanggal,
                 'topik' => $request->topik,
+                'pertemuan_ke' => $request->pertemuan_ke,
+                'status' => $request->status,
             ]);
 
             // Update or Insert Absensi Siswa

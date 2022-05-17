@@ -36,6 +36,28 @@
             </div>
         </div>
         <div class="form-group row">
+            <label for="pertemuan_ke" class="col-sm-2 col-form-label">Pertemuan Ke</label>
+            <div class="col-sm-10">
+                {!! Form::number('pertemuan_ke', $jurnal_perkuliahan->pertemuan_ke, ['class' => 'form-control '.($errors->has('pertemuan_ke') ? 'is-invalid' : ''), 'id' => 'pertemuan_ke', 'max' => 14, 'min' => 0]) !!}
+                @error('pertemuan_ke')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="status" class="col-sm-2 col-form-label">Status Dosen</label>
+            <div class="col-sm-10">
+                {!! Form::select('status', ['Hadir' => 'Hadir', 'Ijin' => 'Ijin', 'Alpa' => 'Alpa', 'Sakit' => 'Sakit'] ,null, ['class' => 'form-control '.($errors->has('status') ? 'is-invalid' : ''), 'id' => 'status']) !!}
+                @error('status')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror
+            </div>
+        </div>
+        <div class="form-group row">
             <label for="tanggal_pelaksanaan" class="col-sm-2 col-form-label">Tanggal Pelaksanaan <span class="text-danger">*</span></label>
             <div class="col-sm-10">
                 {!! Form::text('tanggal_pelaksanaan', $jurnal_perkuliahan->tanggal_pelaksanaan, ['class' => 'form-control fc-datepicker '.($errors->has('tanggal_pelaksanaan') ? 'is-invalid' : ''), 'id' => 'tanggal_pelaksanaan', 'placeholder' => 'MM/DD/YYYY', 'autocomplete' => 'off']) !!}

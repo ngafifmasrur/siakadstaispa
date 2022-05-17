@@ -3,7 +3,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>PRESENSI KELAS {{ $kelas->nama_mata_kuliah }}</title>
+    <title>REKAP PRESENSI MAHASISWA {{ $mahasiswa->nama_mahasiswa }}</title>
     <style>
         html {
             border: 0px;
@@ -32,8 +32,8 @@
         </div>
     </header>
     <hr style="margin-top:14px;">
-    <h4 align="center" style="margin-bottom: 10px!important;margin-top: 0px!important;text-decoration: underline;">PRESENSI: {{ $kelas->nama_mata_kuliah }}</h4>
-    <div style="width:100%:margin-top:20xp;font-size:13px">
+    <h4 align="center" style="margin-bottom: 10px!important;margin-top: 0px!important;text-decoration: underline;">PRESENSI: {{ $mahasiswa->nama_mahasiswa }}</h4>
+    {{-- <div style="width:100%:margin-top:20xp;font-size:13px">
         <table cellpadding='1' align="center">
             <tr>
                 <td>Prodi</td>
@@ -62,7 +62,7 @@
                 <td>{{ $kelas->nama_kelas_kuliah }}</td>
             </tr>
         </table>
-    </div>
+    </div> --}}
 
     @php
         $total_junal = $jurnal->count();
@@ -71,17 +71,17 @@
     <table class="logo-background" border="1" cellpadding="1" cellspacing="0" width="100%" style="margin-top:10;font-size:10px;">
         <tr>
             <th width="5%" align="center">NO</th>
-            <th width="8%" align="center">NIM</th>
-            <th width="18%" align="center">Nama</th>
+            <th width="8%" align="center">Kode Matkul</th>
+            <th width="18%" align="center">Nama Matkul</th>
             @for($i = 1; $i <= 16; $i++)
                 <th align="center" class="border border-gray-400">{{ $i }}</th>
             @endfor
         </tr>
-        @foreach ($list_mahasiswa as $mahasiswa)
+        @foreach ($list_kelas as $kelas)
             <tr>
                 <td align="center">{{ $loop->iteration }}</td>
-                <td align="center">{{ $mahasiswa->nim }}</td>
-                <td>{{ $mahasiswa->nama_mahasiswa }}</td>
+                <td align="center">{{ $kelas->kode_mata_kuliah }}</td>
+                <td align="left">{{ $kelas->nama_mata_kuliah }}</td>
                 @for($i = 1; $i <= 16; $i++)
                 <td align="center" class="border border-gray-400">
                     @if(isset($jurnal->where('id_kelas_kuliah', $kelas->id_kelas_kuliah)->where('pertemuan_ke', $i)->first()->id))
@@ -105,7 +105,7 @@
                         
                     @endif
                 </td>
-            @endfor
+                @endfor
             </tr>   
         @endforeach
     </table>
