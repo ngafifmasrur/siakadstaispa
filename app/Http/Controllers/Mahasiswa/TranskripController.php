@@ -32,14 +32,17 @@ class TranskripController extends Controller
             Session::flash('error_msg', 'Aplikasi SIAKAD sedang mengalami gangguan, coba lagi nanti.');
             return view('mahasiswa.krs.index2'); 
         }
-        $mahasiwa = t_riwayat_pendidikan_mahasiswa::setFilter([
-            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
-        ])->first();
-        if(!isset($mahasiwa)){
-            Session::flash('error_msg', 'Mahasiswa tidak memiliki semester aktif / riwayat pendidikan');
-            return view('mahasiswa.krs.index2');
-        }
+
+        // $mahasiwa = t_riwayat_pendidikan_mahasiswa::setFilter([
+        //     'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
+        // ])->first()->id_registrasi_mahasiswa;
+        // if(!isset($mahasiwa)){
+        //     Session::flash('error_msg', 'Mahasiswa tidak memiliki semester aktif / riwayat pendidikan');
+        //     return view('mahasiswa.krs.index2');
+        // }
+
         $periode = m_semester::orderBy('nama_semester', 'desc')->pluck('nama_semester', 'id_semester');
+        
         return view('mahasiswa.transkrip.index', compact('periode'));
     }
 
