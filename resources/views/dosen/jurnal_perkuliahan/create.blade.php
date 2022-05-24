@@ -47,10 +47,10 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="status" class="col-sm-2 col-form-label">Status Dosen</label>
+            <label for="status_dosen" class="col-sm-2 col-form-label">Status Dosen</label>
             <div class="col-sm-10">
-                {!! Form::select('status', ['Hadir' => 'Hadir', 'Ijin' => 'Ijin', 'Alpa' => 'Alpa', 'Sakit' => 'Sakit'] ,null, ['class' => 'form-control '.($errors->has('status') ? 'is-invalid' : ''), 'id' => 'status']) !!}
-                @error('status')
+                {!! Form::select('status_dosen', ['Hadir' => 'Hadir', 'Ijin' => 'Ijin', 'Alpa' => 'Alpa', 'Sakit' => 'Sakit'] ,null, ['class' => 'form-control '.($errors->has('status_dosen') ? 'is-invalid' : ''), 'id' => 'status_dosen']) !!}
+                @error('status_dosen')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>
@@ -94,9 +94,11 @@
                     ['title' => 'Alpa', 'data' => 'alpa', 'name' => 'alpa', 'orderable' => 'false'],
 
                 ]"
+                :paging="'false'"
                 />
             </div>
         </div>
+        
         <button class="float-right btn btn-primary" type="submit">Simpan</button>
 
     </form>

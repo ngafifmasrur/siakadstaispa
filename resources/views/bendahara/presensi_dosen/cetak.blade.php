@@ -27,7 +27,7 @@
         
         <div style="text-align:left;">
             <h4 style="margin-bottom: 6px!important;margin-top: 0px!important">SEKOLAH TINGGI AGAMA ISLAM SUNAN PANDANARAN (STAISPA)</h4>
-            <span style="font-size:13px;"> Kl. Kaliurang Km. 12,5 Candi, Sardonoharjo, Ngaglik, Sleman, Yogyakarta, 55581 </span><br>
+            <span style="font-size:13px;"> Jl. Kaliurang Km. 12,5 Candi, Sardonoharjo, Ngaglik, Sleman, Yogyakarta, 55581 </span><br>
             <span style="font-size:13px;"> Telp. (0274) 4543912 / 4543913 </span>
         </div>
     </header>
