@@ -63,6 +63,7 @@
                     },
                 @endforeach
             ],
+            paging: @if(isset($paging)) {{$paging}} @else true @endif,
             pageLength: 25,
             responsive: false,
             @if(isset($buttons)) 

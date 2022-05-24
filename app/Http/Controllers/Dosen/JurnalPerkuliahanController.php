@@ -220,7 +220,7 @@ class JurnalPerkuliahanController extends Controller
     {
         $query = t_peserta_kelas_kuliah::setFilter([
             'filter' => "id_kelas_kuliah='$id_kelas_kuliah'",
-        ])->get();
+        ])->orderBy('nama_mahasiswa', 'ASC')->get();
 
         if(!is_null($id_jurnal)) {
             $absensi = t_absensi_mahasiswa::where('id_jurnal_kuliah', $id_jurnal)->get();
@@ -285,7 +285,7 @@ class JurnalPerkuliahanController extends Controller
         $validated = $request->validate([
             'tanggal_pelaksanaan' => 'required',
             'pertemuan_ke' => 'integer|required',
-            'status' => 'required|in:Sakit,Hadir,Alpa,Ijin'
+            'status_dosen' => 'required|in:Sakit,Hadir,Alpa,Ijin'
         ]);
 
         $tanggal = date('Y-m-d', strtotime($request->tanggal_pelaksanaan));
@@ -324,7 +324,7 @@ class JurnalPerkuliahanController extends Controller
                 'tanggal_pelaksanaan' => $tanggal,
                 'topik' => $request->topik,
                 'pertemuan_ke' => $request->pertemuan_ke,
-                'status' => $request->status,
+                'status' => $request->status_dosen,
             ]);
 
             // Insert Absensi Siswa
@@ -356,7 +356,7 @@ class JurnalPerkuliahanController extends Controller
         $validated = $request->validate([
             'tanggal_pelaksanaan' => 'required',
             'pertemuan_ke' => 'integer|required',
-            'status' => 'required|in:Sakit,Hadir,Alpa,Ijin'
+            'status_dosen' => 'required|in:Sakit,Hadir,Alpa,Ijin'
         ]);
 
         $tanggal = date('Y-m-d', strtotime($request->tanggal_pelaksanaan));
@@ -392,7 +392,7 @@ class JurnalPerkuliahanController extends Controller
                 'tanggal_pelaksanaan' => $tanggal,
                 'topik' => $request->topik,
                 'pertemuan_ke' => $request->pertemuan_ke,
-                'status' => $request->status,
+                'status' => $request->status_dosen,
             ]);
 
             // Update or Insert Absensi Siswa
