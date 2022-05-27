@@ -329,7 +329,7 @@ class JurnalPerkuliahanController extends Controller
 
             // Insert Absensi Siswa
             $absensi = [];
-            $list_absensi = $request->except('_token', 'tanggal_pelaksanaan', 'topik', 'id_kelas_kuliah', 'nama_matkul', 'kode_matkul', 'dataTables_length');
+            $list_absensi = $request->except('_token', 'tanggal_pelaksanaan', 'topik', 'id_kelas_kuliah', 'nama_matkul', 'kode_matkul', 'dataTables_length', 'status_dosen', 'pertemuan_ke');
             foreach ($list_absensi as $id => $status) {
                 $absensi[] = [
                     'id_jurnal_kuliah' => $jurnal_kuliah->id,
@@ -396,7 +396,7 @@ class JurnalPerkuliahanController extends Controller
             ]);
 
             // Update or Insert Absensi Siswa
-            $list_absensi = $request->except('_token', 'tanggal_pelaksanaan', 'topik', 'id_jadwal', 'nama_matkul', 'kode_matkul', 'dataTables_length', '_method', 'id_kelas_kuliah');
+            $list_absensi = $request->except('_token', 'tanggal_pelaksanaan', 'topik', 'id_jadwal', 'nama_matkul', 'kode_matkul', 'dataTables_length', '_method', 'id_kelas_kuliah', 'status_dosen', 'pertemuan_ke');
             foreach ($list_absensi as $id => $status) {
                 $absensi = t_absensi_mahasiswa::where('id_jurnal_kuliah', $jurnal_perkuliahan->id)
                                     ->where('id_mahasiswa', $id)->first();
