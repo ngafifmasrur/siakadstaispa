@@ -30,6 +30,6 @@ class t_dosen_belum_nidn_pengajar_kelas_kuliah extends Model
     protected $keyType = 'string';
     protected $table = "t_dosen_belum_nidn_pengajar_kelas_kuliah";
     protected $guarded = [];
-    protected $hidden = ['created_at', 'updated_at','id_prodi','id_semester'];
+    protected $hidden = ['created_at', 'updated_at'];
     public $timestamps = false;
 }
