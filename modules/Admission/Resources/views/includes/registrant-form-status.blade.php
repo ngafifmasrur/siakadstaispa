@@ -22,7 +22,7 @@ if ($precentage <= 60) {
 $name = $registrant->user_id == auth()->id() ? 'Anda' : $registrant->user->profile->name
 @endphp
 
-@if(($precentage == 100 && $registrant->paid_off_at && $registrant->is_saman == 0 && $registrant->verified_at && $status_cbt == true) || ($precentage == 100 && $registrant->status_wawancara == 1 && $registrant->is_saman == 1 && $registrant->verified_at && $status_cbt == true))
+@if(($precentage == 100 && $registrant->is_saman == 0 && $registrant->verified_at && $status_cbt == true) || ($precentage == 100 && $registrant->status_wawancara == 1 && $registrant->is_saman == 1 && $registrant->verified_at && $status_cbt == true))
     <div class="alert alert-success bg-success">
         <p><Strong>Selamat!</Strong> <br> Anda telah <strong>diterima</strong> secara resmi sebagai mahasiswa STAI Sunan Pandanaran T.A 2022-2023. Adapun ketetapan penempatan Program Studi pilihan saudara/i akan dimumkan berdasarkan hasil tes tulis dan tes wawancara.</p>
         <a class="btn btn-outline-light" href="{{ route('admission.test.result.print', ['registrant' => $registrant->id]) }}" target="_blank"><i class="mdi mdi-printer"></i> Cetak surat diterima</a>

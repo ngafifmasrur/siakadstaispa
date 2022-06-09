@@ -124,8 +124,8 @@ class TestController extends Controller
 		{
 			$admission = $this->repo->admission = auth()->user()->admissionCommittees->load('admission')->pluck('admission');
 			$status_cbt = (count($registrant->admission->cbts) == count($registrant->cbts->where('status', 2))) ? true : false;
-
-            if(($registrant->paid_off_at && $registrant->is_saman == 0 && $registrant->verified_at && $status_cbt == true) || ($registrant->status_wawancara == 1 && $registrant->is_saman == 1 && $registrant->verified_at && $status_cbt == true)) {
+			// $registrant->paid_off_at && 
+            if(($registrant->is_saman == 0 && $registrant->verified_at && $status_cbt == true) || ($registrant->status_wawancara == 1 && $registrant->is_saman == 1 && $registrant->verified_at && $status_cbt == true)) {
                 $registrant = $registrant->load(['user', 'cbts', 'admission.period.instance']);
     			$user = $registrant->user;
     
