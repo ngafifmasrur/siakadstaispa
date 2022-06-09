@@ -39,8 +39,8 @@ $name = $registrant->user_id == auth()->id() ? 'Anda' : $registrant->user->profi
 		['step' => 'Terdaftar', 'status' => $precentage == 100 ? true : false],
 		['step' => 'Tes CBT', 'status' => $status_cbt],
 		['step' => 'Pilih Tanggal kedatangan', 'status' => $registrant->tanggal_kedatangan ? true : false],
+		['step' => 'Unduh Surat Keterangan Diterima', 'status' => ($precentage == 100 && $status_cbt)],
 		['step' => 'Pembayaran', 'status' => $registrant->paid_off_at],
-		['step' => 'Unduh Surat Keterangan Diterima', 'status' => ($precentage == 100 && $registrant->paid_off_at && $status_cbt)],
 	];
 	@endphp
 @endif
