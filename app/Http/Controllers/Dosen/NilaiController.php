@@ -115,35 +115,41 @@ class NilaiController extends Controller
         try{
             
             $peserta = $request->except('_token', 'id_kelas_kuliah', 'id_prodi');
+            
             foreach ($peserta as $ID => $nilai) {
 
-                if($nilai > 100 || $nilai < 0){
-                    Session::flash('error_msg', 'Nilai tidak boleh lebih dari 100.');
-                    return redirect()->back()->withInput();
+                if(!is_null($nilai)){
+                    if($nilai > 100 || $nilai < 0){
+                        Session::flash('error_msg', 'Nilai tidak boleh lebih dari 100.');
+                        return redirect()->back()->withInput();
+                    }
+    
+                    $hasil_nilai =  m_skala_nilai_prodi::setFilter([
+                                        'filter' => "id_prodi='$request->id_prodi'"
+                                    ])->whereRaw('? between bobot_minimum and bobot_maksimum', [$nilai])->first();
+                    
+    
+                    if(!$hasil_nilai){
+                        Session::flash('error_msg', 'Skala Nilai tidak ditemukan.');
+                        return redirect()->back()->withInput();
+                    }
+    
+                    // Update Nilai
+                    $records = [
+                        "nilai_angka" => $nilai,
+                        "nilai_indeks" => $hasil_nilai->nilai_indeks,
+                        "nilai_huruf" => $hasil_nilai->nilai_huruf,
+                    ];
+
+                    $key = [
+                        'id_registrasi_mahasiswa' => $ID,
+                        'id_kelas_kuliah' => $request->id_kelas_kuliah,
+                    ];
+
+                
+                    $results[] = UpdateDataFeeder('UpdateNilaiPerkuliahanKelas', $key, $records, 'GetDetailNilaiPerkuliahanKelas');
+                    
                 }
-
-                $hasil_nilai =  m_skala_nilai_prodi::setFilter([
-                                    'filter' => "id_prodi='$request->id_prodi'"
-                                ])->whereRaw('? between bobot_minimum and bobot_maksimum', [$nilai])->first();
-
-                if(!$hasil_nilai){
-                    Session::flash('error_msg', 'Skala Nilai tidak ditemukan.');
-                    return redirect()->back()->withInput();
-                }
-
-                // Update Nilai
-                $records = [
-                    "nilai_angka" => $nilai,
-                    "nilai_indeks" => $hasil_nilai->nilai_indeks,
-                    "nilai_huruf" => $hasil_nilai->nilai_huruf
-                ];
-            
-                $key = [
-                    'id_registrasi_mahasiswa' => $ID,
-                    'id_kelas_kuliah' => $request->id_kelas_kuliah
-                ];
-            
-                $results[] = UpdateDataFeeder('UpdateNilaiPerkuliahanKelas', $key, $records, 'GetDetailNilaiPerkuliahanKelas');
 
             }
     
