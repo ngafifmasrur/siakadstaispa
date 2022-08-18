@@ -174,7 +174,8 @@ class NilaiController extends Controller
             'filter' => "id_kelas_kuliah='$id_kelas_kuliah'",
         ])->first();
 
-        $file_name = 'Nilai_-'.$kelas_kuliah->nama_mata_kuliah.'-_Kelas_'.$kelas_kuliah->nama_kelas_kuliah.'';
+        $file_name_1 = 'Nilai_-'.$kelas_kuliah->nama_mata_kuliah.'-_Kelas_'.$kelas_kuliah->nama_kelas_kuliah.'';
+        $file_name = str_replace(array("/", "\\", ":", "*", "?", "«", "<", ">", "|"), "-", $file_name_1);
 
         return Excel::download(new NilaiExport($id_kelas_kuliah), ''.$file_name.'.xlsx');
     }
