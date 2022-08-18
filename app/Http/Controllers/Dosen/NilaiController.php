@@ -186,7 +186,8 @@ class NilaiController extends Controller
             'filter' => "id_kelas_kuliah='$id_kelas_kuliah'",
         ])->first();
 
-        $file_name = 'Template_Import_Nilai_-'.$kelas_kuliah->nama_mata_kuliah.'-_Kelas_'.$kelas_kuliah->nama_kelas_kuliah.'';
+        $file_name_1 = 'Template_Import_Nilai_-'.$kelas_kuliah->nama_mata_kuliah.'-_Kelas_'.$kelas_kuliah->nama_kelas_kuliah.'';
+        $file_name = str_replace(array("/", "\\", ":", "*", "?", "«", "<", ">", "|"), "-", $file_name_1);
 
         return Excel::download(new TemplateNilaiExport($id_kelas_kuliah), ''.$file_name.'.xlsx');
     }
