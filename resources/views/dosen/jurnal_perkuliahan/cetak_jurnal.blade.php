@@ -75,7 +75,7 @@
                     Mahasiswa yang tidak hadir<br>
                     <ol>
                         @foreach ($item->getMHSTidakHadir() as $item)
-                            <li>{{ $item->mahasiswa->nim.' - '.$item->mahasiswa->nama_mahasiswa }}</li>
+                            <li>{{ (isset($item->mahasiswa->nim) ? $item->mahasiswa->nim.' - ' : '').$item->mahasiswa->nama_mahasiswa }}</li>
                         @endforeach
                     </ol>
                 </td>
