@@ -38,7 +38,7 @@
         <div class="form-group row">
             <label for="pertemuan_ke" class="col-sm-2 col-form-label">Pertemuan Ke</label>
             <div class="col-sm-10">
-                {!! Form::number('pertemuan_ke', $jurnal_perkuliahan->pertemuan_ke, ['class' => 'form-control '.($errors->has('pertemuan_ke') ? 'is-invalid' : ''), 'id' => 'pertemuan_ke', 'max' => 15, 'min' => 0]) !!}
+                {!! Form::number('pertemuan_ke', $jurnal_perkuliahan->pertemuan_ke, ['class' => 'form-control '.($errors->has('pertemuan_ke') ? 'is-invalid' : ''), 'id' => 'pertemuan_ke', 'max' => 16, 'min' => 0]) !!}
                 @error('pertemuan_ke')
                     <div class="invalid-feedback">
                         {{ $message }}
