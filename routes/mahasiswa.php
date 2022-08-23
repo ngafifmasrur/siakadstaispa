@@ -83,5 +83,13 @@ Route::group(
         // Absensi Mahasiswa
         Route::get('/absen/{id_jurnal_kuliah}', [AbsenController::class, 'index'])->name('absen.index');
         Route::post('/absen', [AbsenController::class, 'store'])->name('absen.store');
+
+        // Kuisioner
+        Route::get('/kuisioner/{id_matkul}', [DashboardController::class, 'showKuisioner'])->name(
+            'kuisioner.index'
+        );
+        Route::post('/kuisioner/store', [DashboardController::class, 'storeKuisioner'])->name(
+            'kuisioner.store'
+        );
     }
 );

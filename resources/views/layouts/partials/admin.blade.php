@@ -61,7 +61,8 @@
                         <li aria-haspopup="true"><a href="{{ route('admin.manajemen_user.mahasiswa') }}">Generate User Mahasiswa</a></li>
                         <li aria-haspopup="true"><a href="{{ route('admin.manajemen_user.dosen') }}">Generate User Dosen</a></li>
                     </ul>
-                </li>            
+                </li>
+                <li aria-haspopup="true"><a href="{{ route('admin.kuesioner.index') }}">Kuisioner</a></li>
             </ul>
         </li>
         <li aria-haspopup="true"><a href="#" class="sub-icon {{ set_active([

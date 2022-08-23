@@ -39,7 +39,8 @@ use App\Http\Controllers\Admin\{
     DosenWaliController,
     InformasiController,
     PagesController,
-    KonfigurasiMenuController
+    KonfigurasiMenuController,
+    KuesionerController
 };
 
 /*
@@ -331,5 +332,8 @@ Route::group(
 Route::group( ['middleware' => ['Role:admin'], 'as' => 'admin.'], function () {
     Route::get('/konfigurasi/data_index', [KonfigurasiController::class, 'data_index',])->name('konfigurasi.data_index');
     Route::resource('/konfigurasi', KonfigurasiController::class)->except(['show',]);
+
+    Route::get('/kuesioner/data_index', [KuesionerController::class, 'data_index',])->name('kuesioner.data_index');
+    Route::resource('/kuesioner', KuesionerController::class)->except(['show',]);
 }
 );

@@ -61,7 +61,14 @@
                                     <span class="block mb-1"><i class="fa fa-calendar mr-1"></i> {{ $item->nama_semester }}</span>
                                     <span class="block mb-1"><i class="fa fa-bank mr-1"></i>Kelas {{ $item->nama_kelas_kuliah }}</span>
                                     <span class="block mb-1"><i class="fa fa-book mr-1"></i> {{ $item->nama_program_studi }}</span>
-
+                                    <span class="block mb-1"><i class="fa fa-user mr-1"></i> {{ $item->nama_dosen }}</span>
+                                </div>
+                                <div class="col-lg-2 col-md-12">
+                                    @if ($item->matkul_id)
+                                        <span class="text-primary font-weight-bold">Sudah Diisi</span>
+                                    @else
+                                    <a href="{{ route('mahasiswa.kuisioner.index',$item->id_kelas_kuliah,$item->id_dosen) }}" class="btn btn-outline-primary">Kuisioner</a>
+                                    @endif
                                 </div>
                                 {{-- <div class="col-lg-3 col-md-12">
                                     <button type="button" class="btn btn-sm btn-primary">
@@ -80,7 +87,6 @@
             </div>
         </div>
     </div>
-    
     <div class="col-lg-3 col-md-12">
         <div class="row">
             <div class="col-xl-12 col-lg-12">
