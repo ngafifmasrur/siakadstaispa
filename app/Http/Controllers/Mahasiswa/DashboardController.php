@@ -98,29 +98,25 @@ class DashboardController extends Controller
     }
     public function storeKuisioner(Request $request)
     {
-        // dd($request);
-        $kuesioner = m_kuesioner::get();
-        foreach ($kuesioner as $key => $value) {
-            $cekKuesioner= t_kuesioner::where('matkul_id', $request->matkul_id)->first();
-            // dd($cekKuesioner);
-            if(! isset($cekKuesioner)) {
-                $jawaban = "jawaban$value->id";
-                // dd($jawaban);
+        $kuesioner = m_kuesioner::all();
+        $cekKuesioner= t_kuesioner::where('matkul_id', $request->matkul_id)->first();
+        if(! isset($cekKuesioner)) {
+            foreach ($kuesioner as $key => $value) {
+                $jawaban = "jawaban$value->id"; 
                 $t_kuesioner = t_kuesioner::create([
-                    'kuesioner_id' => $value->id,
+                        'kuesioner_id' => $value->id,
                     'dosen_id' => $request->dosen_id,
                     'mahasiswa_id' => $request->mahasiswa_id,
-                    'skor' => $this->skor($request->$jawaban),
+                    'skor' => $this->skor($request->$jawaban), 
                     'matkul_id' => $request->matkul_id
                 ]);
-                
                 $t_jawaban_kuesioner = t_jawaban_kuisioner::create([
-                    't_kuesioner_id' => $t_kuesioner->id,
-                    'kuesioner' => $value->kuesioner,
-                    'jawaban' => $request->$jawaban,
+                        't_kuesioner_id' => $t_kuesioner->id,
+                        'kuesioner' => $value->kuesioner,
+                        'jawaban' => $request->$jawaban,
                     'skor'=> $this->skor($request->$jawaban)
                 ]);
-
+                
             }
         }
         return redirect()->route('mahasiswa.dashboard');

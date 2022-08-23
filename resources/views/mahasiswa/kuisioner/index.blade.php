@@ -18,7 +18,7 @@
                         <span class="h4 ml-2">{{ $value->kuesioner }}</span>
                         <div class="pilihan ml-5 mt-2">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="jawaban{{ $value->id }}" id="jawaban{{ $value->id }}" value="sangat baik">
+                                <input class="form-check-input" type="radio" name="jawaban{{ $value->id }}" id="jawaban{{ $value->id }}" value="sangat baik" required>
                                 <label class="form-check-label h5" for="jawaban">
                                     Sangat Baik
                                 </label>
