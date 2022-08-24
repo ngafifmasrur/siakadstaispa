@@ -98,6 +98,14 @@ class JurnalPerkuliahanController extends Controller
                     'attribute' => ['target' => '_blank'],
                     "route" => route('dosen.jurnal_perkuliahan.cetak', $data->id_kelas_kuliah),
                 ]);
+                $button .= view("components.button.default", [
+                    'type' => 'link',
+                    'tooltip' => 'Lihat Kuisioner',
+                    'class' => 'btn btn-outline-primary btn-xs',
+                    "icon" => "fa fa-file",
+                    "label" => "Lihat Kuisioner",
+                    "route" => route('dosen.kuisioner.index', $data->id_kelas_kuliah),
+                ]);
     
                 $button .= '</div>';
     

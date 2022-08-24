@@ -101,23 +101,27 @@ class DashboardController extends Controller
         $kuesioner = m_kuesioner::all();
         $cekKuesioner= t_kuesioner::where('matkul_id', $request->matkul_id)->first();
         if(! isset($cekKuesioner)) {
+            $t_kuesioner = t_kuesioner::create([
+                    // 'kuesioner_id' => $value->id,
+                'dosen_id' => $request->dosen_id,
+                'mahasiswa_id' => $request->mahasiswa_id, 
+                'matkul_id' => $request->matkul_id
+            ]);
             foreach ($kuesioner as $key => $value) {
                 $jawaban = "jawaban$value->id"; 
-                $t_kuesioner = t_kuesioner::create([
-                        'kuesioner_id' => $value->id,
-                    'dosen_id' => $request->dosen_id,
-                    'mahasiswa_id' => $request->mahasiswa_id,
-                    'skor' => $this->skor($request->$jawaban), 
-                    'matkul_id' => $request->matkul_id
-                ]);
                 $t_jawaban_kuesioner = t_jawaban_kuisioner::create([
                         't_kuesioner_id' => $t_kuesioner->id,
+                        'm_kuesioner_id' => $value->id,
                         'kuesioner' => $value->kuesioner,
                         'jawaban' => $request->$jawaban,
                     'skor'=> $this->skor($request->$jawaban)
                 ]);
                 
             }
+            $t_kuesioner = t_kuesioner::where('id',$t_kuesioner->id)->update([
+                // 'kuesioner_id' => $value->id,
+                'skor' => $this->skorKuesioner($t_kuesioner->id) 
+            ]);
         }
         return redirect()->route('mahasiswa.dashboard');
     }
@@ -141,5 +145,11 @@ class DashboardController extends Controller
                 break;
         }
         return $skor;
+    }
+
+    public function skorKuesioner($id) {
+        
+        $skorKuesioner = t_jawaban_kuisioner::where('t_kuesioner_id', $id)->sum('skor');
+        return $skorKuesioner;
     }
 }
