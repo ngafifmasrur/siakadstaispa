@@ -13,7 +13,8 @@ use App\Http\Controllers\Dosen\{
     PenelitianController,
     PengabdianController,
     PublikasiController,
-    DashboardController
+    DashboardController,
+    KuisionerController
 };
 
 /*
@@ -166,5 +167,11 @@ Route::group(
         // Pengaturan
         Route::get('/pengaturan_akun', [MainController::class, 'pengaturan_akun'])->name('pengaturan_akun');
         Route::post('/pengaturan_akun', [MainController::class, 'ganti_password'])->name('ganti_password');
+
+        // Kuisioner
+        Route::get('/kuisioner/index/{id_kelas_kuliah}', [KuisionerController::class, 'index'])->name('kuisioner.index');
+        Route::get('/kuisioner/show/{id}', [KuisionerController::class, 'show'])->name('kuisioner.show');
+        Route::get('/kuisioner/data/{id_kelas_kuliah}', [KuisionerController::class, 'data'])->name('kuisioner.data');
+        Route::get('/kuisioner/dataDetail/{id}', [KuisionerController::class, 'dataDetail'])->name('kuisioner.dataDetail');
     }
 );
