@@ -12,7 +12,9 @@ use App\Models\{
     t_riwayat_pendidikan_mahasiswa,
     m_dosen,
     m_mata_kuliah,
-    t_matkul_kurikulum
+    t_matkul_kurikulum,
+    m_kelas_kuliah,
+    t_peserta_kelas_kuliah
 };
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -82,6 +84,7 @@ class AktivitasPerkuliahanController extends Controller
 
     public function khs($semester)
     { 
+        
         $mahasiswa = t_riwayat_pendidikan_mahasiswa::setFilter([
             'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
         ])->first() ?? null;
@@ -94,9 +97,16 @@ class AktivitasPerkuliahanController extends Controller
             'filter' => "id_prodi='$mahasiswa->id_prodi'"
         ])->select('id_matkul', 'semester')->get();
 
+        //ambil matakuliah yang ada di KRS
+        $kelasKuliah = t_peserta_kelas_kuliah::setFilter([
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
+        ])->pluck('id_kelas_kuliah')->toArray();
+
         $nilai = t_riwayat_nilai_mahasiswa::setFilter([
             'filter' => "id_registrasi_mahasiswa='$mahasiswa->id_registrasi_mahasiswa' AND id_periode='$semester'"
-        ])->get();
+        ])
+        ->whereIn('id_kelas', $kelasKuliah)
+        ->get();
 
         $nilai->map(function ($item) use ($matkul_semester){
             $matkul = m_mata_kuliah::setFilter([

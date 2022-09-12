@@ -87,7 +87,7 @@ class KRSController extends Controller
         $kelasKuliah = t_peserta_kelas_kuliah::setFilter([
             'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
         ])->pluck('id_kelas_kuliah')->toArray();
-        
+
         $dosen = t_dosen_pengajar_kelas_kuliah::setFilter([
             'filter' => "id_semester='$semester_aktif'"
         ])->get();
@@ -99,6 +99,7 @@ class KRSController extends Controller
         $query = m_kelas_kuliah::setFilter([
             'filter' => "id_semester='$semester_aktif'"
         ])->whereIn('id_kelas_kuliah', $kelasKuliah)->get();
+
 
         $query->map(function ($item) use ($dosen, $matkul_kurikulum) {
             // Jadwal
@@ -155,7 +156,7 @@ class KRSController extends Controller
 
                 return '-';
             })
-            ->rawColumns(['action', 'ajukan'])
+            ->rawColumns(['action', 'ajukan','nama_dosen'])
             ->setRowAttr([
                 'style' => 'text-align: center',
             ])
