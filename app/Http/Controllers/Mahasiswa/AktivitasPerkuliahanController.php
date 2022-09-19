@@ -51,7 +51,7 @@ class AktivitasPerkuliahanController extends Controller
         ])->first() ?? null;
 
         $query = m_aktivitas_kuliah_mahasiswa::setFilter([
-            'filter' => "id_registrasi_mahasiswa='$mahasiswa->id_registrasi_mahasiswa'"
+            'filter' => "id_mahasiswa='".Auth::user()->id_mahasiswa."'"
         ])->get();
 
         return datatables()->of($query)
