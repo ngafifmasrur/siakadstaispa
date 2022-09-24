@@ -14,7 +14,8 @@ use App\Models\{
     t_riwayat_pendidikan_mahasiswa,
     m_kelas_kuliah,
     t_matkul_kurikulum,
-    t_dosen_pengajar_kelas_kuliah
+    t_dosen_pengajar_kelas_kuliah,
+    m_mahasiswa
 };
 
 use Session, DB, Auth;
@@ -36,9 +37,13 @@ class VervalKRSController extends Controller
     public function data_index(Request $request)
     {
 
-        $mahasiswa = t_dosen_wali_mahasiswa::where('id_dosen', Auth::user()->id_dosen)
+        $mahasiswa = t_dosen_wali_mahasiswa::
+                    where('id_dosen', Auth::user()->id_dosen)
                     ->pluck('id_registrasi_mahasiswa')->toArray();
-        $query = t_krs_mahasiswa::whereIn('id_registrasi_mahasiswa', $mahasiswa)->get();
+
+        $listMahasiswa = m_mahasiswa::whereIn('id_registrasi_mahasiswa', $mahasiswa)->pluck('id_registrasi_mahasiswa')->toArray();
+        
+        $query = t_krs_mahasiswa::whereIn('id_registrasi_mahasiswa', $listMahasiswa)->get();
 
         return datatables()->of($query)
             ->addIndexColumn()
@@ -54,13 +59,13 @@ class VervalKRSController extends Controller
                 return $button;
             })
             ->addColumn('mahasiswa', function ($data) {
-                return $data->mahasiswa->nama_mahasiswa;
+                return isset($data->mahasiswa) ? $data->mahasiswa->nama_mahasiswa : '-';
             })
             ->addColumn('nim_mahasiswa', function ($data) {
-                return $data->mahasiswa->nim;
+                return isset($data->mahasiswa) ?  $data->mahasiswa->nim : '-';
             })
             ->addColumn('nama_program_studi', function ($data) {
-                return $data->mahasiswa->nama_program_studi;
+                return isset($data->mahasiswa) ? $data->mahasiswa->nama_program_studi : '-';
             })
             ->addColumn('status', function ($data) {
                 $button = view("components.button.default", [
