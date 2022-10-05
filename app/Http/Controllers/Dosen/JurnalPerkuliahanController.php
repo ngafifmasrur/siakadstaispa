@@ -373,6 +373,7 @@ class JurnalPerkuliahanController extends Controller
         if($jurnal_perkuliahan->tanggal_pelaksanaan !== $tanggal) {
             $cek = t_jurnal_kuliah::where('id_kelas_kuliah', $request->id_kelas_kuliah)
                     ->whereDate('tanggal_pelaksanaan', $tanggal)
+                    ->where('id', '!=', $jurnal_perkuliahan->id)
                     ->count();
 
             if($cek > 0) {
@@ -384,6 +385,7 @@ class JurnalPerkuliahanController extends Controller
         if($jurnal_perkuliahan->pertemuan_ke !== $request->pertemuan_ke) {
             $cek_pertemuan = t_jurnal_kuliah::where('id_kelas_kuliah', $jadwal->id_kelas_kuliah)
             ->where('pertemuan_ke', $request->pertemuan_ke)
+            ->where('id', '!=', $jurnal_perkuliahan->id)
             ->count();
 
             if($cek_pertemuan > 0) {
