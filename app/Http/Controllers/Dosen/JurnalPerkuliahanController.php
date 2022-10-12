@@ -224,7 +224,7 @@ class JurnalPerkuliahanController extends Controller
         return view('dosen.jurnal_perkuliahan.edit', compact('jadwal','absensi', 'jurnal_perkuliahan'));
     }
 
-    public function list_mahasiswa($id_kelas_kuliah, $id_jurnal = null, Request $request)
+    public function list_mahasiswa(Request $request, $id_kelas_kuliah, $id_jurnal = null)
     {
         $query = t_peserta_kelas_kuliah::setFilter([
             'filter' => "id_kelas_kuliah='$id_kelas_kuliah'",
