@@ -40,6 +40,7 @@ class KonfigurasiGlobalController extends Controller
             'id_semester_krs' => 'required',
             'id_semester_tracer_study' => 'required',
             'batas_sks_krs' => 'required',
+            'wakil_ketua_bidang_akademik' => 'required'
         ]);
 
         $konfigurasi_global = m_global_konfigurasi::first();
@@ -57,6 +58,7 @@ class KonfigurasiGlobalController extends Controller
                 'id_semester_krs' => $request->id_semester_krs,
                 'id_semester_tracer_study' => $request->id_semester_tracer_study,
                 'batas_sks_krs' => $request->batas_sks_krs,
+                'wakil_ketua_bidang_akademik' => $request->wakil_ketua_bidang_akademik
             ]);
 
             foreach($konfigurasi_global_prodi as $key => $item) {

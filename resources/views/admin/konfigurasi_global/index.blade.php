@@ -27,6 +27,10 @@
                     <td class="font-weight-bold">Perhitungan Mata Kuliah Mengulang</td>
                     <td>{{ $konfigurasi_global->perhitungan_matkul }}</td>
                 </tr>
+                <tr>
+                    <td class="font-weight-bold">Wakil Ketua Bidang Akademik</td>
+                    <td>{{ $konfigurasi_global->wakil_ketua_bidang_akademik }}</td>
+                </tr>
             </table>
         </div>
         <div class="col-lg-6 col-md-12">

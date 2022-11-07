@@ -85,6 +85,7 @@ class TranskripController extends Controller
     public function cetak(Request $request)
     { 
         $semester_aktif = m_global_konfigurasi::first()->id_semester_aktif;
+        $dosen_wakil = m_global_konfigurasi::first()->wakil_ketua_bidang_akademik;
         $nama_semester_aktif = m_global_konfigurasi::first()->nama_semester_aktif;
 
         $riwayat_pendidikan = t_riwayat_pendidikan_mahasiswa::setFilter([
@@ -111,10 +112,8 @@ class TranskripController extends Controller
 
         // Dosen Pembimbing
         $dosen_wali = t_dosen_wali_mahasiswa::where('id_registrasi_mahasiswa', $riwayat_pendidikan->id_registrasi_mahasiswa)->first();
-        if(isset($dosen_wali)) {
-            $dosen = m_dosen::setFilter([
-                'filter' => "id_dosen='$dosen_wali->id_dosen'"
-            ])->first()->nama_dosen;
+        if(isset($dosen_wakil)) {
+            $dosen = $dosen_wakil;
         } else {
             $dosen = '-';
         }

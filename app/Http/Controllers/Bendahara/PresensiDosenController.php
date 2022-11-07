@@ -64,7 +64,8 @@ class PresensiDosenController extends Controller
 
         $dosen = m_dosen::setFilter([
             'filter' => "id_dosen='$id_dosen'",
-        ])->first();
+        ])->where('id_dosen', $id_dosen)
+        ->first();
 
 
         $pesertaKelasKuliah = t_dosen_pengajar_kelas_kuliah::setFilter([
