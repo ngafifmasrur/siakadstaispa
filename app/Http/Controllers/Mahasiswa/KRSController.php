@@ -363,7 +363,7 @@ class KRSController extends Controller
         if(isset($dosen_wali)) {
             $dosen = m_dosen::setFilter([
                 'filter' => "id_dosen='$dosen_wali->id_dosen'"
-            ])->where('id_dosen', $id_dosen)
+            ])->where('id_dosen', $dosen_wali->id_dosen)
             ->first()->nama_dosen;
         } else {
             $dosen = '-';
