@@ -29,6 +29,10 @@
                         <td class="font-weight-bold">Perhitungan Mata Kuliah Mengulang</td>
                         <td>{!! Form::select('perhitungan_matkul', ['Nilai Tertinggi' => 'Nilai Tertinggi'], $konfigurasi_global->perhitungan_matkul, ['class' => 'form-control', 'id' => 'perhitungan_matkul']) !!}</td>
                     </tr>
+                    <tr>
+                        <td class="font-weight-bold">Wakil Ketua Bidang Akademik</td>
+                        <td>{!! Form::text('wakil_ketua_bidang_akademik', $konfigurasi_global->wakil_ketua_bidang_akademik, ['class' => 'form-control', 'id' => 'wakil_ketua_bidang_akademik']) !!}</td>
+                    </tr>
                 </table>
             </div>
             <div class="col-lg-6 col-md-12">
