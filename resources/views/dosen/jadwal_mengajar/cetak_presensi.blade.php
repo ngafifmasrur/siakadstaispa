@@ -42,7 +42,11 @@
                 <td width="160px"></td>
                 <td>Hari, Jam</td>
                 <td align="right">  :</td>
-                <td>{{ $jadwal->hari.', '.$jadwal->jam_mulai.' - '.$jadwal->jam_akhir }}</td>
+                @if (isset($jadwal))
+                    <td>{{ $jadwal->hari.', '.$jadwal->jam_mulai.' - '.$jadwal->jam_akhir }}</td>
+                @else
+                    <td>-</td>
+                @endif
                 <td width="160px"></td>
                 <td>Ruang</td>
                 <td align="right">  :</td>
