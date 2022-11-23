@@ -13,6 +13,7 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name'      => 'required|max:191|string', 
+            'nomor_hp'      => 'required|max:191|string', 
             'username'  => 'required|min:4|max:191|regex:/^[a-z\d.]{4,20}$/|unique:users,username', 
             'password'  => 'required|min:4|max:191|confirmed'
         ];
@@ -24,7 +25,8 @@ class RegisterRequest extends FormRequest
     public function attributes()
     {
         return [
-            'name' => 'nama lengkap'
+            'name' => 'nama lengkap',
+            'nomor_hp' => 'nomo hp'
         ];
     }
 
