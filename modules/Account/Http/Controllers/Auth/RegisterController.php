@@ -42,6 +42,7 @@ class RegisterController extends Controller
             'username' => $request->input('username'),
             'password' => bcrypt($request->input('password')),
             'name' => $request->input('name'),
+            'nomor_hp' => $request->input('nomor_hp'),
         ];
 
         if ($user = $this->repo->store($data)) {

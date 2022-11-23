@@ -17,6 +17,13 @@
             @enderror
         </div>
         <div class="form-group">
+            <label>Nomor HP</label>
+            <input type="text" class="form-control @error('nomor_hp') is-invalid @enderror" name="nomor_hp" value="{{ old('nomor_hp') }}" required autofocus>
+            @error('nomor_hp')
+                <small class="text-danger">{{ $message }}</small>
+            @enderror
+        </div>
+        <div class="form-group">
             <label>Username</label>
             <div class="input-group">
                 <input type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autofocus>
