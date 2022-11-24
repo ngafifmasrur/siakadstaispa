@@ -60,7 +60,7 @@
         <div class="form-group row">
             <label for="tanggal_pelaksanaan" class="col-sm-2 col-form-label">Tanggal Pelaksanaan <span class="text-danger">*</span></label>
             <div class="col-sm-10">
-                {!! Form::text('tanggal_pelaksanaan', $jurnal_perkuliahan->tanggal_pelaksanaan, ['class' => 'form-control fc-datepicker '.($errors->has('tanggal_pelaksanaan') ? 'is-invalid' : ''), 'id' => 'tanggal_pelaksanaan', 'placeholder' => 'MM/DD/YYYY', 'autocomplete' => 'off']) !!}
+                {!! Form::text('tanggal_pelaksanaan', date('d-m-Y', strtotime($jurnal_perkuliahan->tanggal_pelaksanaan)), ['class' => 'form-control fc-datepicker-baru '.($errors->has('tanggal_pelaksanaan') ? 'is-invalid' : ''), 'id' => 'tanggal_pelaksanaan', 'placeholder' => 'DD/MM/YYYY', 'autocomplete' => 'off']) !!}
                 @error('tanggal_pelaksanaan')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -121,4 +121,12 @@
 		<script src="{{ asset('sparic/plugins/spectrum-date-picker/jquery-ui.js') }}"></script>
 		<script src="{{ asset('sparic/plugins/input-mask/jquery.maskedinput.js') }}"></script>
         <script src="{{ asset('sparic/js/form-elements.js') }}"></script>
+
+        <script>
+            $('.fc-datepicker-baru').datepicker({
+            dateFormat: 'dd-mm-yy',
+            showOtherMonths: true,
+            selectOtherMonths: true
+          });
+        </script>
 @endpush

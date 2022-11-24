@@ -204,6 +204,9 @@ class JurnalPerkuliahanController extends Controller
                 </div>';
                 return $qrcode;
             })
+            ->editColumn('tanggal_pelaksanaan', function($data) {
+                return date('d F Y', strtotime($data->tanggal_pelaksanaan));
+            })
             ->rawColumns(['action', 'absen_mahasiswa'])
             ->setRowAttr([
                 'style' => 'text-align: center',
