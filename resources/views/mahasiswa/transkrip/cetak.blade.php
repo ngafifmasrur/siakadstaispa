@@ -199,12 +199,12 @@
             <tr>
                 <td>Total SKS</td>
                 <td align="right"> :</td>
-                <td>-</td>
+                <td>{{ $transkrip->sum('sks_mata_kuliah') }}</td>
             </tr>
             <tr>
                 <td>Indeks Prestasi Kumulatif (IPK)</td>
                 <td align="right"> :</td>
-                <td>-</td>
+                <td>{{ number_format($transkrip->sum('total_nilai')/$transkrip->sum('sks_mata_kuliah'), 2) }}</td>
             </tr>
             <tr>
                 <td>Predikat</td>
