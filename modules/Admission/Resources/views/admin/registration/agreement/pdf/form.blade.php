@@ -8,7 +8,7 @@
         'No Daftar' => $registrant->kd,
         'Nama Orang tua' => $registrant->user->father->name.'/'.$registrant->user->mother->name,
         'Alamat' => $registrant->user->address->full,
-        'No Telp' => $registrant->user->phone->number.($registrant->user->phone->whatsapp ? ' (WA)' : ''),
+        'No Telp' => $registrant->user->nomor_hp ??  '-',,
         'Status' => 'Orang tua/wali calon mahasiswa',
         'Nama Santri' => $registrant->user->profile->full_name,
     ];

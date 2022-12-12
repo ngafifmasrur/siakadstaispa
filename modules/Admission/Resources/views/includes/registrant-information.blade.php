@@ -9,7 +9,7 @@
 		'Nama lengkap'				=> $user->profile->full_name,
 		'Jenis kelamin'				=> $user->profile->sex_name ?? '-',
 		'Tempat, tanggal lahir'		=> $user->profile->pob.', '.strtoupper($user->profile->dob->formatLocalized('%d %B %Y')),
-		'No telp'					=> $user->phone->number ? $user->phone->number.($user->phone->whatsapp ? ' (WA)' : '') :  '-',
+		'No telp'					=> $user->nomor_hp ??  '-',
 		'Alamat e-mail'				=> $user->email->address ?? '-',
 		'Waktu mendaftar'			=> $registrant->created_at->formatLocalized('%d %B %Y pukul %H:%M'),
 		'Pilihan program studi'		=> ($registrant->major_1_name || $registrant->major_2_name) ? ($registrant->major_1_name.'/'.$registrant->major_2_name) : '-'
