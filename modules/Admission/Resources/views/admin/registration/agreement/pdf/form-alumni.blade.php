@@ -7,7 +7,7 @@
     $list = [
         'Nama Orang tua' => $registrant->user->father->name.'/'.$registrant->user->mother->name,
         'Alamat' => $registrant->user->address->full,
-        'No Telp' => $registrant->user->phone->number.($registrant->user->phone->whatsapp ? ' (WA)' : ''),
+        'No Telp' => $registrant->user->nomer_hp ?? '-',
         'Status' => 'Orang tua/wali calon mahasiswa',
     ];
 

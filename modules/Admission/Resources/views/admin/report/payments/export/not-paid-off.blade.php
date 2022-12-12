@@ -38,7 +38,7 @@
                 <td>{{ $user->profile->pob }}</td>
                 <td>{{ isset($user->profile->dob) ? $user->profile->dob->format('d/m/Y') : '' }}</td>
                 <td>{{ $user->profile->sex_name }}</td>
-                <td style='mso-number-format:"@"'>{{ $user->phone->number }}</td>
+                <td style='mso-number-format:"@"'>{{ $user->nomor_hp ??  '-', }}</td>
                 <td>{{ $user->email->address ?? '-' }}</td>
                 <td>{{ $registrant->payment->name }}</td>
                 <td>{{ $must }}</td>
