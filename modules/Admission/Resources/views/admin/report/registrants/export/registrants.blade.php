@@ -56,7 +56,7 @@
                 <td>{{ $user->profile->sex_name }}</td>
                 <td style='mso-number-format:"@"'>{{ $user->profile->nik }}</td>
                 <td style='mso-number-format:"@"'>{{ $user->profile->nokk }}</td>
-                <td style='mso-number-format:"@"'>{{ $user->phone->number }}</td>
+                <td style='mso-number-format:"@"'>{{ $user->nomor_hp ??  '-', }}</td>
                 <td>{{ $user->email->address ?? '-' }}</td>
                 <td>{{ $admission->full_name }}</td>
                 <td>{{ $registrant->kd }}</td>
