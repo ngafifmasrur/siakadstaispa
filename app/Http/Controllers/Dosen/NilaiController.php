@@ -115,7 +115,7 @@ class NilaiController extends Controller
         try{
             
             $peserta = $request->except('_token', 'id_kelas_kuliah', 'id_prodi');
-            
+
             foreach ($peserta as $ID => $nilai) {
 
                 if(!is_null($nilai)){
@@ -137,7 +137,7 @@ class NilaiController extends Controller
                     // Update Nilai
                     $records = [
                         "nilai_angka" => $nilai,
-                        "nilai_indeks" => $hasil_nilai->nilai_indeks,
+                        "nilai_indeks" => (string) $hasil_nilai->nilai_indeks,
                         "nilai_huruf" => $hasil_nilai->nilai_huruf,
                     ];
 
@@ -146,7 +146,6 @@ class NilaiController extends Controller
                         'id_kelas_kuliah' => $request->id_kelas_kuliah,
                     ];
 
-                
                     $results[] = UpdateDataFeeder('UpdateNilaiPerkuliahanKelas', $key, $records, 'GetDetailNilaiPerkuliahanKelas');
                     
                 }
@@ -156,7 +155,7 @@ class NilaiController extends Controller
             DB::commit();
 
             // Session::flash('success_msg', 'Penilaian Berhasil!');
-            return redirect()->back()->with('results', $results);
+            return redirect()->back()->with('results', $results ?? []);
 
         }catch(\Exception $e){
 
