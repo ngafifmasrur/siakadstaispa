@@ -86,7 +86,7 @@ $name = $registrant->user_id == auth()->id() ? 'Anda' : $registrant->user->profi
 	<div class="card-body">
 		<h5 class="mb-0">Rincian Pembayaran
 		</h5>
-		<br> Pembayaran untuk pendaftaran berlaku untuk seluruh calon mahasiswa baru sebesar <strong>Rp 3.000.000</strong> (Biaya Pendidikan dan Biaya Pesantren) ke BRI a.n. <strong>PMB STAISPA</strong> No Rek. <strong>31193-77777-22222</strong> (BRIVA).  <br>
+		<br> Pembayaran untuk pendaftaran berlaku untuk seluruh calon mahasiswa baru sebesar <strong>Rp 3.000.000 <i>(Biaya Pendidikan dan Biaya Pesantren)</i> </strong> ke BRI a.n. <strong>PMB STAISPA</strong> No Rek. <strong>31193-77777-22222</strong> (BRIVA).  <br>
 		<a class="alert-link" href="/teknis-pembayaran.jpg" target="_blank"><u>Klik disini</u></a> untuk melihat tata cara dan teknis pembayaran.
 		{{-- <p class="mb-0"><small class="text-muted">Saat ini status Anda adalah <strong>{{ $registrant->step_status }}</strong></small></p> --}}
 	</div>
@@ -97,6 +97,8 @@ $name = $registrant->user_id == auth()->id() ? 'Anda' : $registrant->user->profi
 				</tr>
 				<tr>
 					<td colspan="2">Biaya pendidikan STAISPA menggunakan sistem Uang Kuliah Tunggal (UKT) sebesar <strong>Rp. 1.700.000</strong> dibayarkan setiap semester</td>
+				</tr>
+				<tr>
 					<td colspan="2">Membayarkan dana pengembangan sebesar Rp. 4.000.000,- dapat dicicil maksimal selama 4 semester.</td>
 				</tr>
 				<tr class="bg-dark text-white">
