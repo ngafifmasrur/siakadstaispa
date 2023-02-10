@@ -97,6 +97,7 @@ $name = $registrant->user_id == auth()->id() ? 'Anda' : $registrant->user->profi
 				</tr>
 				<tr>
 					<td colspan="2">Biaya pendidikan STAISPA menggunakan sistem Uang Kuliah Tunggal (UKT) sebesar <strong>Rp. 1.700.000</strong> dibayarkan setiap semester</td>
+					<td colspan="2">Membayarkan dana pengembangan sebesar Rp. 4.000.000,- dapat dicicil maksimal selama 4 semester.</td>
 				</tr>
 				<tr class="bg-dark text-white">
 					<th colspan="2">Biaya Pesantren</th>
