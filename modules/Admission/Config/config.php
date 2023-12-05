@@ -185,7 +185,7 @@ return [
                                 'route' => 'admission.admin.brochure.index',
                                 'permissions' => 1,
                                 'icon' => 'layers',
-                                'label' => 'Brochure'
+                                'label' => 'Brosur'
                             ],
                         ]
                     ],
