@@ -151,6 +151,7 @@ Route::name('admission.')->group(function() {
 					Route::prefix('saman')->group(function () {
 						Route::get('/', 'SamanController@index')->name('registration.saman.index');
 						Route::put('/{registrant}', 'SamanController@verify')->name('registration.saman.verify');
+                        Route::put('/{registrant}/cancel', 'SamanController@cancel')->name('registration.saman.cancel');
 						Route::get('/{registrant}/jadwal_wawancara', 'SamanController@jadwal_wawancara')->name('registration.saman.jadwal_wawancara');
 						Route::put('/{registrant}/set_jadwal_wawancara', 'SamanController@set_jadwal_wawancara')->name('registration.saman.set_jadwal_wawancara');
 						Route::put('/{registrant}/status_wawancara', 'SamanController@status_wawancara')->name('registration.saman.status_wawancara');
