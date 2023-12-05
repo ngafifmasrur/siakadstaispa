@@ -36,11 +36,20 @@
                                 <label class="col-md-4 col-form-label text-md-right">File</label>
                                 <div class="col-md-7">
                                     <input class="form-control" type="file" name="path_file" id="path_file">
-                                    @if ($brochure->path_file)
-                                        <a href="{{ Storage::url($brochure->path_file) }}" class="badge badge-info">
-                                            Lihat
-                                        </a>
-                                    @endif
+                                    <small class="text-danger" id="typeFileDesc">
+                                        @if ($brochure->type == 'Brosur Depan')
+                                            * PNG,JPG size maks 2Mb
+                                        @else
+                                            * PNG,JPG, PDF size maks 5Mb
+                                        @endif
+                                    </small>
+                                    <div>
+                                        @if ($brochure->path_file)
+                                            <a href="{{ Storage::url($brochure->path_file) }}" class="badge badge-info">
+                                                Lihat
+                                            </a>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -66,3 +75,17 @@
         </div>
     </div>
 @endsection
+
+@push('script')
+<script>
+    $( document ).ready(function() {
+        $("#type").change(function(){
+            if ($("#type").val() == 'Brosur Depan') {
+                $("#typeFileDesc").text('* PNG,JPG size maks 2Mb')
+            } else {
+                $("#typeFileDesc").text('* PNG,JPG, PDF size maks 5Mb')
+            }
+        });
+    });
+</script>
+@endpush
