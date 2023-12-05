@@ -19,9 +19,9 @@
             <th>No KK</th>
             <th>No Telp</th>
             <th>Alamat email</th>
-            <th>Jalur pendaftaran</th>
+            <th>Tahun Akademik</th>
             <th>No pendaftaran</th>
-            <th>SAMAN/REGULER</th>
+            <th>Jalur pendaftaran</th>
             <th>Tanggal kedatangan</th>
             <th>Tes CBT Bahasa Inggris</th>
             <th>Tes CBT Bahasa Arab</th>
@@ -38,8 +38,14 @@
             <th>Kabupaten</th>
             <th>Provinsi</th>
             <th>Kode Pos</th>
-            <th>Nama Orang Tua (Bapak)</th>
-            <th>Nama Orang Tua (Ibu)</th>
+            <th>NIK Ayah</th>
+            <th>Nama Ayah</th>
+            <th>Pekerjaan Ayah</th>
+            <th>Rata-rata penghasilan Ayah</th>
+            <th>NIK Ibu</th>
+            <th>Nama Ibu</th>
+            <th>Pekerjaan Ibu</th>
+            <th>Rata-rata penghasilan Ibu</th>
             @foreach($files as $file)
                 <th>{{ $file->name }}</th>
             @endforeach
@@ -82,8 +88,14 @@
                 <td>{{ $user->address->district->regency->name ?? '-' }}</td>
                 <td>{{ $user->address->district->regency->province->name ?? '-' }}</td>
                 <td>{{ $user->address->postal ?? '-' }}</td>
+                <td style='mso-number-format:"@"'>{{ $user->father->nik ?? null }}</td>
                 <td>{{ ($user->father->is_dead ? 'ALM. ' : '').$user->father->name ?? null }}</td>
+                <td>{{ $user->father->employment->name ?? null }}</td>
+                <td>{{ $user->father->salary->name ?? null }}</td>
+                <td style='mso-number-format:"@"'>{{ $user->mother->nik ?? null }}</td>
                 <td>{{ ($user->mother->is_dead ? 'ALM. ' : '').$user->mother->name ?? null }}</td>
+                <td>{{ $user->mother->employment->name ?? null }}</td>
+                <td>{{ $user->mother->salary->name ?? null }}</td>
                 @foreach($files as $file)
                     <td>{{ $registrant->files ? ($registrant->files->firstWhere('id', $file->id) ? 'OK' : '-') : '-' }}</td>
                 @endforeach
