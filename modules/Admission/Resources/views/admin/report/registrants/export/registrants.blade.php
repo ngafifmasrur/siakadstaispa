@@ -14,12 +14,14 @@
             <th>Tempat lahir</th>
             <th>Tanggal lahir</th>
             <th>Jenis kelamin</th>
+            <th>NISN</th>
             <th>NIK</th>
             <th>No KK</th>
             <th>No Telp</th>
             <th>Alamat email</th>
             <th>Jalur pendaftaran</th>
             <th>No pendaftaran</th>
+            <th>SAMAN/REGULER</th>
             <th>Tanggal kedatangan</th>
             <th>Tes CBT Bahasa Inggris</th>
             <th>Tes CBT Bahasa Arab</th>
@@ -36,6 +38,8 @@
             <th>Kabupaten</th>
             <th>Provinsi</th>
             <th>Kode Pos</th>
+            <th>Nama Orang Tua (Bapak)</th>
+            <th>Nama Orang Tua (Ibu)</th>
             @foreach($files as $file)
                 <th>{{ $file->name }}</th>
             @endforeach
@@ -54,12 +58,14 @@
                 <td>{{ $user->profile->pob }}</td>
                 <td>{{ isset($user->profile->dob) ? $user->profile->dob->format('d/m/Y') : '' }}</td>
                 <td>{{ $user->profile->sex_name }}</td>
+                <td style='mso-number-format:"@"'>{{ $user->profile->nisn }}</td>
                 <td style='mso-number-format:"@"'>{{ $user->profile->nik }}</td>
                 <td style='mso-number-format:"@"'>{{ $user->profile->nokk }}</td>
                 <td style='mso-number-format:"@"'>{{ $user->nomor_hp ??  '-', }}</td>
                 <td>{{ $user->email->address ?? '-' }}</td>
                 <td>{{ $admission->full_name }}</td>
                 <td>{{ $registrant->kd }}</td>
+                <td>{{ $registrant->is_saman ? 'SAMAN' : 'REGULER' }}</td>
                 <td>{{ $registrant->tanggal_kedatangan }}</td>
                 <td>{{ $registrant->cbts->where('cbt_id', 1)->where('status',2)->first() ? 'OK - Skor '.$registrant->cbts->where('cbt_id', 1)->where('status',2)->first()->total_skor : 'Belum Mengerjakan' }}</td>
                 <td>{{ $registrant->cbts->where('cbt_id', 2)->where('status',2)->first() ? 'OK - Skor '.$registrant->cbts->where('cbt_id', 2)->where('status',2)->first()->total_skor : 'Belum Mengerjakan' }}</td>
@@ -76,6 +82,8 @@
                 <td>{{ $user->address->district->regency->name ?? '-' }}</td>
                 <td>{{ $user->address->district->regency->province->name ?? '-' }}</td>
                 <td>{{ $user->address->postal ?? '-' }}</td>
+                <td>{{ ($user->father->is_dead ? 'ALM. ' : '').$user->father->name ?? null }}</td>
+                <td>{{ ($user->mother->is_dead ? 'ALM. ' : '').$user->mother->name ?? null }}</td>
                 @foreach($files as $file)
                     <td>{{ $registrant->files ? ($registrant->files->firstWhere('id', $file->id) ? 'OK' : '-') : '-' }}</td>
                 @endforeach
