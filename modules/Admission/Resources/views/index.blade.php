@@ -18,7 +18,10 @@
     		    	    @if(count(config('admission.closed')) != 2)
     		    	        <a class="btn btn-success btn-pill btn-lg m-1" href="{{ auth()->check() ? route('admission.register') : route('account.register', ['next' => route('admission.register')]) }}">Daftar sekarang &raquo;</a>
     		    	    @endif
-    		    		<a class="btn btn-outline-success btn-pill btn-lg m-1" href="{{ asset('Brosur_STAISPA_6_Januari.pdf') }}" target="_blank">Download Brosur &raquo;</a>
+
+                        @if (isset($downloadBrochure))
+    		    		    <a class="btn btn-outline-success btn-pill btn-lg m-1" href="{{ Storage::url($downloadBrochure->path_file) }}" target="_blank">Download Brosur &raquo;</a>
+                        @endif
     		    	</div>
     		    	<p class="mb-0">Sudah pernah mendaftar? <a class="text-success" href="{{ route('admission.register') }}"><u>Klik disini</u></a></p>
     		    @else
@@ -34,22 +37,16 @@
         </div>
     </div>
 
-    <div class="container mb-5">
-    	<div class="row justify-content-center">
-    		<div class="col-11 col-md-9 col-lg-7">
-    		    <img class="rounded shadow img-fluid" src="{{ asset('alur.jpg') }}" style="max-width: 100wh;margin-top: -25%;"/>
-                <!--<div class="card border-0 shadow" style="height: 380px;margin-top: -25%;">-->
-                <!--    <div class="card-body bg-dark border-0 text-center">-->
-                <!--        <div style="margin-top: 150px;">-->
-                            
-                <!--        </div>-->
-                <!--    </div>-->
-                <!--</div>-->
-    			{{-- <iframe class="shadow-lg rounded w-100" src="https://www.youtube.com/embed/CXDFWIwwxSw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="height: 380px;margin-top: -25%;"></iframe> --}}
-    		</div>
-    	</div>
-    </div>
-    
+    @if (isset($frontBrochure))
+        <div class="container mb-5">
+            <div class="row justify-content-center">
+                <div class="col-11 col-md-9 col-lg-7">
+                    <img class="rounded shadow img-fluid" src="{{ Storage::url($frontBrochure->path_file) }}" style="max-width: 100wh;margin-top: -25%;"/>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <!--div class="container">
 		<hr>
 		<div class="row d-flex justify-content-center">
@@ -272,7 +269,7 @@
                 __nav.addClass("bg-light");
                 __nav.removeClass("bg-transparent");
             }
-            $(window).scroll(function() {    
+            $(window).scroll(function() {
                 var scroll = $(window).scrollTop();
                 if (scroll >= 20) {
                     __nav.addClass("bg-light scrolled");
