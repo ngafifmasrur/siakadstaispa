@@ -14,7 +14,7 @@ class SamanController extends Controller
 {
     /**
      * Instance the main property.
-     */    
+     */
     protected $repo;
 
     /**
@@ -53,9 +53,22 @@ class SamanController extends Controller
         $this->repo->update([
             'is_saman' => 1
         ], $registrant);
-        
+
         return redirect()->back()
                     ->with(['success' => 'Sukses, pendaftar atas nama <strong>'.$registrant->user->profile->full_name.'</strong> telah berhasil diverifikasi menjadi saman.']);
+    }
+
+    /**
+     * Cancel SAMAN registrant.
+     */
+    public function cancel(AdmissionRegistrant $registrant)
+    {
+        $this->repo->update([
+            'is_saman' => 0
+        ], $registrant);
+
+        return redirect()->back()
+                    ->with(['success' => 'Sukses, pendaftar atas nama <strong>'.$registrant->user->profile->full_name.'</strong> telah berhasil dibatalkan menjadi saman.']);
     }
 
     /**
@@ -64,7 +77,7 @@ class SamanController extends Controller
     public function jadwal_wawancara(AdmissionRegistrant $registrant)
     {
         $admissions = $this->repo->admission = auth()->user()->admissionCommittees->load('admission')->pluck('admission');
-        
+
         return view('admission::admin.registration.saman.jadwal', compact('admissions', 'registrant'));
     }
 
@@ -82,7 +95,7 @@ class SamanController extends Controller
             'jadwal_wawancara' => $request->tanggal_wawancara,
             'jenis_wawancara' => $request->jenis_wawancara
         ], $registrant);
-        
+
         return redirect()->back()
                     ->with(['success' => 'Sukses, jawal wawancara <strong>'.$registrant->user->profile->full_name.'</strong> telah berhasil disimpan.']);
     }
@@ -99,7 +112,7 @@ class SamanController extends Controller
         $this->repo->update([
             'status_wawancara' => $request->status_wawancara
         ], $registrant);
-        
+
         return redirect()->back()
                     ->with(['success' => 'Sukses, status_wawancara <strong>'.$registrant->user->profile->full_name.'</strong> telah berhasil disimpan.']);
     }
