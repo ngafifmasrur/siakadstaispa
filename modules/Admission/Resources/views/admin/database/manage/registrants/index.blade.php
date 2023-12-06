@@ -23,7 +23,19 @@
                 <input type="text" name="limit" value="{{ request('limit', 5) }}" hidden>
                 <div class="form-inline">
                     <div class="input-group my-1 mr-sm-2">
-                        <input type="text" class="form-control" placeholder="Cari disini ..." name="search" value="{{ request('search', '') }}" autofocus size="50">
+                        <input type="text" class="form-control" placeholder="Cari disini ..." name="search"
+                                value="{{ request('search', '') }}" autofocus size="50">
+
+                        <select class="form-control" name="jalur_pendaftaran" id="jalur_pendaftaran">
+                            <option value="">Pilih Jalur Pendaftaran</option>
+                            <option {{ request('jalur_pendaftaran') == '0' ? 'selected' : ''}} value="0">
+                                REGULER
+                            </option>
+                            <option {{ request('jalur_pendaftaran') == '1' ? 'selected' : ''}} value="1">
+                                SAMAN
+                            </option>
+                        </select>
+
                         <div class="input-group-append">
                             <button type="submit" class="btn btn-success"><i class="mdi mdi-magnify"></i></button>
                         </div>
@@ -31,7 +43,9 @@
                     @can('manageAdmissions', Admission::class)
                         {{-- <a class="btn btn-danger my-1 mr-sm-2" href="javascript:;" id="get-trashed"><i class="mdi mdi-eye"></i> Lihat data yang {{ request('trash') ? 'tidak' : '' }} dihapus</a> --}}
                     @endcan
-                    <a class="btn btn-success my-1 mr-sm-2" href="{{ route('admission.admin.database.manage.registrants.create') }}"><i class="mdi mdi-plus-circle-outline"></i> Daftar baru</a>
+                    <a class="btn btn-success my-1 mr-sm-2" href="{{ route('admission.admin.database.manage.registrants.create') }}">
+                        <i class="mdi mdi-plus-circle-outline"></i> Daftar baru
+                    </a>
                 </div>
             </form>
         </div>

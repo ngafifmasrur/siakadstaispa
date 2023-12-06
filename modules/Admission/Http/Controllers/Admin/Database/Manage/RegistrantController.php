@@ -21,7 +21,7 @@ class RegistrantController extends Controller
 {
     /**
      * Instance the main property.
-     */    
+     */
     protected $repo;
 
     /**
@@ -43,11 +43,21 @@ class RegistrantController extends Controller
      */
     public function index(Request $request)
     {
-    	$admission = $this->repo->admission = Admission::withCount(['registrants'])->with('period')->where('open', 1)->get();
+    	$admission = $this->repo->admission = Admission::withCount(['registrants'])
+                                                ->with('period')
+                                                ->where('open', 1)
+                                                ->get();
 
-        $registrants = $this->repo->setLimit(request('limit', $this->repo->limit))
-                                  ->onlyTrashed(request('trash', false))
-                                  ->search(request('search', ''));
+        $registrants = $this->repo->setWhere(function($query) use ($request) {
+                                        $query->when(
+                                            $request->has('jalur_pendaftaran') &&
+                                            !is_null($request->jalur_pendaftaran), function($query) use ($request) {
+                                                $query->where('is_saman', $request->get('jalur_pendaftaran'));
+                                        });
+                                    })
+                                    ->setLimit(request('limit', $this->repo->limit))
+                                    ->onlyTrashed(request('trash', false))
+                                    ->search(request('search', ''));
 
         return view('admission::admin.database.manage.registrants.index', compact('admission', 'registrants'));
     }
@@ -137,13 +147,13 @@ class RegistrantController extends Controller
             case 'parent':
                 $type = $request->get('type');
                 $ctrl = new ParentController($this->repo);
-                
+
                 $address = $registrant->user->address ?? new UserAddress();
                 $trans = $ctrl->trans[$type];
                 $parent = $registrant->user->{$type} ?? new $ctrl->models[$type]();
 
                 return view('admission::admin.database.manage.registrants.edit.'.$key, compact('registrant', 'key', 'parent', 'trans', 'type', 'address'));
-            
+
             case 'studies.index':
                 $studies = $registrant->user->studies()->with(['grade', 'district.regency.province'])->orderBy('grade_id')->get();
                 return view('admission::admin.database.manage.registrants.edit.'.$key, compact('registrant', 'studies'));
@@ -171,15 +181,15 @@ class RegistrantController extends Controller
 
             case 'file':
                 $files = $registrant->admission->files->load([
-                    'registrants' => function($query) use ($registrant) { 
-                        $query->where('registrant_id', $registrant->id); 
+                    'registrants' => function($query) use ($registrant) {
+                        $query->where('registrant_id', $registrant->id);
                     }
                 ]);
                 return view('admission::admin.database.manage.registrants.edit.'.$key, compact('registrant', 'files', 'key'));
 
             case 'test':
                 return view('admission::admin.database.manage.registrants.edit.'.$key, compact('registrant', 'key'));
-            
+
             case 'major':
                 $majors = AdmissionRegistrant::$major_long;
                 return view('admission::admin.database.manage.registrants.edit.'.$key, compact('registrant', 'key', 'majors'));
@@ -214,7 +224,7 @@ class RegistrantController extends Controller
                         \Storage::delete($registrant->avatar);
                         $path =  $file->store('user_files/'.$registrant->user->id.'/admissions');
                     }
-                    
+
                     $registrant->update([
                         'avatar' => $path ?? $registrant->avatar ?? null,
                     ]);
@@ -305,7 +315,7 @@ class RegistrantController extends Controller
                     \Storage::delete($file->pivot->file);
 
                 }
-                
+
                 $registrant->files()->syncWithoutDetaching([$type => ['file' => $path]]);
 
                 return response()->json('Sukses, berkas berhasil diunggah!', 200);
@@ -434,7 +444,7 @@ class RegistrantController extends Controller
                         // 'verified_at'    => $request->input('verified_at') ?? null
                     ]
                 ];
-            case 'phone': 
+            case 'phone':
                 return [
                     'name' => 'nomor HP',
                     'data' => [
