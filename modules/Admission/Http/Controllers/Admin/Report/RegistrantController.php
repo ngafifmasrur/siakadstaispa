@@ -3,7 +3,6 @@
 namespace Modules\Admission\Http\Controllers\Admin\Report;
 
 use Modules\Admission\Models\Admission;
-use Modules\Admission\Models\AdmissionPayment;
 use Modules\Admission\Models\AdmissionRegistrant;
 
 use Illuminate\Http\Request;
@@ -26,19 +25,29 @@ class RegistrantController extends Controller
      */
     public function registrants(Request $request)
     {
-        $filter = $request->get('filter');
-        
         $registrants = AdmissionRegistrant::with(['user', 'files'])
                             ->where('admission_id', $request->input('aid'));
-                            
+
         $registrants->where(function($registrant) use ($request) {
             if ($request->has('filter')) {
                 foreach ($request->input('filter', []) as $filter) {
-                    $registrant->whereNotNull($filter);
-                };
+
+                    switch ($filter) {
+                        case 'not_verified':
+                            $registrant->whereNull('verified_at');
+                            break;
+                        case 'not_paid_off':
+                            $registrant->whereNull('paid_off_at');
+                            break;
+                        default:
+                            $registrant->whereNotNull($filter);
+                            break;
+                    }
+
+                }
             }
         });
-        
+
         $registrants = $registrants->get();
         $files = Admission::find($request->input('aid'))->files;
 
