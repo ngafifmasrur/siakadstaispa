@@ -182,6 +182,12 @@ return [
                                 'label' => 'Tanggal Kedatangan'
                             ],
                             [
+                                'route' => 'admission.admin.footer_information.index',
+                                'permissions' => 1,
+                                'icon' => 'layers',
+                                'label' => 'Informasi Footer'
+                            ],
+                            [
                                 'route' => 'admission.admin.brochure.index',
                                 'permissions' => 1,
                                 'icon' => 'layers',
