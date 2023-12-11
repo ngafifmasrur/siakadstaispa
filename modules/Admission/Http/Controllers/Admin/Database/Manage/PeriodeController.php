@@ -4,17 +4,20 @@ namespace Modules\Admission\Http\Controllers\Admin\Database\Manage;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Models\InstancePeriod;
+use App\Traits\PeriodeTrait;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
 use Modules\Admission\Models\Admission;
 use Modules\Admission\Repositories\AdmissionRegistrantRepository;
-use DB;
 
 class PeriodeController extends Controller
 {
+    use PeriodeTrait;
 
     /**
      * Instance the main property.
-     */    
+     */
     protected $repo;
 
     /**
@@ -42,7 +45,7 @@ class PeriodeController extends Controller
      */
     public function create()
     {
-        abort(404);
+        return view('admission::admin.database.manage.periode.create');
     }
 
     /**
@@ -52,7 +55,37 @@ class PeriodeController extends Controller
      */
     public function store(Request $request)
     {
-        abort(404);  
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'start_date' => 'required|date|date_format:Y-m-d',
+            'end_date' => 'required|date|date_format:Y-m-d',
+            'year' => 'required|numeric',
+            'status' => 'required|boolean|in:0,1',
+        ]);
+
+        DB::beginTransaction();
+        try {
+
+            $admission = $this->generatePeriodeAndAdmission((object) $validated);
+            $this->generateAdmissionCommittes($admission);
+            $this->generateAdmissionForms($admission);
+            $this->generateAdmissionReqs($admission);
+            $this->generateAdmissionFiles($admission);
+            $this->generateAdmissionSession($admission);
+
+            if ($request->status) {
+                $this->update($admission, $request);
+            }
+
+            DB::commit();
+
+            return redirect()->back()
+                    ->with(['success' => 'Sukses, tahun akademik baru berhasil dibuat!']);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withInput();
+        }
     }
 
     /**
@@ -87,19 +120,19 @@ class PeriodeController extends Controller
             'open' => 0,
             'published' => 0
         ]);
-        
+
         $committeess = DB::table('admission_committees')->where('admission_id', $periode->id)->get();
-        $panitia = DB::table('admission_committee_members')->where('kd', 'PAN-01')->update([
+        DB::table('admission_committee_members')->where('kd', 'PAN-01')->update([
             'committee_id' => $committeess->where('name', 'Panitia')->first()->id
         ]);
-        $programmer = DB::table('admission_committee_members')->where('kd', 'PRG-01')->update([
+        DB::table('admission_committee_members')->where('kd', 'PRG-01')->update([
             'committee_id' => $committeess->where('name', 'Programmer')->first()->id
         ]);
-        $pembayaran = DB::table('admission_committee_members')->where('kd', 'PB-01')->update([
+        DB::table('admission_committee_members')->where('kd', 'PB-01')->update([
             'committee_id' => $committeess->where('name', 'Div. Pembayaran')->first()->id
         ]);
 
-        return redirect($request->get('next', route('admission.admin.database.manage.rooms.index')))
+        return redirect($request->get('next', route('admission.admin.database.manage.periode.index')))
                     ->with(['success' => 'Sukses, Periode berhasil diubah']);
     }
     /**

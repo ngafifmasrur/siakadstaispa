@@ -176,6 +176,12 @@ return [
                                 'label' => 'Mapel CBT'
                             ],
                             [
+                                'route' => 'admission.admin.database.manage.periode.index',
+                                'permissions' => 1,
+                                'icon' => 'layers',
+                                'label' => 'Tahun Akademik'
+                            ],
+                            [
                                 'route' => 'admission.admin.tanggal_kedatangan.index',
                                 'permissions' => 1,
                                 'icon' => 'layers',
