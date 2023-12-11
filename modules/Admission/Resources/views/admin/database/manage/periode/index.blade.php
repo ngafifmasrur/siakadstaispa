@@ -1,16 +1,16 @@
 @extends('admission::admin.layouts.admin')
 
-@section('subtitle', 'Periode Penerimaan - ')
+@section('subtitle', 'Tahun Akademik - ')
 
 @section('breadcrumb')
-    <li class="breadcrumb-item">Periode Penerimaan</li>
-    <li class="breadcrumb-item active">Data Periode Penerimaan</li>
+    <li class="breadcrumb-item">Tahun Akademik</li>
+    <li class="breadcrumb-item active">Data Tahun Akademik</li>
 @endsection
 
 @section('section')
     <div class="section">
-        <h3 class="mb-1">Kelola data Periode Penerimaan</h3>
-        <div class="mb-2">Mengubah status periode.</div>
+        <h3 class="mb-1">Kelola data Tahun Akademik</h3>
+        <div class="mb-2">Mengubah status tahun akademik.</div>
     </div>
 @endsection
 
@@ -19,8 +19,22 @@
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-body p-3">
-                    <h5 class="mb-0 py-1"> Data Periode </h5>
+                    <h5 class="mb-0 py-1"> Data Tahun Akademik </h5>
+                    <br>
                 </div>
+                <div class="card-body bg-light border-top">
+                    <div class="form-inline">
+                        <div class="my-1 mr-sm-2">
+                            <a class="btn btn-primary" href="{{ route('admission.admin.database.manage.periode.create', request()->all()) }}">
+                                <i class="mdi mdi-add"></i> Tambah Tahun Akademik
+                            </a>
+                            <a class="btn btn-secondary" href="{{ route('admission.admin.database.manage.periode.index') }}">
+                                <i class="mdi mdi-refresh"></i> Refresh
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
                     <div class="table-responsive">
                         <table class="table table-hover mb-0">
                             <thead class="thead-dark">
@@ -28,8 +42,9 @@
                                     <th>No</th>
                                     <th>Nama</th>
                                     <th>Tahun</th>
+                                    <th>Tanggal Buka Pendaftaran</th>
+                                    <th>Tanggal Tutup Pendaftaran</th>
                                     <th>Status</th>
-                                    <th>Status Publish</th>
                                     <th>Ubah Status</th>
                                 </tr>
                             </thead>
@@ -37,13 +52,14 @@
                                 @forelse($admission as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->name.' '.$item->period->name }}</td>
-                                        <td>{{ $item->period->year }}</td>
-                                        <td>{{ $item->open ? 'Buka' : 'Tutup' }}</td>
-                                        <td>{{ $item->published ? 'Published' : 'Unpublished' }}</td>
+                                        <td>{{ $item->name }}</td>
+                                        <td>{{ $item->period->name }}</td>
+                                        <td>{{ $item->start_date ?? '' }}</td>
+                                        <td>{{ $item->end_date ?? '-' }}</td>
+                                        <td>{{ $item->open ? 'Aktif' : 'Tidak Aktif' }}</td>
                                         <td class="py-2 align-middle border-left text-center" nowrap>
                                             @if ($item->open == 0)
-                                                <button class="btn btn-success btn-sm btn_update" data-route="{{ route('admission.admin.database.manage.periode.update', ['periode' => $item->id, 'next' => request('next', url()->previous()) ]) }}"><i class="mdi mdi-check"></i></button>
+                                                <button class="btn btn-success btn-sm btn_update" data-route="{{ route('admission.admin.database.manage.periode.update', ['periode' => $item->id, 'next' => request('next', url()) ]) }}"><i class="mdi mdi-check"></i></button>
                                             @else
                                             -
                                             @endif
@@ -52,7 +68,7 @@
                                 @empty
                                     <tr>
                                         <td colspan="5" class="text-muted px-4">
-                                            Tidak ada data periode
+                                            Tidak ada data tahun akademik
                                         </td>
                                     </tr>
                                 @endforelse
@@ -75,7 +91,7 @@
                 <form action="" id="form_update" method="POST">
                     @csrf
                     @method('PUT')
-                    <p>Jadikan periode ini aktif?</p>
+                    <p>Jadikan tahun akademik ini aktif?</p>
                 </form>
             </div>
             <div class="modal-footer">
@@ -94,7 +110,7 @@
     $(document).ready(function(){
         $(document).on('click','.btn_update',function(){
             let route = $(this).data('route');
-            
+
             $('#form_update').attr('action',route);
             $('#ModalUpdate').modal('show');
         });

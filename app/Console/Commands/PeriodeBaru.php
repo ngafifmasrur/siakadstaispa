@@ -39,7 +39,7 @@ class PeriodeBaru extends Command
      */
     public function handle()
     {
-        
+
         $inst_id = 1;
         $open_period = 1;
         $now = now();
@@ -67,7 +67,7 @@ class PeriodeBaru extends Command
 
 
             $admission = DB::table('admissions')->where('period_id', $periode->id)->first();
-            
+
             if(!isset($admission)) {
                 $admissions[] = [
                     'period_id' => $periode->id,
@@ -77,13 +77,13 @@ class PeriodeBaru extends Command
                     'created_at' => $now,
                     'updated_at' => $now,
                 ];
-        
+
                 DB::table('admissions')->insert($admissions);
             }
             // Create New Admission
             $admissions = DB::table('admissions')->where('period_id', $periode->id)->first();
 
-            
+
             // Create Committees
             $committees = [];
             foreach ([
@@ -130,76 +130,47 @@ class PeriodeBaru extends Command
                     'key'        => 0,
                     'keterangan' => 'Profile',
                     'required'   => 1
-                ],
-                [
+                ],[
                     'key'        => 1,
                     'keterangan' => 'Alamat e-mail',
                     'required'   => 1
-                ],                
-                [
+                ],[
                     'key'        => 2,
                     'keterangan' => 'Nomor HP',
                     'required'   => 0
-                ],                
-                [
+                ],[
                     'key'        => 3,
                     'keterangan' => 'Alamat asal',
                     'required'   => 1
-                ],                
-                [
+                ],[
                     'key'        => 4,
                     'keterangan' => 'Data ayah',
                     'required'   => 1
-                ],                
-                [
+                ],[
                     'key'        => 5,
                     'keterangan' => 'Data ibu',
                     'required'   => 1
-                ],                
-                // [
-                //     'key'        => 6,
-                //     'keterangan' => 'Data wali',
-                //     'required'   => 1
-                // ],                
-                // [
-                //     'key'        => 7,
-                //     'keterangan' => 'Riwayat pendidikan',
-                //     'required'   => 0
-                // ],              
-                // [
-                //     'key'        => 8,
-                //     'keterangan' => 'Riwayat organisasi',
-                //     'required'   => 0
-                // ],                
-                // [
-                //     'key'        => 9,
-                //     'keterangan' => 'Data Prestasi',
-                //     'required'   => 0
-                // ],                
-                [
+                ],[
                     'key'        => 10,
                     'keterangan' => 'Pemilihan program studi',
                     'required'   => 1
-                ],
-                [        
+                ],[
                     'key'        => 11,
                     'keterangan' => 'Berkas pendaftaran',
                     'required'   => 1
-                ],
-                [        
+                ],[
                     'key'        => 12,
                     'keterangan' => 'Pemilihan tanggal kedatangan',
                     'required'   => 1
                 ]
             ];
+
             $forms = [];
             foreach($availableForms as $item) {
                 $forms[] = [
                     'admission_id' => $admissions->id,
                     'key' => $item['key'],
-                    'required' => $item['required'],
-                    'created_at' => $now,
-                    'updated_at' => $now,
+                    'required' => $item['required']
                 ];
             }
             DB::table('admission_forms')->insert($forms);
@@ -217,7 +188,7 @@ class PeriodeBaru extends Command
                         'name' => $value
                     ];
                 }
-            
+
             DB::table('admission_reqs_general')->insert($reqsGeneral);
 
             $reqsSpecial = [];
@@ -233,21 +204,15 @@ class PeriodeBaru extends Command
                         'name' => $value
                     ];
                 }
-            
+
             DB::table('admission_reqs_special')->insert($reqsSpecial);
 
             $files = [];
                 foreach ([
                     ['Kartu Keluarga (KK)', null, '1', '1'],
-                    // ['Akta kelahiran', null, 0, 0],
-                    // ['Ijazah Sekolah/Madrasah jenjang sebelumnya', 'Wajib diunggah jika pengumuman kelulusan dari sekolah/madrasah asal sudah keluar atau berkas sudah terbit', 0, 0],
-                    // ['SKHUN Sekolah/Madrasah jenjang sebelumnya', 'Wajib diunggah jika pengumuman kelulusan dari sekolah/madrasah asal sudah keluar atau berkas sudah terbit', 0, 0],
-                    // ['Surat keterangan sehat dari dokter', null, 0, 0],
-                    // ['Surat keterangan kelakuan baik (SKKB)', 'Wajib diunggah apabila pendaftar adalah BUKAN lulusan MTs Sunan Pandanaran', 0, 0],
                     ['Kartu BSM', 'Wajib diunggah jika Anda ingin mengajukan sebagai santri mandiri (dokumen akan melalui proses screening dan verifikasi oleh tim)', '0', '1'],
                     ['Surat Keterangan Tidak Mampu', 'Wajib diunggah jika Anda ingin mengajukan sebagai santri mandiri (dokumen akan melalui proses screening dan verifikasi oleh tim)', '0', '1'],
                     ['Kartu KIP', 'Wajib diunggah jika Anda ingin mengajukan sebagai santri mandiri (dokumen akan melalui proses screening dan verifikasi oleh tim)', '0', '1'],
-                    // ['Bukti pembayaran', 'Biaya pendaftaran sebesar Rp 250.000', '1', 0],
                 ] as $v) {
                     $files[] = [
                         'admission_id' => $admissions->id,
@@ -258,7 +223,7 @@ class PeriodeBaru extends Command
                         'updated_at' => $now,
                     ];
                 }
-            
+
             DB::table('admission_files')->insert($files);
 
             $sessions = [];
@@ -275,7 +240,7 @@ class PeriodeBaru extends Command
                         'updated_at' => $now,
                     ];
                 }
-            
+
             DB::table('admission_sessions')->insert($sessions);
 
             $dates = ['2022-03-10', '2022-03-11', '2022-03-12', '2022-03-13'];
@@ -285,7 +250,7 @@ class PeriodeBaru extends Command
                         'admission_id' => $admissions->id,
                         'date' => $v,
                     ];
-                
+
             }
             DB::table('admission_test_dates')->insert($test_dates);
 
