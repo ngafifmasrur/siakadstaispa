@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Admission\Models\Brochure;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class BrochureController extends Controller
@@ -69,7 +70,7 @@ class BrochureController extends Controller
         Brochure::create([
             'type' => $request->type,
             'name' => $request->name,
-            'path_file' => $file->store('brosur'),
+            'path_file' => Storage::disk('public')->putFile('brosur', $file),
             'status' => $request->status
         ]);
 
@@ -139,7 +140,7 @@ class BrochureController extends Controller
        $data = $validator->validated();
 
         if ($request->has('path_file')) {
-            $data['path_file'] = $request->file('path_file')->store('brosur');
+            $data['path_file'] = Storage::disk('public')->putFile('brosur', $request->file('path_file'));
         }
 
         $brochure->update($data);
