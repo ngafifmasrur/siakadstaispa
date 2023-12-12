@@ -20,7 +20,7 @@
     		    	    @endif
 
                         @if (isset($downloadBrochure))
-    		    		    <a class="btn btn-outline-success btn-pill btn-lg m-1" href="{{ Storage::url($downloadBrochure->path_file) }}" target="_blank">Download Brosur &raquo;</a>
+    		    		    <a class="btn btn-outline-success btn-pill btn-lg m-1" href="{{ Storage::disk('public')->url($downloadBrochure->path_file) }}" target="_blank">Download Brosur &raquo;</a>
                         @endif
     		    	</div>
     		    	<p class="mb-0">Sudah pernah mendaftar? <a class="text-success" href="{{ route('admission.register') }}"><u>Klik disini</u></a></p>
@@ -41,7 +41,7 @@
         <div class="container mb-5">
             <div class="row justify-content-center">
                 <div class="col-11 col-md-9 col-lg-7">
-                    <img class="rounded shadow img-fluid" src="{{ Storage::url($frontBrochure->path_file) }}" style="max-width: 100wh;margin-top: -25%;"/>
+                    <img class="rounded shadow img-fluid" src="{{ Storage::disk('public')->url($frontBrochure->path_file) }}" style="max-width: 100wh;margin-top: -25%;"/>
                 </div>
             </div>
         </div>
