@@ -29,8 +29,10 @@
 		@endif
 		@yield('content')
 	</div>
-	<footer class="container py-4 border-top flex-shrink-0">
-		@include('admission::layouts.includes.footer')
+	<footer class="app-footer border-light text-muted">
+        <div class="container py-4 flex-shrink-0">
+            @include('admission::layouts.includes.footer')
+        </div>
 	</footer>
 	@include('account::includes.logout', ['next' => route('admission.index')])
 @endsection

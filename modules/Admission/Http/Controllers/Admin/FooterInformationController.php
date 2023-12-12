@@ -19,8 +19,8 @@ class FooterInformationController extends Controller
     public function index(Request $request)
     {
         $data = FooterInformation::when($request->get('aid'), function($q) use ($request) {
-            $q->where('type', $request->get('aid'));
-        })->get();
+                    $q->where('type', $request->get('aid'));
+                })->get();
 
         return view('admission::admin.footer_information.index', [
             'data' => $data,
@@ -47,18 +47,22 @@ class FooterInformationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'type' => ['required', Rule::in(FooterInformation::TYPE)],
-            'name' => 'required|string',
+            'type'   => ['required', Rule::in(FooterInformation::TYPE)],
+            'content' => 'required',
             'status' => 'in:0,1'
         ]);
 
-        FooterInformation::create([
-            'type' => $request->type,
-            'name' => $request->name,
-            'status' => $request->status
-        ]);
+        $footerInformation = FooterInformation::create([
+                'type'    => $request->type,
+                'content' => $request->content,
+                'status'  => $request->status
+            ]);
 
-        return redirect($request->get('next', route('admission.admin.footer_information.index')))
+        if ($request->status) {
+            $this->setActive($footerInformation, $request);
+        }
+
+        return redirect(route('admission.admin.footer_information.index'))
                     ->with(['success' => 'Sukses, data infromasi footer berhasil ditambahkan']);
     }
 
@@ -95,13 +99,17 @@ class FooterInformationController extends Controller
     {
         $validated = $request->validate([
             'type' => ['required', Rule::in(FooterInformation::TYPE)],
-            'name' => 'required|string',
+            'content' => 'required',
             'status' => 'in:0,1'
         ]);
 
         $footerInformation->update($validated);
 
-        return redirect($request->get('next', route('admission.admin.footer_information.index')))
+        if ($request->status) {
+            $this->setActive($footerInformation, $request);
+        }
+
+        return redirect(route('admission.admin.footer_information.index'))
                     ->with(['success' => 'Sukses, data informasi footer berhasil diedit']);
     }
 
@@ -117,5 +125,23 @@ class FooterInformationController extends Controller
             return redirect()->back()
                         ->with(['success' => 'Sukses, data informasi footer telah berhasil dihapus.']);
         }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     * @param Request $request
+     * @param int $id
+     * @return Response
+     */
+    public function setActive(FooterInformation $footerInformation, Request $request)
+    {
+        $footerInformation->update([
+            'status' => 1
+        ]);
+
+        FooterInformation::where('id', '!=', $footerInformation->id)
+            ->where('type', $footerInformation->type)->update([
+                'status' => 0
+            ]);
     }
 }

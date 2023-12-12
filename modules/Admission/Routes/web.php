@@ -141,6 +141,7 @@ Route::name('admission.')->group(function() {
 						Route::resource('/rooms', 'RoomController');
 
 						// Pilih Periode
+                        Route::put('/periode/{periode}/active', 'PeriodeController@active')->name('periode.active');
 						Route::resource('/periode', 'PeriodeController');
 
 					});
