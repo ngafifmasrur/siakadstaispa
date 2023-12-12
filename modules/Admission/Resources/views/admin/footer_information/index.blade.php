@@ -57,7 +57,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Jenis</th>
-                                    <th>Nama</th>
+                                    <th>Konten</th>
                                     <th>Status</th>
                                     <th>Aksi</th>
                                 </tr>
@@ -67,7 +67,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ strtoupper($item->type) }}</td>
-                                        <td>{{ $item->name }}</td>
+                                        <td>{{ $item->content }}</td>
                                         <td>
                                             @if ($item->status)
                                                 <span class="badge badge-success">Aktif</span>

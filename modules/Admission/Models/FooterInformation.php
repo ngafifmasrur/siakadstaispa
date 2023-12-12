@@ -9,7 +9,7 @@ class FooterInformation extends Model
     const TYPE = [
         'INFORMATION' => 'informasi',
         'EMAIL'       => 'email',
-        'CONTACT'     => 'kontak',
+        'PHONE_NUMBER'=> 'nomor telepon',
         'WEBSITE'     => 'website'
     ];
 
@@ -22,7 +22,7 @@ class FooterInformation extends Model
      * The attributes that are mass assignable.
      */
     protected $fillable = [
-        'name', 'type', 'status'
+        'content', 'type', 'status'
     ];
 
 }
