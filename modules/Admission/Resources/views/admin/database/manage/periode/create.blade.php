@@ -87,7 +87,7 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-7 offset-md-4">
                                 <button class="btn btn-success" type="submit">Simpan</button>
-                                <a class="btn btn-secondary" href="{{ request('next', url()->previous()) }}">Kembali</a>
+                                <a class="btn btn-secondary" href="{{ request('next', route('admission.admin.database.manage.periode.index')) }}">Kembali</a>
                             </div>
                         </div>
                     </form>
