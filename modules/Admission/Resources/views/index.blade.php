@@ -41,7 +41,7 @@
         <div class="container mb-5">
             <div class="row justify-content-center">
                 <div class="col-11 col-md-9 col-lg-7">
-                    <img class="rounded shadow img-fluid" src="{{ Storage::disk('public')->url($frontBrochure->path_file) }}" style="max-width: 100wh;margin-top: -25%;"/>
+                    <img class="rounded shadow img-fluid" src="{{ Storage::disk('public')->url($frontBrochure->path_file) }}" style="width: 800px;margin-top: -25%;"/>
                 </div>
             </div>
         </div>
