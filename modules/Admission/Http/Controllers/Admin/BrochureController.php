@@ -56,23 +56,24 @@ class BrochureController extends Controller
             'status' => 'in:0,1'
         ]);
 
-        // Make other data inactive when select active status
-       if ($request->status) {
-            Brochure::where('status', 1)
-                    ->where('type', $request->type)
-                    ->update([
-                        'status' => 0
-                    ]);
-        }
-
         $file = $request->file('path_file');
 
-        Brochure::create([
+        $brochure = Brochure::create([
             'type' => $request->type,
             'name' => $request->name,
             'path_file' => Storage::disk('public')->putFile('brosur', $file),
             'status' => $request->status
         ]);
+
+        // Make other data inactive when select active status
+        if ($request->status) {
+            Brochure::where('status', 1)
+                    ->where('type', $request->type)
+                    ->where('id', '<>', $brochure->id)
+                    ->update([
+                        'status' => 0
+                    ]);
+        }
 
         return redirect($request->get('next', route('admission.admin.brochure.index')))
                     ->with(['success' => 'Sukses, data brochure berhasil ditambahkan']);
@@ -128,15 +129,6 @@ class BrochureController extends Controller
                 ->withInput();
        }
 
-       // Make other data inactive when select active status
-       if ($request->status) {
-            Brochure::where('status', 1)
-                    ->where('type', $request->type)
-                    ->update([
-                        'status' => 0
-                    ]);
-        }
-
        $data = $validator->validated();
 
         if ($request->has('path_file')) {
@@ -144,6 +136,16 @@ class BrochureController extends Controller
         }
 
         $brochure->update($data);
+
+        // Make other data inactive when select active status
+        if ($request->status) {
+            Brochure::where('status', 1)
+                    ->where('type', $request->type)
+                    ->where('id', '<>', $brochure->id)
+                    ->update([
+                        'status' => 0
+                    ]);
+        }
 
         return redirect($request->get('next', route('admission.admin.brochure.index')))
                     ->with(['success' => 'Sukses, data brochure berhasil diedit']);
