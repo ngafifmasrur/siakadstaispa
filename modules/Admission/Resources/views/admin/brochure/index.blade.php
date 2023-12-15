@@ -70,7 +70,7 @@
                                         <td>{{ strtoupper($item->type) }}</td>
                                         <td>{{ $item->name }}</td>
                                         <td>
-                                            <a href="{{ Storage::url($item->path_file) }}" class="btn btn-warning btn-sm">
+                                            <a href="{{ Storage::disk('public')->url($item->path_file) }}" class="btn btn-warning btn-sm">
                                                 <i class="mdi mdi-eye"></i> Lihat
                                             </a>
                                         </td>
