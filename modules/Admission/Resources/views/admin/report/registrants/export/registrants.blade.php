@@ -40,10 +40,14 @@
             <th>Kode Pos</th>
             <th>NIK Ayah</th>
             <th>Nama Ayah</th>
+            <th>Tempat Lahir Ayah</th>
+            <th>Tanggal Lahir Ayah</th>
             <th>Pekerjaan Ayah</th>
             <th>Rata-rata penghasilan Ayah</th>
             <th>NIK Ibu</th>
             <th>Nama Ibu</th>
+            <th>Tempat Lahir Ibu</th>
+            <th>Tanggal Lahir Ibu</th>
             <th>Pekerjaan Ibu</th>
             <th>Rata-rata penghasilan Ibu</th>
             @foreach($files as $file)
@@ -90,10 +94,14 @@
                 <td>{{ $user->address->postal ?? '-' }}</td>
                 <td style='mso-number-format:"@"'>{{ $user->father->nik ?? null }}</td>
                 <td>{{ ($user->father->is_dead ? 'ALM. ' : '').$user->father->name ?? null }}</td>
+                <td>{{ $user->father->pob }}</td>
+                <td>{{ isset($user->father->dob) ? $user->father->dob->format('d/m/Y') : '' }}</td>
                 <td>{{ $user->father->employment->name ?? null }}</td>
                 <td>{{ $user->father->salary->name ?? null }}</td>
                 <td style='mso-number-format:"@"'>{{ $user->mother->nik ?? null }}</td>
                 <td>{{ ($user->mother->is_dead ? 'ALM. ' : '').$user->mother->name ?? null }}</td>
+                <td>{{ $user->mother->pob }}</td>
+                <td>{{ isset($user->mother->dob) ? $user->mother->dob->format('d/m/Y') : '' }}</td>
                 <td>{{ $user->mother->employment->name ?? null }}</td>
                 <td>{{ $user->mother->salary->name ?? null }}</td>
                 @foreach($files as $file)

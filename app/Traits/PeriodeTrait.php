@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\DB;
 use Modules\Admission\Models\Admission;
 use Modules\Admission\Models\AdmissionCommittee;
 use Modules\Admission\Models\AdmissionCommitteeMember;
+use Modules\Admission\Models\AdmissionFile;
+use Modules\Admission\Models\AdmissionForm;
+use Modules\Admission\Models\AdmissionGeneralRequirement;
+use Modules\Admission\Models\AdmissionSession;
+use Modules\Admission\Models\AdmissionSpecialRequirement;
+use Modules\Admission\Models\AdmissionTestDate;
 
 trait PeriodeTrait
 {
@@ -141,13 +147,14 @@ trait PeriodeTrait
 
         $forms = [];
         foreach($availableForms as $item) {
-            $forms[] = [
+            AdmissionForm::updateOrCreate([
                 'admission_id' => $admission->id,
                 'key' => $item['key'],
                 'required' => $item['required']
-            ];
+            ]);
         }
-        DB::table('admission_forms')->insert($forms);
+
+        DB::table('admission_forms')->insertOrIgnore($forms);
     }
 
     /**
@@ -158,7 +165,6 @@ trait PeriodeTrait
      */
     public function generateAdmissionReqs($admission)
     {
-        $reqsGeneral = [];
         foreach ([
             'Memiliki komitmen kuat menempuh pendidikan di lingkungan pesantren',
             'Sanggup tinggal di asrama pesantren',
@@ -166,16 +172,12 @@ trait PeriodeTrait
             'Menandatangani surat perjanjian mahasiswa STAI Sunan Paandanaran',
             'Lulus pada jenjang pendidikan MA/SMA/SKM/sederajat'
         ] as $value) {
-            $reqsGeneral[] = [
+            AdmissionGeneralRequirement::updateOrCreate([
                 'admission_id' => $admission->id,
                 'name' => $value
-            ];
+            ]);
         }
 
-        DB::table('admission_reqs_general')->insert($reqsGeneral);
-
-
-        $reqsSpecial = [];
         foreach ([
             'Mampu membaca al-Qur\'an dengan fasih dan kaedah yang baik',
             'Hafal al-Qur\'an surah al-Ghasiyyah s/d an-Nas',
@@ -183,13 +185,11 @@ trait PeriodeTrait
             'Pas foto fisik berwarna ukuran 3x4 dan 2x2 (masing-masing 2 lembar)',
             'Pas foto digital berwarna rasio 3:4 berbaju seragam putih berlatarbelakang warna merah (Putra: bersongkok hitam, Putri: berjilbab putih)',
         ] as $value) {
-            $reqsSpecial[] = [
+            AdmissionSpecialRequirement::updateOrCreate([
                 'admission_id' => $admission->id,
                 'name' => $value
-            ];
+            ]);
         }
-
-        DB::table('admission_reqs_special')->insert($reqsSpecial);
     }
 
     /**
@@ -200,22 +200,19 @@ trait PeriodeTrait
      */
     public function generateAdmissionFiles($admission)
     {
-        $files = [];
         foreach ([
             ['Kartu Keluarga (KK)', null, '1', '1'],
             ['Kartu BSM', 'Wajib diunggah jika Anda ingin mengajukan sebagai santri mandiri (dokumen akan melalui proses screening dan verifikasi oleh tim)', '0', '1'],
             ['Surat Keterangan Tidak Mampu', 'Wajib diunggah jika Anda ingin mengajukan sebagai santri mandiri (dokumen akan melalui proses screening dan verifikasi oleh tim)', '0', '1'],
             ['Kartu KIP', 'Wajib diunggah jika Anda ingin mengajukan sebagai santri mandiri (dokumen akan melalui proses screening dan verifikasi oleh tim)', '0', '1'],
         ] as $v) {
-            $files[] = [
+            AdmissionFile::updateOrCreate([
                 'admission_id' => $admission->id,
                 'name' => $v[0],
                 'description' => $v[1],
                 'required' => $v[2]
-            ];
+            ]);
         }
-
-        DB::table('admission_files')->insert($files);
     }
 
     /**
@@ -226,31 +223,25 @@ trait PeriodeTrait
      */
     public function generateAdmissionSession($admission)
     {
-        $sessions = [];
         foreach ([
             ['SESI 1', '08:00:00', '10:00:00'],
             ['SESI 2', '13:00:00', '14:00:00'],
         ] as $v) {
-            $sessions[] = [
+            AdmissionSession::updateOrCreate([
                 'admission_id' => $admission->id,
                 'name' => $v[0],
                 'start_time' => $v[1],
                 'end_time' => $v[2]
-            ];
+            ]);
         }
-
-        DB::table('admission_sessions')->insert($sessions);
 
         $dates = ['2022-03-10', '2022-03-11', '2022-03-12', '2022-03-13'];
-        $test_dates = [];
-            foreach ($dates as $v) {
-                $test_dates[] = [
-                    'admission_id' => $admission->id,
-                    'date' => $v,
-                ];
-
+        foreach ($dates as $v) {
+            AdmissionTestDate::updateOrCreate([
+                'admission_id' => $admission->id,
+                'date' => $v,
+            ]);
         }
-        DB::table('admission_test_dates')->insert($test_dates);
 
         DB::table('admission_tests')->update([
             'admission_id' => $admission->id

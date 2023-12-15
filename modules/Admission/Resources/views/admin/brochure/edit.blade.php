@@ -45,7 +45,7 @@
                                     </small>
                                     <div>
                                         @if ($brochure->path_file)
-                                            <a href="{{ Storage::url($brochure->path_file) }}" class="badge badge-info">
+                                            <a href="{{ Storage::disk('public')->url($brochure->path_file) }}" class="badge badge-info">
                                                 Lihat
                                             </a>
                                         @endif

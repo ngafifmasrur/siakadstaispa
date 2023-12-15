@@ -11,7 +11,7 @@ class FileController extends Controller
 {
 	/**
      * Instance the main property.
-     */    
+     */
     protected $repo;
 
     /**
@@ -32,14 +32,11 @@ class FileController extends Controller
         $registrant = $this->repo->getCurrentUser();
 
         $files = $registrant->admission->files->load([
-            'registrants' => function($query) use ($registrant) { 
-                $query->where('registrant_id', $registrant->id); 
+            'registrants' => function($query) use ($registrant) {
+                $query->where('registrant_id', $registrant->id);
             }
-        ])->when($registrant->is_saman == 0, function($q){
+        ])->when(!$registrant->is_saman, function($q){
             return $q->where('required', 1);
-        })
-        ->when($registrant->is_saman == 1, function($q){
-            return $q->where('required_saman', 1);
         });
 
         return view('admission::form.file.index', compact('registrant', 'files'));
@@ -51,7 +48,7 @@ class FileController extends Controller
     public function upload(UploadRequest $request)
     {
         $this->authorize('registration', Admission::class);
-        
+
         $registrant = $this->repo->getCurrentUser();
 
         $file = $request->file('file');
@@ -63,7 +60,7 @@ class FileController extends Controller
             \Storage::delete($file->pivot->file);
 
         }
-        
+
         $registrant->files()->syncWithoutDetaching([$type => ['file' => $path]]);
         return response()->json('Sukses, berkas berhasil diunggah!', 200);
 

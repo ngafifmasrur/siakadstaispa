@@ -15,7 +15,7 @@ class ParentController extends Controller
 {
 	/**
      * Instance the main property.
-     */    
+     */
     protected $repo;
 
     public $models = [
@@ -63,14 +63,14 @@ class ParentController extends Controller
     {
         $this->authorize('registration', Admission::class);
         $this->validateParentType($type);
-        
+
         $registrant = $this->repo->getCurrentUser();
 
         $data = [
-            // 'nik'           => $request->input('nik'),
+            'nik'           => $request->input('nik'),
             'name'          => $request->input('name'),
-            // 'pob'           => $request->input('pob'),
-            // 'dob'           => date('Y-m-d', strtotime($request->input('dob'))),
+            'pob'           => $request->input('pob'),
+            'dob'           => date('Y-m-d', strtotime($request->input('dob'))),
             'is_dead'       => (bool) $request->input('is_dead'),
             'biological'    => (bool) $request->input('biological'),
             'salary_id'     => $request->input('salary'),
@@ -113,7 +113,7 @@ class ParentController extends Controller
      */
     public function validateParentType($type)
     {
-        if (!in_array($type, array_keys($this->models))) 
+        if (!in_array($type, array_keys($this->models)))
             return abort(404);
     }
 }
