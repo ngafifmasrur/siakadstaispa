@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AdmissionGeneralRequirement extends Model
-{   
+{
     /**
      * The table associated with the model.
      */
@@ -21,7 +21,7 @@ class AdmissionGeneralRequirement extends Model
      * The attributes that are mass assignable.
      */
     protected $fillable = [
-        'admission_id', 'date'
+        'admission_id', 'date', 'name'
     ];
 
     /**

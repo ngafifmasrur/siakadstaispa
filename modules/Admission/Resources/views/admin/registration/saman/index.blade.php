@@ -55,7 +55,11 @@
                             @can('verifyRegistrant', AdmissionRegistrant::class)
                                 <td class="py-2 align-middle border-left text-center" nowrap>
                                     @if ($registrant->is_saman == 1)
-                                        <a class="btn btn-secondary btn-sm disabled"><i class="mdi mdi-check"></i> Telah dipilih menjadi SAMAN</a>
+                                    <a class="btn btn-secondary btn-sm disabled"><i class="mdi mdi-check"></i> Telah dipilih menjadi SAMAN</a>
+                                    <form class="d-inline form-confirm" action="{{ route('admission.admin.registration.saman.cancel', ['registrant' => $registrant->id]) }}" method="POST">
+                                        @csrf @method('PUT')
+                                        <button class="btn btn-danger btn-sm"><i class="mdi mdi-close"></i> Batalkan SAMAN</button>
+                                    </form>
                                         <a href="{{ route('admission.admin.registration.saman.jadwal_wawancara', ['registrant' => $registrant->id]) }}" class="btn btn-primary btn-sm"><i class="mdi mdi-calendar"></i> Wawancara: {{  $registrant->jadwal_wawancara ?? 'Belum diset' }}</a>
                                     @else
                                         <form class="d-inline form-confirm" action="{{ route('admission.admin.registration.saman.verify', ['registrant' => $registrant->id]) }}" method="POST">

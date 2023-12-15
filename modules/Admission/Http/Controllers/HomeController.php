@@ -13,7 +13,7 @@ class HomeController extends Controller
 {
 	/**
      * Instance the main property.
-     */    
+     */
     protected $repo;
 
     /**
@@ -54,8 +54,8 @@ class HomeController extends Controller
 
         $user = $registrant->user;
         $files = $registrant->admission->files->load([
-                        'registrants' => function($query) use ($registrant) { 
-                            $query->where('registrant_id', $registrant->id); 
+                        'registrants' => function($query) use ($registrant) {
+                            $query->where('registrant_id', $registrant->id);
                         }
                     ]);
         $personal = [
@@ -149,7 +149,8 @@ class HomeController extends Controller
         $cbts = $registrant->cbts->where('status', 2);
 
         // Profile Photo
-        $gambar = $registrant->avatar ? Storage::url($registrant->avatar) : asset('assets/img/img-blank-3-4.png');
+        $gambar = $registrant->avatar ? Storage::disk('public')->url($registrant->avatar) : asset('assets/img/img-blank-3-4.png');
+
         $pdf = \PDF::setOptions(['isHtml5ParserEnabled' => true, 'isRemoteEnabled' => true])->loadView('admission::home.form', compact('registrant', 'user', 'files', 'personal', 'ttdparent', 'parent', 'admission', 'cbts', 'gambar'))
                     ->setPaper('a4', 'portrait');
         $pdf->getDomPDF()->setHttpContext(

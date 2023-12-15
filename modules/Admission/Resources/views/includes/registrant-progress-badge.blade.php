@@ -32,5 +32,11 @@
 		@endif
 	@endif
 @else
-	<span class="badge badge-secondary badge-pill font-weight-normal"><i class="mdi mdi-clock-outline"></i> Belum verifikasi</span>
+	<span class="badge badge-secondary badge-pill font-weight-normal">
+        <i class="mdi mdi-clock-outline"></i> Belum verifikasi
+    </span>
 @endif
+
+<span class="badge badge-light badge-pill font-weight-normal">
+    {{ $registrant->is_saman ? 'SAMAN' : 'REGULER' }}
+</span>

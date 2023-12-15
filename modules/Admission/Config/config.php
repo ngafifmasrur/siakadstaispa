@@ -17,7 +17,7 @@ return [
         'brand' => 'PMB',
         'brand_ext' => 'STAISPA'
     ],
-    
+
     'brosur' => 'http://pmb.staispa.ac.id/Brosur-PMB-STAISPA-2022-2023.pdf',
 
     'display_error_validations' => true,
@@ -39,7 +39,7 @@ return [
     'maximum-grades' => 5,
     'maximum-test-per-day' => 1000,
     'maximum-dob-year' => '2001-01-01 00:00:00',
-    
+
     'questions' => [
         'Teman setia bagi seseorang adalah akalnya, dan musuh yang nyata adalah kebodohannya.',
 		'Barang siapa sedikit kejujurannya, maka sedikit pula temannya.',
@@ -48,7 +48,7 @@ return [
 		'Berbuat itu menyebabkan yang sulit menjadi mudah.',
 		'Siapa yang bersungguh-sungguh dia akan mendapatkan apa yang dicita-citakannya.',
     ],
-    
+
     'questions-arab' => [
          'Surah al-Fatihah',
         'Surah an-Nashr',
@@ -176,10 +176,28 @@ return [
                                 'label' => 'Mapel CBT'
                             ],
                             [
+                                'route' => 'admission.admin.database.manage.periode.index',
+                                'permissions' => 1,
+                                'icon' => 'layers',
+                                'label' => 'Tahun Akademik'
+                            ],
+                            [
                                 'route' => 'admission.admin.tanggal_kedatangan.index',
                                 'permissions' => 1,
                                 'icon' => 'layers',
                                 'label' => 'Tanggal Kedatangan'
+                            ],
+                            [
+                                'route' => 'admission.admin.footer_information.index',
+                                'permissions' => 1,
+                                'icon' => 'layers',
+                                'label' => 'Informasi Footer'
+                            ],
+                            [
+                                'route' => 'admission.admin.brochure.index',
+                                'permissions' => 1,
+                                'icon' => 'layers',
+                                'label' => 'Brosur'
                             ],
                         ]
                     ],

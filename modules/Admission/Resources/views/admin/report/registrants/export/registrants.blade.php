@@ -14,12 +14,14 @@
             <th>Tempat lahir</th>
             <th>Tanggal lahir</th>
             <th>Jenis kelamin</th>
+            <th>NISN</th>
             <th>NIK</th>
             <th>No KK</th>
             <th>No Telp</th>
             <th>Alamat email</th>
-            <th>Jalur pendaftaran</th>
+            <th>Tahun Akademik</th>
             <th>No pendaftaran</th>
+            <th>Jalur pendaftaran</th>
             <th>Tanggal kedatangan</th>
             <th>Tes CBT Bahasa Inggris</th>
             <th>Tes CBT Bahasa Arab</th>
@@ -36,6 +38,18 @@
             <th>Kabupaten</th>
             <th>Provinsi</th>
             <th>Kode Pos</th>
+            <th>NIK Ayah</th>
+            <th>Nama Ayah</th>
+            <th>Tempat Lahir Ayah</th>
+            <th>Tanggal Lahir Ayah</th>
+            <th>Pekerjaan Ayah</th>
+            <th>Rata-rata penghasilan Ayah</th>
+            <th>NIK Ibu</th>
+            <th>Nama Ibu</th>
+            <th>Tempat Lahir Ibu</th>
+            <th>Tanggal Lahir Ibu</th>
+            <th>Pekerjaan Ibu</th>
+            <th>Rata-rata penghasilan Ibu</th>
             @foreach($files as $file)
                 <th>{{ $file->name }}</th>
             @endforeach
@@ -54,12 +68,14 @@
                 <td>{{ $user->profile->pob }}</td>
                 <td>{{ isset($user->profile->dob) ? $user->profile->dob->format('d/m/Y') : '' }}</td>
                 <td>{{ $user->profile->sex_name }}</td>
+                <td style='mso-number-format:"@"'>{{ $user->profile->nisn }}</td>
                 <td style='mso-number-format:"@"'>{{ $user->profile->nik }}</td>
                 <td style='mso-number-format:"@"'>{{ $user->profile->nokk }}</td>
                 <td style='mso-number-format:"@"'>{{ $user->nomor_hp ??  '-', }}</td>
                 <td>{{ $user->email->address ?? '-' }}</td>
                 <td>{{ $admission->full_name }}</td>
                 <td>{{ $registrant->kd }}</td>
+                <td>{{ $registrant->is_saman ? 'SAMAN' : 'REGULER' }}</td>
                 <td>{{ $registrant->tanggal_kedatangan }}</td>
                 <td>{{ $registrant->cbts->where('cbt_id', 1)->where('status',2)->first() ? 'OK - Skor '.$registrant->cbts->where('cbt_id', 1)->where('status',2)->first()->total_skor : 'Belum Mengerjakan' }}</td>
                 <td>{{ $registrant->cbts->where('cbt_id', 2)->where('status',2)->first() ? 'OK - Skor '.$registrant->cbts->where('cbt_id', 2)->where('status',2)->first()->total_skor : 'Belum Mengerjakan' }}</td>
@@ -76,6 +92,18 @@
                 <td>{{ $user->address->district->regency->name ?? '-' }}</td>
                 <td>{{ $user->address->district->regency->province->name ?? '-' }}</td>
                 <td>{{ $user->address->postal ?? '-' }}</td>
+                <td style='mso-number-format:"@"'>{{ $user->father->nik ?? null }}</td>
+                <td>{{ ($user->father->is_dead ? 'ALM. ' : '').$user->father->name ?? null }}</td>
+                <td>{{ $user->father->pob }}</td>
+                <td>{{ isset($user->father->dob) ? $user->father->dob->format('d/m/Y') : '' }}</td>
+                <td>{{ $user->father->employment->name ?? null }}</td>
+                <td>{{ $user->father->salary->name ?? null }}</td>
+                <td style='mso-number-format:"@"'>{{ $user->mother->nik ?? null }}</td>
+                <td>{{ ($user->mother->is_dead ? 'ALM. ' : '').$user->mother->name ?? null }}</td>
+                <td>{{ $user->mother->pob }}</td>
+                <td>{{ isset($user->mother->dob) ? $user->mother->dob->format('d/m/Y') : '' }}</td>
+                <td>{{ $user->mother->employment->name ?? null }}</td>
+                <td>{{ $user->mother->salary->name ?? null }}</td>
                 @foreach($files as $file)
                     <td>{{ $registrant->files ? ($registrant->files->firstWhere('id', $file->id) ? 'OK' : '-') : '-' }}</td>
                 @endforeach

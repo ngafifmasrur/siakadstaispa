@@ -1,10 +1,9 @@
 @php
 $stats = [
-    'verified_at' => 'Terverifikasi',
-    // 'tested_at' => 'Lulus tes',
-    // 'validated_at' => 'Sudah validasi',
-    'paid_off_at' => 'Lunas pembayaran',
-    // 'room_id' => 'Dapat kamar'
+    'verified_at'  => 'Terverifikasi',
+    'not_verified' => 'Tidak Terverifikasi',
+    'paid_off_at'  => 'Lunas pembayaran',
+    'not_paid_off' => 'Tidak Lunas pembayaran',
 ];
 @endphp
 
@@ -44,7 +43,7 @@ $stats = [
                     })
                     .fail((error) => {
                         $.unblockUI();
-                        if(!(form).has('.alert-danger').length) 
+                        if(!(form).has('.alert-danger').length)
                             form.prepend($.alert.error());
                     })
             });

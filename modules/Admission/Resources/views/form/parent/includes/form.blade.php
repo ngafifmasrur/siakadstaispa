@@ -11,11 +11,42 @@ $user = $registrant->user;
         </div>
     </div>
     <div class="form-group required row">
+        <label class="col-md-4 col-form-label text-md-right">NIK {{ $trans }}</label>
+        <div class="col-md-8">
+            <input type="text" class="form-control @error('nik') is-invalid @enderror" name="nik" value="{{ old('nik', $parent->nik) }}" required autofocus>
+            <small class="form-text text-muted">Nomor Induk Kependudukan {{ $trans }}, bisa dilihat di Kartu Keluarga</small>
+            @if ($errors->has('nik')) <span class="invalid-feedback"> {{ $errors->first('nik') }} </span> @endif
+        </div>
+    </div>
+    <div class="form-group required row">
         <label class="col-md-4 col-form-label text-md-right">Nama lengkap {{ $trans }}</label>
         <div class="col-md-8">
             <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name', $parent->name) }}" required>
             <small class="form-text text-muted">Diisi dengan menggunakan huruf kapital dan sesuai KTP/KK/Identitas lainnya, tidak menggunakan gelar</small>
             @if ($errors->has('name')) <span class="invalid-feedback"> {{ $errors->first('name') }} </span> @endif
+        </div>
+    </div>
+    <div class="form-group required row">
+        <label class="col-md-4 col-form-label text-md-right">Tempat lahir</label>
+        <div class="col-md-5">
+            <input type="text" class="form-control @error('pob') is-invalid @enderror" name="pob" value="{{ old('pob', $parent->pob) }}" required>
+            <small class="form-text text-muted">Diisi dengan menggunakan huruf kapital dan sesuai dengan Kartu Keluarga </small>
+            @if ($errors->has('pob')) <span class="invalid-feedback"> {{ $errors->first('pob') }} </span> @endif
+        </div>
+    </div>
+    <div class="form-group required row">
+        <label class="col-md-4 col-form-label text-md-right">Tanggal lahir</label>
+        <div class="col-md-5">
+            <div class="input-group date" id="dob" data-target-input="nearest">
+                <input type="text" class="form-control datetimepicker-input @error('dob') is-invalid @enderror" name="dob" value="{{ old('dob', ($parent->dob ? $parent->dob->format('d-m-Y') : '')) }}" data-toggle="datetimepicker" data-target="#dob" autocomplete="off">
+                <div class="input-group-append" data-target="#dob" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="mdi mdi-calendar"></i></div>
+                </div>
+            </div>
+            @error('dob')
+                <small class="text-danger"> {{ $message }} </small>
+            @enderror
+            <small class="form-text text-muted">Diisi dengan format hh-bb-tttt (ex: 23-02-{{ date('Y', strtotime(config('admisison.maximum-dob-year'))) }}) dan sesuai dengan Kartu Keluarga atau akta kelahiran </small>
         </div>
     </div>
     <div class="form-group required row">
