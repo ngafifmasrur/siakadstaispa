@@ -14,10 +14,10 @@ class UpdateRequest extends FormRequest
         $id = $uid ?: auth()->id();
 
         return [
-            // 'nik'               => 'required|digits_between:1,16',
+            'nik'               => 'required|digits_between:1,16',
             'name'              => 'required|string|max:191',
-            // 'pob'               => 'required|string|max:191',
-            // 'dob'               => 'required|date_format:d-m-Y',
+            'pob'               => 'required|string|max:191',
+            'dob'               => 'required|date_format:d-m-Y',
             // 'ktp'               => 'nullable|file|image|max:1024',
             'is_dead'           => 'required|boolean',
             'biological'        => 'required|boolean',
