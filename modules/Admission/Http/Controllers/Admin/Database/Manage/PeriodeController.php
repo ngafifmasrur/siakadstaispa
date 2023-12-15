@@ -140,6 +140,12 @@ class PeriodeController extends Controller
                 'open' => $request->status
             ]);
 
+            $this->generateAdmissionCommittes($periode);
+            $this->generateAdmissionForms($periode);
+            $this->generateAdmissionReqs($periode);
+            $this->generateAdmissionFiles($periode);
+            $this->generateAdmissionSession($periode);
+
             if ($request->status) {
                 $this->setActive($periode);
             }
@@ -151,6 +157,7 @@ class PeriodeController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
+            dd($e);
             Log::error($e->getMessage());
             return redirect()->back()->withInput();
         }
