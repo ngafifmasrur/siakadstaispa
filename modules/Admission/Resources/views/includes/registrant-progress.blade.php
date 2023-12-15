@@ -30,7 +30,7 @@ $name = $registrant->user_id == auth()->id() ? 'Anda' : $registrant->user->profi
 		['step' => 'Tes CBT', 'status' => $status_cbt],
 		['step' => 'Pilih Tanggal kedatangan', 'status' => $registrant->tanggal_kedatangan ? true : false],
 		['step' => 'Wawancara', 'status' => $registrant->status_wawancara == 1 ? true : false],
-		['step' => 'Unduh Surat Keterangan Diterima', 'status' => ($precentage == 100 && $registrant->status_wawancara == 1 && $status_cbt)],
+		['step' => 'Unduh Surat Keterangan Diterima', 'status' => ($precentage == 100 && $registrant->status_wawancara == 1 && $status_cbt && $registrant->verified_at)],
 	];
 	@endphp
 @else
@@ -39,7 +39,7 @@ $name = $registrant->user_id == auth()->id() ? 'Anda' : $registrant->user->profi
 		['step' => 'Terdaftar', 'status' => $precentage == 100 ? true : false],
 		['step' => 'Tes CBT', 'status' => $status_cbt],
 		['step' => 'Pilih Tanggal kedatangan', 'status' => $registrant->tanggal_kedatangan ? true : false],
-		['step' => 'Unduh Surat Keterangan Diterima', 'status' => ($precentage == 100 && $status_cbt)],
+		['step' => 'Unduh Surat Keterangan Diterima', 'status' => ($precentage == 100 && $status_cbt && $registrant->verified_at)],
 		['step' => 'Pembayaran', 'status' => $registrant->paid_off_at],
 	];
 	@endphp
