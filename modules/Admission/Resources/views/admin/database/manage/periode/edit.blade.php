@@ -125,7 +125,7 @@
 
             $("input[name='start_date'],input[name='end_date']").datepicker({
                 autoclose: true,
-                format: "yyyy-m-dd",
+                format: "yyyy-mm-dd",
             });
         });
     </script>
