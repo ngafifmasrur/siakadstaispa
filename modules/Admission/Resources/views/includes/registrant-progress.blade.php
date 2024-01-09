@@ -1,25 +1,37 @@
 @php
-$forms = $registrant->admission->forms;
+    $forms = $registrant->admission->forms;
 
-$required = $forms->filter(function ($v){
-    return $v->required == true;
-});
+    $required = $forms->filter(function ($v){
+        return $v->required == true;
+    });
 
-$count = count($required->filter(function ($v) use ($registrant){
-	return $v->getStatus($registrant);
-}));
+    $count = count($required->filter(function ($v) use ($registrant){
+        return $v->getStatus($registrant);
+    }));
 
-$precentage = ($count) ? number_format(($count / count($required) ?: 0.05) * 100, 2) : 5;
+    $precentage = ($count) ? number_format(($count / count($required) ?: 0.05) * 100, 2) : 5;
 
-if ($precentage <= 60) {
-	$color = 'bg-danger';
-} elseif ($precentage <= 99) {
-	$color = 'bg-warning';
-} else {
-	$color = 'bg-success';
-}
+    if ($precentage <= 60) {
+        $color = 'bg-danger';
+    } elseif ($precentage <= 99) {
+        $color = 'bg-warning';
+    } else {
+        $color = 'bg-success';
+    }
 
-$name = $registrant->user_id == auth()->id() ? 'Anda' : $registrant->user->profile->name;
+    $name = $registrant->user_id == auth()->id() ? 'Anda' : $registrant->user->profile->name;
+
+    $paymentDetails  = \Modules\Admission\Models\CostInformation::where('name', 'Rincian Pembayaran')
+                        ->first()->description ?? null;
+
+    $educationCost   = \Modules\Admission\Models\CostInformation::where('name', 'Biaya Pendidikan')
+                        ->first()->description ?? null;
+
+    $costInformations = \Modules\Admission\Models\CostInformation::whereNotIn('name', [
+                            'Rincian Pembayaran',
+                            'Biaya Pendidikan'
+                        ])->get();
+
 @endphp
 
 
@@ -30,7 +42,15 @@ $name = $registrant->user_id == auth()->id() ? 'Anda' : $registrant->user->profi
 		['step' => 'Tes CBT', 'status' => $status_cbt],
 		['step' => 'Pilih Tanggal kedatangan', 'status' => $registrant->tanggal_kedatangan ? true : false],
 		['step' => 'Wawancara', 'status' => $registrant->status_wawancara == 1 ? true : false],
-		['step' => 'Unduh Surat Keterangan Diterima', 'status' => ($precentage == 100 && $registrant->status_wawancara == 1 && $status_cbt && $registrant->verified_at)],
+		[
+            'step' => 'Unduh Surat Keterangan Diterima',
+            'status' => (
+                $precentage == 100 &&
+                $registrant->status_wawancara == 1 &&
+                $status_cbt &&
+                $registrant->verified_at
+            )
+        ],
 	];
 	@endphp
 @else
@@ -39,7 +59,14 @@ $name = $registrant->user_id == auth()->id() ? 'Anda' : $registrant->user->profi
 		['step' => 'Terdaftar', 'status' => $precentage == 100 ? true : false],
 		['step' => 'Tes CBT', 'status' => $status_cbt],
 		['step' => 'Pilih Tanggal kedatangan', 'status' => $registrant->tanggal_kedatangan ? true : false],
-		['step' => 'Unduh Surat Keterangan Diterima', 'status' => ($precentage == 100 && $status_cbt && $registrant->verified_at)],
+		[
+            'step' => 'Unduh Surat Keterangan Diterima',
+            'status' => (
+                $precentage == 100 &&
+                $status_cbt &&
+                $registrant->verified_at
+            )
+        ],
 		['step' => 'Pembayaran', 'status' => $registrant->paid_off_at],
 	];
 	@endphp
@@ -48,12 +75,10 @@ $name = $registrant->user_id == auth()->id() ? 'Anda' : $registrant->user->profi
 <div class="card">
 
 	<div class="card-body">
-		<h5 class="mb-0">Status tahap pendaftaran
-		</h5>
-		{{-- <p class="mb-0"><small class="text-muted">Saat ini status Anda adalah <strong>{{ $registrant->step_status }}</strong></small></p> --}}
+		<h5 class="mb-0">Status tahap pendaftaran</h5>
 	</div>
 	<div class="table-responsive">
-		<table class="table table-striped border-bottom mb-0">
+		<table class="table table-striped border-bottom mb-0" aria-describedby="Tahapan">
 			<thead>
 				<tr class="bg-dark text-white">
 					<th width="1">No.</th>
@@ -86,9 +111,7 @@ $name = $registrant->user_id == auth()->id() ? 'Anda' : $registrant->user->profi
 	<div class="card-body">
 		<h5 class="mb-0">Rincian Pembayaran
 		</h5>
-		<br> Pembayaran untuk pendaftaran berlaku untuk seluruh calon mahasiswa baru sebesar <strong>Rp 3.000.000 <i>(Biaya Pendidikan dan Biaya Pesantren)</i> </strong> ke BRI a.n. <strong>PMB STAISPA</strong> No Rek. <strong>31193-77777-22222</strong> (BRIVA).  <br>
-		<a class="alert-link" href="/teknis-pembayaran.jpg" target="_blank"><u>Klik disini</u></a> untuk melihat tata cara dan teknis pembayaran.
-		{{-- <p class="mb-0"><small class="text-muted">Saat ini status Anda adalah <strong>{{ $registrant->step_status }}</strong></small></p> --}}
+		{!! $paymentDetails !!}
 	</div>
 	<div class="table-responsive">
 		<table class="table table-striped border-bottom mb-0">
@@ -96,41 +119,24 @@ $name = $registrant->user_id == auth()->id() ? 'Anda' : $registrant->user->profi
 					<th colspan="2">Biaya Penddikan</th>
 				</tr>
 				<tr>
-					<td colspan="2">Biaya pendidikan STAISPA menggunakan sistem Uang Kuliah Tunggal (UKT) sebesar <strong>Rp. 1.700.000</strong> dibayarkan setiap semester</td>
-				</tr>
-				<tr>
-					<td colspan="2">Membayarkan dana pengembangan sebesar Rp. 4.000.000,- dapat dicicil maksimal selama 4 semester.</td>
+					<td colspan="2">
+                        {!! $educationCost !!}
+                    </td>
 				</tr>
 				<tr class="bg-dark text-white">
 					<th colspan="2">Biaya Pesantren</th>
 				</tr>
+
+                @foreach ($costInformations as $item)
 				<tr>
-					<td>Pemakaian kasur selama di pesantren</td>
-					<td>Rp. 250.000</td>
+					<td>{{ $item->name }}</td>
+					<td>{{ numToRupiah($item->detail) }}</td>
 				</tr>
-				<tr>
-					<td>Pemakaian ranjang selama di pesantren</td>
-					<td>Rp. 500.000</td>
-				</tr>
-				<tr>
-					<td>Pemakaian almari selama di pesantren</td>
-					<td>Rp. 200.000</td>
-				</tr>
-				<tr>
-					<td>Syahriah Pesantren</td>
-					<td>Rp. 50.000</td>
-				</tr>
-				<tr>
-					<td>Makan 3x dan penyedian air minum</td>
-					<td>Rp. 300.000</td>
-				</tr>
+                @endforeach
+
 				<tr>
 					<td class="font-weight-bold">Total</td>
-					<td  class="font-weight-bold">Rp. 1.300.000</td>
-				</tr>
-				<tr>
-					<td class="font-weight-bold">Total biaya bulanan pesantren</td>
-					<td class="font-weight-bold">Rp. 350.000</td>
+					<td  class="font-weight-bold">{{ numToRupiah($costInformations->sum('detail')) }}</td>
 				</tr>
 		</table>
 	</div>

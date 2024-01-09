@@ -188,6 +188,12 @@ return [
                                 'label' => 'Tanggal Kedatangan'
                             ],
                             [
+                                'route' => 'admission.admin.cost_information.index',
+                                'permissions' => 1,
+                                'icon' => 'layers',
+                                'label' => 'Informasi Biaya'
+                            ],
+                            [
                                 'route' => 'admission.admin.footer_information.index',
                                 'permissions' => 1,
                                 'icon' => 'layers',
