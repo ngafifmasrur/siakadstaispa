@@ -36,7 +36,16 @@
                                     cols="5" rows="5">{{ $costInfomation['value'] }}</textarea>
                             </div>
                         @endforeach
+
+                        <div class="text-right">
+                            <button type="button" class="btn btn-primary mb-3"
+                                onclick="document.getElementById('constInformations').submit();">
+                                Simpan
+                            </button>
+                        </div>
                     </form>
+
+                    <hr>
 
                     <form class="form-block" id="search-form"
                         action="{{ route('admission.admin.cost_information.index') }}"
@@ -97,13 +106,6 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-
-            <div class="text-right">
-                <button type="button" class="btn btn-primary mb-3"
-                    onclick="document.getElementById('constInformations').submit();">
-                    Simpan
-                </button>
             </div>
         </div>
     </div>
