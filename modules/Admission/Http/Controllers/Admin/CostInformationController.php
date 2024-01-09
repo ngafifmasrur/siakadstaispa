@@ -63,7 +63,7 @@ class CostInformationController extends Controller
     {
         $request->validate([
             'name' => 'required|string',
-            'detail' => 'required|numeric',
+            'detail' => 'required|integer',
         ]);
 
         CostInformation::create([
@@ -107,7 +107,7 @@ class CostInformationController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string',
-            'detail' => 'required|numeric',
+            'detail' => 'required|integer',
         ]);
 
         $costInformation->update($validated);
