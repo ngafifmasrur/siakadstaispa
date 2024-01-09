@@ -126,6 +126,14 @@ Route::name('admission.')->group(function() {
                         'footer_information' => 'footerInformation',
                     ]);
 
+                // Cost Information
+                Route::post('/cost_information/store-update', 'CostInformationController@storeOrUpdateCosts')
+                    ->name('cost_information.storeOrUpdateCosts');
+				Route::resource('/cost_information', 'CostInformationController')
+                    ->parameters([
+                        'cost_information' => 'costInformation',
+                    ]);
+
 				// Database
 				Route::name('database.')->prefix('database')->namespace('Database')->group(function () {
 					Route::name('manage.')->prefix('manage')->namespace('Manage')->middleware(AdmissionIsOpen::class)

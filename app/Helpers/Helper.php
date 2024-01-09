@@ -63,11 +63,11 @@ if (!function_exists('numToText')) {
         }else if($x<200){
             $temp = " seratus".numToTextConversion($x-100);
         }else if($x<1000){
-            $temp = numToTextConversion($x/100)." ratus".numToTextConversion($x%100);   
+            $temp = numToTextConversion($x/100)." ratus".numToTextConversion($x%100);
         }else if($x<2000){
             $temp = " seribu".numToTextConversion($x-1000);
         }else if($x<1000000){
-            $temp = numToTextConversion($x/1000)." ribu".numToTextConversion($x%1000);   
+            $temp = numToTextConversion($x/1000)." ribu".numToTextConversion($x%1000);
         }else if($x<1000000000){
             $temp = numToTextConversion($x/1000000)." juta".numToTextConversion($x%1000000);
         }else if($x<1000000000000){
@@ -94,22 +94,22 @@ if (!function_exists('numToText')) {
         $i =1;
 
 
-        if($a>=1 && $a< 12){   
+        if($a>=1 && $a< 12){
             $temp .= " ".$string[$a];
-        }else if($a>12 && $a < 20){   
+        }else if($a>12 && $a < 20){
             $temp .= numToTextConversion($a - 10)." belas";
-        }else if ($a>20 && $a<100){   
+        }else if ($a>20 && $a<100){
             $temp .= numToTextConversion($a / 10)." puluh". numToTextConversion($a % 10);
         }else{
             if($a2<1){
 
-                while ($i<$pjg){     
-                    $char = substr($str,$i,1);     
+                while ($i<$pjg){
+                    $char = substr($str,$i,1);
                     $i++;
                     $temp .= " ".$string[$char];
                 }
             }
-        }  
+        }
         return $temp;
     }
 
@@ -117,12 +117,29 @@ if (!function_exists('numToText')) {
         if($x<0){
             $hasil = "minus ".trim(numToTextConversion(x));
         }else{
-            $poin = (strpos($x, ',') !== false) 
+            $poin = (strpos($x, ',') !== false)
                  ? ' koma '. trim(numToTextDec($x))
                  : '';
             $hasil = trim(numToTextConversion($x)) ?: 'nol';
         }
 
-        return $hasil.$poin;  
+        return $hasil.$poin;
+    }
+
+    if (! function_exists('numToRupiah')) {
+        /**
+         * Fungsi untuk memformat number menjadi format indonesia
+         *
+         * @param integer $number
+         * @return string
+         */
+        function numToRupiah($number)
+        {
+            if (! $number) {
+                return 0;
+            }
+
+            return 'Rp '. number_format($number, 0, ',', '.');
+        }
     }
 }
