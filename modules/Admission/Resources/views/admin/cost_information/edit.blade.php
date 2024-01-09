@@ -27,10 +27,10 @@
                         <div class="form-group required row">
                             <label class="col-md-4 col-form-label text-md-right">Nama</label>
                             <div class="col-md-7">
-                                <input type="text" class="form-control @error('detail') is-invalid @enderror "
-                                    name="detail" value="{{ old('detail', $costInformation->name) }}"
+                                <input type="text" class="form-control @error('name') is-invalid @enderror "
+                                    name="name" value="{{ old('name', $costInformation->name) }}"
                                     required autofocus>
-                                @error('detail')
+                                @error('name')
                                     <span class="invalid-feedback"> {{ $message }} </span>
                                 @enderror
                             </div>
