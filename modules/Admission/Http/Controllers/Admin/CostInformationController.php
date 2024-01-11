@@ -36,12 +36,19 @@ class CostInformationController extends Controller
             ];
         });
 
-        $data = CostInformation::whereNotIn('name', $costInfomations)
-                ->paginate(10);
+        $data = CostInformation::whereNotIn('name', array_merge(
+                $costInfomations->pluck('name')->toArray(),
+                ['Biaya Bulanan Pesantren']
+            ))->paginate(10);
+
+        $monthlyCost = CostInformation::query()
+            ->where('name', 'Biaya Bulanan Pesantren')
+            ->first();
 
         return view('admission::admin.cost_information.index', [
             'data' => $data,
-            'costInfomations' => $costInfomationsMapped
+            'costInfomations' => $costInfomationsMapped,
+            'monthlyCost' => $monthlyCost
         ]);
     }
 
@@ -154,6 +161,28 @@ class CostInformationController extends Controller
                     'description' => $request->input($key)
                 ]);
         });
+
+        return redirect(route('admission.admin.cost_information.index'))
+                    ->with(['success' => 'Sukses, data informasi biaya berhasil disimpan!']);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     * @param Request $request
+     * @return Response
+     */
+    public function storeMonthlyCosts(Request $request)
+    {
+        $request->validate([
+            'biaya_bulanan_pesantren' => 'required|integer',
+        ]);
+
+        CostInformation::query()
+        ->updateOrCreate([
+            'name' => 'Biaya Bulanan Pesantren'
+        ],[
+            'detail' => $request->input('biaya_bulanan_pesantren')
+        ]);
 
         return redirect(route('admission.admin.cost_information.index'))
                     ->with(['success' => 'Sukses, data informasi biaya berhasil disimpan!']);

@@ -129,6 +129,10 @@ Route::name('admission.')->group(function() {
                 // Cost Information
                 Route::post('/cost_information/store-update', 'CostInformationController@storeOrUpdateCosts')
                     ->name('cost_information.storeOrUpdateCosts');
+
+                Route::post('/cost_information/store-monthly-costs', 'CostInformationController@storeMonthlyCosts')
+                    ->name('cost_information.storeMonthlyCosts');
+
 				Route::resource('/cost_information', 'CostInformationController')
                     ->parameters([
                         'cost_information' => 'costInformation',
