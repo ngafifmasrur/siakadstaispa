@@ -75,8 +75,8 @@
                         <tbody>
                             @forelse($data as $item)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->detail }}</td>
+                                    <td>{{ $item->name }}</td>
+                                    <td>{{ numToRupiah($item->detail) }}</td>
                                     <td class="py-2 align-middle border-left text-center" nowrap>
                                         <a class="btn btn-warning btn-sm"
                                             href="{{ route('admission.admin.cost_information.edit', [
@@ -105,6 +105,28 @@
                             @endforelse
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body bg-light border-top">
+                    <form id="monthlyCost"
+                        action="{{ route('admission.admin.cost_information.storeMonthlyCosts') }}" method="POST">
+                        @csrf
+
+                        <div class="form-group">
+                            <label for="biaya_bulanan_pesantren">Biaya Bulanan Pesantren</label>
+                            <input class="form-control" type="text" name="biaya_bulanan_pesantren"
+                                value="{{ old('biaya_bulanan_pesantren', $monthlyCost->detail ?? 0)}}">
+                        </div>
+
+                        <div class="text-right">
+                            <button type="button" class="btn btn-primary mb-3"
+                                onclick="document.getElementById('monthlyCost').submit();">
+                                Simpan
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

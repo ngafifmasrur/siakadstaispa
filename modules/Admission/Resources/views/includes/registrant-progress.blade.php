@@ -27,6 +27,10 @@
     $educationCost   = \Modules\Admission\Models\CostInformation::where('name', 'Biaya Pendidikan')
                         ->first()->description ?? null;
 
+    $monthlyCost   = \Modules\Admission\Models\CostInformation::where('name', 'Biaya Bulanan Pesantren')
+                        ->first()->detail ?? null;
+
+
     $costInformations = \Modules\Admission\Models\CostInformation::whereNotIn('name', [
                             'Rincian Pembayaran',
                             'Biaya Pendidikan'
@@ -137,6 +141,10 @@
 				<tr>
 					<td class="font-weight-bold">Total</td>
 					<td  class="font-weight-bold">{{ numToRupiah($costInformations->sum('detail')) }}</td>
+				</tr>
+                <tr>
+					<td class="font-weight-bold">Total biaya bulanan pesantren</td>
+					<td class="font-weight-bold">{{ numToRupiah($monthlyCost ?? 0) }}</td>
 				</tr>
 		</table>
 	</div>
