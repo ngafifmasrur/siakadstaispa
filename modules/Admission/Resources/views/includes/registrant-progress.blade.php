@@ -33,7 +33,8 @@
 
     $costInformations = \Modules\Admission\Models\CostInformation::whereNotIn('name', [
                             'Rincian Pembayaran',
-                            'Biaya Pendidikan'
+                            'Biaya Pendidikan',
+                            'Biaya Bulanan Pesantren'
                         ])->get();
 
 @endphp
