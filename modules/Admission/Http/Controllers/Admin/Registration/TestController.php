@@ -15,7 +15,7 @@ class TestController extends Controller
 {
 		/**
 		 * Instance the main property.
-		 */    
+		 */
 		protected $repo;
 
 		/**
@@ -123,15 +123,16 @@ class TestController extends Controller
 		public function print(AdmissionRegistrant $registrant)
 		{
 			$admission = $this->repo->admission = auth()->user()->admissionCommittees->load('admission')->pluck('admission');
-			$status_cbt = (count($registrant->admission->cbts) == count($registrant->cbts->where('status', 2))) ? true : false;
-			// $registrant->paid_off_at && 
+            $status_cbt = count($registrant->admission->cbts) > 0 &&
+                (count($registrant->admission->cbts) == count($registrant->cbts->where('status', 2)));
+			// $registrant->paid_off_at &&
             if(($registrant->is_saman == 0 && $registrant->verified_at && $status_cbt == true) || ($registrant->status_wawancara == 1 && $registrant->is_saman == 1 && $registrant->verified_at && $status_cbt == true)) {
                 $registrant = $registrant->load(['user', 'cbts', 'admission.period.instance']);
     			$user = $registrant->user;
-    
+
     			$pdf = \PDF::loadView('admission::admin.registration.test.pdf.result', compact('user', 'registrant', 'admission'))
     			            ->setPaper('a4', 'portrait');
-    
+
     			return $pdf->stream('SURAT-KETRANGAN-DITERIMA-'.$registrant->kd.'.pdf');
             } else {
                 return abort(404);

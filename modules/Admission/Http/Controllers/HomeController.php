@@ -39,7 +39,8 @@ class HomeController extends Controller
 
             return $item;
         });
-        $status_cbt = (count($registrant->admission->cbts) == count($registrant->cbts->where('status', 2))) ? true : false;
+        $status_cbt = count($registrant->admission->cbts) > 0 &&
+             (count($registrant->admission->cbts) == count($registrant->cbts->where('status', 2)));
 
 
     	return view('admission::home.index', compact('registrant', 'admission_cbt', 'status_cbt'));
